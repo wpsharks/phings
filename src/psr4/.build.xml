@@ -44,6 +44,7 @@
     <exclude name="**/.coveralls.yml" />
     <exclude name="**/.scrutinizer.yml" />
     <exclude name="**/.build.properties" />
+    <exclude name="**/.build-*.xml" />
     <exclude name="**/.build.xml" />
 
     <exclude name="assets/**" />
@@ -101,6 +102,7 @@
     <exclude name="**/.coveralls.yml" />
     <exclude name="**/.scrutinizer.yml" />
     <exclude name="**/.build.properties" />
+    <exclude name="**/.build-*.xml" />
     <exclude name="**/.build.xml" />
 
     <exclude name="assets/**" />
