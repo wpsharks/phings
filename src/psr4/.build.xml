@@ -19,9 +19,6 @@
   <property name="_phar_stub_file" value="${_src_dir}/includes/phar-stub.php" />
   <property name="_phar_file" value="${_build_dir}/${project_slug}.phar" />
 
-  <property name="_zip_file" value="${_build_dir}/${project_slug}.zip" />
-  <property name="_tgz_file" value="${_build_dir}/${project_slug}.tar.gz" />
-
   <!-- Codex ignore list. -->
 
   <property name="_codex_ignore" value="*/assets/*,*/tests/*,*/vendor/*" />
@@ -180,10 +177,6 @@
     <echo msg="Stub File: ${_stub_file}" />
     <echo msg="PHAR Stub: ${_phar_stub_file}" />
     <echo msg="PHAR File: ${_phar_file}" />
-    <echo msg="------------------------------------" />
-
-    <echo msg="ZIP File: ${_zip_file}" />
-    <echo msg="TGZ File: ${_tgz_file}" />
     <echo msg="------------------------------------" />
 
   </target>
@@ -483,9 +476,16 @@
     <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
       <arg value="apigen" />
       <arg value="generate" />
-      <arg value="--source=${_src_dir}" />
-      <arg value="--destination=${_codex_dir}" />
-      <arg value="--title=${project_title}" />
+
+      <arg value="--source" />
+      <arg value="${_src_dir}" />
+
+      <arg value="--destination" />
+      <arg value="${_codex_dir}" />
+
+      <arg value="--title" />
+      <arg value="${project_title}" />
+
       <arg value="--download" />
       <arg value="--deprecated" />
       <arg value="--todo" />
@@ -523,24 +523,24 @@
 
     <!-- ZIP file generation. -->
 
-    <echo msg="Deleting previous: ${_zip_file} ..." />
-    <delete file="${_zip_file}" quiet="true" />
+    <echo msg="Deleting previous: ${_build_dir}/${project_slug}.zip ..." />
+    <delete file="${_build_dir}/${project_slug}.zip" quiet="true" />
     <echo msg="------------------------------------" />
 
-    <echo msg="Creating ZIP file: ${_zip_file}" />
-    <zip basedir="${project.basedir}" destfile="${_zip_file}">
+    <echo msg="Creating ZIP file: ${_build_dir}/${project_slug}.zip" />
+    <zip basedir="${project.basedir}" destfile="${_build_dir}/${project_slug}.zip">
       <fileset refid="_zip_tgz_fileset" />
     </zip>
     <echo msg="------------------------------------" />
 
     <!-- TGZ file generation. -->
 
-    <echo msg="Deleting previous: ${_tgz_file} ..." />
-    <delete file="${_tgz_file}" quiet="true" />
+    <echo msg="Deleting previous: ${_build_dir}/${project_slug}.tar.gz ..." />
+    <delete file="${_build_dir}/${project_slug}.tar.gz" quiet="true" />
     <echo msg="------------------------------------" />
 
-    <echo msg="Creating TGZ file: ${_tgz_file}" />
-    <tar basedir="${project.basedir}" destfile="${_tgz_file}" compression="gzip">
+    <echo msg="Creating TGZ file: ${_build_dir}/${project_slug}.tar.gz" />
+    <tar basedir="${project.basedir}" destfile="${_build_dir}/${project_slug}.tar.gz" compression="gzip">
       <fileset refid="_zip_tgz_fileset" />
     </tar>
     <echo msg="------------------------------------" />
@@ -548,10 +548,21 @@
   </target>
 
   <!-- ============================================  -->
+  <!-- Distro generation. -->
+  <!-- ============================================  -->
+
+  <target name="-distros" hidden="true">
+
+    <unzip file="${_build_dir}/${project_slug}.zip" todir="${_build_dir}/${project_slug}" />
+
+  </target>
+
+
+  <!-- ============================================  -->
   <!-- Default/visible build target. -->
   <!-- ============================================  -->
 
-  <target name="build" depends="-validate,-preamble,-prepare,-rtokens,-composer,-rebrand,-pots,-apigen,-packages">
+  <target name="build" depends="-validate,-preamble,-prepare,-rtokens,-composer,-rebrand,-pots,-apigen,-packages,-distros">
 
     <echo msg="Build complete! :-)" />
 
