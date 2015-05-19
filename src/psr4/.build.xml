@@ -747,6 +747,87 @@
   </target>
 
   <!-- ============================================  -->
+  <!-- Push lite variation to GitHub repo. -->
+  <!-- ============================================  -->
+
+  <target name="-push-lite-variation" hidden="true">
+
+    <!-- Prepare for lite generation. -->
+
+    <property name="repo.dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-git-repo"/>
+    <property name="repo.remotePath" value="git@github.com:${project_org}/${project_lite_slug}.git"/>
+
+    <echo msg="Preparing to push ${project_lite_title} to ${repo.remotePath} ..." />
+    <echo msg="------------------------------------" />
+
+    <delete dir="${repo.dir}" includeemptydirs="true" quiet="true" />
+
+    <!-- Clone repository. -->
+
+    <echo msg="Cloning the existing remote repo (be patient, this may take awhile) ..." />
+
+    <gitclone
+      repository="${repo.remotePath}"
+      targetPath="${repo.dir}" />
+
+    <!-- Switch to "000000-dev" branch. -->
+
+    <gitcheckout
+      repository="${repo.dir}"
+      branchname="000000-dev" />
+
+    <!-- Delete all existing files in repo. -->
+
+    <delete includeemptydirs="true" quiet="true">
+      <fileset dir="repo.dir">
+        <include name="*" />
+      </fileset>
+    </delete>
+
+    <!-- Copy generated Lite variation to repo. -->
+
+    <copy todir="${repo.dir}">
+      <fileset dir="${project.basedir}/.~build/${project_lite_slug}">
+        <exclude pattern=".~build/**" />
+      </fileset>
+    </copy>
+
+    <echo msg="------------------------------------" />
+
+    <echo msg="Pushing latest Lite variation to Remote Repo ..." />
+
+    <exec command="git add --all *" dir="${repo.dir}" />
+    <exec command="git status" dir="${repo.dir}" passthru="true" />
+
+    <echo msg="------------------------------------" />
+    <echo msg="To make changes or commit these files manually, choose 'no' at the next prompt and visit ${repo.dir}" />
+    <echo msg="------------------------------------" />
+
+    <!-- Commit changes. -->
+
+    <propertyprompt propertyName="commitToRepo" defaultValue="no" promptText="Commit these changes? (yes/no)" />
+
+    <if>
+      <equals arg1="${commitToRepo}" arg2="yes" trim="yes" />
+      <then>
+        <exec command="git commit" dir="${repo.dir}" passthru="true" /> <!-- <gitcommit /> doesn't support multi-line commit messages -->
+
+        <!-- Push previous commit to remote repo -->
+
+        <propertyprompt propertyName="pushToRepo" defaultValue="no" promptText="Push commit to remote repo? (yes/no)" />
+        <if>
+          <equals arg1="${pushToRepo}" arg2="yes" trim="yes" />
+          <then>
+            <gitpush repository="${repo.dir}" />
+          </then>
+        </if>
+
+      </then>
+    </if>
+
+  </target>
+
+  <!-- ============================================  -->
   <!-- Default/visible build target. -->
   <!-- ============================================  -->
 
@@ -755,5 +836,12 @@
     <echo msg="Build complete! :-)" />
 
   </target>
+
+  <target name="release" depends="-push-lite-variation">
+
+    <echo msg="Release complete! :-)" />
+
+  </target>
+
 
 </project>
