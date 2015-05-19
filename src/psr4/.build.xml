@@ -754,39 +754,33 @@
 
     <!-- Prepare for lite generation. -->
 
-    <property name="repo.dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-git-repo"/>
-    <property name="repo.remotePath" value="git@github.com:${project_org}/${project_lite_slug}.git"/>
+    <property name="_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-git-repo"/>
+    <property name="_repo_remote_path" value="git@github.com:${project_org}/${project_lite_slug}.git"/>
 
-    <echo msg="Preparing to push ${project_lite_title} to ${repo.remotePath} ..." />
+    <echo msg="Preparing to push ${project_lite_title} to ${_repo_remote_path} ..." />
     <echo msg="------------------------------------" />
 
-    <delete dir="${repo.dir}" includeemptydirs="true" quiet="true" />
+    <delete dir="${_repo_dir}" includeemptydirs="true" quiet="true" />
 
     <!-- Clone repository. -->
 
     <echo msg="Cloning the existing remote repo (be patient, this may take awhile) ..." />
 
-    <gitclone
-      repository="${repo.remotePath}"
-      targetPath="${repo.dir}" />
+    <gitclone repository="${_repo_remote_path}" targetPath="${_repo_dir}" />
 
     <!-- Switch to "000000-dev" branch. -->
 
-    <gitcheckout
-      repository="${repo.dir}"
-      branchname="000000-dev" />
+    <gitcheckout repository="${_repo_dir}" branchname="000000-dev" />
 
     <!-- Delete all existing files in repo. -->
 
     <delete includeemptydirs="true" quiet="true">
-      <fileset dir="repo.dir">
-        <include name="*" />
-      </fileset>
+      <fileset dir="_repo_dir" />
     </delete>
 
     <!-- Copy generated Lite variation to repo. -->
 
-    <copy todir="${repo.dir}">
+    <copy todir="${_repo_dir}">
       <fileset dir="${project.basedir}/.~build/${project_lite_slug}">
         <exclude pattern=".~build/**" />
       </fileset>
@@ -796,11 +790,11 @@
 
     <echo msg="Pushing latest Lite variation to Remote Repo ..." />
 
-    <exec command="git add --all *" dir="${repo.dir}" />
-    <exec command="git status" dir="${repo.dir}" passthru="true" />
+    <exec command="git add --all *" dir="${_repo_dir}" />
+    <exec command="git status" dir="${_repo_dir}" passthru="true" />
 
     <echo msg="------------------------------------" />
-    <echo msg="To make changes or commit these files manually, choose 'no' at the next prompt and visit ${repo.dir}" />
+    <echo msg="To make changes or commit these files manually, choose 'no' at the next prompt and visit ${_repo_dir}" />
     <echo msg="------------------------------------" />
 
     <!-- Commit changes. -->
@@ -810,7 +804,7 @@
     <if>
       <equals arg1="${commitToRepo}" arg2="yes" trim="yes" />
       <then>
-        <exec command="git commit" dir="${repo.dir}" passthru="true" /> <!-- <gitcommit /> doesn't support multi-line commit messages -->
+        <exec command="git commit" dir="${_repo_dir}" passthru="true" /> <!-- <gitcommit /> doesn't support multi-line commit messages -->
 
         <!-- Push previous commit to remote repo -->
 
@@ -818,7 +812,7 @@
         <if>
           <equals arg1="${pushToRepo}" arg2="yes" trim="yes" />
           <then>
-            <gitpush repository="${repo.dir}" />
+            <gitpush repository="${_repo_dir}" />
           </then>
         </if>
 
