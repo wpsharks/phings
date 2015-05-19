@@ -799,18 +799,18 @@
 
     <!-- Commit changes. -->
 
-    <propertyprompt propertyName="commitToRepo" defaultValue="no" promptText="Commit these changes? (yes/no)" />
+    <propertyprompt propertyName="_commit_to_repo" defaultValue="no" promptText="Commit these changes? (yes/no)" />
 
     <if>
-      <equals arg1="${commitToRepo}" arg2="yes" trim="yes" />
+      <equals arg1="${_commit_to_repo}" arg2="yes" trim="yes" />
       <then>
         <exec command="git commit" dir="${_repo_dir}" passthru="true" /> <!-- <gitcommit /> doesn't support multi-line commit messages -->
 
         <!-- Push previous commit to remote repo -->
 
-        <propertyprompt propertyName="pushToRepo" defaultValue="no" promptText="Push commit to remote repo? (yes/no)" />
+        <propertyprompt propertyName="_push_to_repo" defaultValue="no" promptText="Push commit to remote repo? (yes/no)" />
         <if>
-          <equals arg1="${pushToRepo}" arg2="yes" trim="yes" />
+          <equals arg1="${_push_to_repo}" arg2="yes" trim="yes" />
           <then>
             <gitpush repository="${_repo_dir}" />
           </then>
