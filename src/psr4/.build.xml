@@ -804,15 +804,44 @@
     <if>
       <equals arg1="${_commit_to_repo}" arg2="yes" trim="yes" />
       <then>
-        <exec command="git commit" dir="${_repo_dir}" passthru="true" /> <!-- <gitcommit /> doesn't support multi-line commit messages -->
+
+        <!-- Extract changelog for latest version, write to .commit.msg, then trim last two lines. -->
+        <if>
+          <available property="_changelog_exists" file="${project.basedir}/.~build/${project_lite_slug}/CHANGELOG.md" />
+          <then>
+            <loadfile property="_changelog" file="${project.basedir}/.~build/${project_lite_slug}/CHANGELOG.md"/>
+            <if>
+              <contains string="${_changelog}" substring="${project_version}" />
+              <then>
+                <exec command="sed -n -e '/^=.*${project_version}.*=$/,/^=.*$/w .commit.msg' CHANGELOG.md" dir="${_repo_dir}" passthru="true" />
+                <exec command="sed -i -e '$d' .commit.msg; sed -i -e '$d' .commit.msg" dir="${_repo_dir}" passthru="true" />
+                <exec command="git commit -F .commit.msg" dir="${_repo_dir}" passthru="true" /> <!-- GitCommitTask doesn't support the -F git option. -->
+                <property name="_commit_passed" value="true" />
+              </then>
+              <else>
+                <property name="_commit_passed" value="false" />
+                <echo level="error" msg="Unable to commit: Changelog entry for v${project_version} not found." />
+              </else>
+            </if>
+          </then>
+          <else>
+            <property name="_commit_passed" value="false" />
+            <echo level="error" msg="Unable to commit: CHANGELOG.md file missing." />
+          </else>
+        </if>
 
         <!-- Push previous commit to remote repo -->
 
-        <propertyprompt propertyName="_push_to_repo" defaultValue="no" promptText="Push commit to remote repo? (yes/no)" />
         <if>
-          <equals arg1="${_push_to_repo}" arg2="yes" trim="yes" />
+          <contains string="${_commit_passed}" substring="true"/>
           <then>
-            <gitpush repository="${_repo_dir}" />
+            <propertyprompt propertyName="_push_to_repo" defaultValue="no" promptText="Push commit to remote repo? (yes/no)" />
+            <if>
+              <equals arg1="${_push_to_repo}" arg2="yes" trim="yes" />
+              <then>
+                <gitpush repository="${_repo_dir}" />
+              </then>
+            </if>
           </then>
         </if>
 
