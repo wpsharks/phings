@@ -811,7 +811,7 @@
           <then>
             <loadfile property="_changelog" file="${project.basedir}/.~build/${project_lite_slug}/CHANGELOG.md"/>
             <if>
-              <contains string="${_changelog}" substring="${project_version}" />
+              <contains string="${_changelog}" substring="v${project_version}" />
               <then>
                 <exec command="sed -n -e '/^=.*${project_version}.*=$/,/^=.*$/w .commit.msg' CHANGELOG.md" dir="${_repo_dir}" passthru="true" />
                 <exec command="sed -i -e '$d' .commit.msg; sed -i -e '$d' .commit.msg" dir="${_repo_dir}" passthru="true" />
