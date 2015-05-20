@@ -813,7 +813,7 @@
             <if>
               <contains string="${_changelog}" substring="v${project_version}" />
               <then>
-                <exec command="sed -n -e '/^=\s{project_version}\s=$/,/^=.*$/w .~commit.msg' CHANGELOG.md" dir="${_repo_dir}" passthru="true" />
+                <exec command="sed -n -e '/^=\sv{project_version}\s=$/,/^=.*$/w .~commit.msg' CHANGELOG.md" dir="${_repo_dir}" passthru="true" />
                 <exec command="sed -i -e '$d' .~commit.msg; sed -i -e '$d' .~commit.msg" dir="${_repo_dir}" passthru="true" />
 
                 <exec command="cat .~commit.msg" dir="${_repo_dir}" passthru="true" />
