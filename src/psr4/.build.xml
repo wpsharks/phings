@@ -805,7 +805,7 @@
       <equals arg1="${_commit_to_repo}" arg2="yes" trim="yes" />
       <then>
 
-        <!-- Extract changelog for latest version, write to .commit.msg, then trim last two lines. -->
+        <!-- Extract changelog for latest version, write to .~commit.msg, then trim last two lines. -->
         <if>
           <available property="_changelog_exists" file="${project.basedir}/.~build/${project_lite_slug}/CHANGELOG.md" />
           <then>
@@ -813,9 +813,9 @@
             <if>
               <contains string="${_changelog}" substring="v${project_version}" />
               <then>
-                <exec command="sed -n -e '/^=.*${project_version}.*=$/,/^=.*$/w .commit.msg' CHANGELOG.md" dir="${_repo_dir}" passthru="true" />
-                <exec command="sed -i -e '$d' .commit.msg; sed -i -e '$d' .commit.msg" dir="${_repo_dir}" passthru="true" />
-                <exec command="git commit -F .commit.msg" dir="${_repo_dir}" passthru="true" /> <!-- GitCommitTask doesn't support the -F git option. -->
+                <exec command="sed -n -e '/^=\s{project_version}\s=$/,/^=.*$/w .~commit.msg' CHANGELOG.md" dir="${_repo_dir}" passthru="true" />
+                <exec command="sed -i -e '$d' .~commit.msg; sed -i -e '$d' .~commit.msg" dir="${_repo_dir}" passthru="true" />
+                <exec command="git commit -F .~commit.msg" dir="${_repo_dir}" passthru="true" /> <!-- GitCommitTask doesn't support the -F git option. -->
                 <property name="_commit_passed" value="true" />
               </then>
               <else>
@@ -833,7 +833,7 @@
         <!-- Push previous commit to remote repo -->
 
         <if>
-          <contains string="${_commit_passed}" substring="true"/>
+          <istrue value="${_commit_passed}" />
           <then>
             <propertyprompt propertyName="_push_to_repo" defaultValue="no" promptText="Push commit to remote repo? (yes/no)" />
             <if>
