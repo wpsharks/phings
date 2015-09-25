@@ -9,6 +9,7 @@
     <import file="${phing.dir.targets}/targets/config.xml" />
     <import file="${phing.dir.targets}/targets/validate.xml" />
     <import file="${phing.dir.targets}/targets/preamble.xml" />
+    
     <import file="${phing.dir.targets}/targets/prepare.xml" />
     <import file="${phing.dir.targets}/targets/rtokens.xml" />
     <import file="${phing.dir.targets}/targets/composer.xml" />
