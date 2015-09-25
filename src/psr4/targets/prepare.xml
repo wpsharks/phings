@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="prepare">
+
+    <!-- ============================================  -->
+    <!-- Preparation. -->
+    <!-- ============================================  -->
+
+    <target name="-prepare" hidden="true">
+
+      <echo msg="Preparing to build." />
+
+      <echo msg="------------------------------------" />
+
+      <echo msg="Deleting previous: ${project.basedir}/.~build" />
+
+      <delete dir="${project.basedir}/.~build" includeemptydirs="true" quiet="true" />
+
+      <echo msg="Creating: ${project.basedir}/.~build" />
+
+      <mkdir dir="${project.basedir}/.~build" />
+
+      <echo msg="------------------------------------" />
+
+    </target>
+
+  </project>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="pots">
+
+    <!-- ============================================  -->
+    <!-- POT translation files. -->
+    <!-- ============================================  -->
+
+    <target name="-pots" hidden="true">
+
+      <!-- WordPress POT translation. -->
+      <if>
+        <and>
+          <istrue value="${_is_wp_theme_plugin}" />
+          <available resource="${project.basedir}/src/vendor/websharks/wp-i18n-tools" type="dir" />
+        </and>
+        <then>
+
+          <!-- WordPress theme. -->
+
+          <if>
+            <and>
+              <available file="${project.basedir}/style.css" />
+            </and>
+            <then>
+              <echo msg="Building POT translation file for WP theme: ${project.basedir}" />
+
+              <exec executable="${project.basedir}/src/vendor/websharks/wp-i18n-tools/makepot.php" dir="${project.basedir}" passthru="true" checkreturn="true">
+                <arg value="wp-theme" />
+                <arg value="${project.basedir}" />
+                <arg value="${project.basedir}/src/includes/translations/${project_slug}.pot" />
+              </exec>
+
+              <echo msg="------------------------------------" />
+            </then>
+            <else>
+              <echo msg="N/A: skipping WordPress POT generation for a theme." />
+
+              <echo msg="------------------------------------" />
+            </else>
+          </if>
+
+          <!-- WordPress plugin. -->
+
+          <if>
+            <and>
+              <available file="${project.basedir}/plugin.php" />
+            </and>
+            <then>
+              <echo msg="Building POT translation file for WP plugin: ${project.basedir}" />
+
+              <exec executable="${project.basedir}/src/vendor/websharks/wp-i18n-tools/makepot.php" dir="${project.basedir}" passthru="true" checkreturn="true">
+                <arg value="wp-plugin" />
+                <arg value="${project.basedir}" />
+                <arg value="${project.basedir}/src/includes/translations/${project_slug}.pot" />
+              </exec>
+
+              <echo msg="------------------------------------" />
+            </then>
+            <else>
+              <echo msg="N/A: skipping WordPress POT generation for a plugin." />
+
+              <echo msg="------------------------------------" />
+            </else>
+          </if>
+
+          <!-- Remove WP i18n Tools package now. -->
+
+          <echo msg="Deleting: ${project.basedir}/src/vendor/websharks/wp-i18n-tools" />
+
+          <delete dir="${project.basedir}/src/vendor/websharks/wp-i18n-tools" includeemptydirs="true" quiet="false" />
+
+          <echo msg="------------------------------------" />
+        </then>
+
+        <else>
+          <echo msg="N/A: skipping WordPress POT generation." />
+
+          <echo msg="------------------------------------" />
+        </else>
+      </if>
+
+    </target>
+
+  </project>

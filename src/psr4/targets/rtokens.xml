@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="rtokens">
+
+    <!-- ============================================  -->
+    <!-- Token replacements. -->
+    <!-- ============================================  -->
+
+    <target name="-rtokens" hidden="true">
+
+      <!-- Other PHP/JS token replacements. -->
+
+      <echo msg="Replacing tokens in: ${project.basedir}" />
+
+      <reflexive>
+        <fileset dir="${project.basedir}" casesensitive="false">
+          <exclude pattern="**/vendor/**" />
+          <include pattern="*.php" />
+          <include pattern="**/*.php" />
+          <include pattern="*.js" />
+          <include pattern="**/*.js" />
+        </fileset>
+        <filterchain>
+          <replaceregexp>
+            <regexp pattern="'[^']*?';\s*\/\/version\/\/$" replace="'${project_version}'; //version//" modifiers="m" />
+            <regexp pattern='"[^"]*?";\s*\/\/version\/\/$' replace='"${project_version}"; //version//' modifiers="m" />
+
+            <regexp pattern="'[^']*?';\s*\/\/php\-required\-version\/\/$" replace="'${project_php_required_version}'; //php-required-version//" modifiers="m" />
+            <regexp pattern='"[^"]*?";\s*\/\/php\-required\-version\/\/$' replace='"${project_php_required_version}"; //php-required-version//' modifiers="m" />
+
+            <regexp pattern="'[^']*?';\s*\/\/php\-up\-to\-version\/\/$" replace="'${project_php_up_to_version}'; //php-up-to-version//" modifiers="m" />
+            <regexp pattern='"[^"]*?";\s*\/\/php\-up\-to\-version\/\/$' replace='"${project_php_up_to_version}"; //php-up-to-version//' modifiers="m" />
+          </replaceregexp>
+        </filterchain>
+      </reflexive>
+
+      <echo msg="------------------------------------" />
+
+      <!-- WordPress header replacements. -->
+
+      <if>
+        <and>
+          <istrue value="${_is_wp_theme_plugin}" />
+        </and>
+        <then>
+          <echo msg="Replacing WP headers in: ${project.basedir}" />
+
+          <reflexive>
+            <fileset dir="${project.basedir}" casesensitive="false">
+              <include pattern="readme.txt" />
+              <include pattern="plugin.php" />
+              <include pattern="${project_slug}.php" />
+              <include pattern="uninstall.php" />
+              <include pattern="functions.php" />
+              <include pattern="style.css" />
+            </fileset>
+            <filterchain>
+              <replaceregexp>
+                <regexp pattern="^Version\:.+$" replace="Version: ${project_version}" modifiers="m" />
+                <regexp pattern="^Stable tag\:.+$" replace="Stable tag: ${project_version}" modifiers="m" />
+
+                <regexp pattern="^Requires at least\:.+$" replace="Requires at least: ${project_wp_required_version}" modifiers="m" />
+                <regexp pattern="^Tested up to\:.+$" replace="Tested up to: ${project_wp_up_to_version}" modifiers="m" />
+
+                <regexp pattern="^Requires PHP\:.+$" replace="Requires PHP: ${project_php_required_version}" modifiers="m" />
+                <regexp pattern="^Tested up to PHP\:.+$" replace="Tested up to PHP: ${project_php_up_to_version}" modifiers="m" />
+              </replaceregexp>
+            </filterchain>
+          </reflexive>
+
+          <echo msg="------------------------------------" />
+        </then>
+        <else>
+          <echo msg="N/A: skipping WP headers in project.basedir." />
+
+          <echo msg="------------------------------------" />
+        </else>
+      </if>
+
+      <!-- WordPress token replacements. -->
+
+      <if>
+        <and>
+          <istrue value="${_is_wp_theme_plugin}" />
+        </and>
+        <then>
+          <echo msg="Replacing WP tokens in: ${project.basedir}" />
+
+          <reflexive>
+            <fileset dir="${project.basedir}" casesensitive="false">
+              <exclude pattern="**/vendor/**" />
+              <include pattern="*.php" />
+              <include pattern="**/*.php" />
+              <include pattern="*.js" />
+              <include pattern="**/*.js" />
+            </fileset>
+            <filterchain>
+              <replaceregexp>
+                <regexp pattern="'[^']*?';\s*\/\/wp\-required\-version\/\/$" replace="'${project_wp_required_version}'; //wp-required-version//" modifiers="m" />
+                <regexp pattern='"[^"]*?";\s*\/\/wp\-required\-version\/\/$' replace='"${project_wp_required_version}"; //wp-required-version//' modifiers="m" />
+
+                <regexp pattern="'[^']*?';\s*\/\/wp\-up\-to\-version\/\/$" replace="'${project_wp_up_to_version}'; //wp-up-to-version//" modifiers="m" />
+                <regexp pattern='"[^"]*?";\s*\/\/wp\-up\-to\-version\/\/$' replace='"${project_wp_up_to_version}"; //wp-up-to-version//' modifiers="m" />
+              </replaceregexp>
+            </filterchain>
+          </reflexive>
+
+          <echo msg="------------------------------------" />
+        </then>
+        <else>
+          <echo msg="N/A: skipping WP tokens in project.basedir." />
+
+          <echo msg="------------------------------------" />
+        </else>
+      </if>
+
+    </target>
+
+  </project>

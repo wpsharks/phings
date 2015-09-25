@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="apigen">
+
+    <!-- ============================================  -->
+    <!-- Codex generation. -->
+    <!-- ============================================  -->
+
+    <target name="-apigen" hidden="true">
+
+      <echo msg="Deleting previous: ${project.basedir}/.~build/codex" />
+
+      <delete dir="${project.basedir}/.~build/codex" includeemptydirs="true" quiet="true" />
+
+      <echo msg="Running ApiGen (i.e., building codex)." />
+
+      <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
+        <arg value="apigen" />
+        <arg value="generate" />
+
+        <arg value="--source" />
+        <arg value="${project.basedir}/src" />
+
+        <arg value="--destination" />
+        <arg value="${project.basedir}/.~build/codex" />
+
+        <arg value="--title" />
+        <arg value="${project_title}" />
+
+        <arg value="--exclude" />
+        <arg value="vendor" />
+
+        <arg value="--download" />
+        <arg value="--deprecated" />
+        <arg value="--todo" />
+        <arg value="--debug" />
+      </exec>
+
+      <echo msg="------------------------------------" />
+
+    </target>
+
+  </project>

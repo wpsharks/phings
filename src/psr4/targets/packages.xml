@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="packages">
+
+    <!-- ============================================  -->
+    <!-- Package generation. -->
+    <!-- ============================================  -->
+
+    <target name="-packages" hidden="true">
+
+      <!-- PHAR file generation. -->
+      <if>
+        <and>
+          <available file="${project.basedir}/src/includes/phar-stub.php" />
+          <available resource="${project.basedir}/src" type="dir" />
+        </and>
+        <then>
+          <echo msg="Deleting previous: ${project.basedir}/.~build/${project_slug}.phar" />
+
+          <delete file="${project.basedir}/.~build/${project_slug}.phar" quiet="true" />
+
+          <echo msg="Creating PHAR file: ${project.basedir}/.~build/${project_slug}.phar" />
+
+          <pharpackage basedir="${project.basedir}" stub="${project.basedir}/src/includes/phar-stub.php" destfile="${project.basedir}/.~build/${project_slug}.phar">
+            <fileset refid="_phar_fileset" />
+          </pharpackage>
+
+          <echo msg="------------------------------------" />
+        </then>
+        <else>
+          <echo msg="N/A: skipping PHAR generation; phar-stub.php does not exist or /src is missing." />
+
+          <echo msg="------------------------------------" />
+        </else>
+      </if>
+
+      <!-- ZIP file generation. -->
+
+      <echo msg="Deleting previous: ${project.basedir}/.~build/${project_slug}.zip" />
+
+      <delete file="${project.basedir}/.~build/${project_slug}.zip" quiet="true" />
+
+      <echo msg="Creating ZIP file: ${project.basedir}/.~build/${project_slug}.zip" />
+
+      <zip basedir="${project.basedir}" prefix="${project_slug}/" includeemptydirs="false" destfile="${project.basedir}/.~build/${project_slug}.zip">
+        <fileset refid="_zip_tgz_fileset" />
+      </zip>
+
+      <echo msg="------------------------------------" />
+
+      <!-- TGZ file generation. -->
+
+      <echo msg="Deleting previous: ${project.basedir}/.~build/${project_slug}.tar.gz" />
+
+      <delete file="${project.basedir}/.~build/${project_slug}.tar.gz" quiet="true" />
+
+      <echo msg="Creating TGZ file: ${project.basedir}/.~build/${project_slug}.tar.gz" />
+
+      <tar basedir="${project.basedir}" prefix="${project_slug}/" includeemptydirs="false" destfile="${project.basedir}/.~build/${project_slug}.tar.gz" compression="gzip">
+        <fileset refid="_zip_tgz_fileset" />
+      </tar>
+
+      <echo msg="------------------------------------" />
+
+    </target>
+
+  </project>

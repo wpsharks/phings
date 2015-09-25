@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="composer">
+
+    <!-- ============================================  -->
+    <!-- Composer install routine. -->
+    <!-- ============================================  -->
+
+    <target name="-composer" hidden="true">
+
+      <if>
+        <and>
+          <available file="${project.basedir}/composer.json" />
+        </and>
+        <then>
+          <echo msg="Deleting previous: ${project.basedir}/src/vendor" />
+
+          <delete dir="${project.basedir}/src/vendor" includeemptydirs="true" quiet="true" />
+
+          <echo msg="------------------------------------" />
+
+          <echo msg="Deleting previous: ${project.basedir}/composer.lock" />
+
+          <delete file="${project.basedir}/composer.lock" quiet="true" />
+
+          <echo msg="------------------------------------" />
+
+          <echo msg="Running Composer." />
+
+          <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
+            <arg value="composer" />
+            <arg value="install" />
+          </exec>
+
+          <echo msg="------------------------------------" />
+        </then>
+        <else>
+          <echo msg="N/A: composer.json does not exist in project.basedir." />
+
+          <echo msg="------------------------------------" />
+        </else>
+      </if>
+
+    </target>
+
+  </project>

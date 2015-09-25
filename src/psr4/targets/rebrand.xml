@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="rebrand">
+
+    <!-- ============================================  -->
+    <!-- Rebranding routines. -->
+    <!-- ============================================  -->
+
+    <target name="-rebrand" hidden="true">
+
+      <!-- WebSharks Core rebranding. -->
+
+      <if>
+        <and>
+          <available file="${project.basedir}/src/vendor/composer/autoload_psr4.php" />
+          <available resource="${project.basedir}/src/vendor/websharks/core" type="dir" />
+        </and>
+        <then>
+          <echo msg="Rebranding: ${project.basedir}/src/vendor/websharks/core" />
+
+          <reflexive>
+            <fileset dir="${project.basedir}/src/vendor/websharks/core" casesensitive="false">
+              <include pattern="src/includes/classes/**.php" />
+              <include pattern="src/includes/interfaces/**.php" />
+              <include pattern="src/includes/traits/**.php" />
+            </fileset>
+            <filterchain>
+              <replaceregexp>
+                <regexp pattern="\b(namespace|use)\s+WebSharks\\Core(?:\\[^\\]+)?\\Classes\b" replace="\1 WebSharks\\Core\\${project_sns}\\Classes" />
+                <regexp pattern="\b(namespace|use)\s+WebSharks\\Core(?:\\[^\\]+)?\\Interfaces\b" replace="\1 WebSharks\\Core\\${project_sns}\\Interfaces" />
+                <regexp pattern="\b(namespace|use)\s+WebSharks\\Core(?:\\[^\\]+)?\\Traits\b" replace="\1 WebSharks\\Core\\${project_sns}\\Traits" />
+              </replaceregexp>
+            </filterchain>
+          </reflexive>
+
+          <reflexive>
+            <fileset dir="${project.basedir}/src/vendor/composer" casesensitive="false">
+              <include pattern="autoload_psr4.php" />
+            </fileset>
+            <filterchain>
+              <replaceregexp>
+                <regexp pattern="\bWebSharks\\\\Core(?:\\\\[^\\]+)?\\\\Classes\b" replace="WebSharks\\\\Core\\\\${project_sns}\\\\Classes" />
+                <regexp pattern="\bWebSharks\\\\Core(?:\\\\[^\\]+)?\\\\Interfaces\b" replace="WebSharks\\\\Core\\\\${project_sns}\\\\Interfaces" />
+                <regexp pattern="\bWebSharks\\\\Core(?:\\\\[^\\]+)?\\\\Traits\b" replace="WebSharks\\\\Core\\\\${project_sns}\\\\Traits" />
+              </replaceregexp>
+            </filterchain>
+          </reflexive>
+
+          <echo msg="------------------------------------" />
+        </then>
+        <else>
+          <echo msg="N/A: websharks/core is not used in this project." />
+
+          <echo msg="------------------------------------" />
+        </else>
+      </if>
+
+      <!-- WebSharks WP Core. -->
+
+      <if>
+        <and>
+          <istrue value="${_is_wp_theme_plugin}" />
+          <available file="${project.basedir}/src/vendor/composer/autoload_psr4.php" />
+          <available resource="${project.basedir}/src/vendor/websharks/wp-core" type="dir" />
+        </and>
+        <then>
+          <echo msg="Rebranding: ${project.basedir}/src/vendor/websharks/wp-core" />
+
+          <reflexive>
+            <fileset dir="${project.basedir}/src/vendor/websharks/wp-core" casesensitive="false">
+              <include pattern="src/includes/classes/**.php" />
+              <include pattern="src/includes/interfaces/**.php" />
+              <include pattern="src/includes/traits/**.php" />
+            </fileset>
+            <filterchain>
+              <replaceregexp>
+                <regexp pattern="\b(namespace|use)\s+WebSharks\\WpCore(?:\\[^\\]+)?\\Classes\b" replace="\1 WebSharks\\WpCore\\${project_sns}\\Classes" />
+                <regexp pattern="\b(namespace|use)\s+WebSharks\\WpCore(?:\\[^\\]+)?\\Interfaces\b" replace="\1 WebSharks\\WpCore\\${project_sns}\\Interfaces" />
+                <regexp pattern="\b(namespace|use)\s+WebSharks\\WpCore(?:\\[^\\]+)?\\Traits\b" replace="\1 WebSharks\\WpCore\\${project_sns}\\Traits" />
+              </replaceregexp>
+            </filterchain>
+          </reflexive>
+
+          <reflexive>
+            <fileset dir="${project.basedir}/src/vendor/composer" casesensitive="false">
+              <include pattern="autoload_psr4.php" />
+            </fileset>
+            <filterchain>
+              <replaceregexp>
+                <regexp pattern="\bWebSharks\\\\WpCore(?:\\\\[^\\]+)?\\\\Classes\b" replace="WebSharks\\\\WpCore\\\\${project_sns}\\\\Classes" />
+                <regexp pattern="\bWebSharks\\\\WpCore(?:\\\\[^\\]+)?\\\\Interfaces\b" replace="WebSharks\\\\WpCore\\\\${project_sns}\\\\Interfaces" />
+                <regexp pattern="\bWebSharks\\\\WpCore(?:\\\\[^\\]+)?\\\\Traits\b" replace="WebSharks\\\\WpCore\\\\${project_sns}\\\\Traits" />
+              </replaceregexp>
+            </filterchain>
+          </reflexive>
+
+          <echo msg="------------------------------------" />
+        </then>
+        <else>
+          <echo msg="N/A: websharks/wp-core is not used in this project." />
+
+          <echo msg="------------------------------------" />
+        </else>
+      </if>
+
+    </target>
+
+  </project>
