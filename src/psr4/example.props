@@ -1,15 +1,15 @@
 project_title                = Project Title
 project_org                  = websharks
-project_slug                 = project_slug
+project_slug                 = project-slug
 
 project_ns                   = Project\\Namespace
 project_sns                  = ProjectSubNamespace
 
-project_lite_title           =
-project_lite_slug            =
+project_lite_title           = Project Lite Title
+project_lite_slug            = project-lite-slug
 
-project_lite_ns              =
-project_lite_sns             =
+project_lite_ns              = Project\\NamespaceLite
+project_lite_sns             = ProjectLiteSubNamespace
 
 project_version              = %y%m%d
 
