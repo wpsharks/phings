@@ -15,3 +15,8 @@
 - Changing hidden lite build target from `-lite-variation` to just `-lite`.
 - Changing hidden lite push target from `-push-lite-variation` to just `-push-lite`.
 - Refactoring temporary variables used in `-push-lite`. These now include a `_push_lite_` prefix to keep them unique.
+- Breaking `-apigen` and the `codex` build target out of the normal build routine and into its own target.
+- Now works in non-WordPress projects.
+- Now works for projects with or without a `phar-stub.php`.
+- Now works for projects with or without `wp-i18n-tools`.
+- Now works for projects with or without `composer.json`.
