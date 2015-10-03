@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="validate">
+
+    <!-- ============================================  -->
+    <!-- Property validation. -->
+    <!-- ============================================  -->
+
+    <target name="-validate" hidden="true">
+      <fail unless="project_title" message="Missing `project_title` in properties file!" />
+      <fail unless="project_org" message="Missing `project_org` in properties file!" />
+      <fail unless="project_slug" message="Missing `project_slug` in properties file!" />
+
+      <fail unless="project_ns" message="Missing `project_ns` in properties file!" />
+      <fail unless="project_sns" message="Missing `project_sns` in properties file!" />
+
+      <if>
+        <and>
+          <not>
+            <isset property="is_lite" />
+          </not>
+          <istrue value="${_is_lite_applicable}" />
+        </and>
+        <then>
+          <fail unless="project_lite_title" message="Missing `project_lite_title` in properties file!" />
+          <fail unless="project_lite_slug" message="Missing `project_lite_slug` in properties file!" />
+
+          <fail unless="project_lite_ns" message="Missing `project_lite_ns` in properties file!" />
+          <fail unless="project_lite_sns" message="Missing `project_lite_sns` in properties file!" />
+        </then>
+      </if>
+
+      <fail unless="project_version" message="Missing `project_version` in properties file!" />
+
+      <fail unless="project_php_required_version" message="Missing `project_php_required_version` in properties file!" />
+      <fail unless="project_php_up_to_version" message="Missing `project_php_up_to_version` in properties file!" />
+
+      <if>
+        <and>
+          <istrue value="${_is_wp_theme_plugin}" />
+        </and>
+        <then>
+          <fail unless="project_wp_required_version" message="Missing `project_wp_required_version` in properties file!" />
+          <fail unless="project_wp_up_to_version" message="Missing `project_wp_up_to_version` in properties file!" />
+        </then>
+      </if>
+
+      <echo msg="Build properties valid; nice work!" />
+
+      <echo msg="------------------------------------" />
+    </target>
+
+  </project>

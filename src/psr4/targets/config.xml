@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="config">
+
+    <!-- ============================================  -->
+    <!-- Configuration. -->
+    <!-- ============================================  -->
+
+    <target name="-config" hidden="true">
+
+      <!-- Property values. -->
+
+      <property file="${project.basedir}/.build.props" />
+
+      <!-- Codex ignore list. -->
+
+      <property name="_codex_ignore" value="*/assets/*,*/phings/*,*/tests/*,*/vendor/*" />
+
+      <!-- Fileset reference for PHAR files. -->
+
+      <fileset id="_phar_fileset" dir="${project.basedir}" defaultexcludes="true" casesensitive="false">
+        <exclude name="phar-stub.php" />
+        <exclude name="**/phar-stub.php" />
+
+        <exclude name=".~**" />
+        <exclude name="**/.~**" />
+
+        <exclude name="assets/**" />
+        <exclude name="**/assets/**" />
+
+        <exclude name="phings/**" />
+        <exclude name="**/phings/**" />
+
+        <exclude name="tests/**" />
+        <exclude name="**/tests/**" />
+
+        <exclude name="vendor/bin/**" />
+        <exclude name="**/vendor/bin/**" />
+
+        <exclude name=".ht**" />
+        <exclude name="**/.ht**" />
+
+        <exclude name=".git**" />
+        <exclude name="**/.git**" />
+
+        <exclude name=".idea/**" />
+        <exclude name="**/.idea/**" />
+
+        <exclude name=".tags" />
+        <exclude name="**/.tags" />
+
+        <exclude name=".post-receive" />
+        <exclude name="**/.post-receive" />
+
+        <exclude name=".travis.yml" />
+        <exclude name="**/.travis.yml" />
+
+        <exclude name=".coveralls.yml" />
+        <exclude name="**/.coveralls.yml" />
+
+        <exclude name=".scrutinizer.yml" />
+        <exclude name="**/.scrutinizer.yml" />
+
+        <exclude name=".build.props" />
+        <exclude name="**/.build.props" />
+
+        <exclude name="build-*.xml" />
+        <exclude name="**/build-*.xml" />
+
+        <exclude name="build.xml" />
+        <exclude name="**/build.xml" />
+
+        <exclude name="composer.json" />
+        <exclude name="**/composer.json" />
+
+        <exclude name="composer.lock" />
+        <exclude name="**/composer.lock" />
+
+        <exclude name="LICENSE.txt" />
+        <exclude name="**/LICENSE.txt" />
+
+        <exclude name="LICENSE.md" />
+        <exclude name="**/LICENSE.md" />
+
+        <exclude name="README.txt" />
+        <exclude name="**/README.txt" />
+
+        <exclude name="README.md" />
+        <exclude name="**/README.md" />
+
+        <exclude name="CHANGELOG.txt" />
+        <exclude name="**/CHANGELOG.txt" />
+
+        <exclude name="CHANGELOG.md" />
+        <exclude name="**/CHANGELOG.md" />
+
+        <exclude name="AUTHORS.txt" />
+        <exclude name="**/AUTHORS.txt" />
+
+        <exclude name="AUTHORS.md" />
+        <exclude name="**/AUTHORS.md" />
+
+        <exclude name="CONTRIBUTORS.txt" />
+        <exclude name="**/CONTRIBUTORS.txt" />
+
+        <exclude name="CONTRIBUTORS.md" />
+        <exclude name="**/CONTRIBUTORS.md" />
+      </fileset>
+
+      <!-- Fileset reference for ZIP/TGZ files. -->
+
+      <fileset id="_zip_tgz_fileset" dir="${project.basedir}" defaultexcludes="true" casesensitive="false">
+        <exclude name="phar-stub.php" />
+        <exclude name="**/phar-stub.php" />
+
+        <exclude name=".~**" />
+        <exclude name="**/.~**" />
+
+        <exclude name="assets/**" />
+        <exclude name="**/assets/**" />
+
+        <exclude name="phings/**" />
+        <exclude name="**/phings/**" />
+
+        <exclude name="tests/**" />
+        <exclude name="**/tests/**" />
+
+        <exclude name="vendor/bin/**" />
+        <exclude name="**/vendor/bin/**" />
+
+        <exclude name=".ht**" />
+        <exclude name="**/.ht**" />
+
+        <exclude name=".git**" />
+        <exclude name="**/.git**" />
+
+        <exclude name=".idea/**" />
+        <exclude name="**/.idea/**" />
+
+        <exclude name=".tags" />
+        <exclude name="**/.tags" />
+
+        <exclude name=".post-receive" />
+        <exclude name="**/.post-receive" />
+
+        <exclude name=".travis.yml" />
+        <exclude name="**/.travis.yml" />
+
+        <exclude name=".coveralls.yml" />
+        <exclude name="**/.coveralls.yml" />
+
+        <exclude name=".scrutinizer.yml" />
+        <exclude name="**/.scrutinizer.yml" />
+
+        <exclude name=".build.props" />
+        <exclude name="**/.build.props" />
+
+        <exclude name="build-*.xml" />
+        <exclude name="**/build-*.xml" />
+
+        <exclude name="build.xml" />
+        <exclude name="**/build.xml" />
+
+        <exclude name="composer.json" />
+        <exclude name="**/composer.json" />
+
+        <exclude name="composer.lock" />
+        <exclude name="**/composer.lock" />
+      </fileset>
+
+      <!-- Property replacement codes. -->
+
+      <tstamp><format property="_time_ymd" pattern="%y%m%d" /></tstamp>
+      <php expression="str_replace('%y%m%d', date('ymd'), '${project_version}')" returnproperty="project_version" />
+
+      <!-- WordPress theme/plugin detection. -->
+
+      <if>
+        <or>
+          <isset property="project_wp_required_version" />
+          <isset property="project_wp_up_to_version" />
+        </or>
+        <then>
+          <property name="_is_wp_theme_plugin" value="true" />
+        </then>
+        <else>
+          <property name="_is_wp_theme_plugin" value="false" />
+        </else>
+      </if>
+
+      <!-- Lite detection; i.e., is applicable? -->
+
+      <if>
+        <or>
+          <isset property="project_lite_title" />
+          <isset property="project_lite_slug" />
+
+          <isset property="project_lite_ns" />
+          <isset property="project_lite_sns" />
+        </or>
+        <then>
+          <property name="_is_lite_applicable" value="true" />
+        </then>
+        <else>
+          <property name="_is_lite_applicable" value="false" />
+        </else>
+      </if>
+
+    </target>
+
+  </project>

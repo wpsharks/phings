@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="preamble">
+
+    <!-- ============================================  -->
+    <!-- Preamble. -->
+    <!-- ============================================  -->
+
+    <target name="-preamble" hidden="true">
+
+      <echo msg="OS: ${os.name}" />
+      <echo msg="Home: ${user.home}" />
+
+      <echo msg="------------------------------------" />
+
+      <echo msg="PHP Version: ${php.version}" />
+      <echo msg="Phing Version: ${phing.version}" />
+
+      <echo msg="------------------------------------" />
+
+      <echo msg="Phing Title: ${phing.project.name}" />
+      <echo msg="Project Title: ${project_title}" />
+
+      <echo msg="------------------------------------" />
+
+      <echo msg="Project Directory: ${project.basedir}" />
+
+      <echo msg="------------------------------------" />
+
+      <echo msg="Project Org.: ${project_org}" />
+      <echo msg="Project Slug: ${project_slug}" />
+
+      <echo msg="------------------------------------" />
+
+      <echo msg="Project NS: ${project_ns}" />
+      <echo msg="Project SNS: ${project_sns}" />
+
+      <echo msg="------------------------------------" />
+
+      <if>
+        <and>
+          <not>
+            <isset property="is_lite" />
+          </not>
+          <istrue value="${_is_lite_applicable}" />
+        </and>
+        <then>
+          <echo msg="Project Lite Title: ${project_lite_title}" />
+          <echo msg="Project Lite Slug: ${project_lite_slug}" />
+
+          <echo msg="------------------------------------" />
+
+          <echo msg="Project Lite NS: ${project_lite_ns}" />
+          <echo msg="Project Lite SNS: ${project_lite_sns}" />
+
+          <echo msg="------------------------------------" />
+        </then>
+      </if>
+
+      <echo msg="Project Version: ${project_version}" />
+
+      <echo msg="------------------------------------" />
+
+      <echo msg="Project PHP Required Version: ${project_php_required_version}" />
+      <echo msg="Project PHP Tested Up To Version: ${project_php_up_to_version}" />
+
+      <echo msg="------------------------------------" />
+
+      <if>
+        <and>
+          <istrue value="${_is_wp_theme_plugin}" />
+        </and>
+        <then>
+          <echo msg="Project WP Required Version: ${project_wp_required_version}" />
+          <echo msg="Project WP Tested Up To Version: ${project_wp_up_to_version}" />
+
+          <echo msg="------------------------------------" />
+        </then>
+      </if>
+
+    </target>
+
+  </project>

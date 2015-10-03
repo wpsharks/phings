@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="push-lite">
+
+    <!-- ============================================  -->
+    <!-- Push lite to repo. -->
+    <!-- ============================================  -->
+
+    <target name="-push-lite" hidden="true">
+
+      <if>
+        <and>
+          <not>
+            <isset property="is_lite" />
+          </not>
+          <istrue value="${_is_lite_applicable}" />
+        </and>
+        <then>
+          <!-- Define lite repo directory and remote. -->
+
+          <property name="_push_lite_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-git-repo" />
+          <property name="_push_lite_repo_remote" value="git@github.com:${project_org}/${project_lite_slug}.git" />
+
+          <!-- Preparing for lite generation. -->
+
+          <echo msg="Preparing to push ${project_lite_title} to ${_push_lite_repo_remote}" />
+
+          <echo msg="------------------------------------" />
+
+          <!-- Clone lite repository. -->
+
+          <echo msg="Cloning the lite repo (be patient, this may take awhile)." />
+
+          <delete dir="${_push_lite_repo_dir}" includeemptydirs="true" quiet="true" />
+          <gitclone repository="${_push_lite_repo_remote}" targetPath="${_push_lite_repo_dir}" />
+
+          <echo msg="------------------------------------" />
+
+          <!-- Switch to "000000-dev" branch in lite version. -->
+
+          <echo msg="Checking out the 000000-dev branch in lite repo clone." />
+
+          <gitcheckout repository="${_push_lite_repo_dir}" branchname="000000-dev" />
+
+          <echo msg="------------------------------------" />
+
+          <!-- Delete all existing files in lite dev branch. -->
+
+          <echo msg="Deleting all existing files in lite dev branch." />
+
+          <delete includeemptydirs="true" quiet="true">
+            <fileset dir="_push_lite_repo_dir" />
+          </delete>
+
+          <echo msg="------------------------------------" />
+
+          <!-- Copy new files into lite dev branch. -->
+
+          <echo msg="Copying new files into lite dev branch." />
+
+          <copy todir="${_push_lite_repo_dir}">
+            <fileset dir="${project.basedir}/.~build/${project_lite_slug}">
+              <exclude pattern=".~build/**" />
+            </fileset>
+          </copy>
+
+          <echo msg="------------------------------------" />
+
+          <!-- Stage changed files in lite dev branch. -->
+
+          <echo msg="Staging changed files in lite dev branch." />
+
+          <exec command="git add --all *" dir="${_push_lite_repo_dir}" />
+          <exec command="git status" dir="${_push_lite_repo_dir}" passthru="true" />
+
+          <echo msg="------------------------------------" />
+
+          <!-- Commit changes in lite dev branch. -->
+
+          <echo msg="To make changes or commit these files manually, choose 'no' at the next prompt and navigate to: ${_push_lite_repo_dir}" />
+
+          <propertyprompt propertyName="_push_lite_do_commit_changes" defaultValue="no" promptText="Commit changes in lite dev branch? (yes/no)" />
+
+          <echo msg="------------------------------------" />
+
+          <if>
+            <and>
+              <equals arg1="${_push_lite_do_commit_changes}" arg2="yes" trim="yes" />
+            </and>
+            <then>
+              <echo msg="Generating commit message from changelog in lite dev branch." />
+
+              <echo msg="------------------------------------" />
+
+              <!-- Extract changelog for latest version, write to .~commit.msg, then trim last two lines. -->
+
+              <if>
+                <and>
+                  <available file="${project.basedir}/.~build/${project_lite_slug}/CHANGELOG.md" />
+                </and>
+                <then>
+                  <loadfile property="_push_lite_changelog_contents" file="${project.basedir}/.~build/${project_lite_slug}/CHANGELOG.md" />
+                  <if>
+                    <and>
+                      <contains string="${_push_lite_changelog_contents}" substring="v${project_version}" />
+                    </and>
+                    <then>
+                      <exec command="sed -n -e '/^=\sv{project_version}\s=$/,/^=.*$/w .~commit.msg' CHANGELOG.md" dir="${_push_lite_repo_dir}" passthru="true" />
+                      <exec command="sed -i -e '$d' .~commit.msg; sed -i -e '$d' .~commit.msg" dir="${_push_lite_repo_dir}" passthru="true" />
+                      <exec command="cat .~commit.msg" dir="${_push_lite_repo_dir}" passthru="true" />
+
+                      <echo msg="Committing changes in lite dev branch." />
+
+                      <exec command="git commit -F .~commit.msg" dir="${_push_lite_repo_dir}" passthru="true" />
+                      <property name="_push_lite_commit_successful" value="true" />
+
+                      <echo msg="------------------------------------" />
+                    </then>
+                    <else>
+                      <property name="_push_lite_commit_successful" value="false" />
+                      <echo level="error" msg="Unable to commit changes in lite dev branch: Changelog entry for v${project_version} not found." />
+
+                      <echo msg="------------------------------------" />
+                    </else>
+                  </if>
+                </then>
+                <else>
+                  <property name="_push_lite_commit_successful" value="false" />
+                  <echo level="error" msg="Unable to commit changes in lite dev branch: CHANGELOG.md file missing." />
+
+                  <echo msg="------------------------------------" />
+                </else>
+              </if>
+
+              <!-- Push to remote repo. -->
+
+              <if>
+                <and>
+                  <istrue value="${_push_lite_commit_successful}" />
+                </and>
+                <then>
+                  <propertyprompt propertyName="_push_lite_do_push_changes" defaultValue="no" promptText="Push commit to remote repo? (yes/no)" />
+                  <if>
+                    <and>
+                      <equals arg1="${_push_lite_do_push_changes}" arg2="yes" trim="yes" />
+                    </and>
+                    <then>
+                      <echo msg="Pushing changes in lite dev branch." />
+
+                      <gitpush repository="${_push_lite_repo_dir}" />
+
+                      <echo msg="------------------------------------" />
+                    </then>
+                  </if>
+                </then>
+                <else>
+                  <echo msg="N/A: skipping push of lite dev branch; due to commit failure." />
+
+                  <echo msg="------------------------------------" />
+                </else>
+              </if>
+
+            </then>
+          </if>
+
+        </then>
+        <else>
+          <echo msg="N/A: skipping lite repo commit/push; lite not applicable." />
+
+          <echo msg="------------------------------------" />
+        </else>
+      </if>
+
+    </target>
+
+  </project>
