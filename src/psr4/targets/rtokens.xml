@@ -25,6 +25,9 @@
             <regexp pattern="'[^']*?';\s*\/\/version\/\/$" replace="'${project_version}'; //version//" modifiers="m" />
             <regexp pattern='"[^"]*?";\s*\/\/version\/\/$' replace='"${project_version}"; //version//' modifiers="m" />
 
+            <regexp pattern="^(\s*)const\s+VERSION\s*=\s*'[^']*?';\s*\/\/v\/\/$" replace="\1const VERSION = '${project_version}'; //v//" modifiers="m" />
+            <regexp pattern='^(\s*)const\s+VERSION\s*=\s*"[^"]*?";\s*\/\/v\/\/$' replace='\1const VERSION = "${project_version}"; //v//' modifiers="m" />
+
             <regexp pattern="'[^']*?';\s*\/\/php\-required\-version\/\/$" replace="'${project_php_required_version}'; //php-required-version//" modifiers="m" />
             <regexp pattern='"[^"]*?";\s*\/\/php\-required\-version\/\/$' replace='"${project_php_required_version}"; //php-required-version//' modifiers="m" />
 
