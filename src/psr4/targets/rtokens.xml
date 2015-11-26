@@ -22,17 +22,17 @@
         </fileset>
         <filterchain>
           <replaceregexp>
-            <regexp pattern="'[^']*?';\s*\/\/version\/\/$" replace="'${project_version}'; //version//" modifiers="m" />
-            <regexp pattern='"[^"]*?";\s*\/\/version\/\/$' replace='"${project_version}"; //version//' modifiers="m" />
+            <regexp pattern="'[^']*?';\s*\/\/version\/\/$" replace="'${project_version}'; //version//" modifiers="um" />
+            <regexp pattern='"[^"]*?";\s*\/\/version\/\/$' replace='"${project_version}"; //version//' modifiers="um" />
 
-            <regexp pattern="^(\s*)const\s+VERSION\s*=\s*'[^']*?';\s*\/\/v\/\/$" replace="\1const VERSION = '${project_version}'; //v//" modifiers="m" />
-            <regexp pattern='^(\s*)const\s+VERSION\s*=\s*"[^"]*?";\s*\/\/v\/\/$' replace='\1const VERSION = "${project_version}"; //v//' modifiers="m" />
+            <regexp pattern="^(\s*)const\s+VERSION\s*=\s*'[^']*?';\s*\/\/v\/\/$" replace="\1const VERSION = '${project_version}'; //v//" modifiers="um" />
+            <regexp pattern='^(\s*)const\s+VERSION\s*=\s*"[^"]*?";\s*\/\/v\/\/$' replace='\1const VERSION = "${project_version}"; //v//' modifiers="um" />
 
-            <regexp pattern="'[^']*?';\s*\/\/php\-required\-version\/\/$" replace="'${project_php_required_version}'; //php-required-version//" modifiers="m" />
-            <regexp pattern='"[^"]*?";\s*\/\/php\-required\-version\/\/$' replace='"${project_php_required_version}"; //php-required-version//' modifiers="m" />
+            <regexp pattern="'[^']*?';\s*\/\/php\-required\-version\/\/$" replace="'${project_php_required_version}'; //php-required-version//" modifiers="um" />
+            <regexp pattern='"[^"]*?";\s*\/\/php\-required\-version\/\/$' replace='"${project_php_required_version}"; //php-required-version//' modifiers="um" />
 
-            <regexp pattern="'[^']*?';\s*\/\/php\-up\-to\-version\/\/$" replace="'${project_php_up_to_version}'; //php-up-to-version//" modifiers="m" />
-            <regexp pattern='"[^"]*?";\s*\/\/php\-up\-to\-version\/\/$' replace='"${project_php_up_to_version}"; //php-up-to-version//' modifiers="m" />
+            <regexp pattern="'[^']*?';\s*\/\/php\-up\-to\-version\/\/$" replace="'${project_php_up_to_version}'; //php-up-to-version//" modifiers="um" />
+            <regexp pattern='"[^"]*?";\s*\/\/php\-up\-to\-version\/\/$' replace='"${project_php_up_to_version}"; //php-up-to-version//' modifiers="um" />
           </replaceregexp>
         </filterchain>
       </reflexive>
@@ -59,14 +59,14 @@
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="^Version\:.+$" replace="Version: ${project_version}" modifiers="m" />
-                <regexp pattern="^Stable tag\:.+$" replace="Stable tag: ${project_version}" modifiers="m" />
+                <regexp pattern="^Version\:.+$" replace="Version: ${project_version}" modifiers="um" />
+                <regexp pattern="^Stable tag\:.+$" replace="Stable tag: ${project_version}" modifiers="um" />
 
-                <regexp pattern="^Requires at least\:.+$" replace="Requires at least: ${project_wp_required_version}" modifiers="m" />
-                <regexp pattern="^Tested up to\:.+$" replace="Tested up to: ${project_wp_up_to_version}" modifiers="m" />
+                <regexp pattern="^Requires at least\:.+$" replace="Requires at least: ${project_wp_required_version}" modifiers="um" />
+                <regexp pattern="^Tested up to\:.+$" replace="Tested up to: ${project_wp_up_to_version}" modifiers="um" />
 
-                <regexp pattern="^Requires PHP\:.+$" replace="Requires PHP: ${project_php_required_version}" modifiers="m" />
-                <regexp pattern="^Tested up to PHP\:.+$" replace="Tested up to PHP: ${project_php_up_to_version}" modifiers="m" />
+                <regexp pattern="^Requires PHP\:.+$" replace="Requires PHP: ${project_php_required_version}" modifiers="um" />
+                <regexp pattern="^Tested up to PHP\:.+$" replace="Tested up to PHP: ${project_php_up_to_version}" modifiers="um" />
               </replaceregexp>
             </filterchain>
           </reflexive>
@@ -99,11 +99,11 @@
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="'[^']*?';\s*\/\/wp\-required\-version\/\/$" replace="'${project_wp_required_version}'; //wp-required-version//" modifiers="m" />
-                <regexp pattern='"[^"]*?";\s*\/\/wp\-required\-version\/\/$' replace='"${project_wp_required_version}"; //wp-required-version//' modifiers="m" />
+                <regexp pattern="'[^']*?';\s*\/\/wp\-required\-version\/\/$" replace="'${project_wp_required_version}'; //wp-required-version//" modifiers="um" />
+                <regexp pattern='"[^"]*?";\s*\/\/wp\-required\-version\/\/$' replace='"${project_wp_required_version}"; //wp-required-version//' modifiers="um" />
 
-                <regexp pattern="'[^']*?';\s*\/\/wp\-up\-to\-version\/\/$" replace="'${project_wp_up_to_version}'; //wp-up-to-version//" modifiers="m" />
-                <regexp pattern='"[^"]*?";\s*\/\/wp\-up\-to\-version\/\/$' replace='"${project_wp_up_to_version}"; //wp-up-to-version//' modifiers="m" />
+                <regexp pattern="'[^']*?';\s*\/\/wp\-up\-to\-version\/\/$" replace="'${project_wp_up_to_version}'; //wp-up-to-version//" modifiers="um" />
+                <regexp pattern='"[^"]*?";\s*\/\/wp\-up\-to\-version\/\/$' replace='"${project_wp_up_to_version}"; //wp-up-to-version//' modifiers="um" />
               </replaceregexp>
             </filterchain>
           </reflexive>

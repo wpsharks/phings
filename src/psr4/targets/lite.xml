@@ -73,9 +73,9 @@
                 </fileset>
                 <filterchain>
                   <replaceregexp>
-                    <regexp pattern="^\=\=\=.+?\=\=\=\n" replace="=== ${project_lite_title} ===${line.separator}" />
-                    <regexp pattern="^Theme Name\:.+$" replace="Theme Name: ${project_lite_title}" modifiers="m" />
-                    <regexp pattern="^Plugin Name\:.+$" replace="Plugin Name: ${project_lite_title}" modifiers="m" />
+                    <regexp pattern="^\=\=\=.+?\=\=\=\n" replace="=== ${project_lite_title} ===${line.separator}" modifiers="u" />
+                    <regexp pattern="^Theme Name\:.+$" replace="Theme Name: ${project_lite_title}" modifiers="um" />
+                    <regexp pattern="^Plugin Name\:.+$" replace="Plugin Name: ${project_lite_title}" modifiers="um" />
                   </replaceregexp>
                 </filterchain>
               </reflexive>
@@ -99,7 +99,7 @@
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="^##.+?\n" replace="## ${project_lite_title}${line.separator}" />
+                <regexp pattern="^##.+?\n" replace="## ${project_lite_title}${line.separator}" modifiers="u" />
               </replaceregexp>
             </filterchain>
           </reflexive>
@@ -116,7 +116,7 @@
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="\b(namespace|use)\s+${project_ns}\b" replace="\1 ${project_lite_ns}" />
+                <regexp pattern="\b(namespace|use)\s+${project_ns}\b" replace="\1 ${project_lite_ns}" modifiers="u" />
               </replaceregexp>
             </filterchain>
           </reflexive>
@@ -141,8 +141,8 @@
                 </fileset>
                 <filterchain>
                   <replaceregexp>
-                    <regexp pattern="\b${project_slug}\b" replace="${project_lite_slug}" />
-                    <regexp pattern="&quot;${_project_ns_slashes}\\\\&quot;" replace="&quot;${_project_lite_ns_slashes}\\\\&quot;" />
+                    <regexp pattern="\b${project_slug}\b" replace="${project_lite_slug}" modifiers="u" />
+                    <regexp pattern="&quot;${_project_ns_slashes}\\\\&quot;" replace="&quot;${_project_lite_ns_slashes}\\\\&quot;" modifiers="u" />
                   </replaceregexp>
                 </filterchain>
               </reflexive>
@@ -166,8 +166,8 @@
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="\/\*\!\[pro strip\-from\=['&quot;]lite['&quot;]\]\*\/(?:.*?)\/\*\!\[\/pro\]\*\/" replace="" modifiers="s" />
-                <regexp pattern="\/\*\[pro strip\-from\=['&quot;]lite['&quot;]\]\*\/(?:.*?)\/\*\[\/pro\]\*\/" replace="" modifiers="s" />
+                <regexp pattern="\/\*\!\[pro strip\-from\=['&quot;]lite['&quot;]\]\*\/(?:.*?)\/\*\!\[\/pro\]\*\/" replace="" modifiers="us" />
+                <regexp pattern="\/\*\[pro strip\-from\=['&quot;]lite['&quot;]\]\*\/(?:.*?)\/\*\[\/pro\]\*\/" replace="" modifiers="us" />
               </replaceregexp>
             </filterchain>
           </reflexive>
@@ -184,17 +184,17 @@
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="^project_title\s+.*$" replace="" modifiers="m" />
-                <regexp pattern="^project_slug\s+.*$" replace="" modifiers="m" />
+                <regexp pattern="^project_title\s+.*$" replace="" modifiers="um" />
+                <regexp pattern="^project_slug\s+.*$" replace="" modifiers="um" />
 
-                <regexp pattern="^project_ns\s+.*$" replace="" modifiers="m" />
-                <regexp pattern="^project_sns\s+.*$" replace="" modifiers="m" />
+                <regexp pattern="^project_ns\s+.*$" replace="" modifiers="um" />
+                <regexp pattern="^project_sns\s+.*$" replace="" modifiers="um" />
 
-                <regexp pattern="^project_lite_title(\s+)" replace="project_title\1" modifiers="m" />
-                <regexp pattern="^project_lite_slug(\s+)" replace="project_slug\1" modifiers="m" />
+                <regexp pattern="^project_lite_title(\s+)" replace="project_title\1" modifiers="um" />
+                <regexp pattern="^project_lite_slug(\s+)" replace="project_slug\1" modifiers="um" />
 
-                <regexp pattern="^project_lite_ns(\s+)" replace="project_ns\1" modifiers="m" />
-                <regexp pattern="^project_lite_sns(\s+)" replace="project_sns\1" modifiers="m" />
+                <regexp pattern="^project_lite_ns(\s+)" replace="project_ns\1" modifiers="um" />
+                <regexp pattern="^project_lite_sns(\s+)" replace="project_sns\1" modifiers="um" />
               </replaceregexp>
             </filterchain>
           </reflexive>

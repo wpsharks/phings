@@ -20,15 +20,11 @@
 
           <reflexive>
             <fileset dir="${project.basedir}/src/vendor/websharks/core" casesensitive="false">
-              <include pattern="src/includes/classes/**.php" />
-              <include pattern="src/includes/interfaces/**.php" />
-              <include pattern="src/includes/traits/**.php" />
+              <include pattern="**/*.php" />
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="\b(namespace|use)\s+WebSharks\\Core(?:\\[^\\]+)?\\Classes\b" replace="\1 WebSharks\\Core\\${project_sns}\\Classes" />
-                <regexp pattern="\b(namespace|use)\s+WebSharks\\Core(?:\\[^\\]+)?\\Interfaces\b" replace="\1 WebSharks\\Core\\${project_sns}\\Interfaces" />
-                <regexp pattern="\b(namespace|use)\s+WebSharks\\Core(?:\\[^\\]+)?\\Traits\b" replace="\1 WebSharks\\Core\\${project_sns}\\Traits" />
+                <regexp pattern="\b(namespace|use)\s+WebSharks\\Core\b" replace="\1 WebSharks\\Core\\${project_sns}" modifiers="u" />
               </replaceregexp>
             </filterchain>
           </reflexive>
@@ -39,9 +35,7 @@
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="\bWebSharks\\\\Core(?:\\\\[^\\]+)?\\\\Classes\b" replace="WebSharks\\\\Core\\\\${project_sns}\\\\Classes" />
-                <regexp pattern="\bWebSharks\\\\Core(?:\\\\[^\\]+)?\\\\Interfaces\b" replace="WebSharks\\\\Core\\\\${project_sns}\\\\Interfaces" />
-                <regexp pattern="\bWebSharks\\\\Core(?:\\\\[^\\]+)?\\\\Traits\b" replace="WebSharks\\\\Core\\\\${project_sns}\\\\Traits" />
+                <regexp pattern="\bWebSharks\\\\Core\b" replace="WebSharks\\\\Core\\\\${project_sns}" modifiers="u" />
               </replaceregexp>
             </filterchain>
           </reflexive>
@@ -68,15 +62,11 @@
 
           <reflexive>
             <fileset dir="${project.basedir}/src/vendor/websharks/wp-core" casesensitive="false">
-              <include pattern="src/includes/classes/**.php" />
-              <include pattern="src/includes/interfaces/**.php" />
-              <include pattern="src/includes/traits/**.php" />
+              <include pattern="**/*.php" />
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="\b(namespace|use)\s+WebSharks\\WpCore(?:\\[^\\]+)?\\Classes\b" replace="\1 WebSharks\\WpCore\\${project_sns}\\Classes" />
-                <regexp pattern="\b(namespace|use)\s+WebSharks\\WpCore(?:\\[^\\]+)?\\Interfaces\b" replace="\1 WebSharks\\WpCore\\${project_sns}\\Interfaces" />
-                <regexp pattern="\b(namespace|use)\s+WebSharks\\WpCore(?:\\[^\\]+)?\\Traits\b" replace="\1 WebSharks\\WpCore\\${project_sns}\\Traits" />
+                <regexp pattern="\b(namespace|use)\s+WebSharks\\WpCore\b" replace="\1 WebSharks\\WpCore\\${project_sns}" modifiers="u" />
               </replaceregexp>
             </filterchain>
           </reflexive>
@@ -87,9 +77,7 @@
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="\bWebSharks\\\\WpCore(?:\\\\[^\\]+)?\\\\Classes\b" replace="WebSharks\\\\WpCore\\\\${project_sns}\\\\Classes" />
-                <regexp pattern="\bWebSharks\\\\WpCore(?:\\\\[^\\]+)?\\\\Interfaces\b" replace="WebSharks\\\\WpCore\\\\${project_sns}\\\\Interfaces" />
-                <regexp pattern="\bWebSharks\\\\WpCore(?:\\\\[^\\]+)?\\\\Traits\b" replace="WebSharks\\\\WpCore\\\\${project_sns}\\\\Traits" />
+                <regexp pattern="\bWebSharks\\\\WpCore\b" replace="WebSharks\\\\WpCore\\\\${project_sns}" modifiers="u" />
               </replaceregexp>
             </filterchain>
           </reflexive>
