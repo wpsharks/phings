@@ -37,6 +37,15 @@
         <exclude name="vendor/bin/**" />
         <exclude name="**/vendor/bin/**" />
 
+        <exclude name="vendor/**.scss" />
+        <exclude name="**/vendor/**.scss" />
+
+        <exclude name="vendor/**.css.map" />
+        <exclude name="**/vendor/**.css.map" />
+
+        <exclude name="vendor/package/bourbon/**" />
+        <exclude name="**/vendor/package/bourbon/**" />
+
         <exclude name=".ht**" />
         <exclude name="**/.ht**" />
 
@@ -127,6 +136,15 @@
 
         <exclude name="vendor/bin/**" />
         <exclude name="**/vendor/bin/**" />
+
+        <exclude name="vendor/**.scss" />
+        <exclude name="**/vendor/**.scss" />
+
+        <exclude name="vendor/**.css.map" />
+        <exclude name="**/vendor/**.css.map" />
+
+        <exclude name="vendor/package/bourbon/**" />
+        <exclude name="**/vendor/package/bourbon/**" />
 
         <exclude name=".ht**" />
         <exclude name="**/.ht**" />
