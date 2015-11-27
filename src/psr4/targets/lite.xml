@@ -180,7 +180,7 @@
 
           <reflexive>
             <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
-              <include pattern=".build.properties" />
+              <include pattern=".build.props" />
             </fileset>
             <filterchain>
               <replaceregexp>
