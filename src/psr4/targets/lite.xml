@@ -208,11 +208,15 @@
                 <regexp pattern="^project_ns\s+.*$" replace="" modifiers="um" />
                 <regexp pattern="^project_sns\s+.*$" replace="" modifiers="um" />
 
+                <regexp pattern="^project_exclusions\s+.*$" replace="" modifiers="um" />
+
                 <regexp pattern="^project_lite_title(\s+)" replace="project_title\1" modifiers="um" />
                 <regexp pattern="^project_lite_slug(\s+)" replace="project_slug\1" modifiers="um" />
 
                 <regexp pattern="^project_lite_ns(\s+)" replace="project_ns\1" modifiers="um" />
                 <regexp pattern="^project_lite_sns(\s+)" replace="project_sns\1" modifiers="um" />
+
+                <regexp pattern="^project_lite_exclusions(\s+)" replace="project_exclusions\1" modifiers="um" />
               </replaceregexp>
             </filterchain>
           </reflexive>
