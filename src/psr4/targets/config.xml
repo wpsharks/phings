@@ -18,7 +18,7 @@
 
       <!-- Fileset reference for PHAR files. -->
 
-      <fileset id="_phar_fileset" dir="${project.basedir}" defaultexcludes="true" casesensitive="false" excludes="${other_zip_tgz_fileset_exclusions}">
+      <fileset id="_phar_fileset" dir="${project.basedir}" defaultexcludes="true" casesensitive="false" excludes="${project_other_zip_tgz_fileset_exclusions}">
         <exclude name="phar-stub.php" />
         <exclude name="**/phar-stub.php" />
 
@@ -118,7 +118,7 @@
 
       <!-- Fileset reference for ZIP/TGZ files. -->
 
-      <fileset id="_zip_tgz_fileset" dir="${project.basedir}" defaultexcludes="true" casesensitive="false" excludes="${other_zip_tgz_fileset_exclusions}">
+      <fileset id="_zip_tgz_fileset" dir="${project.basedir}" defaultexcludes="true" casesensitive="false" excludes="${project_other_zip_tgz_fileset_exclusions}">
         <exclude name="phar-stub.php" />
         <exclude name="**/phar-stub.php" />
 
