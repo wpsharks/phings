@@ -37,6 +37,11 @@
 
       <echo msg="------------------------------------" />
 
+      <echo msg="Project-Specific PHAR Exclusions: ${project_other_phar_fileset_exclusions}" />
+      <echo msg="Project-Specific ZIP/TGZ Exclusions: ${project_other_zip_tgz_fileset_exclusions}" />
+
+      <echo msg="------------------------------------" />
+
       <if>
         <and>
           <not>
@@ -52,6 +57,11 @@
 
           <echo msg="Project Lite NS: ${project_lite_ns}" />
           <echo msg="Project Lite SNS: ${project_lite_sns}" />
+
+          <echo msg="------------------------------------" />
+
+          <echo msg="Lite Project-Specific PHAR Exclusions: ${project_lite_other_phar_fileset_exclusions}" />
+          <echo msg="Lite Project-Specific ZIP/TGZ Exclusions: ${project_lite_other_zip_tgz_fileset_exclusions}" />
 
           <echo msg="------------------------------------" />
         </then>

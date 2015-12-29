@@ -194,7 +194,7 @@
 
           <!-- Modify build properties. -->
 
-          <echo msg="Modifying lite build properties: ${project.basedir}/.~build/${project_lite_slug}/.build.properties" />
+          <echo msg="Modifying lite build properties: ${project.basedir}/.~build/${project_lite_slug}/.build.props" />
 
           <reflexive>
             <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
@@ -208,6 +208,7 @@
                 <regexp pattern="^project_ns\s+.*$" replace="" modifiers="um" />
                 <regexp pattern="^project_sns\s+.*$" replace="" modifiers="um" />
 
+                <regexp pattern="^project_other_phar_fileset_exclusions\s+.*$" replace="" modifiers="um" />
                 <regexp pattern="^project_other_zip_tgz_fileset_exclusions\s+.*$" replace="" modifiers="um" />
 
                 <regexp pattern="^project_lite_title(\s+)" replace="project_title\1" modifiers="um" />
@@ -216,6 +217,7 @@
                 <regexp pattern="^project_lite_ns(\s+)" replace="project_ns\1" modifiers="um" />
                 <regexp pattern="^project_lite_sns(\s+)" replace="project_sns\1" modifiers="um" />
 
+                <regexp pattern="^project_lite_other_phar_fileset_exclusions(\s+)" replace="project_other_phar_fileset_exclusions\1" modifiers="um" />
                 <regexp pattern="^project_lite_other_zip_tgz_fileset_exclusions(\s+)" replace="project_other_zip_tgz_fileset_exclusions\1" modifiers="um" />
               </replaceregexp>
             </filterchain>
