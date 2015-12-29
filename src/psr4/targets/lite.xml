@@ -113,6 +113,9 @@
           <reflexive>
             <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
               <exclude pattern="src/vendor/**" />
+
+              <include pattern="*.php" />
+              <include pattern="**/**.php" />
             </fileset>
             <filterchain>
               <replaceregexp>
@@ -163,6 +166,21 @@
           <reflexive>
             <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
               <exclude pattern="src/vendor/**" />
+
+              <include pattern="*.php" />
+              <include pattern="**/**.php" />
+
+              <include pattern="*.css" />
+              <include pattern="**/**.css" />
+
+              <include pattern="*.scss" />
+              <include pattern="**/**.scss" />
+
+              <include pattern="*.js" />
+              <include pattern="**/**.js" />
+
+              <include pattern="*.txt" />
+              <include pattern="**/**.txt" />
             </fileset>
             <filterchain>
               <replaceregexp>
