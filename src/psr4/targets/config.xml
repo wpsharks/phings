@@ -18,7 +18,7 @@
 
       <!-- Fileset reference for PHAR files. -->
 
-      <fileset id="_phar_fileset" dir="${project.basedir}" defaultexcludes="true" casesensitive="false">
+      <fileset id="_phar_fileset" dir="${project.basedir}" defaultexcludes="true" casesensitive="false" excludes="${project_other_phar_fileset_exclusions}">
         <exclude name="phar-stub.php" />
         <exclude name="**/phar-stub.php" />
 
@@ -37,14 +37,14 @@
         <exclude name="vendor/bin/**" />
         <exclude name="**/vendor/bin/**" />
 
-        <exclude name="vendor/**.scss" />
-        <exclude name="**/vendor/**.scss" />
-
-        <exclude name="vendor/**.css.map" />
-        <exclude name="**/vendor/**.css.map" />
-
         <exclude name="vendor/package/bourbon/**" />
         <exclude name="**/vendor/package/bourbon/**" />
+
+        <exclude name="**.scss" />
+        <exclude name="**/**.scss" />
+
+        <exclude name="**.css.map" />
+        <exclude name="**/**.css.map" />
 
         <exclude name=".ht**" />
         <exclude name="**/.ht**" />
@@ -118,7 +118,7 @@
 
       <!-- Fileset reference for ZIP/TGZ files. -->
 
-      <fileset id="_zip_tgz_fileset" dir="${project.basedir}" defaultexcludes="true" casesensitive="false">
+      <fileset id="_zip_tgz_fileset" dir="${project.basedir}" defaultexcludes="true" casesensitive="false" excludes="${project_other_zip_tgz_fileset_exclusions}">
         <exclude name="phar-stub.php" />
         <exclude name="**/phar-stub.php" />
 
@@ -137,14 +137,14 @@
         <exclude name="vendor/bin/**" />
         <exclude name="**/vendor/bin/**" />
 
-        <exclude name="vendor/**.scss" />
-        <exclude name="**/vendor/**.scss" />
-
-        <exclude name="vendor/**.css.map" />
-        <exclude name="**/vendor/**.css.map" />
-
         <exclude name="vendor/package/bourbon/**" />
         <exclude name="**/vendor/package/bourbon/**" />
+
+        <exclude name="**.scss" />
+        <exclude name="**/**.scss" />
+
+        <exclude name="**.css.map" />
+        <exclude name="**/**.css.map" />
 
         <exclude name=".ht**" />
         <exclude name="**/.ht**" />
