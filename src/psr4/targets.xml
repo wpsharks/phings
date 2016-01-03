@@ -9,7 +9,6 @@
     <import file="${phing.dir.targets}/targets/config.xml" />
     <import file="${phing.dir.targets}/targets/validate.xml" />
     <import file="${phing.dir.targets}/targets/preamble.xml" />
-    
     <import file="${phing.dir.targets}/targets/prepare.xml" />
     <import file="${phing.dir.targets}/targets/rtokens.xml" />
     <import file="${phing.dir.targets}/targets/composer.xml" />
@@ -18,7 +17,6 @@
     <import file="${phing.dir.targets}/targets/packages.xml" />
     <import file="${phing.dir.targets}/targets/distros.xml" />
     <import file="${phing.dir.targets}/targets/lite.xml" />
-
     <import file="${phing.dir.targets}/targets/apigen.xml" />
     <import file="${phing.dir.targets}/targets/push-lite.xml" />
 
@@ -27,6 +25,10 @@
     <!-- ============================================  -->
 
     <target name="build" depends="-config,-validate,-preamble,-prepare,-rtokens,-composer,-rebrand,-pots,-packages,-distros,-lite">
+      <echo msg="Build complete! :-)" />
+    </target>
+
+    <target name="post-receive-build" depends="-config,-validate,-preamble,-prepare,-composer,-rebrand">
       <echo msg="Build complete! :-)" />
     </target>
 
