@@ -9,7 +9,6 @@
     <import file="${phing.dir.targets}/targets/config.xml" />
     <import file="${phing.dir.targets}/targets/validate.xml" />
     <import file="${phing.dir.targets}/targets/preamble.xml" />
-
     <import file="${phing.dir.targets}/targets/prepare.xml" />
     <import file="${phing.dir.targets}/targets/rtokens.xml" />
     <import file="${phing.dir.targets}/targets/composer.xml" />
@@ -18,7 +17,6 @@
     <import file="${phing.dir.targets}/targets/packages.xml" />
     <import file="${phing.dir.targets}/targets/distros.xml" />
     <import file="${phing.dir.targets}/targets/lite.xml" />
-
     <import file="${phing.dir.targets}/targets/apigen.xml" />
     <import file="${phing.dir.targets}/targets/push-lite.xml" />
 
