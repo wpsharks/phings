@@ -32,6 +32,27 @@
 
           <echo msg="------------------------------------" />
 
+          <!-- Move Lite-specific assets to assets/. -->
+
+          <echo msg="Moving assets from: ${project.basedir}/.~build/${project_lite_slug}/${project_lite_assets_path}" />
+
+          <delete quiet="true">
+            <fileset dir="${project.basedir}/.~build/${project_lite_slug}">
+              <include pattern="${project_assets_path}" />
+              <exclude pattern="${project_lite_assets_path}" />
+            </fileset>
+          </delete>
+
+          <copy todir="${project.basedir}/.~build/${project_lite_slug}/${project_assets_path}">
+            <fileset dir="${project.basedir}/.~build/${project_lite_slug}/${project_lite_assets_path}">
+              <include pattern="**" />
+            </fileset>
+          </copy>
+
+          <delete dir="${project.basedir}/.~build/${project_lite_slug}/${project_lite_assets_path}" includeemptydirs="true" quiet="true" />
+
+          <echo msg="------------------------------------" />
+
           <!-- WordPress plugin file rename. -->
 
           <if>
