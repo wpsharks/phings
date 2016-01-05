@@ -8,6 +8,8 @@ project_sns                                     = ProjectSubNamespace
 project_other_phar_fileset_exclusions           = README.md
 project_other_zip_tgz_fileset_exclusions        = README.md
 
+project_assets_path                             = assets/
+
 project_lite_title                              = Project Lite Title
 project_lite_slug                               = project-lite-slug
 
@@ -16,6 +18,8 @@ project_lite_sns                                = ProjectLiteSubNamespace
 
 project_lite_other_phar_fileset_exclusions      = README.md
 project_lite_other_zip_tgz_fileset_exclusions   = README.md
+
+project_lite_assets_path                        = assets/assets-lite/
 
 project_version                                 = %y%m%d
 
