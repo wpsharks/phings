@@ -205,7 +205,7 @@
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="(,\s*)(${project_lite_td_replace_regex_pattern})\s*(\))" replace="$1'${project_lite_slug}'$3" modifiers="u" />
+                <regexp pattern="(,\s*)(${project_lite_td_replace_regex_pattern})(\s*\))" replace="$1'${project_lite_slug}'$3" modifiers="u" />
               </replaceregexp>
             </filterchain>
           </reflexive>
