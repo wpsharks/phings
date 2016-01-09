@@ -116,7 +116,9 @@
 
               <include pattern="*.php" />
               <include pattern="**/**.php" />
-              <include pattern="${project_lite_other_ns_replace_files_pattern}" />
+              <include pattern="*.x-php" />
+              <include pattern="**/**.x-php" />
+              <include pattern="${project_lite_alter_namespace_in_other_files_pattern}" />
             </fileset>
             <filterchain>
               <replaceregexp>
@@ -206,7 +208,7 @@
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="(,\s*)(${project_lite_td_replace_regex_pattern})(\s*\))" replace="$1'${project_lite_slug}'$3" modifiers="u" />
+                <regexp pattern="(,\s*)(${project_lite_text_domain_regex_replacement_pattern})(\s*\))" replace="$1'${project_lite_slug}'$3" modifiers="u" />
               </replaceregexp>
             </filterchain>
           </reflexive>
