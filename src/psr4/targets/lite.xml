@@ -116,6 +116,7 @@
 
               <include pattern="*.php" />
               <include pattern="**/**.php" />
+              <include pattern="${project_lite_other_ns_replace_files_pattern}" />
             </fileset>
             <filterchain>
               <replaceregexp>
