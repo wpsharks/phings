@@ -27,6 +27,7 @@
           <copy todir="${project.basedir}/.~build/${project_lite_slug}">
             <fileset dir="${project.basedir}">
               <exclude pattern=".~build/**" />
+              <exclude pattern="**/${project_slug}.pot" />
             </fileset>
           </copy>
 
