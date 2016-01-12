@@ -123,7 +123,7 @@
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="\b(namespace|use)\s+${project_ns}\b" replace="\1 ${project_lite_ns}" modifiers="u" />
+                <regexp pattern="\b(namespace|use)\s+${project_namespace}\b" replace="\1 ${project_lite_namespace}" modifiers="u" />
               </replaceregexp>
             </filterchain>
           </reflexive>
@@ -139,8 +139,8 @@
             <then>
               <echo msg="Modifying composer.json: ${project.basedir}/.~build/${project_lite_slug}/composer.json" />
 
-              <php expression="addslashes(addslashes('${project_ns}'))" returnproperty="_project_ns_slashes" />
-              <php expression="addslashes(addslashes('${project_lite_ns}'))" returnproperty="_project_lite_ns_slashes" />
+              <php expression="addslashes(addslashes('${project_namespace}'))" returnproperty="_project_namespace_slashes" />
+              <php expression="addslashes(addslashes('${project_lite_namespace}'))" returnproperty="_project_lite_namespace_slashes" />
 
               <reflexive>
                 <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
@@ -149,7 +149,7 @@
                 <filterchain>
                   <replaceregexp>
                     <regexp pattern="\b${project_slug}\b" replace="${project_lite_slug}" modifiers="u" />
-                    <regexp pattern="&quot;${_project_ns_slashes}\\\\&quot;" replace="&quot;${_project_lite_ns_slashes}\\\\&quot;" modifiers="u" />
+                    <regexp pattern="&quot;${_project_namespace_slashes}\\\\&quot;" replace="&quot;${_project_lite_namespace_slashes}\\\\&quot;" modifiers="u" />
                   </replaceregexp>
                 </filterchain>
               </reflexive>
@@ -229,8 +229,8 @@
                 <regexp pattern="^project_title\s+.*$" replace="" modifiers="um" />
                 <regexp pattern="^project_slug\s+.*$" replace="" modifiers="um" />
 
-                <regexp pattern="^project_ns\s+.*$" replace="" modifiers="um" />
-                <regexp pattern="^project_sns\s+.*$" replace="" modifiers="um" />
+                <regexp pattern="^project_namespace\s+.*$" replace="" modifiers="um" />
+                <regexp pattern="^project_sub_namespace\s+.*$" replace="" modifiers="um" />
 
                 <regexp pattern="^project_other_phar_fileset_exclusions\s+.*$" replace="" modifiers="um" />
                 <regexp pattern="^project_other_zip_tgz_fileset_exclusions\s+.*$" replace="" modifiers="um" />
@@ -238,8 +238,8 @@
                 <regexp pattern="^project_lite_title(\s+)" replace="project_title\1" modifiers="um" />
                 <regexp pattern="^project_lite_slug(\s+)" replace="project_slug\1" modifiers="um" />
 
-                <regexp pattern="^project_lite_ns(\s+)" replace="project_ns\1" modifiers="um" />
-                <regexp pattern="^project_lite_sns(\s+)" replace="project_sns\1" modifiers="um" />
+                <regexp pattern="^project_lite_namespace(\s+)" replace="project_namespace\1" modifiers="um" />
+                <regexp pattern="^project_lite_sub_namespace(\s+)" replace="project_sub_namespace\1" modifiers="um" />
 
                 <regexp pattern="^project_lite_other_phar_fileset_exclusions(\s+)" replace="project_other_phar_fileset_exclusions\1" modifiers="um" />
                 <regexp pattern="^project_lite_other_zip_tgz_fileset_exclusions(\s+)" replace="project_other_zip_tgz_fileset_exclusions\1" modifiers="um" />

@@ -1,9 +1,9 @@
 project_title                                           = Project Title
-project_org                                             = websharks
+project_owner                                           = websharks
 project_slug                                            = project-slug
 
-project_ns                                              = Project\\Namespace
-project_sns                                             = ProjectSubNamespace
+project_namespace                                       = Project\\Namespace
+project_sub_namespace                                   = ProjectSubNamespace
 
 project_other_phar_fileset_exclusions                   = README.md
 project_other_zip_tgz_fileset_exclusions                = README.md
@@ -11,8 +11,8 @@ project_other_zip_tgz_fileset_exclusions                = README.md
 project_lite_title                                      = Project Lite Title
 project_lite_slug                                       = project-lite-slug
 
-project_lite_ns                                         = Project\\NamespaceLite
-project_lite_sns                                        = ProjectLiteSubNamespace
+project_lite_namespace                                  = Project\\NamespaceLite
+project_lite_sub_namespace                              = ProjectLiteSubNamespace
 
 project_lite_other_phar_fileset_exclusions              = README.md
 project_lite_other_zip_tgz_fileset_exclusions           = README.md
@@ -23,7 +23,7 @@ project_lite_alter_namespace_in_other_files_pattern     = src/includes/templates
 project_version                                         = %y%m%d
 
 project_php_required_version                            = 5.4.7
-project_php_up_to_version                               = ${php.version}
+project_php_tested_up_to_version                        = ${php.version}
 
 project_wp_required_version                             = 4.2.2
-project_wp_up_to_version                                = 4.2.2
+project_wp_tested_up_to_version                         = 4.2.2

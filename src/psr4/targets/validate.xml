@@ -8,11 +8,11 @@
 
     <target name="-validate" hidden="true">
       <fail unless="project_title" message="Missing `project_title` in properties file!" />
-      <fail unless="project_org" message="Missing `project_org` in properties file!" />
+      <fail unless="project_owner" message="Missing `project_owner` in properties file!" />
       <fail unless="project_slug" message="Missing `project_slug` in properties file!" />
 
-      <fail unless="project_ns" message="Missing `project_ns` in properties file!" />
-      <fail unless="project_sns" message="Missing `project_sns` in properties file!" />
+      <fail unless="project_namespace" message="Missing `project_namespace` in properties file!" />
+      <fail unless="project_sub_namespace" message="Missing `project_sub_namespace` in properties file!" />
 
       <if>
         <and>
@@ -25,15 +25,15 @@
           <fail unless="project_lite_title" message="Missing `project_lite_title` in properties file!" />
           <fail unless="project_lite_slug" message="Missing `project_lite_slug` in properties file!" />
 
-          <fail unless="project_lite_ns" message="Missing `project_lite_ns` in properties file!" />
-          <fail unless="project_lite_sns" message="Missing `project_lite_sns` in properties file!" />
+          <fail unless="project_lite_namespace" message="Missing `project_lite_namespace` in properties file!" />
+          <fail unless="project_lite_sub_namespace" message="Missing `project_lite_sub_namespace` in properties file!" />
         </then>
       </if>
 
       <fail unless="project_version" message="Missing `project_version` in properties file!" />
 
       <fail unless="project_php_required_version" message="Missing `project_php_required_version` in properties file!" />
-      <fail unless="project_php_up_to_version" message="Missing `project_php_up_to_version` in properties file!" />
+      <fail unless="project_php_tested_up_to_version" message="Missing `project_php_tested_up_to_version` in properties file!" />
 
       <if>
         <and>
@@ -41,7 +41,7 @@
         </and>
         <then>
           <fail unless="project_wp_required_version" message="Missing `project_wp_required_version` in properties file!" />
-          <fail unless="project_wp_up_to_version" message="Missing `project_wp_up_to_version` in properties file!" />
+          <fail unless="project_wp_tested_up_to_version" message="Missing `project_wp_tested_up_to_version` in properties file!" />
         </then>
       </if>
 

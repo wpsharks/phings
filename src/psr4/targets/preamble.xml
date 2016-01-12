@@ -27,13 +27,13 @@
 
       <echo msg="------------------------------------" />
 
-      <echo msg="Project Org.: ${project_org}" />
+      <echo msg="Project Org.: ${project_owner}" />
       <echo msg="Project Slug: ${project_slug}" />
 
       <echo msg="------------------------------------" />
 
-      <echo msg="Project NS: ${project_ns}" />
-      <echo msg="Project SNS: ${project_sns}" />
+      <echo msg="Project NS: ${project_namespace}" />
+      <echo msg="Project SNS: ${project_sub_namespace}" />
 
       <echo msg="------------------------------------" />
 
@@ -57,8 +57,8 @@
 
           <echo msg="------------------------------------" />
 
-          <echo msg="Project Lite NS: ${project_lite_ns}" />
-          <echo msg="Project Lite SNS: ${project_lite_sns}" />
+          <echo msg="Project Lite NS: ${project_lite_namespace}" />
+          <echo msg="Project Lite SNS: ${project_lite_sub_namespace}" />
 
           <echo msg="------------------------------------" />
 
@@ -74,7 +74,7 @@
       <echo msg="------------------------------------" />
 
       <echo msg="Project PHP Required Version: ${project_php_required_version}" />
-      <echo msg="Project PHP Tested Up To Version: ${project_php_up_to_version}" />
+      <echo msg="Project PHP Tested Up To Version: ${project_php_tested_up_to_version}" />
 
       <echo msg="------------------------------------" />
 
@@ -84,7 +84,7 @@
         </and>
         <then>
           <echo msg="Project WP Required Version: ${project_wp_required_version}" />
-          <echo msg="Project WP Tested Up To Version: ${project_wp_up_to_version}" />
+          <echo msg="Project WP Tested Up To Version: ${project_wp_tested_up_to_version}" />
 
           <echo msg="------------------------------------" />
         </then>
