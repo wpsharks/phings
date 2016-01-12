@@ -39,6 +39,8 @@
 
       <echo msg="Project-Specific PHAR Exclusions: ${project_other_phar_fileset_exclusions}" />
       <echo msg="Project-Specific ZIP/TGZ Exclusions: ${project_other_zip_tgz_fileset_exclusions}" />
+      <echo msg="Project-Specific Text Domain Replacement Pattern: ${project_lite_text_domain_regex_replacement_pattern}" />
+      <echo msg="Project-Specific Namespace Altered in Other Files: ${project_lite_alter_namespace_in_other_files_pattern}" />
 
       <echo msg="------------------------------------" />
 
