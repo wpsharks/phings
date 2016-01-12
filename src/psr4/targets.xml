@@ -28,7 +28,7 @@
       <echo msg="Build complete! :-)" />
     </target>
 
-    <target name="post-receive-build" depends="-config,-validate,-preamble,-prepare,-composer,-rebrand">
+    <target name="post-receive-build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-composer,-rebrand">
       <echo msg="Build complete! :-)" />
     </target>
 

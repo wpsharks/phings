@@ -12,6 +12,10 @@
 
       <property file="${project.basedir}/.build.props" />
 
+      <!-- Additional command-line (and/or runtime) property defaults. -->
+
+      <property name="composer-lock-preserve" value="false" />
+
       <!-- Codex ignore list. -->
 
       <property name="_codex_ignore" value="*/assets/*,*/phings/*,*/tests/*,*/vendor/*" />
