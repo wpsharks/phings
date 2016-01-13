@@ -19,7 +19,7 @@
           <!-- Define lite repo directory and remote. -->
 
           <property name="_push_lite_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-git-repo" />
-          <property name="_push_lite_repo_remote" value="git@github.com:${project_org}/${project_lite_slug}.git" />
+          <property name="_push_lite_repo_remote" value="git@github.com:${project_owner}/${project_lite_slug}.git" />
 
           <!-- Preparing for lite generation. -->
 

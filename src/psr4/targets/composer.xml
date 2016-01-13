@@ -3,6 +3,14 @@
   <project name="composer">
 
     <!-- ============================================  -->
+    <!-- Composer target-driven CLI defaults. -->
+    <!-- ============================================  -->
+
+    <target name="-composer-lock-preserve" hidden="true">
+      <property name="composer-lock-preserve" value="true" />
+    </target>
+
+    <!-- ============================================  -->
     <!-- Composer install routine. -->
     <!-- ============================================  -->
 
@@ -14,15 +22,18 @@
         </and>
         <then>
           <echo msg="Deleting previous: ${project.basedir}/src/vendor" />
-
           <delete dir="${project.basedir}/src/vendor" includeemptydirs="true" quiet="true" />
 
-          <echo msg="------------------------------------" />
-
-          <echo msg="Deleting previous: ${project.basedir}/composer.lock" />
-
-          <delete file="${project.basedir}/composer.lock" quiet="true" />
-
+          <if>
+            <and>
+              <isfalse value="${composer-lock-preserve}" />
+            </and>
+            <then>
+              <echo msg="------------------------------------" />
+              <echo msg="Deleting previous: ${project.basedir}/composer.lock" />
+              <delete file="${project.basedir}/composer.lock" quiet="true" />
+            </then>
+          </if>
           <echo msg="------------------------------------" />
 
           <echo msg="Running Composer." />

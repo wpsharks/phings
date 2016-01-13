@@ -12,6 +12,10 @@
 
       <property file="${project.basedir}/.build.props" />
 
+      <!-- Additional command-line (and/or runtime) property defaults. -->
+
+      <property name="composer-lock-preserve" value="false" />
+
       <!-- Codex ignore list. -->
 
       <property name="_codex_ignore" value="*/assets/*,*/phings/*,*/tests/*,*/vendor/*" />
@@ -196,7 +200,7 @@
       <if>
         <or>
           <isset property="project_wp_required_version" />
-          <isset property="project_wp_up_to_version" />
+          <isset property="project_wp_tested_up_to_version" />
         </or>
         <then>
           <property name="_is_wp_theme_plugin" value="true" />
@@ -213,8 +217,8 @@
           <isset property="project_lite_title" />
           <isset property="project_lite_slug" />
 
-          <isset property="project_lite_ns" />
-          <isset property="project_lite_sns" />
+          <isset property="project_lite_namespace" />
+          <isset property="project_lite_sub_namespace" />
         </or>
         <then>
           <property name="_is_lite_applicable" value="true" />
