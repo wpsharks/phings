@@ -25,12 +25,12 @@
           <delete dir="${project.basedir}/src/vendor" includeemptydirs="true" quiet="true" />
 
           <if>
-            <and>
+            <or>
               <not>
                 <isset property="composer-lock-preserve" />
               </not>
               <isfalse value="${composer-lock-preserve}" />
-            </and>
+            </or>
             <then>
               <echo msg="------------------------------------" />
               <echo msg="Deleting previous: ${project.basedir}/composer.lock" />
