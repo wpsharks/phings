@@ -26,6 +26,9 @@
 
           <if>
             <and>
+              <not>
+                <isset property="composer-lock-preserve" />
+              </not>
               <isfalse value="${composer-lock-preserve}" />
             </and>
             <then>
