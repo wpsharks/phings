@@ -1,3 +1,7 @@
+## 160212
+
+- Excluding `.sass-cache` from distros and PHAR files.
+
 ## v150424
 
 - Initial release.
