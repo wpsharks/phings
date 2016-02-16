@@ -40,8 +40,8 @@
         <exclude name="vendor/package/bourbon/**" />
         <exclude name="**/vendor/package/bourbon/**" />
 
-        <exclude name="**.sass-cache" />
-        <exclude name="**/**.sass-cache" />
+        <exclude name=".sass-cache/**" />
+        <exclude name="**/.sass-cache/**" />
 
         <exclude name="**.scss" />
         <exclude name="**/**.scss" />
@@ -143,8 +143,8 @@
         <exclude name="vendor/package/bourbon/**" />
         <exclude name="**/vendor/package/bourbon/**" />
 
-        <exclude name="**.sass-cache" />
-        <exclude name="**/**.sass-cache" />
+        <exclude name=".sass-cache/**" />
+        <exclude name="**/.sass-cache/**" />
 
         <exclude name="**.scss" />
         <exclude name="**/**.scss" />
