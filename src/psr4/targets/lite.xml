@@ -196,25 +196,37 @@
 
           <echo msg="------------------------------------" />
 
-          <!-- Convert Text Domain references to string literals (for translate.wordpress.org). -->
+          <!-- Convert text-domain references to string literals (for translate.wordpress.org). -->
 
-          <echo msg="Converting text domain references to string literals in: ${project.basedir}/.~build/${project_lite_slug}" />
+          <if>
+            <and>
+              <istrue value="${_is_wp_theme_plugin}" />
+            </and>
+            <then>
+              <echo msg="Converting text domain references to string literals in: ${project.basedir}/.~build/${project_lite_slug}" />
 
-          <reflexive>
-            <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
-              <exclude pattern="src/vendor/**" />
+              <reflexive>
+                <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
+                  <exclude pattern="src/vendor/**" />
 
-              <include pattern="*.php" />
-              <include pattern="**/**.php" />
-            </fileset>
-            <filterchain>
-              <replaceregexp>
-                <regexp pattern="(,\s*)(${project_lite_text_domain_regex_replacement_pattern})(\s*\))" replace="$1'${project_lite_slug}'$3" modifiers="u" />
-              </replaceregexp>
-            </filterchain>
-          </reflexive>
+                  <include pattern="*.php" />
+                  <include pattern="**/**.php" />
+                </fileset>
+                <filterchain>
+                  <replaceregexp>
+                    <regexp pattern="(,\s*)(${project_lite_text_domain_regex_replacement_pattern})(\s*\))" replace="$1'${project_lite_slug}'$3" modifiers="u" />
+                  </replaceregexp>
+                </filterchain>
+              </reflexive>
 
-          <echo msg="------------------------------------" />
+              <echo msg="------------------------------------" />
+            </then>
+            <else>
+              <echo msg="N/A: skipping WP text domain references to string literals." />
+
+              <echo msg="------------------------------------" />
+            </else>
+          </if>
 
           <!-- Modify build properties. -->
 
