@@ -1,3 +1,10 @@
+# 160219
+
+- Excluding `.sass-cache` (directories, not files) from distros and PHAR files.
+- Remove `websharks/wp-core` from rebranded libraries.
+- Rebrand subroutines now include websharks/core i18n alternations for WP themes/plugins.
+- Bug fix. Minor issue. Adding conditionals around text-domain to string literal subroutine in lite handler.
+
 ## 160212
 
 - Excluding `.sass-cache` from distros and PHAR files.
