@@ -16,6 +16,9 @@
           <available resource="${project.basedir}/src/vendor/websharks/core" type="dir" />
         </and>
         <then>
+
+          <!-- Namespace & autoload alterations. -->
+
           <echo msg="Rebranding: ${project.basedir}/src/vendor/websharks/core" />
 
           <reflexive>
@@ -41,6 +44,37 @@
           </reflexive>
 
           <echo msg="------------------------------------" />
+
+          <!-- WordPress text-domain string literal. -->
+
+          <if>
+            <and>
+              <istrue value="${_is_wp_theme_plugin}" />
+            </and>
+            <then>
+              <echo msg="Adding WP text-domain string literal in: ${project.basedir}/src/vendor/websharks/core" />
+
+              <reflexive>
+                <fileset dir="${project.basedir}/src/vendor/websharks/core" casesensitive="false">
+                  <include pattern="*.php" />
+                  <include pattern="**/**.php" />
+                </fileset>
+                <filterchain>
+                  <replaceregexp>
+                    <regexp pattern="\b__\('(.*?[^\\])'\)" replace="__('$1', '${project_slug}');" modifiers="u" />
+                  </replaceregexp>
+                </filterchain>
+              </reflexive>
+
+              <echo msg="------------------------------------" />
+            </then>
+            <else>
+              <echo msg="N/A: skipping WP text-domain as string literal while rebranding the websharks/core." />
+
+              <echo msg="------------------------------------" />
+            </else>
+          </if>
+
         </then>
         <else>
           <echo msg="N/A: websharks/core is not used in this project." />
