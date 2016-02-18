@@ -203,7 +203,7 @@
               <istrue value="${_is_wp_theme_plugin}" />
             </and>
             <then>
-              <echo msg="Converting text domain references to string literals in: ${project.basedir}/.~build/${project_lite_slug}" />
+              <echo msg="Converting text-domain references to string literals in: ${project.basedir}/.~build/${project_lite_slug}" />
 
               <reflexive>
                 <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
@@ -222,7 +222,7 @@
               <echo msg="------------------------------------" />
             </then>
             <else>
-              <echo msg="N/A: skipping WP text domain references to string literals." />
+              <echo msg="N/A: skipping WP text-domain references to string literals." />
 
               <echo msg="------------------------------------" />
             </else>
