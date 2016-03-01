@@ -17,28 +17,11 @@
       <fail unless="project_sub_namespace" message="Missing `project_sub_namespace` in properties file!" />
 
       <if>
-        <not>
-          <isset property="project_other_phar_fileset_exclusions" />
-        </not>
-        <then>
-          <property name="project_other_phar_fileset_exclusions" value="" />
-        </then>
-      </if>
-      <if>
-        <not>
-          <isset property="project_other_zip_tgz_fileset_exclusions" />
-        </not>
-        <then>
-          <property name="project_other_zip_tgz_fileset_exclusions" value="" />
-        </then>
-      </if>
-
-      <if>
         <and>
           <not>
-            <isset property="is_lite" />
+            <isset property="is_lite_build" />
           </not>
-          <istrue value="${_is_lite_applicable}" />
+          <istrue value="${_has_lite_build_props}" />
         </and>
         <then>
           <fail unless="project_lite_title" message="Missing `project_lite_title` in properties file!" />
@@ -46,39 +29,6 @@
 
           <fail unless="project_lite_namespace" message="Missing `project_lite_namespace` in properties file!" />
           <fail unless="project_lite_sub_namespace" message="Missing `project_lite_sub_namespace` in properties file!" />
-
-          <if>
-            <not>
-              <isset property="project_lite_other_phar_fileset_exclusions" />
-            </not>
-            <then>
-              <property name="project_lite_other_phar_fileset_exclusions" value="" />
-            </then>
-          </if>
-          <if>
-            <not>
-              <isset property="project_lite_other_zip_tgz_fileset_exclusions" />
-            </not>
-            <then>
-              <property name="project_lite_other_zip_tgz_fileset_exclusions" value="" />
-            </then>
-          </if>
-          <if>
-            <not>
-              <isset property="project_lite_text_domain_regex_replacement_pattern" />
-            </not>
-            <then>
-              <property name="project_lite_text_domain_regex_replacement_pattern" value="" />
-            </then>
-          </if>
-          <if>
-            <not>
-              <isset property="project_lite_alter_namespace_in_other_files_pattern" />
-            </not>
-            <then>
-              <property name="project_lite_alter_namespace_in_other_files_pattern" value="" />
-            </then>
-          </if>
         </then>
       </if>
 
@@ -101,14 +51,6 @@
             <then>
               <fail unless="project_wp_sharks_core_required_version" message="Missing `project_wp_sharks_core_required_version` in properties file!" />
               <fail unless="project_wp_sharks_core_tested_up_to_version" message="Missing `project_wp_sharks_core_tested_up_to_version` in properties file!" />
-              <if>
-                <not>
-                  <isset property="project_wp_sharks_core_max_compatible_version" />
-                </not>
-                <then>
-                  <property name="project_wp_sharks_core_max_compatible_version" value="" />
-                </then>
-              </if>
             </then>
           </if>
         </then>

@@ -11,9 +11,9 @@
       <if>
         <and>
           <not>
-            <isset property="is_lite" />
+            <isset property="is_lite_build" />
           </not>
-          <istrue value="${_is_lite_applicable}" />
+          <istrue value="${_has_lite_build_props}" />
         </and>
         <then>
           <!-- Prepare for lite generation. -->
@@ -267,7 +267,7 @@
           <echo msg="Building lite variation from: ${project.basedir}/.~build/${project_lite_slug}/build.xml" />
 
           <phing phingfile="${project.basedir}/.~build/${project_lite_slug}/build.xml" inheritall="false" inheritrefs="false" haltonfailure="true">
-            <property name="is_lite" value="true" />
+            <property name="is_lite_build" value="true" />
           </phing>
 
         </then>
