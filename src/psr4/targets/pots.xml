@@ -47,6 +47,8 @@
             <then>
               <echo msg="Building POT translation file for WP theme: ${project.basedir}" />
 
+              <mkdir dir="${project.basedir}/src/includes/translations" />
+
               <exec executable="${project.basedir}/src/vendor/websharks/wp-i18n-tools/makepot.php" dir="${project.basedir}" passthru="true" checkreturn="true">
                 <arg value="wp-theme" />
                 <arg value="${project.basedir}" />
@@ -70,6 +72,8 @@
             </and>
             <then>
               <echo msg="Building POT translation file for WP plugin: ${project.basedir}" />
+
+              <mkdir dir="${project.basedir}/src/includes/translations" />
 
               <exec executable="${project.basedir}/src/vendor/websharks/wp-i18n-tools/makepot.php" dir="${project.basedir}" passthru="true" checkreturn="true">
                 <arg value="wp-plugin" />
