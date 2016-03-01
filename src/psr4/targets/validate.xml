@@ -10,8 +10,7 @@
       <fail unless="project_title" message="Missing `project_title` in properties file!" />
       <fail unless="project_owner" message="Missing `project_owner` in properties file!" />
       <fail unless="project_slug" message="Missing `project_slug` in properties file!" />
-
-      <fail unless="project-text-domain" message="Unable to construct `project-text-domain` from `project_slug`." />
+      <fail unless="_project_text_domain" message="Failed to generate `_project_text_domain`." />
 
       <fail unless="project_namespace" message="Missing `project_namespace` in properties file!" />
       <fail unless="project_sub_namespace" message="Missing `project_sub_namespace` in properties file!" />

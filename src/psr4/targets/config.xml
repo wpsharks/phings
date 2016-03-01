@@ -204,10 +204,10 @@
           <isset property="project_slug" />
         </and>
         <then>
-          <php expression="preg_replace('/\-(?:lite|pro)$/ui', '', '${project_slug}')" returnproperty="project-text-domain" />
+          <php expression="preg_replace('/\-(?:lite|pro)$/ui', '', '${project_slug}')" returnproperty="_project_text_domain" />
         </then>
         <else>
-          <property name="project-text-domain" value="" />
+          <property name="_project_text_domain" value="" />
         </else>
       </if>
 

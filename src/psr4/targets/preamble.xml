@@ -29,7 +29,7 @@
 
       <echo msg="Project Org.: ${project_owner}" />
       <echo msg="Project Slug: ${project_slug}" />
-      <echo msg="Project Text Domain: ${project-text-domain}" />
+      <echo msg="Project Text Domain: ${_project_text_domain}" />
 
       <echo msg="------------------------------------" />
 

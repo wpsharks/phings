@@ -215,7 +215,7 @@
                 </fileset>
                 <filterchain>
                   <replaceregexp>
-                    <regexp pattern="(,\s*)(${project_lite_text_domain_regex_replacement_pattern})(\s*\))" replace="$1'${project-text-domain}'$3" modifiers="u" />
+                    <regexp pattern="(,\s*)(${project_lite_text_domain_regex_replacement_pattern})(\s*\))" replace="$1'${_project_text_domain}'$3" modifiers="u" />
                   </replaceregexp>
                 </filterchain>
               </reflexive>

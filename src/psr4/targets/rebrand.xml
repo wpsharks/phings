@@ -56,10 +56,10 @@
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="\b__\s*\(\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="__('$1', '${project-text-domain}')" modifiers="u" />
-                <regexp pattern="\b_x\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="_x('$1', '$2', '${project-text-domain}')" modifiers="u" />
-                <regexp pattern="\b_n\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*,\s*([^(),]+)\s*\)" replace="_n('$1', '$2', $3, '${project-text-domain}')" modifiers="u" />
-                <regexp pattern="\b_nx\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*,\s*([^(),]+)\s*,\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="_nx('$1', '$2', $3, '$4', '${project-text-domain}')" modifiers="u" />
+                <regexp pattern="\b__\s*\(\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="__('$1', '${_project_text_domain}')" modifiers="u" />
+                <regexp pattern="\b_x\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="_x('$1', '$2', '${_project_text_domain}')" modifiers="u" />
+                <regexp pattern="\b_n\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*,\s*([^(),]+)\s*\)" replace="_n('$1', '$2', $3, '${_project_text_domain}')" modifiers="u" />
+                <regexp pattern="\b_nx\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*,\s*([^(),]+)\s*,\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="_nx('$1', '$2', $3, '$4', '${_project_text_domain}')" modifiers="u" />
               </replaceregexp>
             </filterchain>
           </reflexive>
