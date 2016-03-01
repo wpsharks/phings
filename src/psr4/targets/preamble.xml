@@ -87,6 +87,19 @@
           <echo msg="Project WP Tested Up To Version: ${project_wp_tested_up_to_version}" />
 
           <echo msg="------------------------------------" />
+
+          <if>
+            <and>
+              <istrue value="${_is_wp_sharks_core_theme_plugin}" />
+            </and>
+            <then>
+              <echo msg="Project WP Sharks Core Required Version: ${project_wp_sharks_core_required_version}" />
+              <echo msg="Project WP Sharks Core Tested Up To Version: ${project_wp_sharks_core_tested_up_to_version}" />
+              <echo msg="Project WP Sharks Core Max Compatible Version: ${project_wp_sharks_core_max_compatible_version}" />
+
+              <echo msg="------------------------------------" />
+            </then>
+          </if>
         </then>
       </if>
 

@@ -45,35 +45,26 @@
 
           <echo msg="------------------------------------" />
 
-          <!-- WordPress text-domain string literal. -->
+          <!-- Text-domain rebranding. -->
 
-          <if>
-            <and>
-              <istrue value="${_is_wp_theme_plugin}" />
-            </and>
-            <then>
-              <echo msg="Adding WP text-domain string literal in: ${project.basedir}/src/vendor/websharks/core" />
+          <echo msg="Rebranding text-domain in: ${project.basedir}/src/vendor/websharks/core" />
 
-              <reflexive>
-                <fileset dir="${project.basedir}/src/vendor/websharks/core" casesensitive="false">
-                  <include pattern="*.php" />
-                  <include pattern="**/**.php" />
-                </fileset>
-                <filterchain>
-                  <replaceregexp>
-                    <regexp pattern="\b__\('(.*?[^\\])'\)" replace="__('$1', '${project_slug}');" modifiers="u" />
-                  </replaceregexp>
-                </filterchain>
-              </reflexive>
+          <reflexive>
+            <fileset dir="${project.basedir}/src/vendor/websharks/core" casesensitive="false">
+              <include pattern="*.php" />
+              <include pattern="**/**.php" />
+            </fileset>
+            <filterchain>
+              <replaceregexp>
+                <regexp pattern="\b__\s*\(\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="__('$1', '${project-text-domain}')" modifiers="u" />
+                <regexp pattern="\b_x\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="_x('$1', '$2', '${project-text-domain}')" modifiers="u" />
+                <regexp pattern="\b_n\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*,\s*([^(),]+)\s*\)" replace="_n('$1', '$2', $3, '${project-text-domain}')" modifiers="u" />
+                <regexp pattern="\b_nx\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*,\s*([^(),]+)\s*,\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="_nx('$1', '$2', $3, '$4', '${project-text-domain}')" modifiers="u" />
+              </replaceregexp>
+            </filterchain>
+          </reflexive>
 
-              <echo msg="------------------------------------" />
-            </then>
-            <else>
-              <echo msg="N/A: skipping WP text-domain as string literal while rebranding the websharks/core." />
-
-              <echo msg="------------------------------------" />
-            </else>
-          </if>
+          <echo msg="------------------------------------" />
 
         </then>
         <else>

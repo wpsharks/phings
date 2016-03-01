@@ -16,6 +16,28 @@
         </and>
         <then>
 
+          <!-- Force  `__()` and other i18n calls w/ no text domain to contain a text-domain. -->
+
+          <echo msg="Forcing `__()` and other i18n calls w/ no text domain to contain a text-domain in: ${project.basedir}" />
+
+          <reflexive>
+            <fileset dir="${project.basedir}" casesensitive="false">
+              <exclude pattern="src/vendor/**" />
+              <include pattern="*.php" />
+              <include pattern="**/**.php" />
+            </fileset>
+            <filterchain>
+              <replaceregexp>
+                <regexp pattern="\b__\s*\(\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="__('$1', '${project-text-domain}')" modifiers="u" />
+                <regexp pattern="\b_x\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="_x('$1', '$2', '${project-text-domain}')" modifiers="u" />
+                <regexp pattern="\b_n\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*,\s*([^(),]+)\s*\)" replace="_n('$1', '$2', $3, '${project-text-domain}')" modifiers="u" />
+                <regexp pattern="\b_nx\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*,\s*([^(),]+)\s*,\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="_nx('$1', '$2', $3, '$4', '${project-text-domain}')" modifiers="u" />
+              </replaceregexp>
+            </filterchain>
+          </reflexive>
+
+          <echo msg="------------------------------------" />
+
           <!-- WordPress theme. -->
 
           <if>

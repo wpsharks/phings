@@ -197,6 +197,20 @@
       <tstamp><format property="_time_ymd" pattern="%y%m%d" /></tstamp>
       <php expression="str_replace('%y%m%d', date('ymd'), '${project_version}')" returnproperty="project_version" />
 
+      <!-- Properties derived from other properties. -->
+
+      <if>
+        <and>
+          <isset property="project_slug" />
+        </and>
+        <then>
+          <php expression="preg_replace('/\-(?:lite|pro)$/ui', '', '${project_slug}')" returnproperty="project-text-domain" />
+        </then>
+        <else>
+          <property name="project-text-domain" value="" />
+        </else>
+      </if>
+
       <!-- WordPress theme/plugin detection. -->
 
       <if>
@@ -212,6 +226,25 @@
         </else>
       </if>
 
+      <!-- WordPress WP Sharks Core theme/plugin detection. -->
+
+      <if>
+        <and>
+          <istrue value="${_is_wp_theme_plugin}" />
+          <or>
+            <isset property="project_wp_sharks_core_required_version" />
+            <isset property="project_wp_sharks_core_tested_up_to_version" />
+            <isset property="project_wp_sharks_core_max_compatible_version" />
+          </or>
+        </and>
+        <then>
+          <property name="_is_wp_sharks_core_theme_plugin" value="true" />
+        </then>
+        <else>
+          <property name="_is_wp_sharks_core_theme_plugin" value="false" />
+        </else>
+      </if>
+
       <!-- Lite detection; i.e., is applicable? -->
 
       <if>
@@ -221,6 +254,12 @@
 
           <isset property="project_lite_namespace" />
           <isset property="project_lite_sub_namespace" />
+
+          <isset property="project_lite_other_phar_fileset_exclusions" />
+          <isset property="project_lite_other_zip_tgz_fileset_exclusions" />
+
+          <isset property="project_lite_text_domain_regex_replacement_pattern" />
+          <isset property="project_lite_alter_namespace_in_other_files_pattern" />
         </or>
         <then>
           <property name="_is_lite_applicable" value="true" />

@@ -25,5 +25,9 @@ project_version                                         = %y%m%d
 project_php_required_version                            = 5.4.7
 project_php_tested_up_to_version                        = ${php.version}
 
-project_wp_required_version                             = 4.2.2
-project_wp_tested_up_to_version                         = 4.2.2
+project_wp_required_version                             = 4.4
+project_wp_tested_up_to_version                         = 4.5-alpha
+
+project_wp_sharks_core_required_version                 = 160229
+project_wp_sharks_core_tested_up_to_version             = 160229
+project_wp_sharks_core_max_compatible_version           =

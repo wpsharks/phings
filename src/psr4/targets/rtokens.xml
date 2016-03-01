@@ -22,11 +22,11 @@
         </fileset>
         <filterchain>
           <replaceregexp>
+            <regexp pattern="'[^']*?';\s*\/\/v\/\/$" replace="'${project_version}'; //v//" modifiers="um" />
+            <regexp pattern='"[^"]*?";\s*\/\/v\/\/$' replace='"${project_version}"; //v//' modifiers="um" />
+
             <regexp pattern="'[^']*?';\s*\/\/version\/\/$" replace="'${project_version}'; //version//" modifiers="um" />
             <regexp pattern='"[^"]*?";\s*\/\/version\/\/$' replace='"${project_version}"; //version//' modifiers="um" />
-
-            <regexp pattern="^(\s*)const\s+VERSION\s*=\s*'[^']*?';\s*\/\/v\/\/$" replace="\1const VERSION = '${project_version}'; //v//" modifiers="um" />
-            <regexp pattern='^(\s*)const\s+VERSION\s*=\s*"[^"]*?";\s*\/\/v\/\/$' replace='\1const VERSION = "${project_version}"; //v//' modifiers="um" />
 
             <regexp pattern="'[^']*?';\s*\/\/php\-required\-version\/\/$" replace="'${project_php_required_version}'; //php-required-version//" modifiers="um" />
             <regexp pattern='"[^"]*?";\s*\/\/php\-required\-version\/\/$' replace='"${project_php_required_version}"; //php-required-version//' modifiers="um" />
@@ -59,14 +59,24 @@
             </fileset>
             <filterchain>
               <replaceregexp>
-                <regexp pattern="^Version\:.+$" replace="Version: ${project_version}" modifiers="um" />
-                <regexp pattern="^Stable tag\:.+$" replace="Stable tag: ${project_version}" modifiers="um" />
+                <regexp pattern="^(\s*\*\s*)?Version\:.+$" replace="$1Version: ${project_version}" modifiers="um" />
+                <regexp pattern="^(\s*\*\s*)?Stable tag\:.+$" replace="$1Stable tag: ${project_version}" modifiers="um" />
 
-                <regexp pattern="^Requires at least\:.+$" replace="Requires at least: ${project_wp_required_version}" modifiers="um" />
-                <regexp pattern="^Tested up to\:.+$" replace="Tested up to: ${project_wp_tested_up_to_version}" modifiers="um" />
+                <regexp pattern="^(\s*\*\s*)?Requires at least\:.+$" replace="$1Requires at least: ${project_wp_required_version}" modifiers="um" />
+                <regexp pattern="^(\s*\*\s*)?Tested up to\:.+$" replace="$1Tested up to: ${project_wp_tested_up_to_version}" modifiers="um" />
 
-                <regexp pattern="^Requires PHP\:.+$" replace="Requires PHP: ${project_php_required_version}" modifiers="um" />
-                <regexp pattern="^Tested up to PHP\:.+$" replace="Tested up to PHP: ${project_php_tested_up_to_version}" modifiers="um" />
+                <regexp pattern="^(\s*\*\s*)?Requires PHP\:.+$" replace="$1Requires PHP: ${project_php_required_version}" modifiers="um" />
+                <regexp pattern="^(\s*\*\s*)?Tested up to PHP\:.+$" replace="$1Tested up to PHP: ${project_php_tested_up_to_version}" modifiers="um" />
+                <if>
+                  <and>
+                    <istrue value="${_is_wp_sharks_core_theme_plugin}" />
+                  </and>
+                  <then>
+                    <regexp pattern="^(\s*\*\s*)?Requires WP Sharks Core\:.+$" replace="$1Requires WP Sharks Core: ${project_wp_sharks_core_required_version}" modifiers="um" />
+                    <regexp pattern="^(\s*\*\s*)?Tested up to WP Sharks Core\:.+$" replace="$1Tested up to WP Sharks Core: ${project_wp_sharks_core_tested_up_to_version}" modifiers="um" />
+                    <regexp pattern="^(\s*\*\s*)?Max compatible WP Sharks Core\:.+$" replace="$1Max compatible WP Sharks Core: ${project_wp_sharks_core_max_compatible_version}" modifiers="um" />
+                  </then>
+                </if>
               </replaceregexp>
             </filterchain>
           </reflexive>
@@ -104,6 +114,21 @@
 
                 <regexp pattern="'[^']*?';\s*\/\/wp\-up\-to\-version\/\/$" replace="'${project_wp_tested_up_to_version}'; //wp-up-to-version//" modifiers="um" />
                 <regexp pattern='"[^"]*?";\s*\/\/wp\-up\-to\-version\/\/$' replace='"${project_wp_tested_up_to_version}"; //wp-up-to-version//' modifiers="um" />
+                <if>
+                  <and>
+                    <istrue value="${_is_wp_sharks_core_theme_plugin}" />
+                  </and>
+                  <then>
+                    <regexp pattern="'[^']*?';\s*\/\/wp\-sharks\-core\-required\-version\/\/$" replace="'${project_wp_sharks_core_required_version}'; //wp-sharks-core-required-version//" modifiers="um" />
+                    <regexp pattern='"[^"]*?";\s*\/\/wp\-sharks\-core\-required\-version\/\/$' replace='"${project_wp_sharks_core_required_version}"; //wp-sharks-core-required-version//' modifiers="um" />
+
+                    <regexp pattern="'[^']*?';\s*\/\/wp\-sharks\-core\-up\-to\-version\/\/$" replace="'${project_wp_sharks_core_tested_up_to_version}'; //wp-sharks-core-up-to-version//" modifiers="um" />
+                    <regexp pattern='"[^"]*?";\s*\/\/wp\-sharks\-core\-up\-to\-version\/\/$' replace='"${project_wp_sharks_core_tested_up_to_version}"; //wp-sharks-core-up-to-version//' modifiers="um" />
+
+                    <regexp pattern="'[^']*?';\s*\/\/wp\-sharks\-core\-max\-compatible\-version\/\/$" replace="'${project_wp_sharks_core_max_compatible_version}'; //wp-sharks-core-max-compatible-version//" modifiers="um" />
+                    <regexp pattern='"[^"]*?";\s*\/\/wp\-sharks\-core\-max\-compatible\-version\/\/$' replace='"${project_wp_sharks_core_max_compatible_version}"; //wp-sharks-core-max-compatible-version//' modifiers="um" />
+                  </then>
+                </if>
               </replaceregexp>
             </filterchain>
           </reflexive>
