@@ -11,9 +11,9 @@
       <if>
         <and>
           <not>
-            <isset property="is_lite" />
+            <isset property="is_lite_build" />
           </not>
-          <istrue value="${_is_lite_applicable}" />
+          <istrue value="${_has_lite_build_props}" />
         </and>
         <then>
           <!-- Prepare for lite generation. -->
@@ -201,6 +201,7 @@
           <if>
             <and>
               <istrue value="${_is_wp_theme_plugin}" />
+              <istrue value="${project_lite_text_domain_regex_replacement_pattern}" />
             </and>
             <then>
               <echo msg="Converting text-domain references to string literals in: ${project.basedir}/.~build/${project_lite_slug}" />
@@ -214,7 +215,7 @@
                 </fileset>
                 <filterchain>
                   <replaceregexp>
-                    <regexp pattern="(,\s*)(${project_lite_text_domain_regex_replacement_pattern})(\s*\))" replace="$1'${project_lite_slug}'$3" modifiers="u" />
+                    <regexp pattern="(,\s*)(${project_lite_text_domain_regex_replacement_pattern})(\s*\))" replace="$1'${_project_text_domain}'$3" modifiers="u" />
                   </replaceregexp>
                 </filterchain>
               </reflexive>
@@ -228,7 +229,7 @@
             </else>
           </if>
 
-          <!-- Modify build properties. -->
+          <!-- Modify build properties; i.e., swap w/ lite property values. -->
 
           <echo msg="Modifying lite build properties: ${project.basedir}/.~build/${project_lite_slug}/.build.props" />
 
@@ -266,7 +267,7 @@
           <echo msg="Building lite variation from: ${project.basedir}/.~build/${project_lite_slug}/build.xml" />
 
           <phing phingfile="${project.basedir}/.~build/${project_lite_slug}/build.xml" inheritall="false" inheritrefs="false" haltonfailure="true">
-            <property name="is_lite" value="true" />
+            <property name="is_lite_build" value="true" />
           </phing>
 
         </then>

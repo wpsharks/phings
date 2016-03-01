@@ -16,6 +16,28 @@
         </and>
         <then>
 
+          <!-- Force  `__()` and other i18n calls w/ no text domain to contain a text-domain. -->
+
+          <echo msg="Forcing `__()` and other i18n calls w/ no text domain to contain a text-domain in: ${project.basedir}" />
+
+          <reflexive>
+            <fileset dir="${project.basedir}" casesensitive="false">
+              <exclude pattern="src/vendor/**" />
+              <include pattern="*.php" />
+              <include pattern="**/**.php" />
+            </fileset>
+            <filterchain>
+              <replaceregexp>
+                <regexp pattern="\b__\s*\(\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="__('$1', '${_project_text_domain}')" modifiers="u" />
+                <regexp pattern="\b_x\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="_x('$1', '$2', '${_project_text_domain}')" modifiers="u" />
+                <regexp pattern="\b_n\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*,\s*([^(),]+)\s*\)" replace="_n('$1', '$2', $3, '${_project_text_domain}')" modifiers="u" />
+                <regexp pattern="\b_nx\s*\(\s*'((?:\\.|[^\\'])+?)'\s*,\s*'((?:\\.|[^\\'])+?)'\s*,\s*([^(),]+)\s*,\s*'((?:\\.|[^\\'])+?)'\s*\)" replace="_nx('$1', '$2', $3, '$4', '${_project_text_domain}')" modifiers="u" />
+              </replaceregexp>
+            </filterchain>
+          </reflexive>
+
+          <echo msg="------------------------------------" />
+
           <!-- WordPress theme. -->
 
           <if>
@@ -24,6 +46,8 @@
             </and>
             <then>
               <echo msg="Building POT translation file for WP theme: ${project.basedir}" />
+
+              <mkdir dir="${project.basedir}/src/includes/translations" />
 
               <exec executable="${project.basedir}/src/vendor/websharks/wp-i18n-tools/makepot.php" dir="${project.basedir}" passthru="true" checkreturn="true">
                 <arg value="wp-theme" />
@@ -48,6 +72,8 @@
             </and>
             <then>
               <echo msg="Building POT translation file for WP plugin: ${project.basedir}" />
+
+              <mkdir dir="${project.basedir}/src/includes/translations" />
 
               <exec executable="${project.basedir}/src/vendor/websharks/wp-i18n-tools/makepot.php" dir="${project.basedir}" passthru="true" checkreturn="true">
                 <arg value="wp-plugin" />

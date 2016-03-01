@@ -24,12 +24,16 @@
     <!-- Default/visible build targets. -->
     <!-- ============================================  -->
 
-    <target name="build" depends="-config,-validate,-preamble,-prepare,-rtokens,-composer,-rebrand,-pots,-packages,-distros,-lite">
+    <target name="build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-rebrand,-packages,-distros,-lite">
       <echo msg="Build complete! :-)" />
     </target>
 
+    <target name="build-all" depends="-config,-validate,-preamble,-prepare,-rtokens,-composer,-rebrand,-pots,-packages,-distros,-lite">
+      <echo msg="Full build complete! :-)" />
+    </target>
+
     <target name="post-receive-build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-composer,-rebrand">
-      <echo msg="Build complete! :-)" />
+      <echo msg="Post receive build complete! :-)" />
     </target>
 
     <target name="codex" depends="-config,-validate,-preamble,-apigen">
