@@ -13,6 +13,7 @@
     <import file="${phing.dir.targets}/targets/rtokens.xml" />
     <import file="${phing.dir.targets}/targets/composer.xml" />
     <import file="${phing.dir.targets}/targets/rebrand.xml" />
+    <import file="${phing.dir.targets}/targets/dotbuilds.xml" />
     <import file="${phing.dir.targets}/targets/pots.xml" />
     <import file="${phing.dir.targets}/targets/packages.xml" />
     <import file="${phing.dir.targets}/targets/distros.xml" />
