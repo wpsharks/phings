@@ -1,4 +1,9 @@
-# 160219
+## 160303
+
+- Several enhancements, support for WP Sharks Core, and some bug fixes. See summary in https://github.com/websharks/phings/pull/50#issue-137523507
+- Token replacement enhancements. See: https://github.com/websharks/phings/pull/52
+
+## 160219
 
 - Excluding `.sass-cache` (directories, not files) from distros and PHAR files.
 - Remove `websharks/wp-core` from rebranded libraries.
