@@ -24,11 +24,11 @@
     <!-- Default/visible build targets. -->
     <!-- ============================================  -->
 
-    <target name="build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-rebrand,-packages,-distros,-lite">
+    <target name="build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-rebrand,-dotbuilds,-packages,-distros,-lite">
       <echo msg="Build complete! :-)" />
     </target>
 
-    <target name="build-all" depends="-config,-validate,-preamble,-prepare,-rtokens,-composer,-rebrand,-pots,-packages,-distros,-lite">
+    <target name="build-all" depends="-config,-validate,-preamble,-prepare,-rtokens,-composer,-rebrand,-dotbuilds,-pots,-packages,-distros,-lite">
       <echo msg="Full build complete! :-)" />
     </target>
 

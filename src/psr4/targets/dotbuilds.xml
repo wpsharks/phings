@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="dotbuilds">
+
+    <!-- ============================================  -->
+    <!-- Iterator over all `.build.php` files. -->
+    <!-- ============================================  -->
+
+    <target name="-dotbuilds" hidden="true">
+
+      <!-- Iterate over all `.build.php` files. -->
+
+      <echo msg="Running .build.php files in: ${project.basedir}" />
+
+      <foreach target="--dotbuild" absparam="__abs_build_php" param="__build_php">
+        <fileset dir="${project.basedir}" casesensitive="false">
+          <exclude pattern="**/vendor/**" />
+          <include pattern=".build.php" />
+          <include pattern="**/.build.php" />
+        </fileset>
+      </foreach>
+
+      <echo msg="------------------------------------" />
+
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Run `.build.php` file. -->
+    <!-- ============================================  -->
+
+    <target name="--dotbuild" hidden="true">
+      <echo msg="${__abs_build_php}" />
+      <echo msg="${__build_php}" />
+    </target>
+
+  </project>
