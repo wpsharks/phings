@@ -25,12 +25,17 @@
     </target>
 
     <!-- ============================================  -->
-    <!-- Run `.build.php` file. -->
+    <!-- Callback that runs a `.build.php` file. -->
     <!-- ============================================  -->
 
     <target name="--dotbuild" hidden="true">
-      <echo msg="${__abs_build_php}" />
-      <echo msg="${__build_php}" />
+      <echo msg="Running : ${__abs_build_php}" />
+
+      <exec executable="php" dir="${project.basedir}" passthru="true" checkreturn="true">
+        <arg value="${__abs_build_php}" />
+      </exec>
+
+      <echo msg="------------------------------------" />
     </target>
 
   </project>
