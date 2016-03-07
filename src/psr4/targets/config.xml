@@ -229,6 +229,9 @@
         <exclude name=".travis.yml" />
         <exclude name="**/.travis.yml" />
 
+        <exclude name=".travis.bash" />
+        <exclude name="**/.travis.bash" />
+
         <exclude name=".coveralls.yml" />
         <exclude name="**/.coveralls.yml" />
 
@@ -331,6 +334,9 @@
 
         <exclude name=".travis.yml" />
         <exclude name="**/.travis.yml" />
+
+        <exclude name=".travis.bash" />
+        <exclude name="**/.travis.bash" />
 
         <exclude name=".coveralls.yml" />
         <exclude name="**/.coveralls.yml" />

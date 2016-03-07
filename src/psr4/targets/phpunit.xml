@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="phpunit">
+
+    <!-- ============================================  -->
+    <!-- Run PHPUnit tests. -->
+    <!-- ============================================  -->
+
+    <target name="-phpunit" hidden="true">
+
+      <if>
+        <and>
+          <not>
+            <isset property="is_lite_build" />
+          </not>
+          <or>
+            <available resource="${project.basedir}/phpunit.xml" type="file" />
+            <available resource="${project.basedir}/tests/includes/bootstrap.php" type="file" />
+          </or>
+        </and>
+        <then>
+          <!-- Run PHPUnit tests. -->
+
+          <echo msg="Running PHPUnit tests." />
+
+          <if>
+            <and>
+              <available resource="${project.basedir}/phpunit.xml" type="file" />
+            </and>
+            <then>
+              <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
+                <arg value="phpunit" />
+                <arg value="--configuration=${project.basedir}/phpunit.xml" />
+              </exec>
+            </then>
+            <else>
+              <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
+                <arg value="phpunit" />
+                <arg value="--fail-on-risky" />
+                <arg value="--fail-on-warning" />
+                <arg value="--stop-on-failure" />
+                <arg value="--bootstrap=${project.basedir}/tests/includes/bootstrap.php" />
+                <arg value="${project.basedir}/tests" />
+              </exec>
+            </else>
+          </if>
+
+          <echo msg="------------------------------------" />
+
+        </then>
+
+        <else>
+          <echo msg="N/A: skipping PHPUnit tests." />
+
+          <echo msg="------------------------------------" />
+        </else>
+      </if>
+
+    </target>
+
+  </project>

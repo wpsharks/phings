@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="phpcs">
+
+    <!-- ============================================  -->
+    <!-- PHP Code Sniffer. -->
+    <!-- ============================================  -->
+
+    <target name="-phpcs" hidden="true">
+
+      <if>
+        <and>
+          <not>
+            <isset property="is_lite_build" />
+          </not>
+        </and>
+        <then>
+          <!-- Run PHP Code Sniffer. -->
+
+          <echo msg="Running PHP Code Sniffer." />
+
+          <php expression="tempnam(sys_get_temp_dir(), '${project_slug}').'.xml'" returnproperty="_phpcs_standard_temp_file" />
+
+          <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
+            <arg value="curl" />
+            <arg value="https://raw.githubusercontent.com/websharks/dotfiles/master/.php-cs.ws-psr2.xml" />
+            <arg value="--location" />
+            <arg value="--output" />
+            <arg value="${_phpcs_standard_temp_file}" />
+          </exec>
+
+          <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
+            <arg value="phpcs" />
+            <arg value="-p" />
+            <arg value="--report=full" />
+            <arg value="--encoding=utf-8" />
+            <arg value="--extensions=php" />
+            <arg value="--ignore=*/vendor/*" />
+            <arg value="--standard=${_phpcs_standard_temp_file}" />
+            <arg value="${project.basedir}" />
+          </exec>
+
+          <delete file="${_phpcs_standard_temp_file}" quiet="false" />
+
+          <echo msg="------------------------------------" />
+
+        </then>
+
+        <else>
+          <echo msg="N/A: skipping PHP Code Sniffer." />
+
+          <echo msg="------------------------------------" />
+        </else>
+      </if>
+
+    </target>
+
+  </project>
