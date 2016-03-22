@@ -3,13 +3,14 @@
   <project name="phpunit">
 
     <!-- ============================================  -->
-    <!-- Run PHPUnit tests. -->
+    <!-- Run PHPUnit tests via CI server. -->
     <!-- ============================================  -->
 
     <target name="-phpunit" hidden="true">
 
       <if>
         <and>
+          <isset property="env.CI" />
           <not>
             <isset property="is_lite_build" />
           </not>
@@ -19,9 +20,9 @@
           </or>
         </and>
         <then>
-          <!-- Run PHPUnit tests. -->
+          <!-- Run PHPUnit tests via CI server. -->
 
-          <echo msg="Running PHPUnit tests." />
+          <echo msg="Running PHPUnit tests via CI server." />
 
           <if>
             <and>
@@ -50,7 +51,7 @@
         </then>
 
         <else>
-          <echo msg="N/A: skipping PHPUnit tests." />
+          <echo msg="N/A: skipping PHPUnit tests via CI server." />
 
           <echo msg="------------------------------------" />
         </else>
