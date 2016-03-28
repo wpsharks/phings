@@ -31,7 +31,6 @@
             <then>
               <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
                 <arg value="phpunit" />
-                <arg value="--configuration=${project.basedir}/phpunit.xml" />
               </exec>
             </then>
             <else>
