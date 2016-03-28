@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project name="phpunit">
+
+    <!-- ============================================  -->
+    <!-- Run CasperJS tests via CI server. -->
+    <!-- ============================================  -->
+
+    <target name="-casperjs" hidden="true">
+
+      <if>
+        <and>
+          <isset property="env.CI" />
+          <not>
+            <isset property="is_lite_build" />
+          </not>
+          <available resource="${project.basedir}/tests/includes/bootstrap.js" type="file" />
+        </and>
+        <then>
+          <!-- Run CasperJS tests via CI server. -->
+
+          <echo msg="Running CasperJS tests via CI server." />
+
+          <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
+            <arg value="casperjs" />
+            <arg value="test" />
+            <arg value="--fail-fast" />
+            <arg value="--ssl-protocol=tlsv1" />
+            <arg value="--ignore-ssl-errors=true" />
+            <arg value="--cookies-file=/tmp/bootstrap/casperjs-cookies.txt" />
+            <arg value="--local-storage-path=/tmp/bootstrap/casperjs-local-storage" />
+            <arg value="--pre=${project.basedir}/tests/includes/bootstrap.js" />
+            <arg value="${project.basedir}/tests" />
+          </exec>
+
+          <echo msg="------------------------------------" />
+
+        </then>
+
+        <else>
+          <echo msg="N/A: skipping CasperJS tests via CI server." />
+
+          <echo msg="------------------------------------" />
+        </else>
+      </if>
+
+    </target>
+
+  </project>
