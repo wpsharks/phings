@@ -16,7 +16,10 @@
           </not>
           <or>
             <available resource="${project.basedir}/phpunit.xml" type="file" />
-            <available resource="${project.basedir}/tests/includes/bootstrap.php" type="file" />
+            <and>
+              <available resource="${project.basedir}/tests/phpunit" type="dir" />
+              <available resource="${project.basedir}/tests/includes/phpunit.php" type="file" />
+            </and>
           </or>
         </and>
         <then>
@@ -37,8 +40,8 @@
               <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
                 <arg value="phpunit" />
                 <arg value="--stop-on-failure" />
-                <arg value="--bootstrap=${project.basedir}/tests/includes/bootstrap.php" />
-                <arg value="${project.basedir}/tests" />
+                <arg value="--bootstrap=${project.basedir}/tests/includes/phpunit.php" />
+                <arg value="${project.basedir}/tests/phpunit" />
               </exec>
             </else>
           </if>
