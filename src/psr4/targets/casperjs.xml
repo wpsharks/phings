@@ -25,6 +25,7 @@
           <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
             <arg value="casperjs" />
             <arg value="test" />
+            <arg value="--concise" />
             <arg value="--fail-fast" />
             <arg value="--ssl-protocol=tlsv1" />
             <arg value="--ignore-ssl-errors=true" />
