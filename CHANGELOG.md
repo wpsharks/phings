@@ -1,3 +1,9 @@
+## 160329
+
+- New PHP CS build target that will automatically run PHP Code Sniffer.
+- New PHPUnit build target that will automatically run unit tests on a CI server.
+- Adding support for CasperJS test suites.
+
 ## 160303
 
 - Several enhancements, support for WP Sharks Core, and some bug fixes. See summary in https://github.com/websharks/phings/pull/50#issue-137523507
