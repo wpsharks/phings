@@ -22,6 +22,9 @@
 
           <echo msg="Running CasperJS tests via CI server." />
 
+          <mkdir dir="${project.basedir}/.~build/.casperjs" />
+          <mkdir dir="${project.basedir}/.~build/.casperjs/local-storage" />
+
           <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
             <arg value="casperjs" />
             <arg value="test" />
@@ -29,9 +32,9 @@
             <arg value="--fail-fast" />
             <arg value="--ssl-protocol=tlsv1" />
             <arg value="--ignore-ssl-errors=true" />
-            <arg value="--cookies-file=/tmp/bootstrap/casperjs-cookies.txt" />
-            <arg value="--local-storage-path=/tmp/bootstrap/casperjs-local-storage" />
-            <arg value="--includes=${env.CI_NFO_SRC_DIR}/casperjs/includes.js,${project.basedir}/tests/includes/casperjs.js" />
+            <arg value="--cookies-file=${project.basedir}/.~build/.casperjs/cookies.txt" />
+            <arg value="--local-storage-path=${project.basedir}/.~build/.casperjs/local-storage" />
+            <arg value="--includes=/bootstrap-ci/src/casperjs/includes.js,${project.basedir}/tests/includes/casperjs.js" />
             <arg value="${project.basedir}/tests/casperjs" />
           </exec>
 
