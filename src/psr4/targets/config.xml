@@ -226,6 +226,12 @@
         <exclude name=".post-receive" />
         <exclude name="**/.post-receive" />
 
+        <exclude name=".drone.yml" />
+        <exclude name="**/.drone.yml" />
+
+        <exclude name=".drone.sec" />
+        <exclude name="**/.drone.sec" />
+
         <exclude name=".travis.yml" />
         <exclude name="**/.travis.yml" />
 
@@ -331,6 +337,12 @@
 
         <exclude name=".post-receive" />
         <exclude name="**/.post-receive" />
+
+        <exclude name=".drone.yml" />
+        <exclude name="**/.drone.yml" />
+
+        <exclude name=".drone.sec" />
+        <exclude name="**/.drone.sec" />
 
         <exclude name=".travis.yml" />
         <exclude name="**/.travis.yml" />
