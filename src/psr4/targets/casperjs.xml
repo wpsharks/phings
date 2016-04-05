@@ -34,7 +34,7 @@
             <arg value="--ignore-ssl-errors=true" />
             <arg value="--cookies-file=${project.basedir}/.~build/.casperjs/cookies.txt" />
             <arg value="--local-storage-path=${project.basedir}/.~build/.casperjs/local-storage" />
-            <arg value="--includes=/bootstrap-ci/src/casperjs/includes.js,${project.basedir}/tests/includes/casperjs.js" />
+            <arg value="--includes=/bootstrap-ci/src/docker/casperjs/includes.js,${project.basedir}/tests/includes/casperjs.js" />
             <arg value="${project.basedir}/tests/casperjs" />
           </exec>
 
