@@ -40,8 +40,6 @@
             <arg value="${project.basedir}" />
           </exec>
 
-          <delete file="${_phpcs_standard_temp_file}" quiet="false" />
-
           <echo msg="------------------------------------" />
 
         </then>
