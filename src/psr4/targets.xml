@@ -28,16 +28,20 @@
     <!-- Default/visible build targets. -->
     <!-- ============================================  -->
 
-    <target name="build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-rebrand,-dotbuilds,-phpcs,-phpunit,-casperjs,-packages,-distros,-lite">
+    <target name="build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-rebrand,-dotbuilds,-phpcs,-packages,-distros,-lite">
       <echo msg="Build complete! :-)" />
     </target>
 
-    <target name="build-all" depends="-config,-validate,-preamble,-prepare,-rtokens,-composer,-rebrand,-dotbuilds,-pots,-phpcs,-phpunit,-casperjs,-packages,-distros,-lite">
+    <target name="build-all" depends="-config,-validate,-preamble,-prepare,-rtokens,-composer,-rebrand,-dotbuilds,-pots,-phpcs,-packages,-distros,-lite">
       <echo msg="Full build complete! :-)" />
     </target>
 
     <target name="post-receive-build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-composer,-rebrand">
       <echo msg="Post receive build complete! :-)" />
+    </target>
+
+    <target name="test" depends="-config,-validate,-preamble,-phpunit,-casperjs">
+      <echo msg="Testing complete! :-)" />
     </target>
 
     <target name="codex" depends="-config,-validate,-preamble,-apigen">
