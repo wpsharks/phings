@@ -30,7 +30,7 @@
             <arg value="test" />
             <arg value="--concise" />
             <arg value="--fail-fast" />
-            <arg value="--ssl-protocol=tlsv1" />
+            <arg value="--ssl-protocol=any" />
             <arg value="--ignore-ssl-errors=true" />
             <arg value="--cookies-file=${project.basedir}/.~build/.casperjs/cookies.txt" />
             <arg value="--local-storage-path=${project.basedir}/.~build/.casperjs/local-storage" />
