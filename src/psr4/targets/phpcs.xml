@@ -19,14 +19,14 @@
 
           <echo msg="Running PHP Code Sniffer." />
 
-          <php expression="tempnam(sys_get_temp_dir(), '${project_slug}').'.xml'" returnproperty="_phpcs_standard_temp_file" />
+          <mkdir dir="${project.basedir}/.~build/.php-cs" />
 
           <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
             <arg value="curl" />
             <arg value="https://raw.githubusercontent.com/websharks/dotfiles/master/.php-cs.ws-psr2.xml" />
             <arg value="--location" />
             <arg value="--output" />
-            <arg value="${_phpcs_standard_temp_file}" />
+            <arg value="${project.basedir}/.~build/.php-cs/ws-psr2.xml" />
           </exec>
 
           <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
@@ -36,7 +36,7 @@
             <arg value="--encoding=utf-8" />
             <arg value="--extensions=php" />
             <arg value="--ignore=*/vendor/*" />
-            <arg value="--standard=${_phpcs_standard_temp_file}" />
+            <arg value="--standard=${project.basedir}/.~build/.php-cs/ws-psr2.xml" />
             <arg value="${project.basedir}" />
           </exec>
 
