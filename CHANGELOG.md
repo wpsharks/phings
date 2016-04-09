@@ -1,3 +1,7 @@
+## 160410
+
+- Bug fix related to Composer. See: #71
+
 ## 160409
 
 - Bug fix related to lite builds. See: #69
