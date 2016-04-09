@@ -1,3 +1,7 @@
+## 160409
+
+- Bug fix related to lite builds. See: #69
+
 ## 160329
 
 - New PHP CS build target that will automatically run PHP Code Sniffer.
