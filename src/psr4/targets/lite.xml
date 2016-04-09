@@ -149,7 +149,7 @@
                 <filterchain>
                   <replaceregexp>
                     <regexp pattern="\b${project_slug}\b" replace="${project_lite_slug}" modifiers="u" />
-                    <regexp pattern="&quot;${_project_namespace_slashes}\\\\&quot;" replace="&quot;${_project_lite_namespace_slashes}\\\\&quot;" modifiers="u" />
+                    <regexp pattern="&quot;${_project_namespace_slashes}\\\\" replace="&quot;${_project_lite_namespace_slashes}\\\\" modifiers="u" />
                   </replaceregexp>
                 </filterchain>
               </reflexive>
