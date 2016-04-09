@@ -28,7 +28,7 @@
     <!-- Default/visible build targets. -->
     <!-- ============================================  -->
 
-    <target name="build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-rebrand,-dotbuilds,-phpcs,-packages,-distros,-lite">
+    <target name="build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-composer,-rebrand,-dotbuilds,-phpcs,-packages,-distros,-lite">
       <echo msg="Build complete! :-)" />
     </target>
 
