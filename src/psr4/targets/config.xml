@@ -180,7 +180,7 @@
 
       <!-- Fileset reference for PHAR files. -->
 
-      <fileset id="_phar_fileset" dir="${project.basedir}" defaultexcludes="true" casesensitive="false" excludes="${project_other_phar_fileset_exclusions}">
+      <fileset id="_phar_fileset" dir="${project.basedir}" casesensitive="false" excludes="${project_other_phar_fileset_exclusions}">
         <exclude name="phar-stub.php" />
         <exclude name="**/phar-stub.php" />
 
@@ -292,7 +292,7 @@
 
       <!-- Fileset reference for ZIP/TGZ files. -->
 
-      <fileset id="_zip_tgz_fileset" dir="${project.basedir}" defaultexcludes="true" casesensitive="false" excludes="${project_other_zip_tgz_fileset_exclusions}">
+      <fileset id="_zip_tgz_fileset" dir="${project.basedir}" casesensitive="false" excludes="${project_other_zip_tgz_fileset_exclusions}">
         <exclude name="phar-stub.php" />
         <exclude name="**/phar-stub.php" />
 
@@ -371,6 +371,48 @@
         <exclude name="composer.lock" />
         <exclude name="**/composer.lock" />
       </fileset>
+
+      <!-- Text-based pattern set in which search/replace is possible. -->
+
+      <patternset id="_text_based_patternset">
+        <exclude pattern="src/vendor/**" />
+
+        <include pattern="*.x-php" />
+        <include pattern="**/**.x-php" />
+
+        <include pattern="*.php" />
+        <include pattern="**/**.php" />
+
+        <include pattern="*.html" />
+        <include pattern="**/**.html" />
+
+        <include pattern="*.xml" />
+        <include pattern="**/**.xml" />
+
+        <include pattern="*.css" />
+        <include pattern="**/**.css" />
+
+        <include pattern="*.scss" />
+        <include pattern="**/**.scss" />
+
+        <include pattern="*.js" />
+        <include pattern="**/**.js" />
+
+        <include pattern="*.json" />
+        <include pattern="**/**.json" />
+
+        <include pattern="*.yml" />
+        <include pattern="**/**.yml" />
+
+        <include pattern="*.bash" />
+        <include pattern="**/**.bash" />
+
+        <include pattern="*.txt" />
+        <include pattern="**/**.txt" />
+
+        <include pattern="*.md" />
+        <include pattern="**/**.md" />
+      </patternset>
 
     </target>
 
