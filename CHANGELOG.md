@@ -1,3 +1,7 @@
+## 16xxxx
+
+- Support for `/*[pro strip-file-from="lite"]*/`. See: #73
+
 ## 160410
 
 - Bug fix related to Composer. See: #71
