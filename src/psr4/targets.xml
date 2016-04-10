@@ -14,6 +14,7 @@
     <import file="${phing.dir.targets}/targets/composer.xml" />
     <import file="${phing.dir.targets}/targets/rebrand.xml" />
     <import file="${phing.dir.targets}/targets/dotbuilds.xml" />
+    <import file="${phing.dir.targets}/targets/js-css.xml" />
     <import file="${phing.dir.targets}/targets/pots.xml" />
     <import file="${phing.dir.targets}/targets/phpcs.xml" />
     <import file="${phing.dir.targets}/targets/phpunit.xml" />
@@ -28,11 +29,11 @@
     <!-- Default/visible build targets. -->
     <!-- ============================================  -->
 
-    <target name="build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-composer,-rebrand,-dotbuilds,-phpcs,-packages,-distros,-lite">
+    <target name="build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-composer,-rebrand,-dotbuilds,-js-css,-phpcs,-packages,-distros,-lite">
       <echo msg="Build complete! :-)" />
     </target>
 
-    <target name="build-all" depends="-config,-validate,-preamble,-prepare,-rtokens,-composer,-rebrand,-dotbuilds,-pots,-phpcs,-packages,-distros,-lite">
+    <target name="build-all" depends="-config,-validate,-preamble,-prepare,-rtokens,-composer,-rebrand,-dotbuilds,-js-css,-pots,-phpcs,-packages,-distros,-lite">
       <echo msg="Full build complete! :-)" />
     </target>
 
