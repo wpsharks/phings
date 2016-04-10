@@ -31,6 +31,13 @@
             </fileset>
           </copy>
 
+          <delete>
+            <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
+              <patternset refid="_text_based_patternset" />
+              <containsregexp expression="\/\*\!?\[pro strip\-file\-from\=['&quot;]lite['&quot;]\]\*\/" />
+            </fileset>
+          </delete>
+
           <echo msg="------------------------------------" />
 
           <!-- WordPress plugin file rename. -->
@@ -169,22 +176,7 @@
 
           <reflexive>
             <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
-              <exclude pattern="src/vendor/**" />
-
-              <include pattern="*.php" />
-              <include pattern="**/**.php" />
-
-              <include pattern="*.css" />
-              <include pattern="**/**.css" />
-
-              <include pattern="*.scss" />
-              <include pattern="**/**.scss" />
-
-              <include pattern="*.js" />
-              <include pattern="**/**.js" />
-
-              <include pattern="*.txt" />
-              <include pattern="**/**.txt" />
+              <patternset refid="_text_based_patternset" />
             </fileset>
             <filterchain>
               <replaceregexp>
