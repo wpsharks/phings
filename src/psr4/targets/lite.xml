@@ -31,10 +31,11 @@
             </fileset>
           </copy>
 
-          <delete>
+          <delete verbose="true">
             <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
               <patternset refid="_text_based_patternset" />
-              <containsregexp expression="\/\*\!?\[pro strip\-file\-from\=['&quot;]lite['&quot;]\]\*\/" />
+              <exclude pattern="**/phings/CHANGELOG.md" />
+              <containsregexp expression="\/\*\!?\[pro (?:exclude|strip)\-file\-from\=['&quot;]lite['&quot;]\]\*\/" />
             </fileset>
           </delete>
 
