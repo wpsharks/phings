@@ -1,4 +1,4 @@
-## 16xxxx
+## 160411
 
 - Support for `/*[pro strip-file-from="lite"]*/`. See: #73
 
