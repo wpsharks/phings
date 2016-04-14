@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- PHP pattern set. -->
+    <!-- ============================================  -->
+
+    <patternset id="_php_patternset">
+      <exclude pattern=".~build/**" />
+      <exclude pattern="**/.~build/**" />
+
+      <exclude name="phings/**" />
+      <exclude name="**/phings/**" />
+
+      <exclude pattern="vendor/**" />
+      <exclude pattern="**/vendor/**" />
+
+      <include pattern="*.php" />
+      <include pattern="**/**.php" />
+
+      <include pattern="*.x-php" />
+      <include pattern="**/**.x-php" />
+    </patternset>
+
+  </project>

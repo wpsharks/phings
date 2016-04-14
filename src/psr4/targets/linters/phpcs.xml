@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- PHP Code Sniffer. -->
+    <!-- ============================================  -->
+
+    <target name="-linters-phpcs" hidden="true">
+
+      <if>
+        <and>
+          <not>
+            <isset property="_is_lite_build" />
+          </not>
+        </and>
+        <then>
+
+          <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
+          <if>
+            <and>
+              <not>
+                <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
+              </not>
+            </and>
+            <then>
+              <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}" />
+            </then>
+          </if>
+          <!-- Run PHP Code Sniffer. -->
+
+          <echo msg="Running PHP Code Sniffer." />
+
+          <echo />
+
+          <delete dir="${project.basedir}/.~build/.php-cs" includeemptydirs="true" quiet="true" />
+          <mkdir dir="${project.basedir}/.~build/.php-cs" />
+
+          <echo />
+
+          <exec executable="/usr/bin/env" passthru="true" checkreturn="true">
+            <arg value="curl" />
+            <arg value="https://raw.githubusercontent.com/websharks/dotfiles/master/.php-cs.ws-psr2.xml" />
+            <arg value="--location" />
+            <arg value="--output" />
+            <arg value="${project.basedir}/.~build/.php-cs/ws-psr2.xml" />
+          </exec>
+
+          <echo />
+
+          <exec executable="/usr/bin/env" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkreturn="true">
+            <arg value="phpcs" />
+            <arg value="-p" />
+            <arg value="--report=full" />
+            <arg value="--encoding=utf-8" />
+            <arg value="--extensions=php" />
+            <arg value="--ignore=*/vendor/*" />
+            <arg value="--standard=${project.basedir}/.~build/.php-cs/ws-psr2.xml" />
+            <arg value="${project.basedir}/.~build/${project_slug}" />
+          </exec>
+
+        </then>
+        <else>
+          <echo msg="N/A; skipping PHP Code Sniffer." />
+        </else>
+      </if>
+
+    </target>
+
+  </project>

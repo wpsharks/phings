@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Run PHPUnit tests via CI server. -->
+    <!-- ============================================  -->
+
+    <target name="-tests-phpunit" hidden="true">
+
+      <if>
+        <and>
+          <isset property="env.CI" />
+        </and>
+        <then>
+
+          <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
+          <if>
+            <and>
+              <not>
+                <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
+              </not>
+            </and>
+            <then>
+              <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}" />
+            </then>
+          </if>
+
+          <!-- Check if this project has PHPUnit test files. -->
+          <if>
+            <or>
+              <available resource="${project.basedir}/.~build/${project_slug}/phpunit.xml" type="file" />
+              <and>
+                <available resource="${project.basedir}/.~build/${project_slug}/tests/phpunit" type="dir" />
+                <available resource="${project.basedir}/.~build/${project_slug}/tests/includes/phpunit.php" type="file" />
+              </and>
+            </or>
+            <then>
+
+              <!-- Run PHPUnit tests via CI server. -->
+
+              <echo msg="Running PHPUnit tests via CI server." />
+
+              <if>
+                <and>
+                  <available resource="${project.basedir}/.~build/${project_slug}/phpunit.xml" type="file" />
+                </and>
+                <then>
+                  <exec executable="/usr/bin/env" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkreturn="true">
+                    <arg value="phpunit" />
+                  </exec>
+                </then>
+                <else>
+                  <exec executable="/usr/bin/env" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkreturn="true">
+                    <arg value="phpunit" />
+                    <arg value="--stop-on-failure" />
+                    <arg value="--no-globals-backup" />
+                    <arg value="--bootstrap=${project.basedir}/.~build/${project_slug}/tests/includes/phpunit.php" />
+                    <arg value="${project.basedir}/.~build/${project_slug}/tests/phpunit" />
+                  </exec>
+                </else>
+              </if>
+
+            </then>
+            <else>
+              <echo msg="N/A: skipping PHPUnit tests via CI server." />
+            </else>
+          </if>
+
+        </then>
+        <else>
+          <echo msg="N/A: skipping PHPUnit tests via CI server." />
+        </else>
+      </if>
+
+    </target>
+
+  </project>

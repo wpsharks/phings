@@ -1,5 +1,69 @@
 ## 16xxxx
 
+- Reorganized targets into sub-directory classifications; e.g., all build targets are now in `targets/builds` and each set of builds are now nested into sub-directories indicating which phase they run in. For instance, `/in-base-dir`, `/in-base-dir-after`, `/in-build-dir`, `/in-build-dir-after`, etc.
+
+- Several subtle enhancements and minor bug fixes throughout; e.g., improved exclusion patterns to reduce the time it takes to complete a build, additional Phing attributes throughout in order to improve consistency from one target to another, along with a better naming convention for targets and temporary target-specific variables which are now nested into sub-directories, and into separate Phing projects referenced via `<phingcall>` which puts each target into its own local scope as a way to avoid collisions.
+
+- New build targets. Related (somewhat) to #80, though additional work may be needed to accomplish everything we want to at some point in the future.
+
+- Updated (and new) build targets are as follows. **See:** [new wiki article](https://github.com/websharks/phings/wiki/Build-Targets) that lists all possible targets.
+
+- Bug fix. Large files were sometimes being emptied out (YIKES, reported by @jaswsinc) and sometimes they were just stalling (YIKES, reported by @raamdev) and this seems to have been caused by i18n regex patterns that were in need of optimization. I was able to reproduce this against `classes/MenuPageOptions.php` in the Comet Cache software (a very large file) and the i18n text-domain regex patterns. Careful optimizations were made to these routines in order to resolve this issue. In addition, our Phing build script now runs `ini_set('pcre.backtrack_limit', (string) PHP_INT_MAX);` to help prevent random failures against very large files in the future.
+
+- Bug fix. New ad hoc task deals w/ changelog extraction for lite pushing properly. See: #8. See also: `setups/adhocs/extract-changelog-for-version.xml`. Note that changelog extraction for a specific version requires that each of your version headers in the `CHANGELOG.md` file be in one of these formats: `= [version] =`, `= v[version] =`, `## [version]`, or `## v[version]`. Actually, `##` is not required if you use ATX-style headers. If you use ATX-style headers you may use any number of `#` markers; i.e., one `#` (or more) will do fine.
+
+- Dotbuilds (i.e., `.build.php` files) are now processed in both the project base directory and also in the `.~build/${project_slug}` directory; i.e., if you name the file `.build.php` it runs in both directories (backward compatibility was preserved). **New:** To limit the scope of these files, you can change the name to either: `.build.in-base-dir.php` or `.build.in-build-dir.php` to get more specific about which phase you want your custom sub-routines to run in.
+
+- The `-js-css` target (now named `-builds-in-build-dir-js-css-cleanup`) now runs in the `.~build/${project_slug}` directory phase, because it's only job is to tidy-up JS/CSS files before packaging compressed archives for distribution.
+
+- Bug fix. ZIP and TGZ archives were incorrectly excluding `.ht*` files such as `.htaccess` in the packaging phase. While these files are not important when building a PHAR archive, they _are_ important to ship with a plugin (i.e., in `.tgz` and `.zip` files) for security purposes; e.g., to prevent direct access to files not intended for a web server.
+
+- Improved the lite push target by accepting either `y` or `yes` as an answer to prompts, and it is no longer caSe-sensitive either.
+
+- Improved the lite push target by adding `checkreturn="true"` to all `<exec>` tags; i.e., to be sure each command succeeds before continuing.
+
+- Optimized the lite push target by excluding `/src/vendor` from the repo content that is pushed to the remote for the lite variation. The `/src/vendor` directory should not be included because that is handled by Composer via the `/composer.json` file in this repo; i.e., those are external dependencies that are not a part of the lite repo itself.
+
+- Optimized the lite push target by adding the `depth="1"` attribute to the `<gitclone>` tag; i.e., only clone the last history phase, which reduces download time and bandwidth.
+
+- Adding new exclusions to the archive generators: `ISSUE_TEMPLATE.md` and `PULL_REQUEST_TEMPLATE.md` are now excluded also. See also: `setups/patterns/*.xml`.
+
+- Removed exclusions from archive generators: `AUTHORS.txt` and `CONTRIBUTORS.txt` are now unnecessary to exclude, as we already cover the `.md` version of these files; i.e., we don't have the `.txt` variations anyway, and that just adds additional fluff to an already long list of exclusions. Removing to clean things up just a bit. See also: `setups/patterns/*.xml`.
+
+- New pattern sets in `setups/patterns/*.xml`: `_token_patternset`, `_wp_token_patternset`, `_dotbuilds_patternset`, `_text_based_patternset`, `_php_patternset`, `_js_css_patternset`, and `_lite_repo_patternset`. These are designed to keep things DRYer.
+
+- In `targets/setups/patterns.xml`, all `<fileset>` tags were changed to `<patternset>` tags in order to make them slightly more versatile.
+
+- Improving support for `.x-php` files throughout. These should be considered PHP files also, and therefore all PHP-related routines should search/replace/include those files when performing various operations. The `.x-php` extension is something that WebSharks uses for any type of PHP file that should not actually be processed by a web server; e.g., files that serve only as a template for the generation of something else; or files that serve only as example API calls, etc. Since these files may also contain namespace references or tokens that need to be replaced, they must be processed in the same way regular PHP files are—during the build phase.
+
+  **Note:** We should try to update things like `advanced-cache.txt` to `advanced-cache.x-php` in the Comet Cache plugin, at which time the `.build.props` could be updated to remove `project_lite_alter_namespace_in_other_files_pattern`.
+
+- Now skipping POT generation for the lite build variation. See: <https://github.com/websharks/phings/issues/51#issuecomment-191911351>.
+
+- Now enforcing a text-domain that will always exclude any `-lite|pro` suffix; i.e., always use the base plugin slug as the i18n text-domain. See: <https://github.com/websharks/phings/issues/51#issuecomment-191911351>.
+
+- All target-specific validators have been improved with respect to the `.~build/${project_slug}` directory being necessary; e.g., the linters, the codex, tests, and distro-related targets all require the project to have already been built first before they can be run. This is now enforced, and now instead of deleting the entire `.~build/` directory at the beginning of every `$ phing` call, the `.~build/` directory can be preserved, and only sub-directories it contains are overwritten as needed; i.e., to perform an action being requested. These improvements are also being implemented in an effort to help separate the lite|pro build routines (more on this below), so that it's possible to build one or the other instead of always both at the same time.
+
+- Reducing the amount of output during a build (slightly) by removing overly verbose output like: "Deleting previous: ..." which was already followed by output from Phing itself.
+
+- Moving all hidden `-setup-*` targets into `<project>` scope (via imports only) to reduce the number of times each individual setup target needs to be listed in various (visible) build targets. See: `targets.xml` and `imports.xml` for more information.
+
+- Removing support for `$ phing ... -D composer-lock-preserve=true` in favor of that being the default, and now we have a new flag called `$ phing ... -D composer-lock-delete=true` to disable it. The default value can always be overridden by passing `$ phing ... -D composer-lock-delete=true|false`. Or, before running Phing you can simply delete the `composer.lock` file yourself if you want to delete it; i.e., not preserve dependency versions. See also: [It's All About the `.lock` File](https://blog.engineyard.com/2014/composer-its-all-about-the-lock-file) for more information. Also, as a part of the reorganized codebase structure, the `-composer-lock-preserve` target was consolidated into a single target that reads the new flag.
+
+- Bug fix. Adding `return` to regex `(namespace|use|return)` when replacing namespace references in various files. See #83.
+
+- Bug fix. Exclude `.build.php` and `.build.*.php` files from TGZ and ZIP distro files. See also: `setups/patterns/lite-repo.xml`.
+
+- Bug fix. Excluding `/assets` from lite push to remote repo. These assets should only be seen the pro repo. This also avoids PEAR compatibility issues with the Git LFS protocol. See also: `setups/patterns/lite-repo.xml`.
+
+- Bug fix. Excluding `.gitmodules` from lite push to remote repo. There are no submodules in the final lite repo. This also avoids PEAR compatibility issues w/ recursive cloning. See also: `setups/patterns/lite-repo.xml`.
+
+- Bug fix. Always look for a leading `\` slash when performing any type of namespace replacement.
+
+- Completed a new round of tests against all build targets after the changes above.
+
+## 160411
+
 - Support for `/*[pro strip-file-from="lite"]*/`. See: #73
 
 ## 160410

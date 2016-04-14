@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Package generation. -->
+    <!-- ============================================  -->
+
+    <target name="-distros-packages" hidden="true">
+
+      <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
+      <if>
+        <and>
+          <not>
+            <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
+          </not>
+        </and>
+        <then>
+          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}" />
+        </then>
+      </if>
+      <!-- PHAR file generation. -->
+
+      <if>
+        <and>
+          <available resource="${project.basedir}/.~build/${project_slug}/src/includes/phar-stub.php" type="file" />
+        </and>
+        <then>
+          <delete file="${project.basedir}/.~build/${project_slug}.phar" quiet="true" />
+
+          <pharpackage basedir="${project.basedir}/.~build/${project_slug}" stub="${project.basedir}/.~build/${project_slug}/src/includes/phar-stub.php" destfile="${project.basedir}/.~build/${project_slug}.phar">
+            <fileset dir="${project.basedir}/.~build/${project_slug}" casesensitive="false" excludes="${project_other_phar_fileset_exclusions}">
+              <patternset refid="_phar_patternset" />
+            </fileset>
+          </pharpackage>
+
+          <echo />
+        </then>
+      </if>
+      <!-- ZIP file generation. -->
+
+      <delete file="${project.basedir}/.~build/${project_slug}.zip" quiet="true" />
+
+      <zip basedir="${project.basedir}/.~build/${project_slug}" prefix="${project_slug}/" includeemptydirs="false" destfile="${project.basedir}/.~build/${project_slug}.zip">
+        <fileset dir="${project.basedir}/.~build/${project_slug}" casesensitive="false" excludes="${project_other_zip_tgz_fileset_exclusions}">
+          <patternset refid="_zip_tgz_patternset" />
+        </fileset>
+      </zip>
+
+      <!-- TGZ file generation. -->
+
+      <echo />
+
+      <delete file="${project.basedir}/.~build/${project_slug}.tar.gz" quiet="true" />
+
+      <tar basedir="${project.basedir}/.~build/${project_slug}" prefix="${project_slug}/" includeemptydirs="false" destfile="${project.basedir}/.~build/${project_slug}.tar.gz" compression="gzip">
+        <fileset dir="${project.basedir}/.~build/${project_slug}" casesensitive="false" excludes="${project_other_zip_tgz_fileset_exclusions}">
+          <patternset refid="_zip_tgz_patternset" />
+        </fileset>
+      </tar>
+
+    </target>
+
+  </project>

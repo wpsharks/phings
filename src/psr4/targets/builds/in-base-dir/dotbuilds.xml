@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Iterate over all `.build.in-base-dir.php` files. -->
+    <!-- ============================================  -->
+
+    <target name="-builds-in-base-dir-dotbuilds" hidden="true">
+
+      <!-- Iterate over all `.build.in-base-dir.php` files. -->
+
+      <echo msg="Running .build.php &amp; .build.in-base-dir.php files in: ${project.basedir}" />
+
+      <foreach target="--builds-in-base-dir-dotbuild" absparam="__abs_build_in_base_dir_php" param="__build_in_base_dir_php">
+        <fileset dir="${project.basedir}" casesensitive="false">
+          <patternset refid="_dotbuilds_patternset" />
+          <include pattern=".build.in-base-dir.php" />
+          <include pattern="**/.build.in-base-dir.php" />
+        </fileset>
+      </foreach>
+
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Callback that runs a `.build.in-base-dir.php` file. -->
+    <!-- ============================================  -->
+
+    <target name="--builds-in-base-dir-dotbuild" hidden="true">
+
+      <echo msg="Running : ${__abs_build_in_base_dir_php}" />
+
+      <exec executable="php" dir="${project.basedir}" passthru="true" checkreturn="true">
+        <arg value="${__abs_build_in_base_dir_php}" />
+      </exec>
+
+    </target>
+
+  </project>

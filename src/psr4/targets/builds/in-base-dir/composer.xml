@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Composer install routine. -->
+    <!-- ============================================  -->
+
+    <target name="-builds-in-base-dir-composer" hidden="true">
+
+      <if>
+        <and>
+          <available resource="${project.basedir}/composer.json" type="file" />
+        </and>
+        <then>
+          <!-- Composer install routines. -->
+
+          <echo msg="Running Composer in: ${project.basedir}" />
+
+          <echo />
+
+          <if>
+            <and>
+              <isset property="composer-lock-delete" />
+              <istrue value="${composer-lock-delete}" />
+              <available resource="${project.basedir}/composer.lock" type="file" />
+            </and>
+            <then>
+              <delete file="${project.basedir}/composer.lock" quiet="true" />
+
+              <echo />
+            </then>
+          </if>
+          <if>
+            <and>
+              <available resource="${project.basedir}/src/vendor" type="dir" />
+            </and>
+            <then>
+              <delete dir="${project.basedir}/src/vendor" includeemptydirs="true" quiet="true" />
+
+              <echo />
+            </then>
+          </if>
+
+          <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
+            <arg value="composer" />
+            <arg value="install" />
+          </exec>
+
+          <!-- WebSharks Core rebranding. -->
+
+          <if>
+            <and>
+              <available resource="${project.basedir}/src/vendor/composer/autoload_psr4.php" type="file" />
+              <available resource="${project.basedir}/src/vendor/websharks/core" type="dir" />
+            </and>
+            <then>
+              <echo />
+
+              <echo msg="Rebranding: ${project.basedir}/src/vendor/websharks/core" />
+
+              <reflexive>
+                <fileset dir="${project.basedir}/src/vendor/websharks/core" casesensitive="false">
+                  <patternset refid="_php_patternset" />
+                </fileset>
+                <filterchain>
+                  <replaceregexp>
+                    <regexp pattern="\b(namespace|use|return)\s+(\\)?WebSharks\\Core\b" replace="\1 \2WebSharks\\Core\\${project_sub_namespace}" modifiers="u" />
+                  </replaceregexp>
+                </filterchain>
+              </reflexive>
+              <reflexive>
+                <fileset dir="${project.basedir}/src/vendor/composer" casesensitive="false">
+                  <include pattern="autoload_psr4.php" />
+                </fileset>
+                <filterchain>
+                  <replaceregexp>
+                    <regexp pattern="\b(\\\\)?WebSharks\\\\Core\b" replace="\1WebSharks\\\\Core\\\\${project_sub_namespace}" modifiers="u" />
+                  </replaceregexp>
+                </filterchain>
+              </reflexive>
+
+              <echo />
+
+              <echo msg="Rebranding text-domain in: ${project.basedir}/src/vendor/websharks/core" />
+
+              <reflexive>
+                <fileset dir="${project.basedir}/src/vendor/websharks/core" casesensitive="false">
+                  <patternset refid="_php_patternset" />
+                </fileset>
+                <filterchain>
+                  <replaceregexp>
+                    <regexp pattern="\b__\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="__('$1', '${_project_text_domain}')" modifiers="u" />
+                    <regexp pattern="\b_x\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_x('$1', '$2', '${_project_text_domain}')" modifiers="u" />
+                    <regexp pattern="\b_n\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*\)" replace="_n('$1', '$2', $3, '${_project_text_domain}')" modifiers="u" />
+                    <regexp pattern="\b_nx\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_nx('$1', '$2', $3, '$4', '${_project_text_domain}')" modifiers="u" />
+                  </replaceregexp>
+                </filterchain>
+              </reflexive>
+            </then>
+          </if>
+
+        </then>
+        <else>
+          <echo msg="N/A: composer.json does not exist in this project." />
+        </else>
+      </if>
+
+    </target>
+
+  </project>

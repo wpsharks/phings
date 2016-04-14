@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Iterate over all `.build.in-build-dir.php` files. -->
+    <!-- ============================================  -->
+
+    <target name="-builds-in-build-dir-dotbuilds" hidden="true">
+
+      <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
+      <if>
+        <and>
+          <not>
+            <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
+          </not>
+        </and>
+        <then>
+          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}" />
+        </then>
+      </if>
+      <!-- Iterate over all `.build.in-build-dir.php` files. -->
+
+      <echo msg="Running .build.php &amp; .build.in-build-dir.php files in: ${project.basedir}/.~build/${project_slug}" />
+
+      <foreach target="--builds-in-build-dir-dotbuild" absparam="__abs_build_in_build_dir_php" param="__build_in_build_dir_php">
+        <fileset dir="${project.basedir}/.~build/${project_slug}" casesensitive="false">
+          <patternset refid="_dotbuilds_patternset" />
+          <include pattern=".build.in-build-dir.php" />
+          <include pattern="**/.build.in-build-dir.php" />
+        </fileset>
+      </foreach>
+
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Callback that runs a `.build.in-build-dir.php` file. -->
+    <!-- ============================================  -->
+
+    <target name="--builds-in-build-dir-dotbuild" hidden="true">
+
+      <echo msg="Running : ${__abs_build_in_build_dir_php}" />
+
+      <exec executable="php" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkreturn="true">
+        <arg value="${__abs_build_in_build_dir_php}" />
+      </exec>
+
+    </target>
+
+  </project>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Codex generation. -->
+    <!-- ============================================  -->
+
+    <target name="-codex-apigen" hidden="true">
+
+      <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
+      <if>
+        <and>
+          <not>
+            <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
+          </not>
+        </and>
+        <then>
+          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}" />
+        </then>
+      </if>
+      <!-- Codex generation; i.e., run APIgen. -->
+
+      <echo msg="Running ApiGen (i.e., building codex)." />
+
+      <echo />
+
+      <delete dir="${project.basedir}/.~build/${project_slug}-codex" includeemptydirs="true" quiet="true" />
+
+      <echo />
+
+      <exec executable="/usr/bin/env" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkreturn="true">
+        <arg value="apigen" />
+        <arg value="generate" />
+
+        <arg value="--source" />
+        <arg value="${project.basedir}/.~build/${project_slug}" />
+
+        <arg value="--destination" />
+        <arg value="${project.basedir}/.~build/${project_slug}-codex" />
+
+        <arg value="--title" />
+        <arg value="${project_title}" />
+
+        <arg value="--exclude" />
+        <arg value="${_codex_ignore}" />
+
+        <arg value="--download" />
+        <arg value="--deprecated" />
+        <arg value="--todo" />
+        <arg value="--debug" />
+      </exec>
+
+    </target>
+
+  </project>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Create the .~build directory. -->
+    <!-- ============================================  -->
+
+    <target name="-builds-in-base-dir-after-create-build-dir" hidden="true">
+
+      <if>
+        <and>
+          <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
+        </and>
+        <then>
+          <delete dir="${project.basedir}/.~build/${project_slug}" includeemptydirs="true" quiet="true" />
+
+          <echo />
+        </then>
+      </if>
+      <mkdir dir="${project.basedir}/.~build/${project_slug}" />
+
+      <copy todir="${project.basedir}/.~build/${project_slug}">
+        <fileset dir="${project.basedir}" casesensitive="false" defaultexcludes="false">
+          <exclude pattern=".git" />
+          <exclude pattern=".git/**" />
+
+          <exclude pattern=".~build" />
+          <exclude pattern=".~build/**" />
+
+          <exclude pattern="phings" />
+          <exclude pattern="phings/**" />
+        </fileset>
+      </copy>
+
+    </target>
+
+  </project>

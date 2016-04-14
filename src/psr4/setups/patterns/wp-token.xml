@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- WP token pattern set. -->
+    <!-- ============================================  -->
+
+    <patternset id="_wp_token_patternset">
+      <exclude pattern=".~build/**" />
+      <exclude pattern="**/.~build/**" />
+
+      <exclude name="phings/**" />
+      <exclude name="**/phings/**" />
+
+      <exclude pattern="vendor/**" />
+      <exclude pattern="**/vendor/**" />
+
+      <include pattern="readme.txt" />
+
+      <include pattern="plugin.php" />
+      <include pattern="${project_slug}.php" />
+
+      <include pattern="style.css" />
+      <include pattern="functions.php" />
+
+      <include pattern="uninstall.php" />
+    </patternset>
+
+  </project>

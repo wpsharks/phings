@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- JS/CSS pattern set. -->
+    <!-- ============================================  -->
+
+    <patternset id="_js_css_patternset">
+      <exclude pattern=".~build/**" />
+      <exclude pattern="**/.~build/**" />
+
+      <exclude name="phings/**" />
+      <exclude name="**/phings/**" />
+
+      <exclude pattern="vendor/**" />
+      <exclude pattern="**/vendor/**" />
+
+      <include pattern="*.js" />
+      <include pattern="**/**.js" />
+
+      <include pattern="*.json" />
+      <include pattern="**/**.json" />
+
+      <include pattern="*.css" />
+      <include pattern="**/**.css" />
+
+      <include pattern="*.scss" />
+      <include pattern="**/**.scss" />
+    </patternset>
+
+  </project>

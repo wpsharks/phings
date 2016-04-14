@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- i18n POT translation files. -->
+    <!-- ============================================  -->
+
+    <target name="-builds-in-base-dir-i18n-pots" hidden="true">
+
+      <!-- WordPress POT translation. -->
+      <if>
+        <and>
+          <istrue value="${_is_wp_theme_plugin}" />
+          <available resource="${project.basedir}/src/vendor/websharks/wp-i18n-tools" type="dir" />
+          <not>
+            <isset property="_is_lite_build" />
+          </not>
+        </and>
+        <then>
+          <!-- Force  `__()` and other i18n calls w/ no text domain to contain a text-domain. -->
+
+          <echo msg="Forcing `__()` and other i18n calls w/ no text domain to contain a text-domain in: ${project.basedir}" />
+
+          <reflexive>
+            <fileset dir="${project.basedir}" casesensitive="false">
+              <patternset refid="_php_patternset" />
+            </fileset>
+            <filterchain>
+              <replaceregexp>
+                <regexp pattern="\b__\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="__('$1', '${_project_text_domain}')" modifiers="u" />
+                <regexp pattern="\b_x\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_x('$1', '$2', '${_project_text_domain}')" modifiers="u" />
+                <regexp pattern="\b_n\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*\)" replace="_n('$1', '$2', $3, '${_project_text_domain}')" modifiers="u" />
+                <regexp pattern="\b_nx\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_nx('$1', '$2', $3, '$4', '${_project_text_domain}')" modifiers="u" />
+              </replaceregexp>
+            </filterchain>
+          </reflexive>
+
+          <!-- WordPress theme. -->
+
+          <if>
+            <and>
+              <available resource="${project.basedir}/style.css" type="file" />
+            </and>
+            <then>
+              <echo />
+
+              <echo msg="Building POT translation file for WP theme: ${project.basedir}" />
+
+              <mkdir dir="${project.basedir}/src/includes/translations" />
+
+              <exec executable="${project.basedir}/src/vendor/websharks/wp-i18n-tools/makepot.php" dir="${project.basedir}" passthru="true" checkreturn="true">
+                <arg value="wp-theme" />
+                <arg value="${project.basedir}" />
+                <arg value="${project.basedir}/src/includes/translations/${project_slug}.pot" />
+              </exec>
+            </then>
+          </if>
+          <!-- WordPress plugin. -->
+
+          <if>
+            <and>
+              <available resource="${project.basedir}/plugin.php" type="file" />
+            </and>
+            <then>
+              <echo />
+
+              <echo msg="Building POT translation file for WP plugin: ${project.basedir}" />
+
+              <mkdir dir="${project.basedir}/src/includes/translations" />
+
+              <exec executable="${project.basedir}/src/vendor/websharks/wp-i18n-tools/makepot.php" dir="${project.basedir}" passthru="true" checkreturn="true">
+                <arg value="wp-plugin" />
+                <arg value="${project.basedir}" />
+                <arg value="${project.basedir}/src/includes/translations/${project_slug}.pot" />
+              </exec>
+            </then>
+          </if>
+
+        </then>
+        <else>
+          <echo msg="N/A: skipping WordPress POT generation." />
+        </else>
+      </if>
+
+    </target>
+
+  </project>

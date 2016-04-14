@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Preamble. -->
+    <!-- ============================================  -->
+
+    <if>
+      <and>
+        <not>
+          <isset property="_setups_preamble_display_complete" />
+        </not>
+      </and>
+      <then>
+        <!-- Begin preamble. -->
+
+        <echo />
+
+        <echo msg="------------------------------------" />
+        <echo msg="--- Preamble -----------------------" />
+        <echo msg="------------------------------------" />
+
+        <echo />
+
+        <echo msg="OS: ${os.name}" />
+        <echo msg="Home: ${user.home}" />
+
+        <echo />
+
+        <echo msg="PHP Version: ${php.version}" />
+        <echo msg="Phing Version: ${phing.version}" />
+
+        <echo />
+
+        <echo msg="Phing Title: ${phing.project.name}" />
+        <echo msg="Project Title: ${project_title}" />
+
+        <echo />
+
+        <echo msg="Project Base Directory: ${project.basedir}" />
+
+        <echo />
+
+        <echo msg="Project Org.: ${project_owner}" />
+        <echo msg="Project Slug: ${project_slug}" />
+        <echo msg="Project Text Domain: ${_project_text_domain}" />
+
+        <echo />
+
+        <echo msg="Project Namespace: ${project_namespace}" />
+        <echo msg="Project Sub-Namespace: ${project_sub_namespace}" />
+
+        <echo />
+
+        <echo msg="Project-Specific PHAR Exclusions: ${project_other_phar_fileset_exclusions}" />
+        <echo msg="Project-Specific ZIP/TGZ Exclusions: ${project_other_zip_tgz_fileset_exclusions}" />
+
+        <if>
+          <and>
+            <not>
+              <isset property="_is_lite_build" />
+            </not>
+            <istrue value="${_has_lite_build_props}" />
+          </and>
+          <then>
+            <echo />
+
+            <echo msg="Project Lite Title: ${project_lite_title}" />
+            <echo msg="Project Lite Slug: ${project_lite_slug}" />
+
+            <echo />
+
+            <echo msg="Project Lite Namespace: ${project_lite_namespace}" />
+            <echo msg="Project Lite Sub-Namespace: ${project_lite_sub_namespace}" />
+
+            <echo />
+
+            <echo msg="Lite Project-Specific PHAR Exclusions: ${project_lite_other_phar_fileset_exclusions}" />
+            <echo msg="Lite Project-Specific ZIP/TGZ Exclusions: ${project_lite_other_zip_tgz_fileset_exclusions}" />
+
+            <echo />
+
+            <echo msg="Lite Project-Specific Text Domain Replacement Pattern: ${project_lite_text_domain_regex_replacement_pattern}" />
+            <echo msg="Lite Project-Specific Namespace Altered in Other Files: ${project_lite_alter_namespace_in_other_files_pattern}" />
+          </then>
+        </if>
+        <echo />
+
+        <echo msg="Project Version: ${project_version}" />
+
+        <echo />
+
+        <echo msg="Project PHP Required Version: ${project_php_required_version}" />
+        <echo msg="Project PHP Tested Up To Version: ${project_php_tested_up_to_version}" />
+
+        <if>
+          <and>
+            <istrue value="${_is_wp_theme_plugin}" />
+          </and>
+          <then>
+            <echo />
+
+            <echo msg="Project WP Required Version: ${project_wp_required_version}" />
+            <echo msg="Project WP Tested Up To Version: ${project_wp_tested_up_to_version}" />
+            <if>
+              <and>
+                <istrue value="${_is_wp_sharks_core_theme_plugin}" />
+              </and>
+              <then>
+                <echo />
+
+                <echo msg="Project WP Sharks Core Required Version: ${project_wp_sharks_core_required_version}" />
+                <echo msg="Project WP Sharks Core Tested Up To Version: ${project_wp_sharks_core_tested_up_to_version}" />
+                <echo msg="Project WP Sharks Core Max Compatible Version: ${project_wp_sharks_core_max_compatible_version}" />
+              </then>
+            </if>
+          </then>
+        </if>
+
+        <!-- Flag complete. -->
+
+        <property name="_setups_preamble_display_complete" value="true" />
+
+      </then>
+    </if>
+
+  </project>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Pattern-set reference for PHAR files. -->
+    <!-- ============================================  -->
+
+    <patternset id="_phar_patternset">
+      <exclude name="phar-stub.php" />
+      <exclude name="**/phar-stub.php" />
+
+      <exclude name=".~**" />
+      <exclude name="**/.~**" />
+
+      <exclude name=".git**" />
+      <exclude name="**/.git**" />
+
+      <exclude name=".idea/**" />
+      <exclude name="**/.idea/**" />
+
+      <exclude name=".tags" />
+      <exclude name="**/.tags" />
+
+      <exclude name="assets/**" />
+      <exclude name="**/assets/**" />
+
+      <exclude name="phings/**" />
+      <exclude name="**/phings/**" />
+
+      <exclude name="tests/**" />
+      <exclude name="**/tests/**" />
+
+      <exclude name="vendor/bin/**" />
+      <exclude name="**/vendor/bin/**" />
+
+      <exclude name="vendor/package/bourbon/**" />
+      <exclude name="**/vendor/package/bourbon/**" />
+
+      <exclude name="vendor/websharks/wp-i18n-tools/**" />
+      <exclude name="**/vendor/websharks/wp-i18n-tools/**" />
+
+      <exclude name=".sass-cache/**" />
+      <exclude name="**/.sass-cache/**" />
+
+      <exclude name="**.scss" />
+      <exclude name="**/**.scss" />
+
+      <exclude name="**.css.map" />
+      <exclude name="**/**.css.map" />
+
+      <exclude name=".ht**" />
+      <exclude name="**/.ht**" />
+
+      <exclude name=".post-receive" />
+      <exclude name="**/.post-receive" />
+
+      <exclude name=".drone.yml" />
+      <exclude name="**/.drone.yml" />
+
+      <exclude name=".drone.sec" />
+      <exclude name="**/.drone.sec" />
+
+      <exclude name=".travis.yml" />
+      <exclude name="**/.travis.yml" />
+
+      <exclude name=".travis.bash" />
+      <exclude name="**/.travis.bash" />
+
+      <exclude name=".coveralls.yml" />
+      <exclude name="**/.coveralls.yml" />
+
+      <exclude name=".scrutinizer.yml" />
+      <exclude name="**/.scrutinizer.yml" />
+
+      <exclude name=".build.props" />
+      <exclude name="**/.build.props" />
+
+      <exclude name="build-*.xml" />
+      <exclude name="**/build-*.xml" />
+
+      <exclude name="build.xml" />
+      <exclude name="**/build.xml" />
+
+      <exclude name=".build.php" />
+      <exclude name="**/.build.php" />
+
+      <exclude name=".build.*.php" />
+      <exclude name="**/.build.*.php" />
+
+      <exclude name="composer.json" />
+      <exclude name="**/composer.json" />
+
+      <exclude name="composer.lock" />
+      <exclude name="**/composer.lock" />
+
+      <exclude name="LICENSE.txt" />
+      <exclude name="**/LICENSE.txt" />
+
+      <exclude name="LICENSE.md" />
+      <exclude name="**/LICENSE.md" />
+
+      <exclude name="README.txt" />
+      <exclude name="**/README.txt" />
+
+      <exclude name="README.md" />
+      <exclude name="**/README.md" />
+
+      <exclude name="CHANGELOG.md" />
+      <exclude name="**/CHANGELOG.md" />
+
+      <exclude name="AUTHORS.md" />
+      <exclude name="**/AUTHORS.md" />
+
+      <exclude name="CONTRIBUTORS.md" />
+      <exclude name="**/CONTRIBUTORS.md" />
+
+      <exclude name="ISSUE_TEMPLATE.md" />
+      <exclude name="**/ISSUE_TEMPLATE.md" />
+
+      <exclude name="PULL_REQUEST_TEMPLATE.md" />
+      <exclude name="**/PULL_REQUEST_TEMPLATE.md" />
+    </patternset>
+
+  </project>

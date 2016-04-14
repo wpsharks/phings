@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Initialize .~build directory. -->
+    <!-- ============================================  -->
+
+    <if>
+      <and>
+        <not>
+          <available resource="${project.basedir}/.~build" type="dir" />
+        </not>
+      </and>
+      <then>
+        <mkdir dir="${project.basedir}/.~build" />
+      </then>
+    </if>
+
+  </project>
