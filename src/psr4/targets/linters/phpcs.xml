@@ -50,6 +50,7 @@
 
           <exec executable="/usr/bin/env" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkreturn="true">
             <arg value="phpcs" />
+            <arg value="-s" />
             <arg value="-p" />
             <arg value="--report=full" />
             <arg value="--encoding=utf-8" />
