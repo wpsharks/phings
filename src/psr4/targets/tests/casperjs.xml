@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Run CasperJS tests via CI server. -->
+    <!-- ============================================  -->
+
+    <target name="-tests-casperjs" hidden="true">
+
+      <if>
+        <and>
+          <isset property="env.CI" />
+          <available resource="/bootstrap-ci/src/docker/casperjs/includes.js" type="file" />
+        </and>
+        <then>
+
+          <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
+          <if>
+            <and>
+              <not>
+                <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
+              </not>
+            </and>
+            <then>
+              <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}" />
+            </then>
+          </if>
+
+          <!-- Check if this project has CasperJS test files. -->
+          <if>
+            <and>
+              <available resource="${project.basedir}/.~build/${project_slug}/tests/casperjs" type="dir" />
+              <available resource="${project.basedir}/.~build/${project_slug}/tests/includes/casperjs.js" type="file" />
+            </and>
+            <then>
+              <!-- Run CasperJS tests via CI server. -->
+
+              <echo msg="Running CasperJS tests via CI server." />
+
+              <echo />
+
+              <delete dir="${project.basedir}/.~build/.casperjs" includeEmptyDirs="true" quiet="true" />
+              <mkdir dir="${project.basedir}/.~build/.casperjs/local-storage" />
+
+              <echo />
+
+              <exec executable="${_deps_casperjs_path}" dir="${project.basedir}/.~build/${project_slug}" passThru="true" checkReturn="true">
+                <arg value="test" />
+                <arg value="--concise" />
+                <arg value="--fail-fast" />
+                <arg value="--ssl-protocol=any" />
+                <arg value="--ignore-ssl-errors=true" />
+                <arg value="--cookies-file=${project.basedir}/.~build/.casperjs/cookies.txt" />
+                <arg value="--local-storage-path=${project.basedir}/.~build/.casperjs/local-storage" />
+                <arg value="--includes=/bootstrap-ci/src/docker/casperjs/includes.js,${project.basedir}/.~build/${project_slug}/tests/includes/casperjs.js" />
+                <arg value="${project.basedir}/.~build/${project_slug}/tests/casperjs" />
+              </exec>
+
+            </then>
+            <else>
+              <echo msg="N/A: skipping CasperJS tests via CI server." />
+            </else>
+          </if>
+
+        </then>
+        <else>
+          <echo msg="N/A: skipping CasperJS tests via CI server." />
+        </else>
+      </if>
+
+    </target>
+
+  </project>

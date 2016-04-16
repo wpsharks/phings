@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Token pattern set. -->
+    <!-- ============================================  -->
+
+    <patternSet id="_token_pattern_set">
+      <exclude pattern=".~build/**" />
+      <exclude pattern="**/.~build/**" />
+
+      <exclude pattern="phings/**" />
+      <exclude pattern="**/phings/**" />
+
+      <exclude pattern="vendor/**" />
+      <exclude pattern="**/vendor/**" />
+
+      <include pattern="*.x-php" />
+      <include pattern="**/**.x-php" />
+
+      <include pattern="*.php" />
+      <include pattern="**/**.php" />
+
+      <include pattern="*.js" />
+      <include pattern="**/**.js" />
+
+      <include pattern="*.scss" />
+      <include pattern="**/**.scss" />
+
+      <include pattern="*.bash" />
+      <include pattern="**/**.bash" />
+    </patternSet>
+
+  </project>

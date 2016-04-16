@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Property setup routines. -->
+    <!-- These run inline; no targets necessary. -->
+    <!-- ============================================  -->
+
+    <import file="${phing.dir.targets}/setups/properties/config.xml" />
+    <import file="${phing.dir.targets}/setups/properties/validate.xml" />
+
+    <!-- ============================================  -->
+    <!-- Other misc. setup routines. -->
+    <!-- These run inline; no targets necessary. -->
+    <!-- ============================================  -->
+
+    <import>
+      <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false">
+        <include pattern="ad-hocs/**.xml" />
+        <include pattern="patterns/**.xml" />
+        <include pattern="ini-sets/**.xml" />
+        <include pattern="directories/**.xml" />
+      </fileSet>
+    </import>
+
+    <import>
+      <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false">
+        <include pattern="dependencies/**.xml" />
+      </fileSet>
+    </import>
+
+    <!-- ============================================  -->
+    <!-- Preamble setup routines. -->
+    <!-- These run inline; no targets necessary. -->
+    <!-- ============================================  -->
+
+    <import file="${phing.dir.targets}/setups/preamble/display.xml" />
+
+    <!-- ============================================  -->
+    <!-- Build (in base directory) targets. -->
+    <!-- ============================================  -->
+
+    <import file="${phing.dir.targets}/targets/builds/in-base-dir/version-tokens.xml" />
+    <import file="${phing.dir.targets}/targets/builds/in-base-dir/composer.xml" />
+    <import file="${phing.dir.targets}/targets/builds/in-base-dir/dotbuilds.xml" />
+    <import file="${phing.dir.targets}/targets/builds/in-base-dir/i18n-pots.xml" />
+
+    <!-- ============================================  -->
+    <!-- Build (in base directory, after) targets. -->
+    <!-- ============================================  -->
+
+    <import file="${phing.dir.targets}/targets/builds/in-base-dir-after/create-build-dir.xml" />
+
+    <!-- ============================================  -->
+    <!-- Build (in build directory) targets. -->
+    <!-- ============================================  -->
+
+    <import file="${phing.dir.targets}/targets/builds/in-build-dir/dotbuilds.xml" />
+    <import file="${phing.dir.targets}/targets/builds/in-build-dir/js-css-cleanup.xml" />
+
+    <!-- ============================================  -->
+    <!-- Build (in build directory, after) targets. -->
+    <!-- ============================================  -->
+
+    <!-- Nothing at this time. -->
+
+    <!-- ============================================  -->
+    <!-- Lint checking targets. -->
+    <!-- ============================================  -->
+
+    <import file="${phing.dir.targets}/targets/linters/phpcs.xml" />
+
+    <!-- ============================================  -->
+    <!-- Distro-related targets. -->
+    <!-- ============================================  -->
+
+    <import file="${phing.dir.targets}/targets/distros/packages.xml" />
+
+    <!-- ============================================  -->
+    <!-- Test-related targets. -->
+    <!-- ============================================  -->
+
+    <import file="${phing.dir.targets}/targets/tests/phpunit.xml" />
+    <import file="${phing.dir.targets}/targets/tests/casperjs.xml" />
+
+    <!-- ============================================  -->
+    <!-- Codex-related targets. -->
+    <!-- ============================================  -->
+
+    <import file="${phing.dir.targets}/targets/codex/apigen.xml" />
+
+    <!-- ============================================  -->
+    <!-- Lite variation-related targets. -->
+    <!-- ============================================  -->
+
+    <import file="${phing.dir.targets}/targets/variations/lite/prepare.xml" />
+    <import file="${phing.dir.targets}/targets/variations/lite/builds.xml" />
+    <import file="${phing.dir.targets}/targets/variations/lite/push.xml" />
+
+  </project>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Text-based pattern set. -->
+    <!-- ============================================  -->
+
+    <patternSet id="_text_based_pattern_set">
+      <exclude pattern=".~build/**" />
+      <exclude pattern="**/.~build/**" />
+
+      <exclude pattern="phings/**" />
+      <exclude pattern="**/phings/**" />
+
+      <exclude pattern="vendor/**" />
+      <exclude pattern="**/vendor/**" />
+
+      <include pattern="*.x-php" />
+      <include pattern="**/**.x-php" />
+
+      <include pattern="*.php" />
+      <include pattern="**/**.php" />
+
+      <include pattern="*.html" />
+      <include pattern="**/**.html" />
+
+      <include pattern="*.xml" />
+      <include pattern="**/**.xml" />
+
+      <include pattern="*.css" />
+      <include pattern="**/**.css" />
+
+      <include pattern="*.scss" />
+      <include pattern="**/**.scss" />
+
+      <include pattern="*.js" />
+      <include pattern="**/**.js" />
+
+      <include pattern="*.json" />
+      <include pattern="**/**.json" />
+
+      <include pattern="*.yml" />
+      <include pattern="**/**.yml" />
+
+      <include pattern="*.bash" />
+      <include pattern="**/**.bash" />
+
+      <include pattern="*.txt" />
+      <include pattern="**/**.txt" />
+
+      <include pattern="*.md" />
+      <include pattern="**/**.md" />
+
+      <include pattern=".ht*" />
+      <include pattern="**/.ht*" />
+    </patternSet>
+
+  </project>

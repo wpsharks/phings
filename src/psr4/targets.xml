@@ -4,53 +4,136 @@
 
     <!-- ============================================  -->
     <!-- Import hidden targets. -->
+    <!-- A stub that imports everything else. -->
     <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/config.xml" />
-    <import file="${phing.dir.targets}/targets/validate.xml" />
-    <import file="${phing.dir.targets}/targets/preamble.xml" />
-    <import file="${phing.dir.targets}/targets/prepare.xml" />
-    <import file="${phing.dir.targets}/targets/rtokens.xml" />
-    <import file="${phing.dir.targets}/targets/composer.xml" />
-    <import file="${phing.dir.targets}/targets/rebrand.xml" />
-    <import file="${phing.dir.targets}/targets/dotbuilds.xml" />
-    <import file="${phing.dir.targets}/targets/js-css.xml" />
-    <import file="${phing.dir.targets}/targets/pots.xml" />
-    <import file="${phing.dir.targets}/targets/phpcs.xml" />
-    <import file="${phing.dir.targets}/targets/phpunit.xml" />
-    <import file="${phing.dir.targets}/targets/casperjs.xml" />
-    <import file="${phing.dir.targets}/targets/packages.xml" />
-    <import file="${phing.dir.targets}/targets/distros.xml" />
-    <import file="${phing.dir.targets}/targets/lite.xml" />
-    <import file="${phing.dir.targets}/targets/apigen.xml" />
-    <import file="${phing.dir.targets}/targets/push-lite.xml" />
+    <import file="${phing.dir.targets}/imports.xml" />
 
     <!-- ============================================  -->
-    <!-- Default/visible build targets. -->
+    <!-- Default build target. -->
+    <!-- For all project contributors. -->
+    <!-- Run with `$ phing` or `$ phing build`. -->
     <!-- ============================================  -->
 
-    <target name="build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-composer,-rebrand,-dotbuilds,-js-css,-phpcs,-packages,-distros,-lite">
-      <echo msg="Build complete! :-)" />
+    <target name="build">
+      <echo msg="Running target: build" />
+      <phingCall target="-builds-in-base-dir-composer" />
+      <phingCall target="-builds-in-base-dir-dotbuilds" />
+      <phingCall target="-builds-in-base-dir-after-create-build-dir" />
+      <phingCall target="-builds-in-build-dir-dotbuilds" />
+      <phingCall target="-builds-in-build-dir-js-css-cleanup" />
+      <phingCall target="-linters-phpcs" />
+      <phingCall target="-distros-packages" />
     </target>
 
-    <target name="build-all" depends="-config,-validate,-preamble,-prepare,-rtokens,-composer,-rebrand,-dotbuilds,-js-css,-pots,-phpcs,-packages,-distros,-lite">
-      <echo msg="Full build complete! :-)" />
+    <!-- ============================================  -->
+    <!-- Lite build target. -->
+    <!-- For all project contributors. -->
+    <!-- Run with `$ phing build-lite`. -->
+    <!-- ============================================  -->
+
+    <target name="build-lite">
+      <echo msg="Running target: build-lite" />
+      <phingCall target="-variations-lite-build" />
     </target>
 
-    <target name="post-receive-build" depends="-config,-validate,-preamble,-prepare,-composer-lock-preserve,-composer,-rebrand">
-      <echo msg="Post receive build complete! :-)" />
+    <!-- ============================================  -->
+    <!-- Full build target. -->
+    <!-- For project leads & CI servers. -->
+    <!-- Run with `$ phing full-build`. -->
+    <!-- ============================================  -->
+
+    <target name="full-build">
+      <echo msg="Running target: full-build" />
+      <phingCall target="-builds-in-base-dir-version-tokens" />
+      <phingCall target="-builds-in-base-dir-composer" />
+      <phingCall target="-builds-in-base-dir-dotbuilds" />
+      <phingCall target="-builds-in-base-dir-i18n-pots" />
+      <phingCall target="-builds-in-base-dir-after-create-build-dir" />
+      <phingCall target="-builds-in-build-dir-dotbuilds" />
+      <phingCall target="-builds-in-build-dir-js-css-cleanup" />
+      <phingCall target="-linters-phpcs" />
+      <phingCall target="-distros-packages" />
     </target>
 
-    <target name="test" depends="-config,-validate,-preamble,-phpunit,-casperjs">
-      <echo msg="Testing complete! :-)" />
+    <!-- ============================================  -->
+    <!-- Full lite build target. -->
+    <!-- For project leads & CI servers. -->
+    <!-- Run with `$ phing full-build-lite`. -->
+    <!-- ============================================  -->
+
+    <target name="full-build-lite">
+      <echo msg="Running target: full-build-lite" />
+      <phingCall target="-variations-lite-full-build" />
     </target>
 
-    <target name="codex" depends="-config,-validate,-preamble,-apigen">
-      <echo msg="Codex generated! :-)" />
+    <!-- ============================================  -->
+    <!-- Build (all) target. -->
+    <!-- For all project contributors. -->
+    <!-- Run with `$ phing build-all`. -->
+    <!-- ============================================  -->
+
+    <target name="build-all">
+      <echo msg="Running target: build-all" />
+      <phingCall target="build" />
+      <phingCall target="build-lite" />
     </target>
 
-    <target name="release" depends="-config,-validate,-preamble,-push-lite">
-      <echo msg="Release complete! :-)" />
+    <!-- ============================================  -->
+    <!-- Full build (all) target. -->
+    <!-- For project leads & CI servers. -->
+    <!-- Run with `$ phing full-build-all`. -->
+    <!-- ============================================  -->
+
+    <target name="full-build-all">
+      <echo msg="Running target: full-build-all" />
+      <phingCall target="full-build" />
+      <phingCall target="full-build-lite" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Post-receive build target. -->
+    <!-- For remote deployments to use. -->
+    <!-- Run with `$ phing post-receive-build`. -->
+    <!-- ============================================  -->
+
+    <target name="post-receive-build">
+      <echo msg="Running target: post-receive-build" />
+      <phingCall target="-builds-in-base-dir-composer" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Test running target. -->
+    <!-- For remote CI servers to use. -->
+    <!-- Run with `$ phing test`. -->
+    <!-- ============================================  -->
+
+    <target name="test">
+      <echo msg="Running target: test" />
+      <phingCall target="-tests-phpunit" />
+      <phingCall target="-tests-casperjs" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Codex generation target. -->
+    <!-- For project leads or codex maintainers. -->
+    <!-- Run with `$ phing codex`. -->
+    <!-- ============================================  -->
+
+    <target name="codex">
+      <echo msg="Running target: codex" />
+      <phingCall target="-codex-apigen" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Release procedure target. -->
+    <!-- For project leads doing a release. -->
+    <!-- Run with `$ phing release`. -->
+    <!-- ============================================  -->
+
+    <target name="release">
+      <echo msg="Running target: release" />
+      <phingCall target="-variations-lite-push" />
     </target>
 
   </project>

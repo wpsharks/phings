@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Initialize `${_tmp_sub_dir}`. -->
+    <!-- ============================================  -->
+
+    <if>
+      <and>
+        <not>
+          <available resource="${_tmp_sub_dir}" type="dir" />
+        </not>
+      </and>
+      <then>
+        <mkdir dir="${_tmp_sub_dir}" />
+      </then>
+    </if>
+
+  </project>

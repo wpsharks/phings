@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Version token replacements. -->
+    <!-- ============================================  -->
+
+    <target name="-builds-in-base-dir-version-tokens" hidden="true">
+
+      <!-- Other PHP/JS token replacements. -->
+
+      <echo msg="Replacing version tokens in: ${project.basedir}" />
+
+      <reflexive>
+        <fileSet dir="${project.basedir}" caseSensitive="false">
+          <patternSet refId="_token_pattern_set" />
+        </fileSet>
+        <filterChain>
+          <replaceRegExp>
+            <regExp pattern="'[^']*?'([,;])\s*\/\/v\/\/$" replace="'${project_version}'$1 //v//" modifiers="um" />
+            <regExp pattern='"[^"]*?"([,;])\s*\/\/v\/\/$' replace='"${project_version}"$1 //v//' modifiers="um" />
+
+            <regExp pattern="'[^']*?'([,;])\s*\/\/version\/\/$" replace="'${project_version}'$1 //version//" modifiers="um" />
+            <regExp pattern='"[^"]*?"([,;])\s*\/\/version\/\/$' replace='"${project_version}"$1 //version//' modifiers="um" />
+
+            <regExp pattern="'[^']*?'([,;])\s*\/\/php\-required\-version\/\/$" replace="'${project_php_required_version}'$1 //php-required-version//" modifiers="um" />
+            <regExp pattern='"[^"]*?"([,;])\s*\/\/php\-required\-version\/\/$' replace='"${project_php_required_version}"$1 //php-required-version//' modifiers="um" />
+
+            <regExp pattern="'[^']*?'([,;])\s*\/\/php\-up\-to\-version\/\/$" replace="'${project_php_tested_up_to_version}'$1 //php-up-to-version//" modifiers="um" />
+            <regExp pattern='"[^"]*?"([,;])\s*\/\/php\-up\-to\-version\/\/$' replace='"${project_php_tested_up_to_version}"$1 //php-up-to-version//' modifiers="um" />
+          </replaceRegExp>
+        </filterChain>
+      </reflexive>
+
+      <!-- WordPress header replacements. -->
+
+      <if>
+        <and>
+          <isTrue value="${_is_wp_theme_plugin}" />
+        </and>
+        <then>
+          <echo />
+
+          <echo msg="Replacing WP version headers in: ${project.basedir}" />
+
+          <reflexive>
+            <fileSet dir="${project.basedir}" caseSensitive="false">
+              <patternSet refId="_wp_token_pattern_set" />
+            </fileSet>
+            <filterChain>
+              <replaceRegExp>
+                <regExp pattern="^(\s*\*\s*)?Version\:.+$" replace="$1Version: ${project_version}" modifiers="um" />
+                <regExp pattern="^(\s*\*\s*)?Stable tag\:.+$" replace="$1Stable tag: ${project_version}" modifiers="um" />
+
+                <regExp pattern="^(\s*\*\s*)?Requires at least\:.+$" replace="$1Requires at least: ${project_wp_required_version}" modifiers="um" />
+                <regExp pattern="^(\s*\*\s*)?Tested up to\:.+$" replace="$1Tested up to: ${project_wp_tested_up_to_version}" modifiers="um" />
+
+                <regExp pattern="^(\s*\*\s*)?Requires PHP\:.+$" replace="$1Requires PHP: ${project_php_required_version}" modifiers="um" />
+                <regExp pattern="^(\s*\*\s*)?Tested up to PHP\:.+$" replace="$1Tested up to PHP: ${project_php_tested_up_to_version}" modifiers="um" />
+              </replaceRegExp>
+            </filterChain>
+          </reflexive>
+
+          <if>
+            <and>
+              <isTrue value="${_is_wp_sharks_core_theme_plugin}" />
+            </and>
+            <then>
+              <reflexive>
+                <fileSet dir="${project.basedir}" caseSensitive="false">
+                  <patternSet refId="_wp_token_pattern_set" />
+                </fileSet>
+                <filterChain>
+                  <replaceRegExp>
+                    <regExp pattern="^(\s*\*\s*)?Requires WP Sharks Core\:.+$" replace="$1Requires WP Sharks Core: ${project_wp_sharks_core_required_version}" modifiers="um" />
+                    <regExp pattern="^(\s*\*\s*)?Tested up to WP Sharks Core\:.+$" replace="$1Tested up to WP Sharks Core: ${project_wp_sharks_core_tested_up_to_version}" modifiers="um" />
+                    <regExp pattern="^(\s*\*\s*)?Max compatible WP Sharks Core\:.+$" replace="$1Max compatible WP Sharks Core: ${project_wp_sharks_core_max_compatible_version}" modifiers="um" />
+                  </replaceRegExp>
+                </filterChain>
+              </reflexive>
+            </then>
+          </if>
+
+        </then>
+      </if>
+      <!-- WordPress token replacements. -->
+
+      <if>
+        <and>
+          <isTrue value="${_is_wp_theme_plugin}" />
+        </and>
+        <then>
+          <echo />
+
+          <echo msg="Replacing WP version tokens in: ${project.basedir}" />
+
+          <reflexive>
+            <fileSet dir="${project.basedir}" caseSensitive="false">
+              <patternSet refId="_token_pattern_set" />
+            </fileSet>
+            <filterChain>
+              <replaceRegExp>
+                <regExp pattern="'[^']*?'([,;])\s*\/\/wp\-required\-version\/\/$" replace="'${project_wp_required_version}'$1 //wp-required-version//" modifiers="um" />
+                <regExp pattern='"[^"]*?"([,;])\s*\/\/wp\-required\-version\/\/$' replace='"${project_wp_required_version}"$1 //wp-required-version//' modifiers="um" />
+
+                <regExp pattern="'[^']*?'([,;])\s*\/\/wp\-up\-to\-version\/\/$" replace="'${project_wp_tested_up_to_version}'$1 //wp-up-to-version//" modifiers="um" />
+                <regExp pattern='"[^"]*?"([,;])\s*\/\/wp\-up\-to\-version\/\/$' replace='"${project_wp_tested_up_to_version}"$1 //wp-up-to-version//' modifiers="um" />
+              </replaceRegExp>
+            </filterChain>
+          </reflexive>
+
+          <if>
+            <and>
+              <isTrue value="${_is_wp_sharks_core_theme_plugin}" />
+            </and>
+            <then>
+              <reflexive>
+                <fileSet dir="${project.basedir}" caseSensitive="false">
+                  <patternSet refId="_token_pattern_set" />
+                </fileSet>
+                <filterChain>
+                  <replaceRegExp>
+                    <regExp pattern="'[^']*?'([,;])\s*\/\/wp\-sharks\-core\-required\-version\/\/$" replace="'${project_wp_sharks_core_required_version}'$1 //wp-sharks-core-required-version//" modifiers="um" />
+                    <regExp pattern='"[^"]*?"([,;])\s*\/\/wp\-sharks\-core\-required\-version\/\/$' replace='"${project_wp_sharks_core_required_version}"$1 //wp-sharks-core-required-version//' modifiers="um" />
+
+                    <regExp pattern="'[^']*?'([,;])\s*\/\/wp\-sharks\-core\-up\-to\-version\/\/$" replace="'${project_wp_sharks_core_tested_up_to_version}'$1 //wp-sharks-core-up-to-version//" modifiers="um" />
+                    <regExp pattern='"[^"]*?"([,;])\s*\/\/wp\-sharks\-core\-up\-to\-version\/\/$' replace='"${project_wp_sharks_core_tested_up_to_version}"$1 //wp-sharks-core-up-to-version//' modifiers="um" />
+
+                    <regExp pattern="'[^']*?'([,;])\s*\/\/wp\-sharks\-core\-max\-compatible\-version\/\/$" replace="'${project_wp_sharks_core_max_compatible_version}'$1 //wp-sharks-core-max-compatible-version//" modifiers="um" />
+                    <regExp pattern='"[^"]*?"([,;])\s*\/\/wp\-sharks\-core\-max\-compatible\-version\/\/$' replace='"${project_wp_sharks_core_max_compatible_version}"$1 //wp-sharks-core-max-compatible-version//' modifiers="um" />
+                  </replaceRegExp>
+                </filterChain>
+              </reflexive>
+            </then>
+          </if>
+
+        </then>
+      </if>
+
+    </target>
+
+  </project>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Install PHP Code Sniffer. -->
+    <!-- ============================================  -->
+
+    <if>
+      <and>
+        <not>
+          <available resource="${_deps_phpcs_path}" type="file" />
+        </not>
+      </and>
+      <then>
+        <echo />
+
+        <echo msg="Installing PHP Code Sniffer v${_deps_phpcs_version} dependency." />
+        <echo msg="Install path: ${_deps_phpcs_path}" />
+
+        <if>
+          <and>
+            <not>
+              <available resource="${_deps_phpcs_path_dirname}" type="dir" />
+            </not>
+          </and>
+          <then>
+            <mkdir dir="${_deps_phpcs_path_dirname}" />
+          </then>
+        </if>
+
+        <if>
+          <and>
+            <isset property="env.CI" />
+          </and>
+          <then>
+            <exec command="which phpcs" checkReturn="true" outputProperty="_deps_which_phpcs" />
+            <symlink target="${_deps_which_phpcs}" link="${_deps_phpcs_path}" />
+          </then>
+          <else>
+            <exec executable="/usr/bin/env" passThru="true" checkReturn="true">
+              <arg value="curl" />
+              <arg value="${_deps_phpcs_url}" />
+              <arg value="--location" />
+              <arg value="--output" />
+              <arg value="${_deps_phpcs_path}" />
+            </exec>
+            <chmod file="${_deps_phpcs_path}" mode="0744" />
+          </else>
+        </if>
+
+      </then>
+    </if>
+
+  </project>

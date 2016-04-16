@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Setup ad hoc task. -->
+    <!-- ============================================  -->
+
+    <adHoc-task name="adHocExtractChangelogForVersion">
+      <![CDATA[
+        class adHocExtractChangelogForVersion extends Task {
+            private $version;
+            private $infile;
+            private $heading;
+            private $outfile;
+
+            function setVersion($version) {
+                $this->version = (string) $version;
+            }
+            function setInFile($infile) {
+                $this->infile = (string) $infile;
+            }
+            function setHeading($heading) {
+                $this->heading = trim((string) $heading);
+            }
+            function setOutFile($outfile) {
+                $this->outfile = (string) $outfile;
+                if ($this->outfile && is_file($this->outfile)) {
+                    unlink($this->outfile); // Remove.
+                }
+            }
+            function main() {
+              if (!$this->version) {
+                  return; // Not possible.
+              }
+              if (!is_file($this->infile)) {
+                  return; // Not possible.
+              }
+              if (!$this->outfile) {
+                  return; // Not possible.
+              }
+              if (!($changelog = file_get_contents($this->infile))) {
+                  return; // Not possible.
+              }
+              if (count($changelogs = preg_split('/(?:^|\n)(?:\=\s+v?([0-9a-z.\-]+)\s+\=|#+\s+v?([0-9a-z.\-]+)\s*)\n/ui', $changelog, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE)) < 2) {
+                  return; // Not possible.
+              }
+              for ($_i = 0; $_i < count($changelogs); $_i = $_i + 2) {
+                  $_version   = $changelogs[$_i]; // Version and changelog entries.
+                  $_changelog = !empty($changelogs[$_i+1]) ? trim($changelogs[$_i+1]) : '';
+                  if ($_changelog && $this->heading) {
+                      $_changelog = $this->heading."\n\n".$_changelog;
+                  }
+                  if (strcasecmp($_version, $this->version) === 0 && $_changelog) {
+                      file_put_contents($this->outfile, $_changelog);
+                      return; // All done here.
+                  }
+              } unset($_version, $_changelog); // Housekeeping.
+            }
+        }
+      ]]>
+    </adHoc-task>
+
+  </project>

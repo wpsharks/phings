@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- PCRE INI configuration. -->
+    <!-- ============================================  -->
+
+    <if>
+      <and>
+        <not>
+          <isset property="_setups_ini_sets_pcre_complete" />
+        </not>
+      </and>
+      <then>
+        <!-- Maximize backtrack limit. -->
+
+        <php expression="ini_set('pcre.backtrack_limit', (string) PHP_INT_MAX);" />
+
+        <!-- Flag complete. -->
+
+        <property name="_setups_ini_sets_pcre_complete" value="true" />
+
+      </then>
+    </if>
+
+  </project>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Push lite to repo. -->
+    <!-- ============================================  -->
+
+    <target name="-variations-lite-push" hidden="true">
+
+      <if>
+        <and>
+          <not>
+            <isset property="_is_lite_build" />
+          </not>
+          <isTrue value="${_has_lite_build_props}" />
+        </and>
+        <then>
+          <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
+          <if>
+            <and>
+              <not>
+                <available resource="${project.basedir}/.~build/${project_lite_slug}" type="dir" />
+              </not>
+            </and>
+            <then>
+              <fail msg="Lite variation not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}" />
+            </then>
+          </if>
+          <!-- Preparing for lite generation. -->
+
+          <property name="_variations_lite_push_repo_remote" value="git@github.com:${project_owner}/${project_lite_slug}.git" />
+          <property name="_variations_lite_push_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo" />
+
+          <echo msg="Preparing to push ${project_lite_title} to ${_variations_lite_push_repo_remote}" />
+
+          <!-- Clone lite repository. -->
+
+          <echo />
+
+          <delete dir="${_variations_lite_push_repo_dir}" includeEmptyDirs="true" quiet="true" />
+          <gitClone repository="${_variations_lite_push_repo_remote}" targetPath="${_variations_lite_push_repo_dir}" depth="1" />
+
+          <!-- Switch to `000000-dev` branch in lite version. -->
+
+          <echo />
+
+          <gitCheckout repository="${_variations_lite_push_repo_dir}" branchname="000000-dev" />
+
+          <!-- Delete all existing files in lite dev branch. -->
+
+          <echo />
+
+          <echo msg="Deleting (clearing out) all files in `000000-dev` branch of newly cloned repo." />
+
+          <delete includeEmptyDirs="true" quiet="true">
+            <fileSet dir="${_variations_lite_push_repo_dir}" caseSensitive="false" defaultExcludes="false">
+              <exclude pattern=".git" />
+              <exclude pattern=".git/**" />
+            </fileSet>
+          </delete>
+
+          <!-- Copy new files into lite dev branch. -->
+
+          <echo />
+
+          <echo msg="Updating 000000-dev branch to: ${project.basedir}/.~build/${project_lite_slug} (i.e., most recent build of the lite variation)." />
+
+          <copy toDir="${_variations_lite_push_repo_dir}">
+            <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false" defaultExcludes="false">
+              <patternSet refId="_lite_repo_pattern_set" />
+            </fileSet>
+          </copy>
+
+          <!-- Stage changed files in lite dev branch. -->
+
+          <echo />
+
+          <echo msg="Staging changed files in lite dev branch." />
+
+          <exec command="git add --all" dir="${_variations_lite_push_repo_dir}" passThru="true" checkReturn="true" />
+          <exec command="git status" dir="${_variations_lite_push_repo_dir}" passThru="true" checkReturn="true" />
+
+          <!-- Commit changes in lite dev branch (optional, if desired by user). -->
+
+          <echo />
+
+          <echo msg="To make changes or commit these files manually, choose 'no' at the next prompt and navigate to: ${_variations_lite_push_repo_dir}" />
+
+          <propertyPrompt propertyName="_variations_lite_push_lite_do_commit_changes" defaultValue="no" promptText="Commit changes in lite dev branch? (yes/no)" />
+
+          <if>
+            <or>
+              <equals arg1="${_variations_lite_push_lite_do_commit_changes}" arg2="y" caseSensitive="false" trim="yes" />
+              <equals arg1="${_variations_lite_push_lite_do_commit_changes}" arg2="yes" caseSensitive="false" trim="yes" />
+            </or>
+            <then>
+              <echo />
+
+              <echo msg="Attempting to generate commit message from changelog in lite dev branch." />
+
+              <delete file="${_variations_lite_push_repo_dir}/.~commit.msg" quiet="true" />
+              <adHocExtractChangelogForVersion version="${project_version}" inFile="${_variations_lite_push_repo_dir}/CHANGELOG.md" heading="Phing release of v${project_version} with the following changes:" outFile="${_variations_lite_push_repo_dir}/.~commit.msg" />
+
+              <if>
+                <and>
+                  <available resource="${_variations_lite_push_repo_dir}/.~commit.msg" type="file" />
+                </and>
+                <then>
+                  <echo />
+
+                  <echo msg="Changelog (commit message) generated successfully:" />
+
+                  <echo msg="---------------------------------------------------------" />
+                  <loadfile property="_variations_lite_push_lite_changelog_contents" file="${_variations_lite_push_repo_dir}/.~commit.msg" />
+                  <echo msg="${_variations_lite_push_lite_changelog_contents}" />
+                  <echo msg="---------------------------------------------------------" />
+
+                  <echo />
+
+                  <echo msg="Committing changes in lite dev branch." />
+
+                  <exec command="git commit -F .~commit.msg" dir="${_variations_lite_push_repo_dir}" passThru="true" checkReturn="true" />
+                  <property name="_variations_lite_push_lite_commit_successful" value="true" />
+                </then>
+                <else>
+                  <echo />
+
+                  <property name="_variations_lite_push_lite_commit_successful" value="false" />
+                  <echo level="error" msg="Unable to commit changes in lite dev branch: CHANGELOG.md file missing entry for this version." />
+                </else>
+              </if>
+              <!-- Push to remote repo (optional, if desired by user). -->
+
+              <if>
+                <and>
+                  <isTrue value="${_variations_lite_push_lite_commit_successful}" />
+                </and>
+                <then>
+                  <echo />
+
+                  <propertyPrompt propertyName="_variations_lite_push_lite_do_push_changes" defaultValue="no" promptText="Push commit to remote repo? (yes/no)" />
+
+                  <if>
+                    <or>
+                      <equals arg1="${_variations_lite_push_lite_do_push_changes}" arg2="y" caseSensitive="false" trim="yes" />
+                      <equals arg1="${_variations_lite_push_lite_do_push_changes}" arg2="yes" caseSensitive="false" trim="yes" />
+                    </or>
+                    <then>
+                      <echo />
+
+                      <gitPush repository="${_variations_lite_push_repo_dir}" />
+                    </then>
+                  </if>
+                </then>
+                <else>
+                  <echo />
+
+                  <echo msg="N/A: skipping push of lite dev branch; due to commit failure." />
+                </else>
+              </if>
+
+            </then>
+          </if>
+
+        </then>
+        <else>
+          <echo msg="N/A: skipping lite repo commit/push; lite not applicable." />
+        </else>
+      </if>
+
+    </target>
+
+  </project>
