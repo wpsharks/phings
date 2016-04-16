@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Install PhantomJS. -->
+    <!-- ============================================  -->
+
+    <if>
+      <and>
+        <not>
+          <available resource="${_deps_phantomjs_path}" type="file" />
+        </not>
+      </and>
+      <then>
+        <echo />
+
+        <echo msg="Installing PhantomJS v${_deps_phantomjs_version} dependency." />
+        <echo msg="Install path: ${_deps_phantomjs_path}" />
+
+        <if>
+          <and>
+            <not>
+              <available resource="${_deps_phantomjs_path_dirname}" type="dir" />
+            </not>
+          </and>
+          <then>
+            <mkdir dir="${_deps_phantomjs_path_dirname}" />
+          </then>
+        </if>
+
+        <if>
+          <and>
+            <isset property="env.CI" />
+          </and>
+          <then>
+            <exec command="which phantomjs" checkReturn="true" outputProperty="_deps_which_phantomjs" />
+            <symlink target="${_deps_which_phantomjs}" link="${_deps_phantomjs_path}" />
+          </then>
+          <else>
+
+            <if>
+              <os family="mac" />
+              <then>
+                <exec executable="/usr/bin/env" passThru="true" checkReturn="true">
+                  <arg value="curl" />
+                  <arg value="${_deps_phantomjs_url}" />
+                  <arg value="--location" />
+                  <arg value="--output" />
+                  <arg value="${_tmp_sub_dir}/phantomjs.zip" />
+                </exec>
+                <unZip file="${_tmp_sub_dir}/phantomjs.zip" toDir="${_deps_phantomjs_path_dir}" />
+                <delete file="${_tmp_sub_dir}/phantomjs.zip" quiet="true" />
+                <chmod file="${_deps_phantomjs_path}" mode="0744" />
+              </then>
+              <else>
+                <exec command="which phantomjs" checkReturn="false" outputProperty="_deps_which_phantomjs" />
+                <if>
+                  <or>
+                    <not>
+                      <isTrue value="${_deps_which_phantomjs}" />
+                    </not>
+                    <not>
+                      <available resource="${_deps_which_phantomjs}" type="file" />
+                    </not>
+                  </or>
+                  <then>
+                    <echo level="warning" msg="Not sure how to install PhantomJS on your system. Please see: &lt;${_deps_phantomjs_url}&gt; for OS-specific instructions." />
+                  </then>
+                  <else>
+                    <symlink target="${_deps_which_phantomjs}" link="${_deps_phantomjs_path}" />
+                  </else>
+                </if>
+              </else>
+            </if>
+
+          </else>
+        </if>
+
+      </then>
+    </if>
+
+  </project>

@@ -13,7 +13,7 @@
           <not>
             <isset property="_is_lite_build" />
           </not>
-          <istrue value="${_has_lite_build_props}" />
+          <isTrue value="${_has_lite_build_props}" />
         </and>
         <then>
           <!-- Prepare for lite generation. -->
@@ -23,7 +23,7 @@
               <available resource="${project.basedir}/.~build/${project_lite_slug}" type="dir" />
             </and>
             <then>
-              <delete dir="${project.basedir}/.~build/${project_lite_slug}" includeemptydirs="true" quiet="true" />
+              <delete dir="${project.basedir}/.~build/${project_lite_slug}" includeEmptyDirs="true" quiet="true" />
 
               <echo />
             </then>
@@ -31,8 +31,8 @@
 
           <mkdir dir="${project.basedir}/.~build/${project_lite_slug}" />
 
-          <copy todir="${project.basedir}/.~build/${project_lite_slug}">
-            <fileset dir="${project.basedir}" casesensitive="false" defaultexcludes="false">
+          <copy toDir="${project.basedir}/.~build/${project_lite_slug}">
+            <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
               <exclude pattern=".git" />
               <exclude pattern=".git/**" />
 
@@ -45,23 +45,23 @@
               <exclude pattern="**/theme.pot" />
               <exclude pattern="**/plugin.pot" />
               <exclude pattern="**/${project_slug}.pot" />
-            </fileset>
+            </fileSet>
           </copy>
 
           <echo />
 
-          <delete includeemptydirs="true" verbose="true" quiet="true">
-            <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
-              <patternset refid="_text_based_patternset" />
-              <containsregexp expression="\/\*\!?\[pro\s+(?:exclude|strip)\-file\-from\=['&quot;]lite['&quot;]\]\*\/" />
-            </fileset>
+          <delete includeEmptyDirs="true" verbose="true" quiet="true">
+            <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false">
+              <patternSet refId="_text_based_pattern_set" />
+              <containsRegExp expression="\/\*\!?\[pro\s+(?:exclude|strip)\-file\-from\=['&quot;]lite['&quot;]\]\*\/" />
+            </fileSet>
           </delete>
 
           <!-- WordPress plugin file rename. -->
 
           <if>
             <and>
-              <istrue value="${_is_wp_theme_plugin}" />
+              <isTrue value="${_is_wp_theme_plugin}" />
               <available resource="${project.basedir}/.~build/${project_lite_slug}/${project_slug}.php" type="file" />
             </and>
             <then>
@@ -69,14 +69,14 @@
 
               <echo msg="Moving (renaming): ${project_slug}.php to: ${project_lite_slug}.php" />
 
-              <move file="${project.basedir}/.~build/${project_lite_slug}/${project_slug}.php" tofile="${project.basedir}/.~build/${project_lite_slug}/${project_lite_slug}.php" />
+              <move file="${project.basedir}/.~build/${project_lite_slug}/${project_slug}.php" toFile="${project.basedir}/.~build/${project_lite_slug}/${project_lite_slug}.php" />
             </then>
           </if>
           <!-- WordPress token replacements. -->
 
           <if>
             <and>
-              <istrue value="${_is_wp_theme_plugin}" />
+              <isTrue value="${_is_wp_theme_plugin}" />
             </and>
             <then>
               <echo />
@@ -84,16 +84,16 @@
               <echo msg="Replacing WP headers in: ${project.basedir}/.~build/${project_lite_slug}" />
 
               <reflexive>
-                <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
-                  <patternset refid="_wp_token_patternset" />
-                </fileset>
-                <filterchain>
-                  <replaceregexp>
-                    <regexp pattern="^\=\=\=.+?\=\=\=\n" replace="=== ${project_lite_title} ===${line.separator}" modifiers="u" />
-                    <regexp pattern="^Theme Name\:.+$" replace="Theme Name: ${project_lite_title}" modifiers="um" />
-                    <regexp pattern="^Plugin Name\:.+$" replace="Plugin Name: ${project_lite_title}" modifiers="um" />
-                  </replaceregexp>
-                </filterchain>
+                <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false">
+                  <patternSet refId="_wp_token_pattern_set" />
+                </fileSet>
+                <filterChain>
+                  <replaceRegExp>
+                    <regExp pattern="^\=\=\=.+?\=\=\=\n" replace="=== ${project_lite_title} ===${line.separator}" modifiers="u" />
+                    <regExp pattern="^Theme Name\:.+$" replace="Theme Name: ${project_lite_title}" modifiers="um" />
+                    <regExp pattern="^Plugin Name\:.+$" replace="Plugin Name: ${project_lite_title}" modifiers="um" />
+                  </replaceRegExp>
+                </filterChain>
               </reflexive>
             </then>
           </if>
@@ -104,14 +104,14 @@
           <echo msg="Changing project title in: ${project.basedir}/.~build/${project_lite_slug}/README.md" />
 
           <reflexive>
-            <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
+            <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false">
               <include pattern="README.md" />
-            </fileset>
-            <filterchain>
-              <replaceregexp>
-                <regexp pattern="^##.+?\n" replace="## ${project_lite_title}${line.separator}" modifiers="u" />
-              </replaceregexp>
-            </filterchain>
+            </fileSet>
+            <filterChain>
+              <replaceRegExp>
+                <regExp pattern="^##.+?\n" replace="## ${project_lite_title}${line.separator}" modifiers="u" />
+              </replaceRegExp>
+            </filterChain>
           </reflexive>
 
           <!-- Namespace replacements. -->
@@ -121,15 +121,15 @@
           <echo msg="Changing namespace in: ${project.basedir}/.~build/${project_lite_slug}" />
 
           <reflexive>
-            <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
-              <patternset refid="_php_patternset" />
+            <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false">
+              <patternSet refId="_php_pattern_set" />
               <include pattern="${project_lite_alter_namespace_in_other_files_pattern}" />
-            </fileset>
-            <filterchain>
-              <replaceregexp>
-                <regexp pattern="\b(namespace|use|return)\s+(\\)?${project_namespace}\b" replace="\1 \2${project_lite_namespace}" modifiers="u" />
-              </replaceregexp>
-            </filterchain>
+            </fileSet>
+            <filterChain>
+              <replaceRegExp>
+                <regExp pattern="\b(namespace|use|return)\s+(\\)?${project_namespace}\b" replace="\1 \2${project_lite_namespace}" modifiers="u" />
+              </replaceRegExp>
+            </filterChain>
           </reflexive>
 
           <!-- Composer replacements. -->
@@ -143,19 +143,19 @@
 
               <echo msg="Modifying slugs/namespaces in: ${project.basedir}/.~build/${project_lite_slug}/composer.json" />
 
-              <php expression="addslashes(addslashes('${project_namespace}'))" returnproperty="_project_namespace_slashes" />
-              <php expression="addslashes(addslashes('${project_lite_namespace}'))" returnproperty="_project_lite_namespace_slashes" />
+              <php expression="addslashes(addslashes('${project_namespace}'))" returnProperty="_project_namespace_slashes" />
+              <php expression="addslashes(addslashes('${project_lite_namespace}'))" returnProperty="_project_lite_namespace_slashes" />
 
               <reflexive>
-                <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
+                <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false">
                   <include pattern="composer.json" />
-                </fileset>
-                <filterchain>
-                  <replaceregexp>
-                    <regexp pattern="\b${project_slug}\b" replace="${project_lite_slug}" modifiers="u" />
-                    <regexp pattern="&quot;(\\\\)?${_project_namespace_slashes}\\\\" replace="&quot;\1${_project_lite_namespace_slashes}\\\\" modifiers="u" />
-                  </replaceregexp>
-                </filterchain>
+                </fileSet>
+                <filterChain>
+                  <replaceRegExp>
+                    <regExp pattern="\b${project_slug}\b" replace="${project_lite_slug}" modifiers="u" />
+                    <regExp pattern="&quot;(\\\\)?${_project_namespace_slashes}\\\\" replace="&quot;\1${_project_lite_namespace_slashes}\\\\" modifiers="u" />
+                  </replaceRegExp>
+                </filterChain>
               </reflexive>
             </then>
           </if>
@@ -166,23 +166,23 @@
           <echo msg="Stripping pro tokens from: ${project.basedir}/.~build/${project_lite_slug}" />
 
           <reflexive>
-            <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
-              <patternset refid="_text_based_patternset" />
-            </fileset>
-            <filterchain>
-              <replaceregexp>
-                <regexp pattern="\/\*\!\[pro strip\-from\=['&quot;]lite['&quot;]\]\*\/(?:.*?)\/\*\!\[\/pro\]\*\/" replace="" modifiers="us" />
-                <regexp pattern="\/\*\[pro strip\-from\=['&quot;]lite['&quot;]\]\*\/(?:.*?)\/\*\[\/pro\]\*\/" replace="" modifiers="us" />
-              </replaceregexp>
-            </filterchain>
+            <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false">
+              <patternSet refId="_text_based_pattern_set" />
+            </fileSet>
+            <filterChain>
+              <replaceRegExp>
+                <regExp pattern="\/\*\!\[pro strip\-from\=['&quot;]lite['&quot;]\]\*\/(?:.*?)\/\*\!\[\/pro\]\*\/" replace="" modifiers="us" />
+                <regExp pattern="\/\*\[pro strip\-from\=['&quot;]lite['&quot;]\]\*\/(?:.*?)\/\*\[\/pro\]\*\/" replace="" modifiers="us" />
+              </replaceRegExp>
+            </filterChain>
           </reflexive>
 
           <!-- Convert text-domain references to string literals (for translate.wordpress.org). -->
 
           <if>
             <and>
-              <istrue value="${_is_wp_theme_plugin}" />
-              <istrue value="${project_lite_text_domain_regex_replacement_pattern}" />
+              <isTrue value="${_is_wp_theme_plugin}" />
+              <isTrue value="${project_lite_text_domain_regex_replacement_pattern}" />
             </and>
             <then>
               <echo />
@@ -190,14 +190,14 @@
               <echo msg="Converting text-domain references to string literals in: ${project.basedir}/.~build/${project_lite_slug}" />
 
               <reflexive>
-                <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
-                  <patternset refid="_php_patternset" />
-                </fileset>
-                <filterchain>
-                  <replaceregexp>
-                    <regexp pattern="(,\s*)(${project_lite_text_domain_regex_replacement_pattern})(\s*\))" replace="$1'${_project_text_domain}'$3" modifiers="u" />
-                  </replaceregexp>
-                </filterchain>
+                <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false">
+                  <patternSet refId="_php_pattern_set" />
+                </fileSet>
+                <filterChain>
+                  <replaceRegExp>
+                    <regExp pattern="(,\s*)(${project_lite_text_domain_regex_replacement_pattern})(\s*\))" replace="$1'${_project_text_domain}'$3" modifiers="u" />
+                  </replaceRegExp>
+                </filterChain>
               </reflexive>
             </then>
           </if>
@@ -208,33 +208,33 @@
           <echo msg="Modifying lite build properties: ${project.basedir}/.~build/${project_lite_slug}/.build.props" />
 
           <reflexive>
-            <fileset dir="${project.basedir}/.~build/${project_lite_slug}" casesensitive="false">
+            <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false">
               <include pattern=".build.props" />
-            </fileset>
-            <filterchain>
-              <replaceregexp>
-                <regexp pattern="^project_title\s+.*$" replace="" modifiers="um" />
-                <regexp pattern="^project_slug\s+.*$" replace="" modifiers="um" />
+            </fileSet>
+            <filterChain>
+              <replaceRegExp>
+                <regExp pattern="^project_title\s+.*$" replace="" modifiers="um" />
+                <regExp pattern="^project_slug\s+.*$" replace="" modifiers="um" />
 
-                <regexp pattern="^project_namespace\s+.*$" replace="" modifiers="um" />
-                <regexp pattern="^project_sub_namespace\s+.*$" replace="" modifiers="um" />
+                <regExp pattern="^project_namespace\s+.*$" replace="" modifiers="um" />
+                <regExp pattern="^project_sub_namespace\s+.*$" replace="" modifiers="um" />
 
-                <regexp pattern="^project_other_phar_fileset_exclusions\s+.*$" replace="" modifiers="um" />
-                <regexp pattern="^project_other_zip_tgz_fileset_exclusions\s+.*$" replace="" modifiers="um" />
+                <regExp pattern="^project_other_phar_fileset_exclusions\s+.*$" replace="" modifiers="um" />
+                <regExp pattern="^project_other_zip_tgz_fileset_exclusions\s+.*$" replace="" modifiers="um" />
 
-                <regexp pattern="^project_lite_text_domain_regex_replacement_pattern\s+.*$" replace="" modifiers="um" />
-                <regexp pattern="^project_lite_alter_namespace_in_other_files_pattern\s+.*$" replace="" modifiers="um" />
+                <regExp pattern="^project_lite_text_domain_regex_replacement_pattern\s+.*$" replace="" modifiers="um" />
+                <regExp pattern="^project_lite_alter_namespace_in_other_files_pattern\s+.*$" replace="" modifiers="um" />
 
-                <regexp pattern="^project_lite_title(\s+)" replace="project_title\1" modifiers="um" />
-                <regexp pattern="^project_lite_slug(\s+)" replace="project_slug\1" modifiers="um" />
+                <regExp pattern="^project_lite_title(\s+)" replace="project_title\1" modifiers="um" />
+                <regExp pattern="^project_lite_slug(\s+)" replace="project_slug\1" modifiers="um" />
 
-                <regexp pattern="^project_lite_namespace(\s+)" replace="project_namespace\1" modifiers="um" />
-                <regexp pattern="^project_lite_sub_namespace(\s+)" replace="project_sub_namespace\1" modifiers="um" />
+                <regExp pattern="^project_lite_namespace(\s+)" replace="project_namespace\1" modifiers="um" />
+                <regExp pattern="^project_lite_sub_namespace(\s+)" replace="project_sub_namespace\1" modifiers="um" />
 
-                <regexp pattern="^project_lite_other_phar_fileset_exclusions(\s+)" replace="project_other_phar_fileset_exclusions\1" modifiers="um" />
-                <regexp pattern="^project_lite_other_zip_tgz_fileset_exclusions(\s+)" replace="project_other_zip_tgz_fileset_exclusions\1" modifiers="um" />
-              </replaceregexp>
-            </filterchain>
+                <regExp pattern="^project_lite_other_phar_fileset_exclusions(\s+)" replace="project_other_phar_fileset_exclusions\1" modifiers="um" />
+                <regExp pattern="^project_lite_other_zip_tgz_fileset_exclusions(\s+)" replace="project_other_zip_tgz_fileset_exclusions\1" modifiers="um" />
+              </replaceRegExp>
+            </filterChain>
           </reflexive>
 
         </then>

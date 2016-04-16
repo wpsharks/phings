@@ -1,8 +1,10 @@
 ## 16xxxx
 
+- All dependencies are now satisfied by the Phing build script itself the first time you run it, and/or in the future should specific version requirements need to change. At this time, dependencies include: APIGen, CasperJS, Composer, PhantomJS, PHP Code Sniffer, PHPUnit, and the WP i18n Tools.
+
 - Reorganized targets into sub-directory classifications; e.g., all build targets are now in `targets/builds` and each set of builds are now nested into sub-directories indicating which phase they run in. For instance, `/in-base-dir`, `/in-base-dir-after`, `/in-build-dir`, `/in-build-dir-after`, etc.
 
-- Several subtle enhancements and minor bug fixes throughout; e.g., improved exclusion patterns to reduce the time it takes to complete a build, additional Phing attributes throughout in order to improve consistency from one target to another, along with a better naming convention for targets and temporary target-specific variables which are now nested into sub-directories, and into separate Phing projects referenced via `<phingcall>` which puts each target into its own local scope as a way to avoid collisions.
+- Several subtle enhancements and minor bug fixes throughout; e.g., improved exclusion patterns to reduce the time it takes to complete a build, additional Phing attributes throughout in order to improve consistency from one target to another, along with a better naming convention for targets and temporary target-specific variables which are now nested into sub-directories, and into separate Phing projects referenced via `<phingCall>` which puts each target into its own local scope as a way to avoid collisions.
 
 - New build targets. Related (somewhat) to #80, though additional work may be needed to accomplish everything we want to at some point in the future.
 
@@ -20,19 +22,19 @@
 
 - Improved the lite push target by accepting either `y` or `yes` as an answer to prompts, and it is no longer caSe-sensitive either.
 
-- Improved the lite push target by adding `checkreturn="true"` to all `<exec>` tags; i.e., to be sure each command succeeds before continuing.
+- Improved the lite push target by adding `checkReturn="true"` to all `<exec>` tags; i.e., to be sure each command succeeds before continuing.
 
 - Optimized the lite push target by excluding `/src/vendor` from the repo content that is pushed to the remote for the lite variation. The `/src/vendor` directory should not be included because that is handled by Composer via the `/composer.json` file in this repo; i.e., those are external dependencies that are not a part of the lite repo itself.
 
-- Optimized the lite push target by adding the `depth="1"` attribute to the `<gitclone>` tag; i.e., only clone the last history phase, which reduces download time and bandwidth.
+- Optimized the lite push target by adding the `depth="1"` attribute to the `<gitClone>` tag; i.e., only clone the last history phase, which reduces download time and bandwidth.
 
 - Adding new exclusions to the archive generators: `ISSUE_TEMPLATE.md` and `PULL_REQUEST_TEMPLATE.md` are now excluded also. See also: `setups/patterns/*.xml`.
 
 - Removed exclusions from archive generators: `AUTHORS.txt` and `CONTRIBUTORS.txt` are now unnecessary to exclude, as we already cover the `.md` version of these files; i.e., we don't have the `.txt` variations anyway, and that just adds additional fluff to an already long list of exclusions. Removing to clean things up just a bit. See also: `setups/patterns/*.xml`.
 
-- New pattern sets in `setups/patterns/*.xml`: `_token_patternset`, `_wp_token_patternset`, `_dotbuilds_patternset`, `_text_based_patternset`, `_php_patternset`, `_js_css_patternset`, and `_lite_repo_patternset`. These are designed to keep things DRYer.
+- New pattern sets in `setups/patterns/*.xml`: `_token_pattern_set`, `_wp_token_pattern_set`, `_dotbuilds_pattern_set`, `_text_based_pattern_set`, `_php_pattern_set`, `_js_css_pattern_set`, and `_lite_repo_pattern_set`. These are designed to keep things DRYer.
 
-- In `targets/setups/patterns.xml`, all `<fileset>` tags were changed to `<patternset>` tags in order to make them slightly more versatile.
+- In `targets/setups/patterns.xml`, all `<fileSet>` tags were changed to `<patternSet>` tags in order to make them slightly more versatile.
 
 - Improving support for `.x-php` files throughout. These should be considered PHP files also, and therefore all PHP-related routines should search/replace/include those files when performing various operations. The `.x-php` extension is something that WebSharks uses for any type of PHP file that should not actually be processed by a web server; e.g., files that serve only as a template for the generation of something else; or files that serve only as example API calls, etc. Since these files may also contain namespace references or tokens that need to be replaced, they must be processed in the same way regular PHP files are—during the build phase.
 

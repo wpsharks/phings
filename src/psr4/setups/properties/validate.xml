@@ -6,6 +6,17 @@
     <!-- Property validation. -->
     <!-- ============================================  -->
 
+    <if>
+      <and>
+        <not>
+          <versioncompare version="${php.version}" desiredVersion="5.5" operator="ge" />
+        </not>
+      </and>
+      <then>
+        <fail msg="Requires PHP v5.5+. You're running PHP v${php.version}." />
+      </then>
+    </if>
+
     <fail unless="project_title" msg="Missing `project_title` in properties file!" />
     <fail unless="project_owner" msg="Missing `project_owner` in properties file!" />
     <fail unless="project_slug" msg="Missing `project_slug` in properties file!" />
@@ -20,7 +31,7 @@
         <not>
           <isset property="_is_lite_build" />
         </not>
-        <istrue value="${_has_lite_build_props}" />
+        <isTrue value="${_has_lite_build_props}" />
       </and>
       <then>
         <fail unless="project_lite_title" msg="Missing `project_lite_title` in properties file!" />
@@ -38,14 +49,14 @@
 
     <if>
       <and>
-        <istrue value="${_is_wp_theme_plugin}" />
+        <isTrue value="${_is_wp_theme_plugin}" />
       </and>
       <then>
         <fail unless="project_wp_required_version" msg="Missing `project_wp_required_version` in properties file!" />
         <fail unless="project_wp_tested_up_to_version" msg="Missing `project_wp_tested_up_to_version` in properties file!" />
         <if>
           <and>
-            <istrue value="${_is_wp_sharks_core_theme_plugin}" />
+            <isTrue value="${_is_wp_sharks_core_theme_plugin}" />
           </and>
           <then>
             <fail unless="project_wp_sharks_core_required_version" msg="Missing `project_wp_sharks_core_required_version` in properties file!" />

@@ -3,12 +3,12 @@
   <project>
 
     <!-- ============================================  -->
-    <!-- Setup adhoc task. -->
+    <!-- Setup ad hoc task. -->
     <!-- ============================================  -->
 
-    <adhoc-task name="adhoc-extract-changelog-for-version">
+    <adHoc-task name="adHocExtractChangelogForVersion">
       <![CDATA[
-        class AdhocExtractChangelogForVersion extends Task {
+        class adHocExtractChangelogForVersion extends Task {
             private $version;
             private $infile;
             private $heading;
@@ -59,6 +59,6 @@
             }
         }
       ]]>
-    </adhoc-task>
+    </adHoc-task>
 
   </project>

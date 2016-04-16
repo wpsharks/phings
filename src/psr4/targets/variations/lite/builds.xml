@@ -13,13 +13,13 @@
           <not>
             <isset property="_is_lite_build" />
           </not>
-          <istrue value="${_has_lite_build_props}" />
+          <isTrue value="${_has_lite_build_props}" />
         </and>
         <then>
 
           <echo msg="Building lite variation from: ${project.basedir}/.~build/${project_lite_slug}/build.xml" />
 
-          <phing phingfile="${project.basedir}/.~build/${project_lite_slug}/build.xml" target="build" inheritall="false" inheritrefs="false" haltonfailure="true">
+          <phing phingFile="${project.basedir}/.~build/${project_lite_slug}/build.xml" target="build" inheritAll="false" inheritRefs="false" haltOnFailure="true">
             <property name="_is_lite_build" value="true" />
           </phing>
 
@@ -42,13 +42,13 @@
           <not>
             <isset property="_is_lite_build" />
           </not>
-          <istrue value="${_has_lite_build_props}" />
+          <isTrue value="${_has_lite_build_props}" />
         </and>
         <then>
 
           <echo msg="Building lite variation from: ${project.basedir}/.~build/${project_lite_slug}/build.xml" />
 
-          <phing phingfile="${project.basedir}/.~build/${project_lite_slug}/build.xml" target="full-build" inheritall="false" inheritrefs="false" haltonfailure="true">
+          <phing phingFile="${project.basedir}/.~build/${project_lite_slug}/build.xml" target="full-build" inheritAll="false" inheritRefs="false" haltOnFailure="true">
             <property name="_is_lite_build" value="true" />
           </phing>
 

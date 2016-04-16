@@ -28,11 +28,13 @@
         <then>
           <delete file="${project.basedir}/.~build/${project_slug}.phar" quiet="true" />
 
-          <pharpackage basedir="${project.basedir}/.~build/${project_slug}" stub="${project.basedir}/.~build/${project_slug}/src/includes/phar-stub.php" destfile="${project.basedir}/.~build/${project_slug}.phar">
-            <fileset dir="${project.basedir}/.~build/${project_slug}" casesensitive="false" excludes="${project_other_phar_fileset_exclusions}">
-              <patternset refid="_phar_patternset" />
-            </fileset>
-          </pharpackage>
+          <pharPackage baseDir="${project.basedir}/.~build/${project_slug}" stub="${project.basedir}/.~build/${project_slug}/src/includes/phar-stub.php" destFile="${project.basedir}/.~build/${project_slug}.phar">
+            <fileSet dir="${project.basedir}/.~build/${project_slug}" caseSensitive="false" excludes="${project_other_phar_fileset_exclusions}">
+              <patternSet refId="_phar_pattern_set" />
+            </fileSet>
+          </pharPackage>
+
+          <chmod file="${project.basedir}/.~build/${project_slug}.phar" mode="0744" />
 
           <echo />
         </then>
@@ -41,10 +43,10 @@
 
       <delete file="${project.basedir}/.~build/${project_slug}.zip" quiet="true" />
 
-      <zip basedir="${project.basedir}/.~build/${project_slug}" prefix="${project_slug}/" includeemptydirs="false" destfile="${project.basedir}/.~build/${project_slug}.zip">
-        <fileset dir="${project.basedir}/.~build/${project_slug}" casesensitive="false" excludes="${project_other_zip_tgz_fileset_exclusions}">
-          <patternset refid="_zip_tgz_patternset" />
-        </fileset>
+      <zip baseDir="${project.basedir}/.~build/${project_slug}" prefix="${project_slug}/" includeEmptyDirs="false" destFile="${project.basedir}/.~build/${project_slug}.zip">
+        <fileSet dir="${project.basedir}/.~build/${project_slug}" caseSensitive="false" excludes="${project_other_zip_tgz_fileset_exclusions}">
+          <patternSet refId="_zip_tgz_pattern_set" />
+        </fileSet>
       </zip>
 
       <!-- TGZ file generation. -->
@@ -53,10 +55,10 @@
 
       <delete file="${project.basedir}/.~build/${project_slug}.tar.gz" quiet="true" />
 
-      <tar basedir="${project.basedir}/.~build/${project_slug}" prefix="${project_slug}/" includeemptydirs="false" destfile="${project.basedir}/.~build/${project_slug}.tar.gz" compression="gzip">
-        <fileset dir="${project.basedir}/.~build/${project_slug}" casesensitive="false" excludes="${project_other_zip_tgz_fileset_exclusions}">
-          <patternset refid="_zip_tgz_patternset" />
-        </fileset>
+      <tar baseDir="${project.basedir}/.~build/${project_slug}" prefix="${project_slug}/" includeEmptyDirs="false" destFile="${project.basedir}/.~build/${project_slug}.tar.gz" compression="gzip">
+        <fileSet dir="${project.basedir}/.~build/${project_slug}" caseSensitive="false" excludes="${project_other_zip_tgz_fileset_exclusions}">
+          <patternSet refId="_zip_tgz_pattern_set" />
+        </fileSet>
       </tar>
 
     </target>

@@ -6,12 +6,12 @@
     <!-- Text-based pattern set. -->
     <!-- ============================================  -->
 
-    <patternset id="_text_based_patternset">
+    <patternSet id="_text_based_pattern_set">
       <exclude pattern=".~build/**" />
       <exclude pattern="**/.~build/**" />
 
-      <exclude name="phings/**" />
-      <exclude name="**/phings/**" />
+      <exclude pattern="phings/**" />
+      <exclude pattern="**/phings/**" />
 
       <exclude pattern="vendor/**" />
       <exclude pattern="**/vendor/**" />
@@ -52,8 +52,8 @@
       <include pattern="*.md" />
       <include pattern="**/**.md" />
 
-      <include name=".ht*" />
-      <include name="**/.ht*" />
-    </patternset>
+      <include pattern=".ht*" />
+      <include pattern="**/.ht*" />
+    </patternSet>
 
   </project>

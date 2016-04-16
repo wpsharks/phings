@@ -40,13 +40,12 @@
 
               <echo />
 
-              <delete dir="${project.basedir}/.~build/.casperjs" includeemptydirs="true" quiet="true" />
+              <delete dir="${project.basedir}/.~build/.casperjs" includeEmptyDirs="true" quiet="true" />
               <mkdir dir="${project.basedir}/.~build/.casperjs/local-storage" />
 
               <echo />
 
-              <exec executable="/usr/bin/env" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkreturn="true">
-                <arg value="casperjs" />
+              <exec executable="${_deps_casperjs_path}" dir="${project.basedir}/.~build/${project_slug}" passThru="true" checkReturn="true">
                 <arg value="test" />
                 <arg value="--concise" />
                 <arg value="--fail-fast" />

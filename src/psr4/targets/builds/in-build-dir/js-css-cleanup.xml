@@ -24,14 +24,14 @@
       <echo msg="Stripping sourceMappingURL from JS/CSS in: ${project.basedir}/.~build/${project_slug}" />
 
       <reflexive>
-        <fileset dir="${project.basedir}/.~build/${project_slug}" casesensitive="false">
-          <patternset refid="_js_css_patternset" />
-        </fileset>
-        <filterchain>
-          <replaceregexp>
-            <regexp pattern="\/\*\#\s+sourceMappingURL\=(?:.*?)\*\/" replace="" modifiers="us" />
-          </replaceregexp>
-        </filterchain>
+        <fileSet dir="${project.basedir}/.~build/${project_slug}" caseSensitive="false">
+          <patternSet refId="_js_css_pattern_set" />
+        </fileSet>
+        <filterChain>
+          <replaceRegExp>
+            <regExp pattern="\/\*\#\s+sourceMappingURL\=(?:.*?)\*\/" replace="" modifiers="us" />
+          </replaceRegExp>
+        </filterChain>
       </reflexive>
 
     </target>

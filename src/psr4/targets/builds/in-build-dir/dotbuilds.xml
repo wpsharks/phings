@@ -23,13 +23,13 @@
 
       <echo msg="Running .build.php &amp; .build.in-build-dir.php files in: ${project.basedir}/.~build/${project_slug}" />
 
-      <foreach target="--builds-in-build-dir-dotbuild" absparam="__abs_build_in_build_dir_php" param="__build_in_build_dir_php">
-        <fileset dir="${project.basedir}/.~build/${project_slug}" casesensitive="false">
-          <patternset refid="_dotbuilds_patternset" />
+      <forEach target="--builds-in-build-dir-dotbuild" absParam="__abs_build_in_build_dir_php" param="__build_in_build_dir_php">
+        <fileSet dir="${project.basedir}/.~build/${project_slug}" caseSensitive="false">
+          <patternSet refId="_dotbuilds_pattern_set" />
           <include pattern=".build.in-build-dir.php" />
           <include pattern="**/.build.in-build-dir.php" />
-        </fileset>
-      </foreach>
+        </fileSet>
+      </forEach>
 
     </target>
 
@@ -41,7 +41,7 @@
 
       <echo msg="Running : ${__abs_build_in_build_dir_php}" />
 
-      <exec executable="php" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkreturn="true">
+      <exec executable="php" dir="${project.basedir}/.~build/${project_slug}" passThru="true" checkReturn="true">
         <arg value="${__abs_build_in_build_dir_php}" />
       </exec>
 

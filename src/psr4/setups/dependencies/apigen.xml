@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Install APIGen. -->
+    <!-- ============================================  -->
+
+    <if>
+      <and>
+        <not>
+          <available resource="${_deps_apigen_path}" type="file" />
+        </not>
+      </and>
+      <then>
+        <echo />
+
+        <echo msg="Installing APIGen v${_deps_apigen_version} dependency." />
+        <echo msg="Install path: ${_deps_apigen_path}" />
+
+        <if>
+          <and>
+            <not>
+              <available resource="${_deps_apigen_path_dirname}" type="dir" />
+            </not>
+          </and>
+          <then>
+            <mkdir dir="${_deps_apigen_path_dirname}" />
+          </then>
+        </if>
+
+        <if>
+          <and>
+            <isset property="env.CI" />
+          </and>
+          <then>
+            <exec command="which apigen" checkReturn="true" outputProperty="_deps_which_apigen" />
+            <symlink target="${_deps_which_apigen}" link="${_deps_apigen_path}" />
+          </then>
+          <else>
+            <exec executable="/usr/bin/env" passThru="true" checkReturn="true">
+              <arg value="curl" />
+              <arg value="${_deps_apigen_url}" />
+              <arg value="--location" />
+              <arg value="--output" />
+              <arg value="${_deps_apigen_path}" />
+            </exec>
+            <chmod file="${_deps_apigen_path}" mode="0744" />
+          </else>
+        </if>
+
+      </then>
+    </if>
+
+  </project>

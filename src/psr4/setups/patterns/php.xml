@@ -6,12 +6,12 @@
     <!-- PHP pattern set. -->
     <!-- ============================================  -->
 
-    <patternset id="_php_patternset">
+    <patternSet id="_php_pattern_set">
       <exclude pattern=".~build/**" />
       <exclude pattern="**/.~build/**" />
 
-      <exclude name="phings/**" />
-      <exclude name="**/phings/**" />
+      <exclude pattern="phings/**" />
+      <exclude pattern="**/phings/**" />
 
       <exclude pattern="vendor/**" />
       <exclude pattern="**/vendor/**" />
@@ -21,6 +21,6 @@
 
       <include pattern="*.x-php" />
       <include pattern="**/**.x-php" />
-    </patternset>
+    </patternSet>
 
   </project>

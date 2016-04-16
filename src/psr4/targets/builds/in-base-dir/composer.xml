@@ -22,7 +22,7 @@
           <if>
             <and>
               <isset property="composer-lock-delete" />
-              <istrue value="${composer-lock-delete}" />
+              <isTrue value="${composer-lock-delete}" />
               <available resource="${project.basedir}/composer.lock" type="file" />
             </and>
             <then>
@@ -36,14 +36,13 @@
               <available resource="${project.basedir}/src/vendor" type="dir" />
             </and>
             <then>
-              <delete dir="${project.basedir}/src/vendor" includeemptydirs="true" quiet="true" />
+              <delete dir="${project.basedir}/src/vendor" includeEmptyDirs="true" quiet="true" />
 
               <echo />
             </then>
           </if>
 
-          <exec executable="/usr/bin/env" dir="${project.basedir}" passthru="true" checkreturn="true">
-            <arg value="composer" />
+          <exec executable="${_deps_composer_path}" dir="${project.basedir}" passThru="true" checkReturn="true">
             <arg value="install" />
           </exec>
 
@@ -60,24 +59,24 @@
               <echo msg="Rebranding: ${project.basedir}/src/vendor/websharks/core" />
 
               <reflexive>
-                <fileset dir="${project.basedir}/src/vendor/websharks/core" casesensitive="false">
-                  <patternset refid="_php_patternset" />
-                </fileset>
-                <filterchain>
-                  <replaceregexp>
-                    <regexp pattern="\b(namespace|use|return)\s+(\\)?WebSharks\\Core\b" replace="\1 \2WebSharks\\Core\\${project_sub_namespace}" modifiers="u" />
-                  </replaceregexp>
-                </filterchain>
+                <fileSet dir="${project.basedir}/src/vendor/websharks/core" caseSensitive="false">
+                  <patternSet refId="_php_pattern_set" />
+                </fileSet>
+                <filterChain>
+                  <replaceRegExp>
+                    <regExp pattern="\b(namespace|use|return)\s+(\\)?WebSharks\\Core\b" replace="\1 \2WebSharks\\Core\\${project_sub_namespace}" modifiers="u" />
+                  </replaceRegExp>
+                </filterChain>
               </reflexive>
               <reflexive>
-                <fileset dir="${project.basedir}/src/vendor/composer" casesensitive="false">
+                <fileSet dir="${project.basedir}/src/vendor/composer" caseSensitive="false">
                   <include pattern="autoload_psr4.php" />
-                </fileset>
-                <filterchain>
-                  <replaceregexp>
-                    <regexp pattern="\b(\\\\)?WebSharks\\\\Core\b" replace="\1WebSharks\\\\Core\\\\${project_sub_namespace}" modifiers="u" />
-                  </replaceregexp>
-                </filterchain>
+                </fileSet>
+                <filterChain>
+                  <replaceRegExp>
+                    <regExp pattern="\b(\\\\)?WebSharks\\\\Core\b" replace="\1WebSharks\\\\Core\\\\${project_sub_namespace}" modifiers="u" />
+                  </replaceRegExp>
+                </filterChain>
               </reflexive>
 
               <echo />
@@ -85,17 +84,17 @@
               <echo msg="Rebranding text-domain in: ${project.basedir}/src/vendor/websharks/core" />
 
               <reflexive>
-                <fileset dir="${project.basedir}/src/vendor/websharks/core" casesensitive="false">
-                  <patternset refid="_php_patternset" />
-                </fileset>
-                <filterchain>
-                  <replaceregexp>
-                    <regexp pattern="\b__\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="__('$1', '${_project_text_domain}')" modifiers="u" />
-                    <regexp pattern="\b_x\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_x('$1', '$2', '${_project_text_domain}')" modifiers="u" />
-                    <regexp pattern="\b_n\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*\)" replace="_n('$1', '$2', $3, '${_project_text_domain}')" modifiers="u" />
-                    <regexp pattern="\b_nx\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_nx('$1', '$2', $3, '$4', '${_project_text_domain}')" modifiers="u" />
-                  </replaceregexp>
-                </filterchain>
+                <fileSet dir="${project.basedir}/src/vendor/websharks/core" caseSensitive="false">
+                  <patternSet refId="_php_pattern_set" />
+                </fileSet>
+                <filterChain>
+                  <replaceRegExp>
+                    <regExp pattern="\b__\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="__('$1', '${_project_text_domain}')" modifiers="u" />
+                    <regExp pattern="\b_x\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_x('$1', '$2', '${_project_text_domain}')" modifiers="u" />
+                    <regExp pattern="\b_n\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*\)" replace="_n('$1', '$2', $3, '${_project_text_domain}')" modifiers="u" />
+                    <regExp pattern="\b_nx\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_nx('$1', '$2', $3, '$4', '${_project_text_domain}')" modifiers="u" />
+                  </replaceRegExp>
+                </filterChain>
               </reflexive>
             </then>
           </if>

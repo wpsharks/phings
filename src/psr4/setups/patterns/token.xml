@@ -6,12 +6,12 @@
     <!-- Token pattern set. -->
     <!-- ============================================  -->
 
-    <patternset id="_token_patternset">
+    <patternSet id="_token_pattern_set">
       <exclude pattern=".~build/**" />
       <exclude pattern="**/.~build/**" />
 
-      <exclude name="phings/**" />
-      <exclude name="**/phings/**" />
+      <exclude pattern="phings/**" />
+      <exclude pattern="**/phings/**" />
 
       <exclude pattern="vendor/**" />
       <exclude pattern="**/vendor/**" />
@@ -30,6 +30,6 @@
 
       <include pattern="*.bash" />
       <include pattern="**/**.bash" />
-    </patternset>
+    </patternSet>
 
   </project>

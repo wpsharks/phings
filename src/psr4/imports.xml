@@ -16,12 +16,18 @@
     <!-- ============================================  -->
 
     <import>
-      <fileset dir="${phing.dir.targets}/setups" casesensitive="false">
-        <include name="adhocs/**.xml" />
-        <include name="patterns/**.xml" />
-        <include name="ini-sets/**.xml" />
-        <include name="directories/**.xml" />
-      </fileset>
+      <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false">
+        <include pattern="ad-hocs/**.xml" />
+        <include pattern="patterns/**.xml" />
+        <include pattern="ini-sets/**.xml" />
+        <include pattern="directories/**.xml" />
+      </fileSet>
+    </import>
+
+    <import>
+      <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false">
+        <include pattern="dependencies/**.xml" />
+      </fileSet>
     </import>
 
     <!-- ============================================  -->

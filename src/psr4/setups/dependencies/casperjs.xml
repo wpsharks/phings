@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Install CasperJS. -->
+    <!-- ============================================  -->
+
+    <if>
+      <and>
+        <not>
+          <available resource="${_deps_casperjs_path}" type="file" />
+        </not>
+      </and>
+      <then>
+        <echo />
+
+        <echo msg="Installing CasperJS v${_deps_casperjs_version} dependency." />
+        <echo msg="Install path: ${_deps_casperjs_path}" />
+
+        <if>
+          <and>
+            <not>
+              <available resource="${_deps_casperjs_path_dirname}" type="dir" />
+            </not>
+          </and>
+          <then>
+            <mkdir dir="${_deps_casperjs_path_dirname}" />
+          </then>
+        </if>
+
+        <if>
+          <and>
+            <isset property="env.CI" />
+          </and>
+          <then>
+            <exec command="which casperjs" checkReturn="true" outputProperty="_deps_which_casperjs" />
+            <symlink target="${_deps_which_casperjs}" link="${_deps_casperjs_path}" />
+          </then>
+          <else>
+            <exec executable="/usr/bin/env" passThru="true" checkReturn="true">
+              <arg value="curl" />
+              <arg value="${_deps_casperjs_url}" />
+              <arg value="--location" />
+              <arg value="--output" />
+              <arg value="${_tmp_sub_dir}/casperjs.zip" />
+            </exec>
+            <unZip file="${_tmp_sub_dir}/casperjs.zip" toDir="${_deps_casperjs_path_dir}" />
+            <delete file="${_tmp_sub_dir}/casperjs.zip" quiet="true" />
+            <chmod file="${_deps_casperjs_path}" mode="0744" />
+
+            <reflexive>
+              <fileSet dir="${_deps_casperjs_path_dirname}" caseSensitive="false">
+                <include pattern="casperjs" />
+              </fileSet>
+              <filterChain>
+                <replaceRegExp>
+                  <regExp pattern="'default_exec'\s*:\s*'phantomjs'" replace="'default_exec' : '${_deps_phantomjs_path}'" modifiers="u" />
+                </replaceRegExp>
+              </filterChain>
+            </reflexive>
+          </else>
+        </if>
+
+      </then>
+    </if>
+
+  </project>

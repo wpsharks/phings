@@ -33,30 +33,29 @@
 
           <echo />
 
-          <delete dir="${project.basedir}/.~build/.php-cs" includeemptydirs="true" quiet="true" />
-          <mkdir dir="${project.basedir}/.~build/.php-cs" />
+          <echo msg="Downloading the latest XML standards file by WebSharks." />
+          <echo msg="${_tmp_sub_dir}/.php-cs.ws-psr2.xml" />
 
-          <echo />
-
-          <exec executable="/usr/bin/env" passthru="true" checkreturn="true">
+          <exec executable="/usr/bin/env" passThru="true" checkReturn="true">
             <arg value="curl" />
             <arg value="https://raw.githubusercontent.com/websharks/dotfiles/master/.php-cs.ws-psr2.xml" />
             <arg value="--location" />
             <arg value="--output" />
-            <arg value="${project.basedir}/.~build/.php-cs/ws-psr2.xml" />
+            <arg value="${_tmp_sub_dir}/.php-cs.ws-psr2.xml" />
           </exec>
 
           <echo />
 
-          <exec executable="/usr/bin/env" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkreturn="true">
-            <arg value="phpcs" />
+          <echo msg="Sniffing: ${project.basedir}/.~build/${project_slug}" />
+
+          <exec executable="${_deps_phpcs_path}" dir="${project.basedir}/.~build/${project_slug}" passThru="true" checkReturn="true">
             <arg value="-s" />
             <arg value="-p" />
             <arg value="--report=full" />
             <arg value="--encoding=utf-8" />
             <arg value="--extensions=php" />
             <arg value="--ignore=*/vendor/*" />
-            <arg value="--standard=${project.basedir}/.~build/.php-cs/ws-psr2.xml" />
+            <arg value="--standard=${_tmp_sub_dir}/.php-cs.ws-psr2.xml" />
             <arg value="${project.basedir}/.~build/${project_slug}" />
           </exec>
 

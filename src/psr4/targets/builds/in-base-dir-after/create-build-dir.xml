@@ -13,15 +13,15 @@
           <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
         </and>
         <then>
-          <delete dir="${project.basedir}/.~build/${project_slug}" includeemptydirs="true" quiet="true" />
+          <delete dir="${project.basedir}/.~build/${project_slug}" includeEmptyDirs="true" quiet="true" />
 
           <echo />
         </then>
       </if>
       <mkdir dir="${project.basedir}/.~build/${project_slug}" />
 
-      <copy todir="${project.basedir}/.~build/${project_slug}">
-        <fileset dir="${project.basedir}" casesensitive="false" defaultexcludes="false">
+      <copy toDir="${project.basedir}/.~build/${project_slug}">
+        <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
           <exclude pattern=".git" />
           <exclude pattern=".git/**" />
 
@@ -30,7 +30,7 @@
 
           <exclude pattern="phings" />
           <exclude pattern="phings/**" />
-        </fileset>
+        </fileSet>
       </copy>
 
     </target>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Install WP i18n Tools. -->
+    <!-- ============================================  -->
+
+    <if>
+      <and>
+        <not>
+          <available resource="${_deps_wp_i18n_tools_path}" type="file" />
+        </not>
+      </and>
+      <then>
+        <echo />
+
+        <echo msg="Installing WP i18n Tools v${_deps_wp_i18n_tools_version} dependency." />
+        <echo msg="Install path: ${_deps_wp_i18n_tools_path}" />
+
+        <if>
+          <and>
+            <not>
+              <available resource="${_deps_wp_i18n_tools_path_dirname}" type="dir" />
+            </not>
+          </and>
+          <then>
+            <mkdir dir="${_deps_wp_i18n_tools_path_dirname}" />
+          </then>
+        </if>
+
+        <if>
+          <and>
+            <isset property="env.CI" />
+          </and>
+          <then>
+            <exec command="which wp-i18n-tools" checkReturn="true" outputProperty="_deps_which_wp_i18n_tools" />
+            <symlink target="${_deps_which_wp_i18n_tools}" link="${_deps_wp_i18n_tools_path}" />
+          </then>
+          <else>
+            <exec executable="/usr/bin/env" passThru="true" checkReturn="true">
+              <arg value="curl" />
+              <arg value="${_deps_wp_i18n_tools_url}" />
+              <arg value="--location" />
+              <arg value="--output" />
+              <arg value="${_deps_wp_i18n_tools_path}" />
+            </exec>
+            <chmod file="${_deps_wp_i18n_tools_path}" mode="0744" />
+          </else>
+        </if>
+
+      </then>
+    </if>
+
+  </project>

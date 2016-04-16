@@ -25,12 +25,11 @@
 
       <echo />
 
-      <delete dir="${project.basedir}/.~build/${project_slug}-codex" includeemptydirs="true" quiet="true" />
+      <delete dir="${project.basedir}/.~build/${project_slug}-codex" includeEmptyDirs="true" quiet="true" />
 
       <echo />
 
-      <exec executable="/usr/bin/env" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkreturn="true">
-        <arg value="apigen" />
+      <exec executable="${_deps_apigen_path}" dir="${project.basedir}/.~build/${project_slug}" passThru="true" checkReturn="true">
         <arg value="generate" />
 
         <arg value="--source" />

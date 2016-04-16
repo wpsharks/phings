@@ -61,7 +61,7 @@
             <not>
               <isset property="_is_lite_build" />
             </not>
-            <istrue value="${_has_lite_build_props}" />
+            <isTrue value="${_has_lite_build_props}" />
           </and>
           <then>
             <echo />
@@ -96,7 +96,7 @@
 
         <if>
           <and>
-            <istrue value="${_is_wp_theme_plugin}" />
+            <isTrue value="${_is_wp_theme_plugin}" />
           </and>
           <then>
             <echo />
@@ -105,7 +105,7 @@
             <echo msg="Project WP Tested Up To Version: ${project_wp_tested_up_to_version}" />
             <if>
               <and>
-                <istrue value="${_is_wp_sharks_core_theme_plugin}" />
+                <isTrue value="${_is_wp_sharks_core_theme_plugin}" />
               </and>
               <then>
                 <echo />

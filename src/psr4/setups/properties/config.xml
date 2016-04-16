@@ -13,6 +13,87 @@
         </not>
       </and>
       <then>
+        <!-- Temp sub-directory path. -->
+
+        <property name="_tmp_sub_dir" value="/tmp/.websharks/phings" />
+
+        <!-- Home sub-directory path. -->
+
+        <property name="_home_sub_dir" value="${user.home}/.websharks/phings" />
+
+        <!-- Composer dependency info. -->
+
+        <property name="_deps_composer_version" value="1.0.0" />
+        <property name="_deps_composer_url" value="https://getcomposer.org/download/${_deps_composer_version}/composer.phar" />
+        <property name="_deps_composer_path" value="${_home_sub_dir}/deps/composer/${_deps_composer_version}.phar" />
+        <dirname property="_deps_composer_path_dirname" file="${_deps_composer_path}" />
+
+        <!-- PHP Code Sniffer dependency info. -->
+
+        <property name="_deps_phpcs_version" value="2.5.1" />
+        <property name="_deps_phpcs_url" value="https://github.com/squizlabs/PHP_CodeSniffer/releases/download/${_deps_phpcs_version}/phpcs.phar" />
+        <property name="_deps_phpcs_path" value="${_home_sub_dir}/deps/phpcs/${_deps_phpcs_version}.phar" />
+        <dirname property="_deps_phpcs_path_dirname" file="${_deps_phpcs_path}" />
+
+        <!-- PHPUnit dependency info. -->
+        <!-- This differs depending on the installed version of PHP. -->
+        <if>
+          <and>
+            <versioncompare version="${php.version}" desiredVersion="5.6" operator="ge" />
+          </and>
+          <then>
+            <property name="_deps_phpunit_version" value="5.3.1" />
+          </then>
+          <else>
+            <property name="_deps_phpunit_version" value="4.8.9" />
+          </else>
+        </if>
+        <property name="_deps_phpunit_url" value="https://phar.phpunit.de/phpunit-${_deps_phpunit_version}.phar" />
+        <property name="_deps_phpunit_path" value="${_home_sub_dir}/deps/phpunit/${_deps_phpunit_version}.phar" />
+        <dirname property="_deps_phpunit_path_dirname" file="${_deps_phpunit_path}" />
+
+        <!-- APIGen dependency info. -->
+
+        <property name="_deps_apigen_version" value="4.1.2" />
+        <property name="_deps_apigen_url" value="https://github.com/ApiGen/ApiGen/releases/download/v${_deps_apigen_version}/apigen.phar" />
+        <property name="_deps_apigen_path" value="${_home_sub_dir}/deps/apigen/${_deps_apigen_version}.phar" />
+        <dirname property="_deps_apigen_path_dirname" file="${_deps_apigen_path}" />
+
+        <!-- PhantomJS dependency info. -->
+
+        <property name="_deps_phantomjs_version" value="2.1.1" />
+        <if>
+          <os family="mac" />
+          <then>
+            <property name="_deps_phantomjs_url" value="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${_deps_phantomjs_version}-macosx.zip" />
+          </then>
+          <else>
+            <property name="_deps_phantomjs_url" value="http://phantomjs.org/download.html" />
+          </else>
+        </if>
+        <property name="_deps_phantomjs_path" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}/phantomjs-${_deps_phantomjs_version}-macosx/bin/phantomjs" />
+        <property name="_deps_phantomjs_path_dir" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}" />
+        <dirname property="_deps_phantomjs_path_dirname" file="${_deps_phantomjs_path}" />
+
+        <!-- CasperJS dependency info. -->
+
+        <property name="_deps_casperjs_version" value="1.1.0" />
+        <property name="_deps_casperjs_url" value="https://github.com/casperjs/casperjs/archive/${_deps_casperjs_version}.zip" />
+        <property name="_deps_casperjs_path" value="${_home_sub_dir}/deps/casperjs/${_deps_casperjs_version}/casperjs-${_deps_casperjs_version}/bin/casperjs" />
+        <property name="_deps_casperjs_path_dir" value="${_home_sub_dir}/deps/casperjs/${_deps_casperjs_version}" />
+        <dirname property="_deps_casperjs_path_dirname" file="${_deps_casperjs_path}" />
+
+        <!-- WP i18n Tools dependency info. -->
+
+        <property name="_deps_wp_i18n_tools_version" value="160416" />
+        <property name="_deps_wp_i18n_tools_url" value="https://github.com/websharks/wp-i18n-tools/releases/download/${_deps_wp_i18n_tools_version}/wp-i18n-tools.phar" />
+        <property name="_deps_wp_i18n_tools_path" value="${_home_sub_dir}/deps/wp-i18n-tools/${_deps_wp_i18n_tools_version}.phar" />
+        <dirname property="_deps_wp_i18n_tools_path_dirname" file="${_deps_wp_i18n_tools_path}" />
+
+        <!-- Codex ignore list. -->
+
+        <property name="_codex_ignore" value="*/assets/*,*/phings/*,*/tests/*,*/vendor/*" />
+
         <!-- Property values. -->
 
         <property file="${project.basedir}/.build.props" />
@@ -35,7 +116,7 @@
 
         <if>
           <and>
-            <istrue value="${_is_wp_theme_plugin}" />
+            <isTrue value="${_is_wp_theme_plugin}" />
             <or>
               <isset property="project_wp_sharks_core_required_version" />
               <isset property="project_wp_sharks_core_tested_up_to_version" />
@@ -102,7 +183,7 @@
             <not>
               <isset property="_is_lite_build" />
             </not>
-            <istrue value="${_has_lite_build_props}" />
+            <isTrue value="${_has_lite_build_props}" />
           </and>
           <then>
             <if>
@@ -143,8 +224,8 @@
 
         <if>
           <and>
-            <istrue value="${_is_wp_theme_plugin}" />
-            <istrue value="${_is_wp_sharks_core_theme_plugin}" />
+            <isTrue value="${_is_wp_theme_plugin}" />
+            <isTrue value="${_is_wp_sharks_core_theme_plugin}" />
           </and>
           <then>
             <if>
@@ -164,7 +245,7 @@
             <isset property="project_slug" />
           </and>
           <then>
-            <php expression="preg_replace('/\-(?:lite|pro)$/ui', '', '${project_slug}')" returnproperty="_project_text_domain" />
+            <php expression="preg_replace('/\-(?:lite|pro)$/ui', '', '${project_slug}')" returnProperty="_project_text_domain" />
           </then>
           <else>
             <property name="_project_text_domain" value="" />
@@ -177,13 +258,9 @@
             <isset property="project_version" />
           </and>
           <then>
-            <php expression="str_replace('%y%m%d', date('ymd'), '${project_version}')" returnproperty="project_version" />
+            <php expression="str_replace('%y%m%d', date('ymd'), '${project_version}')" returnProperty="project_version" />
           </then>
         </if>
-
-        <!-- Codex ignore list. -->
-
-        <property name="_codex_ignore" value="*/assets/*,*/phings/*,*/tests/*,*/vendor/*" />
 
         <!-- Flag complete. -->
 

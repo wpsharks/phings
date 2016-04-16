@@ -6,12 +6,12 @@
     <!-- JS/CSS pattern set. -->
     <!-- ============================================  -->
 
-    <patternset id="_js_css_patternset">
+    <patternSet id="_js_css_pattern_set">
       <exclude pattern=".~build/**" />
       <exclude pattern="**/.~build/**" />
 
-      <exclude name="phings/**" />
-      <exclude name="**/phings/**" />
+      <exclude pattern="phings/**" />
+      <exclude pattern="**/phings/**" />
 
       <exclude pattern="vendor/**" />
       <exclude pattern="**/vendor/**" />
@@ -27,6 +27,6 @@
 
       <include pattern="*.scss" />
       <include pattern="**/**.scss" />
-    </patternset>
+    </patternSet>
 
   </project>

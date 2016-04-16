@@ -6,12 +6,12 @@
     <!-- WP token pattern set. -->
     <!-- ============================================  -->
 
-    <patternset id="_wp_token_patternset">
+    <patternSet id="_wp_token_pattern_set">
       <exclude pattern=".~build/**" />
       <exclude pattern="**/.~build/**" />
 
-      <exclude name="phings/**" />
-      <exclude name="**/phings/**" />
+      <exclude pattern="phings/**" />
+      <exclude pattern="**/phings/**" />
 
       <exclude pattern="vendor/**" />
       <exclude pattern="**/vendor/**" />
@@ -25,6 +25,6 @@
       <include pattern="functions.php" />
 
       <include pattern="uninstall.php" />
-    </patternset>
+    </patternSet>
 
   </project>

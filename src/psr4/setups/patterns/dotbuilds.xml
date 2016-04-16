@@ -6,7 +6,7 @@
     <!-- Dotbuilds pattern set. -->
     <!-- ============================================  -->
 
-    <patternset id="_dotbuilds_patternset">
+    <patternSet id="_dotbuilds_pattern_set">
       <exclude pattern=".~build/**" />
       <exclude pattern="**/.~build/**" />
 
@@ -18,6 +18,6 @@
 
       <include pattern=".build.php" />
       <include pattern="**/.build.php" />
-    </patternset>
+    </patternSet>
 
   </project>

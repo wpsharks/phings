@@ -3,17 +3,17 @@
   <project>
 
     <!-- ============================================  -->
-    <!-- Initialize .~build directory. -->
+    <!-- Initialize `${_tmp_sub_dir}`. -->
     <!-- ============================================  -->
 
     <if>
       <and>
         <not>
-          <available resource="${project.basedir}/.~build" type="dir" />
+          <available resource="${_tmp_sub_dir}" type="dir" />
         </not>
       </and>
       <then>
-        <mkdir dir="${project.basedir}/.~build" />
+        <mkdir dir="${_tmp_sub_dir}" />
       </then>
     </if>
 
