@@ -143,6 +143,20 @@
             <property name="_is_wp_sharks_core_theme_plugin" value="false" />
           </else>
         </if>
+        <!-- WP core framework project detection. -->
+
+        <if>
+          <and>
+            <isTrue value="${_is_wp_theme_plugin}" />
+            <contains string="\\${project_namespace}\\" substring="\\Core\\" caseSensitive="false" />
+          </and>
+          <then>
+            <property name="_is_wp_core_framework_project" value="true" />
+          </then>
+          <else>
+            <property name="_is_wp_core_framework_project" value="false" />
+          </else>
+        </if>
         <!-- Lite detection; i.e., is applicable? -->
 
         <if>
@@ -177,7 +191,7 @@
           <or>
             <isset property="_is_lite_build" />
             <isTrue value="${_has_lite_build_props}" />
-            <contains string="${project_namespace}\\$" substring="\\Pro\\$" caseSensitive="false" />
+            <contains string="\\${project_namespace}\\" substring="\\Pro\\" caseSensitive="false" />
           </or>
           <then>
             <property name="_is_pro_project" value="true" />

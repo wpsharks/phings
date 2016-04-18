@@ -19,6 +19,7 @@
       <echo msg="Running target: build" />
       <phingCall target="-builds-in-base-dir-composer" />
       <phingCall target="-builds-in-base-dir-dotbuilds" />
+      <phingCall target="-builds-in-base-dir-i18n-text-domains" />
       <phingCall target="-builds-in-base-dir-after-create-build-dir" />
       <phingCall target="-builds-in-build-dir-dotbuilds" />
       <phingCall target="-builds-in-build-dir-js-css-cleanup" />
@@ -48,6 +49,7 @@
       <phingCall target="-builds-in-base-dir-version-tokens" />
       <phingCall target="-builds-in-base-dir-composer" />
       <phingCall target="-builds-in-base-dir-dotbuilds" />
+      <phingCall target="-builds-in-base-dir-i18n-text-domains" />
       <phingCall target="-builds-in-base-dir-i18n-pots" />
       <phingCall target="-builds-in-base-dir-after-create-build-dir" />
       <phingCall target="-builds-in-build-dir-dotbuilds" />
