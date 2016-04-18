@@ -44,6 +44,7 @@
     <import file="${phing.dir.targets}/targets/builds/in-base-dir/version-tokens.xml" />
     <import file="${phing.dir.targets}/targets/builds/in-base-dir/composer.xml" />
     <import file="${phing.dir.targets}/targets/builds/in-base-dir/dotbuilds.xml" />
+    <import file="${phing.dir.targets}/targets/builds/in-base-dir/i18n-text-domains.xml" />
     <import file="${phing.dir.targets}/targets/builds/in-base-dir/i18n-pots.xml" />
 
     <!-- ============================================  -->
