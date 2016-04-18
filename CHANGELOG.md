@@ -1,3 +1,7 @@
+## 160418
+
+- Bug fix. `<elseif>` nested conditionals.
+
 ## 160417
 
 - Adding support for Linux 64-bit when satisfying dependencies.

@@ -40,7 +40,9 @@
           <else>
 
             <if>
-              <contains string="${_deps_casperjs_url}" substring=".zip" caseSensitive="false" />
+              <and>
+                <contains string="${_deps_casperjs_url}" substring=".zip" caseSensitive="false" />
+              </and>
               <then>
                 <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
                   <arg value="curl" />
@@ -54,7 +56,9 @@
                 <chmod file="${_deps_casperjs_path}" mode="0744" />
               </then>
               <elseif>
-                <contains string="${_deps_casperjs_url}" substring=".tar.gz" caseSensitive="false" />
+                <and>
+                  <contains string="${_deps_casperjs_url}" substring=".tar.gz" caseSensitive="false" />
+                </and>
                 <then>
                   <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
                     <arg value="curl" />
@@ -69,7 +73,9 @@
                 </then>
               </elseif>
               <elseif>
-                <contains string="${_deps_casperjs_url}" substring=".tar.bz2" caseSensitive="false" />
+                <and>
+                  <contains string="${_deps_casperjs_url}" substring=".tar.bz2" caseSensitive="false" />
+                </and>
                 <then>
                   <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
                     <arg value="curl" />
