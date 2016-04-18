@@ -41,7 +41,7 @@
 
       <echo msg="Running : ${__abs_build_in_build_dir_php}" />
 
-      <exec executable="php" dir="${project.basedir}/.~build/${project_slug}" passThru="true" checkReturn="true">
+      <exec executable="php" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkReturn="true">
         <arg value="${__abs_build_in_build_dir_php}" />
       </exec>
 

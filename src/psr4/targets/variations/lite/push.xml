@@ -78,8 +78,8 @@
 
           <echo msg="Staging changed files in lite dev branch." />
 
-          <exec command="git add --all" dir="${_variations_lite_push_repo_dir}" passThru="true" checkReturn="true" />
-          <exec command="git status" dir="${_variations_lite_push_repo_dir}" passThru="true" checkReturn="true" />
+          <exec command="git add --all" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
+          <exec command="git status" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
 
           <!-- Commit changes in lite dev branch (optional, if desired by user). -->
 
@@ -120,7 +120,7 @@
 
                   <echo msg="Committing changes in lite dev branch." />
 
-                  <exec command="git commit -F .~commit.msg" dir="${_variations_lite_push_repo_dir}" passThru="true" checkReturn="true" />
+                  <exec command="git commit -F .~commit.msg" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
                   <property name="_variations_lite_push_lite_commit_successful" value="true" />
                 </then>
                 <else>

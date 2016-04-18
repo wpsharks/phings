@@ -38,7 +38,7 @@
             <symlink target="${_deps_which_composer}" link="${_deps_composer_path}" />
           </then>
           <else>
-            <exec executable="/usr/bin/env" passThru="true" checkReturn="true">
+            <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
               <arg value="curl" />
               <arg value="${_deps_composer_url}" />
               <arg value="--location" />

@@ -29,7 +29,7 @@
 
       <echo />
 
-      <exec executable="${_deps_apigen_path}" dir="${project.basedir}/.~build/${project_slug}" passThru="true" checkReturn="true">
+      <exec executable="${_deps_apigen_path}" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkReturn="true">
         <arg value="generate" />
 
         <arg value="--source" />

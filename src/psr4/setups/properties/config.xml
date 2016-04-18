@@ -63,15 +63,24 @@
 
         <property name="_deps_phantomjs_version" value="2.1.1" />
         <if>
-          <os family="mac" />
+          <contains string="${host.os}" substring="darwin" caseSensitive="false" />
           <then>
             <property name="_deps_phantomjs_url" value="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${_deps_phantomjs_version}-macosx.zip" />
+            <property name="_deps_phantomjs_path" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}/phantomjs-${_deps_phantomjs_version}-macosx/bin/phantomjs" />
           </then>
+          <elseif>
+            <contains string="${host.os}" substring="linux" caseSensitive="false" />
+            <contains string="${host.arch}" substring="x86_64" caseSensitive="false" />
+            <then>
+              <property name="_deps_phantomjs_url" value="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${_deps_phantomjs_version}-linux-x86_64.tar.bz2" />
+              <property name="_deps_phantomjs_path" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}/phantomjs-${_deps_phantomjs_version}-linux-x86_64/bin/phantomjs" />
+            </then>
+          </elseif>
           <else>
             <property name="_deps_phantomjs_url" value="http://phantomjs.org/download.html" />
+            <property name="_deps_phantomjs_path" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}/bin/phantomjs" />
           </else>
         </if>
-        <property name="_deps_phantomjs_path" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}/phantomjs-${_deps_phantomjs_version}-macosx/bin/phantomjs" />
         <property name="_deps_phantomjs_path_dir" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}" />
         <dirname property="_deps_phantomjs_path_dirname" file="${_deps_phantomjs_path}" />
 

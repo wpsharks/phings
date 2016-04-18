@@ -40,19 +40,49 @@
           <else>
 
             <if>
-              <os family="mac" />
+              <contains string="${_deps_phantomjs_url}" substring=".zip" caseSensitive="false" />
               <then>
-                <exec executable="/usr/bin/env" passThru="true" checkReturn="true">
+                <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
                   <arg value="curl" />
                   <arg value="${_deps_phantomjs_url}" />
                   <arg value="--location" />
                   <arg value="--output" />
                   <arg value="${_tmp_sub_dir}/phantomjs.zip" />
                 </exec>
-                <unZip file="${_tmp_sub_dir}/phantomjs.zip" toDir="${_deps_phantomjs_path_dir}" />
+                <unzip file="${_tmp_sub_dir}/phantomjs.zip" toDir="${_deps_phantomjs_path_dir}" />
                 <delete file="${_tmp_sub_dir}/phantomjs.zip" quiet="true" />
                 <chmod file="${_deps_phantomjs_path}" mode="0744" />
               </then>
+              <elseif>
+                <contains string="${_deps_phantomjs_url}" substring=".tar.gz" caseSensitive="false" />
+                <then>
+                  <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
+                    <arg value="curl" />
+                    <arg value="${_deps_phantomjs_url}" />
+                    <arg value="--location" />
+                    <arg value="--output" />
+                    <arg value="${_tmp_sub_dir}/phantomjs.tar.gz" />
+                  </exec>
+                  <untar file="${_tmp_sub_dir}/phantomjs.tar.gz" toDir="${_deps_phantomjs_path_dir}" />
+                  <delete file="${_tmp_sub_dir}/phantomjs.tar.gz" quiet="true" />
+                  <chmod file="${_deps_phantomjs_path}" mode="0744" />
+                </then>
+              </elseif>
+              <elseif>
+                <contains string="${_deps_phantomjs_url}" substring=".tar.bz2" caseSensitive="false" />
+                <then>
+                  <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
+                    <arg value="curl" />
+                    <arg value="${_deps_phantomjs_url}" />
+                    <arg value="--location" />
+                    <arg value="--output" />
+                    <arg value="${_tmp_sub_dir}/phantomjs.tar.bz2" />
+                  </exec>
+                  <untar file="${_tmp_sub_dir}/phantomjs.tar.bz2" toDir="${_deps_phantomjs_path_dir}" />
+                  <delete file="${_tmp_sub_dir}/phantomjs.tar.bz2" quiet="true" />
+                  <chmod file="${_deps_phantomjs_path}" mode="0744" />
+                </then>
+              </elseif>
               <else>
                 <exec command="which phantomjs" checkReturn="false" outputProperty="_deps_which_phantomjs" />
                 <if>

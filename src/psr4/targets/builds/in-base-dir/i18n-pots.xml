@@ -48,7 +48,7 @@
 
               <mkdir dir="${project.basedir}/src/includes/translations" />
 
-              <exec executable="${_deps_wp_i18n_tools_path}" dir="${project.basedir}" passThru="true" checkReturn="true" output="/dev/null">
+              <exec executable="${_deps_wp_i18n_tools_path}" dir="${project.basedir}" passthru="true" checkReturn="true" output="/dev/null">
                 <arg value="wp-theme" />
                 <arg value="${project.basedir}" />
                 <arg value="${project.basedir}/src/includes/translations/${project_slug}.pot" />
@@ -68,7 +68,7 @@
 
               <mkdir dir="${project.basedir}/src/includes/translations" />
 
-              <exec executable="${_deps_wp_i18n_tools_path}" dir="${project.basedir}" passThru="true" checkReturn="true" output="/dev/null">
+              <exec executable="${_deps_wp_i18n_tools_path}" dir="${project.basedir}" passthru="true" checkReturn="true" output="/dev/null">
                 <arg value="wp-plugin" />
                 <arg value="${project.basedir}" />
                 <arg value="${project.basedir}/src/includes/translations/${project_slug}.pot" />

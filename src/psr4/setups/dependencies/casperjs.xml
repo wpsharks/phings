@@ -38,16 +38,71 @@
             <symlink target="${_deps_which_casperjs}" link="${_deps_casperjs_path}" />
           </then>
           <else>
-            <exec executable="/usr/bin/env" passThru="true" checkReturn="true">
-              <arg value="curl" />
-              <arg value="${_deps_casperjs_url}" />
-              <arg value="--location" />
-              <arg value="--output" />
-              <arg value="${_tmp_sub_dir}/casperjs.zip" />
-            </exec>
-            <unZip file="${_tmp_sub_dir}/casperjs.zip" toDir="${_deps_casperjs_path_dir}" />
-            <delete file="${_tmp_sub_dir}/casperjs.zip" quiet="true" />
-            <chmod file="${_deps_casperjs_path}" mode="0744" />
+
+            <if>
+              <contains string="${_deps_casperjs_url}" substring=".zip" caseSensitive="false" />
+              <then>
+                <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
+                  <arg value="curl" />
+                  <arg value="${_deps_casperjs_url}" />
+                  <arg value="--location" />
+                  <arg value="--output" />
+                  <arg value="${_tmp_sub_dir}/casperjs.zip" />
+                </exec>
+                <unzip file="${_tmp_sub_dir}/casperjs.zip" toDir="${_deps_casperjs_path_dir}" />
+                <delete file="${_tmp_sub_dir}/casperjs.zip" quiet="true" />
+                <chmod file="${_deps_casperjs_path}" mode="0744" />
+              </then>
+              <elseif>
+                <contains string="${_deps_casperjs_url}" substring=".tar.gz" caseSensitive="false" />
+                <then>
+                  <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
+                    <arg value="curl" />
+                    <arg value="${_deps_casperjs_url}" />
+                    <arg value="--location" />
+                    <arg value="--output" />
+                    <arg value="${_tmp_sub_dir}/casperjs.tar.gz" />
+                  </exec>
+                  <untar file="${_tmp_sub_dir}/casperjs.tar.gz" toDir="${_deps_casperjs_path_dir}" />
+                  <delete file="${_tmp_sub_dir}/casperjs.tar.gz" quiet="true" />
+                  <chmod file="${_deps_casperjs_path}" mode="0744" />
+                </then>
+              </elseif>
+              <elseif>
+                <contains string="${_deps_casperjs_url}" substring=".tar.bz2" caseSensitive="false" />
+                <then>
+                  <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
+                    <arg value="curl" />
+                    <arg value="${_deps_casperjs_url}" />
+                    <arg value="--location" />
+                    <arg value="--output" />
+                    <arg value="${_tmp_sub_dir}/casperjs.tar.bz2" />
+                  </exec>
+                  <untar file="${_tmp_sub_dir}/casperjs.tar.bz2" toDir="${_deps_casperjs_path_dir}" />
+                  <delete file="${_tmp_sub_dir}/casperjs.tar.bz2" quiet="true" />
+                  <chmod file="${_deps_casperjs_path}" mode="0744" />
+                </then>
+              </elseif>
+              <else>
+                <exec command="which casperjs" checkReturn="false" outputProperty="_deps_which_casperjs" />
+                <if>
+                  <or>
+                    <not>
+                      <isTrue value="${_deps_which_casperjs}" />
+                    </not>
+                    <not>
+                      <available resource="${_deps_which_casperjs}" type="file" />
+                    </not>
+                  </or>
+                  <then>
+                    <echo level="warning" msg="Not sure how to install CasperJS on your system. Please see: &lt;${_deps_casperjs_url}&gt; for OS-specific instructions." />
+                  </then>
+                  <else>
+                    <symlink target="${_deps_which_casperjs}" link="${_deps_casperjs_path}" />
+                  </else>
+                </if>
+              </else>
+            </if>
 
             <reflexive>
               <fileSet dir="${_deps_casperjs_path_dirname}" caseSensitive="false">
@@ -59,6 +114,7 @@
                 </replaceRegExp>
               </filterChain>
             </reflexive>
+
           </else>
         </if>
 

@@ -42,7 +42,7 @@
             </then>
           </if>
 
-          <exec executable="${_deps_composer_path}" dir="${project.basedir}" passThru="true" checkReturn="true">
+          <exec executable="${_deps_composer_path}" dir="${project.basedir}" passthru="true" checkReturn="true">
             <arg value="install" />
           </exec>
 

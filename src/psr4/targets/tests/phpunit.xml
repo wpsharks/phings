@@ -46,10 +46,10 @@
                   <available resource="${project.basedir}/.~build/${project_slug}/phpunit.xml" type="file" />
                 </and>
                 <then>
-                  <exec executable="${_deps_phpunit_path}" dir="${project.basedir}/.~build/${project_slug}" passThru="true" checkReturn="true" />
+                  <exec executable="${_deps_phpunit_path}" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkReturn="true" />
                 </then>
                 <else>
-                  <exec executable="${_deps_phpunit_path}" dir="${project.basedir}/.~build/${project_slug}" passThru="true" checkReturn="true">
+                  <exec executable="${_deps_phpunit_path}" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkReturn="true">
                     <arg value="--stop-on-failure" />
                     <arg value="--no-globals-backup" />
                     <arg value="--bootstrap=${project.basedir}/.~build/${project_slug}/tests/includes/phpunit.php" />
