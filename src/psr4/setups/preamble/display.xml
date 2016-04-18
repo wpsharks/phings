@@ -23,8 +23,27 @@
 
         <echo />
 
-        <echo msg="OS: ${os.name}" />
+        <echo msg="OS: ${host.os}" />
+        <echo msg="OS Version: ${host.os.version}" />
+        <echo msg="OS Release: ${host.os.release}" />
+
+        <echo />
+
+        <echo msg="Architecture: ${host.arch}" />
+        <echo msg="Filesystem: ${host.fstype}" />
+        <echo msg="Host Name: ${host.name}" />
+
+        <echo />
+
+        <echo msg="User: ${env.USER}" />
         <echo msg="Home: ${user.home}" />
+
+        <echo />
+
+        <echo msg="Lang: ${env.LANG}" />
+        <echo msg="Path: ${env.PATH}" />
+        <echo msg="Terminal: ${env.TERM}" />
+        <echo msg="Editor: ${env.EDITOR}" />
 
         <echo />
 
