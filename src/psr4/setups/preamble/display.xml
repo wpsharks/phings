@@ -35,15 +35,10 @@
 
         <echo />
 
-        <echo msg="User: ${env.USER}" />
         <echo msg="Home: ${user.home}" />
-
-        <echo />
-
         <echo msg="Lang: ${env.LANG}" />
+        <echo msg="Locale: ${env.LC_ALL}" />
         <echo msg="Path: ${env.PATH}" />
-        <echo msg="Terminal: ${env.TERM}" />
-        <echo msg="Editor: ${env.EDITOR}" />
 
         <echo />
 
