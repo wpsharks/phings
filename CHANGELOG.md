@@ -1,3 +1,7 @@
+## 160417
+
+- Adding support for Linux 64-bit when satisfying dependencies.
+
 ## 160416
 
 - All dependencies are now satisfied by the Phing build script itself the first time you run it, and/or in the future should specific version requirements need to change. At this time, dependencies include: APIGen, CasperJS, Composer, PhantomJS, PHP Code Sniffer, PHPUnit, and the WP i18n Tools.
