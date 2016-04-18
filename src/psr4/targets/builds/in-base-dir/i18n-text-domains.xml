@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- i18n text-domain handling. -->
+    <!-- ============================================  -->
+
+    <target name="-builds-in-base-dir-i18n-text-domains" hidden="true">
+
+      <!-- WordPress i18n text-domain handling. -->
+      <if>
+        <and>
+          <isTrue value="${_is_wp_theme_plugin}" />
+        </and>
+        <then>
+          <!-- Force  `__()` and other i18n calls w/ no text domain to contain a text-domain. -->
+
+          <echo msg="Forcing `__()` and other i18n calls w/ no text domain to contain a text-domain in: ${project.basedir}" />
+
+          <reflexive>
+            <fileSet dir="${project.basedir}" caseSensitive="false">
+              <patternSet refId="_php_pattern_set" />
+            </fileSet>
+            <filterChain>
+              <replaceRegExp>
+                <regExp pattern="\b__\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="__('$1', '${_project_text_domain}')" modifiers="u" />
+                <regExp pattern="\b_x\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_x('$1', '$2', '${_project_text_domain}')" modifiers="u" />
+                <regExp pattern="\b_n\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*\)" replace="_n('$1', '$2', $3, '${_project_text_domain}')" modifiers="u" />
+                <regExp pattern="\b_nx\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_nx('$1', '$2', $3, '$4', '${_project_text_domain}')" modifiers="u" />
+              </replaceRegExp>
+            </filterChain>
+          </reflexive>
+
+        </then>
+        <else>
+          <echo msg="N/A: skipping WordPress i18n text-domain handling." />
+        </else>
+      </if>
+
+    </target>
+
+  </project>
