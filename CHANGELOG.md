@@ -1,10 +1,9 @@
 ## 160418
 
+- Improving preamble.
 - Bug fix. `<elseif>` nested conditionals.
-
-## 160417
-
-- Adding support for Linux 64-bit when satisfying dependencies.
+- Adding support for Linux x86_64 when satisfying dependencies.
+- Better detection of framework and better separation of handlers and POT generation.
 
 ## 160416
 
