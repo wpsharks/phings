@@ -171,6 +171,22 @@
             <property name="_has_lite_build_props" value="false" />
           </else>
         </if>
+        <!-- Pro project detection; not the same as build detection; e.g., `is_lite_build` is different. -->
+
+        <if>
+          <or>
+            <isset property="_is_lite_build" />
+            <isTrue value="${_has_lite_build_props}" />
+            <contains string="${project_namespace}\\$" substring="\\Pro\\$" caseSensitive="false" />
+          </or>
+          <then>
+            <property name="_is_pro_project" value="true" />
+          </then>
+          <else>
+            <property name="_is_pro_project" value="false" />
+          </else>
+        </if>
+
         <!-- Make sure optional properties are defined. -->
 
         <if>

@@ -12,6 +12,7 @@
       <if>
         <and>
           <isTrue value="${_is_wp_theme_plugin}" />
+          <isTrue value="${_is_pro_project}" />
           <not>
             <isset property="_is_lite_build" />
           </not>
