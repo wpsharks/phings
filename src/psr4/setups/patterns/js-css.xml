@@ -16,6 +16,9 @@
       <exclude pattern="vendor/**" />
       <exclude pattern="**/vendor/**" />
 
+      <exclude pattern="bourbon/**" />
+      <exclude pattern="**/bourbon/**" />
+
       <include pattern="*.js" />
       <include pattern="**/**.js" />
 
