@@ -31,6 +31,9 @@
       <exclude pattern="tests/**" />
       <exclude pattern="**/tests/**" />
 
+      <exclude pattern="bourbon/**" />
+      <exclude pattern="**/bourbon/**" />
+
       <exclude pattern="vendor/bin/**" />
       <exclude pattern="**/vendor/bin/**" />
 
