@@ -86,6 +86,7 @@
               <reflexive>
                 <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false">
                   <patternSet refId="_wp_token_pattern_set" />
+                  <include pattern="${project_lite_slug}.php" />
                 </fileSet>
                 <filterChain>
                   <replaceRegExp>
