@@ -1,3 +1,8 @@
+## 160517
+
+- Bourbon exclusions. See: #92
+- Bug fix in lite patterns. See: https://github.com/websharks/phings/issues/95
+
 ## 160418
 
 - Improving preamble.
