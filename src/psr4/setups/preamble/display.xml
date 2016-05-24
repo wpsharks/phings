@@ -105,8 +105,13 @@
 
         <echo />
 
+        <echo msg="Project Required OS: ${project_required_os}" />
+
         <echo msg="Project PHP Required Version: ${project_php_required_version}" />
         <echo msg="Project PHP Tested Up To Version: ${project_php_tested_up_to_version}" />
+
+        <echo msg="Project PHP Required Bits: ${project_php_required_bits}" />
+        <echo msg="Project PHP Required Extensions: ${project_php_required_extensions}" />
 
         <if>
           <and>

@@ -44,8 +44,12 @@
 
     <fail unless="project_version" msg="Missing `project_version` in properties file!" />
 
+    <fail unless="project_required_os" msg="Missing `project_required_os` in properties file!" />
+
     <fail unless="project_php_required_version" msg="Missing `project_php_required_version` in properties file!" />
     <fail unless="project_php_tested_up_to_version" msg="Missing `project_php_tested_up_to_version` in properties file!" />
+    <fail unless="project_php_required_bits" msg="Missing `project_php_required_bits` in properties file!" />
+    <fail unless="project_php_required_extensions" msg="Missing `project_php_required_extensions` in properties file!" />
 
     <if>
       <and>

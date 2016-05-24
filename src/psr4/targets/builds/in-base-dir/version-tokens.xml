@@ -24,11 +24,17 @@
             <regExp pattern="'[^']*?'([,;])\s*\/\/version\/\/$" replace="'${project_version}'$1 //version//" modifiers="um" />
             <regExp pattern='"[^"]*?"([,;])\s*\/\/version\/\/$' replace='"${project_version}"$1 //version//' modifiers="um" />
 
+            <regExp pattern="'[^']*?'([,;])\s*\/\/os\-required\/\/$" replace="'${project_required_os}'$1 //os-required//" modifiers="um" />
+            <regExp pattern='"[^"]*?"([,;])\s*\/\/os\-required\/\/$' replace='"${project_required_os}"$1 //os-required//' modifiers="um" />
+
             <regExp pattern="'[^']*?'([,;])\s*\/\/php\-required\-version\/\/$" replace="'${project_php_required_version}'$1 //php-required-version//" modifiers="um" />
             <regExp pattern='"[^"]*?"([,;])\s*\/\/php\-required\-version\/\/$' replace='"${project_php_required_version}"$1 //php-required-version//' modifiers="um" />
 
             <regExp pattern="'[^']*?'([,;])\s*\/\/php\-up\-to\-version\/\/$" replace="'${project_php_tested_up_to_version}'$1 //php-up-to-version//" modifiers="um" />
             <regExp pattern='"[^"]*?"([,;])\s*\/\/php\-up\-to\-version\/\/$' replace='"${project_php_tested_up_to_version}"$1 //php-up-to-version//' modifiers="um" />
+
+            <regExp pattern="\b[0-9]+([,;])\s*\/\/php\-required\-bits\/\/$" replace="${project_php_required_bits}$1 //php-required-bits//" modifiers="um" />
+            <regExp pattern="\barray\s*\([^()]*\)([,;])\s*\/\/php\-required\-extensions\/\/" replace="array(${_php_required_extensions})$1 //php-required-extensions//" modifiers="u" />
           </replaceRegExp>
         </filterChain>
       </reflexive>

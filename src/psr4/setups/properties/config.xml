@@ -205,6 +205,30 @@
 
         <if>
           <not>
+            <isset property="project_required_os" />
+          </not>
+          <then>
+            <property name="project_required_os" value="" />
+          </then>
+        </if>
+        <if>
+          <not>
+            <isset property="project_php_required_bits" />
+          </not>
+          <then>
+            <property name="project_php_required_bits" value="0" />
+          </then>
+        </if>
+        <if>
+          <not>
+            <isset property="project_php_required_extensions" />
+          </not>
+          <then>
+            <property name="project_php_required_extensions" value="" />
+          </then>
+        </if>
+        <if>
+          <not>
             <isset property="project_other_phar_fileset_exclusions" />
           </not>
           <then>
@@ -294,6 +318,10 @@
             <property name="_project_text_domain" value="" />
           </else>
         </if>
+
+        <php expression="&quot;'&quot;.implode(&quot;', '&quot;, preg_split('/[\s,]+/u', '${project_php_required_extensions}', -1, PREG_SPLIT_NO_EMPTY)).&quot;'&quot;" returnProperty="_php_required_extensions" />
+        <php expression="&quot;${_php_required_extensions}&quot; === &quot;''&quot; ? '' : &quot;${_php_required_extensions}&quot;" returnProperty="_php_required_extensions" />
+
         <!-- Property replacement codes. -->
 
         <if>
