@@ -205,6 +205,30 @@
 
         <if>
           <not>
+            <isset property="project_required_os" />
+          </not>
+          <then>
+            <property name="project_required_os" value="" />
+          </then>
+        </if>
+        <if>
+          <not>
+            <isset property="project_php_required_bits" />
+          </not>
+          <then>
+            <property name="project_php_required_bits" value="0" />
+          </then>
+        </if>
+        <if>
+          <not>
+            <isset property="project_php_required_extensions" />
+          </not>
+          <then>
+            <property name="project_php_required_extensions" value="" />
+          </then>
+        </if>
+        <if>
+          <not>
             <isset property="project_other_phar_fileset_exclusions" />
           </not>
           <then>
