@@ -318,6 +318,10 @@
             <property name="_project_text_domain" value="" />
           </else>
         </if>
+
+        <php expression="&quot;'&quot;.implode(&quot;','&quot;, preg_split('/[\s,]+/u', '${project_php_required_extensions}')).&quot;'&quot;" returnProperty="_php_required_extensions" />
+        <php expression="&quot;${_php_required_extensions}&quot; === &quot;''&quot; ? '' : &quot;${_php_required_extensions}&quot;" returnProperty="_php_required_extensions" />
+
         <!-- Property replacement codes. -->
 
         <if>
