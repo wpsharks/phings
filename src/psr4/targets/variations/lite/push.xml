@@ -16,17 +16,10 @@
           <isTrue value="${_has_lite_build_props}" />
         </and>
         <then>
-          <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
-          <if>
-            <and>
-              <not>
-                <available resource="${project.basedir}/.~build/${project_lite_slug}" type="dir" />
-              </not>
-            </and>
-            <then>
-              <fail msg="Lite variation not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}" />
-            </then>
-          </if>
+          <!-- Depends on existing lite build. -->
+
+          <phingCall target="-validations-existing-lite-build" />
+
           <!-- Preparing for lite generation. -->
 
           <property name="_variations_lite_push_repo_remote" value="git@github.com:${project_owner}/${project_lite_slug}.git" />
@@ -108,85 +101,65 @@
               <equals arg1="${_variations_lite_push_lite_do_commit_changes}" arg2="yes" caseSensitive="false" trim="yes" />
             </or>
             <then>
-              <echo />
-
-              <echo msg="Attempting to generate commit message from changelog in lite dev branch." />
-
               <delete file="${_variations_lite_push_repo_dir}/.~commit.msg" quiet="true" />
               <adHocExtractChangelogForVersion version="${project_version}" inFile="${_variations_lite_push_repo_dir}/CHANGELOG.md" heading="Phing release of v${project_version} with the following changes:" outFile="${_variations_lite_push_repo_dir}/.~commit.msg" />
 
+              <echo />
+
+              <echo msg="Auto-generated changelog (commit message):" />
               <if>
                 <and>
                   <available resource="${_variations_lite_push_repo_dir}/.~commit.msg" type="file" />
                 </and>
                 <then>
-                  <echo />
-
-                  <echo msg="Changelog (commit message) generated successfully:" />
-
-                  <echo msg="---------------------------------------------------------" />
                   <loadfile property="_variations_lite_push_lite_changelog_contents" file="${_variations_lite_push_repo_dir}/.~commit.msg" />
-                  <echo msg="${_variations_lite_push_lite_changelog_contents}" />
-                  <echo msg="---------------------------------------------------------" />
-
-                  <echo />
-
-                  <echo msg="Committing changes in lite dev branch." />
-
-                  <exec command="git commit -F .~commit.msg" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
-                  <property name="_variations_lite_push_lite_commit_successful" value="true" />
                 </then>
                 <else>
-                  <echo />
-
-                  <property name="_variations_lite_push_lite_commit_successful" value="false" />
-                  <echo level="error" msg="Unable to commit changes in lite dev branch: CHANGELOG.md file missing entry for this version." />
+                  <property name="_variations_lite_push_lite_changelog_contents" value="Phing release of v${project_version}." />
+                  <echo msg="${_variations_lite_push_lite_changelog_contents}" file="${_variations_lite_push_repo_dir}/.~commit.msg" />
                 </else>
               </if>
+              <echo msg="---------------------------------------------------------" />
+              <echo msg="${_variations_lite_push_lite_changelog_contents}" />
+              <echo msg="---------------------------------------------------------" />
+
+              <echo />
+
+              <echo msg="Committing changes in lite dev branch." />
+
+              <exec command="git commit -F .~commit.msg" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
+
               <!-- Push to remote repo (optional, if desired by user). -->
+              <echo />
 
               <if>
                 <and>
-                  <isTrue value="${_variations_lite_push_lite_commit_successful}" />
+                  <isset property="interactive" />
+                  <isTrue value="${interactive}" />
                 </and>
+                <then>
+                  <propertyPrompt propertyName="_variations_lite_push_lite_do_push_changes" defaultValue="yes" promptText="Merge dev into master &amp; push both to remote? (yes/no)" />
+                </then>
+                <else>
+                  <property name="_variations_lite_push_lite_do_push_changes" value="yes" />
+                </else>
+              </if>
+
+              <if>
+                <or>
+                  <equals arg1="${_variations_lite_push_lite_do_push_changes}" arg2="y" caseSensitive="false" trim="yes" />
+                  <equals arg1="${_variations_lite_push_lite_do_push_changes}" arg2="yes" caseSensitive="false" trim="yes" />
+                </or>
                 <then>
                   <echo />
 
-                  <if>
-                    <and>
-                      <isset property="interactive" />
-                      <isTrue value="${interactive}" />
-                    </and>
-                    <then>
-                      <propertyPrompt propertyName="_variations_lite_push_lite_do_push_changes" defaultValue="yes" promptText="Merge dev into master &amp; push both to remote? (yes/no)" />
-                    </then>
-                    <else>
-                      <property name="_variations_lite_push_lite_do_push_changes" value="yes" />
-                    </else>
-                  </if>
+                  <exec command="git checkout master" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
+                  <exec command="git merge 000000-dev -m 'Merging dev into master via Phing.'" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
+                  <exec command="git push --set-upstream origin master" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
 
-                  <if>
-                    <or>
-                      <equals arg1="${_variations_lite_push_lite_do_push_changes}" arg2="y" caseSensitive="false" trim="yes" />
-                      <equals arg1="${_variations_lite_push_lite_do_push_changes}" arg2="yes" caseSensitive="false" trim="yes" />
-                    </or>
-                    <then>
-                      <echo />
-
-                      <exec command="git checkout master" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
-                      <exec command="git merge 000000-dev -m 'Merging dev into master via Phing.'" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
-                      <exec command="git push --set-upstream origin master" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
-
-                      <exec command="git checkout 000000-dev" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
-                      <exec command="git push --set-upstream origin 000000-dev" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
-                    </then>
-                  </if>
+                  <exec command="git checkout 000000-dev" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
+                  <exec command="git push --set-upstream origin 000000-dev" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
                 </then>
-                <else>
-                  <echo />
-
-                  <echo msg="N/A: skipping push of lite dev branch; due to commit failure." />
-                </else>
               </if>
 
             </then>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Save project version property. -->
+    <!-- ============================================  -->
+
+    <target name="-properties-save-project-version" hidden="true">
+
+      <echo msg="${project_version}" file="${project.basedir}/.~build/.properties/project-version" />
+
+    </target>
+
+  </project>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Require an existing lite build and remember the last build version. -->
+    <!-- ============================================  -->
+
+    <target name="-validations-existing-lite-build" hidden="true">
+
+      <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug} -->
+      <if>
+        <and>
+          <not>
+            <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}" type="dir" />
+          </not>
+        </and>
+        <then>
+          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}" />
+        </then>
+      </if>
+
+      <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version -->
+      <if>
+        <and>
+          <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version" type="file" />
+        </and>
+        <then>
+          <loadfile property="project_version" file="${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version" />
+        </then>
+        <else>
+          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version" />
+        </else>
+      </if>
+
+      <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.[zip|tar.gz] -->
+      <if>
+        <or>
+          <not>
+            <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip" type="file" />
+          </not>
+          <not>
+            <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz" type="file" />
+          </not>
+        </or>
+        <then>
+          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.[zip|tar.gz]." />
+        </then>
+      </if>
+
+    </target>
+
+  </project>

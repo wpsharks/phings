@@ -6,7 +6,7 @@
     <!-- GitHub release for lite variation.  -->
     <!-- ============================================  -->
 
-    <target name="-variations-lite-release" hidden="true">
+    <target name="-variations-lite-release" depends="-variations-lite-push" hidden="true">
 
       <if>
         <and>
@@ -16,27 +16,21 @@
           <isTrue value="${_has_lite_build_props}" />
         </and>
         <then>
-          <!-- Depends on ${project.basedir}/.~build/${project_lite_slug} -->
+          <!-- Depends on existing lite build. -->
+
+          <phingCall target="-validations-existing-lite-build" />
+
           <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo -->
+          <property name="_variations_lite_release_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo" />
           <if>
-            <or>
-              <not>
-                <available resource="${project.basedir}/.~build/${project_lite_slug}/${project_lite_slug}.zip" type="file" />
-              </not>
-              <not>
-                <available resource="${project.basedir}/.~build/${project_lite_slug}/${project_lite_slug}.tar.gz" type="file" />
-              </not>
-              <not>
-                <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo" type="dir" />
-              </not>
-            </or>
+            <not>
+              <available resource="${_variations_lite_release_repo_dir}" type="dir" />
+            </not>
             <then>
-              <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}/${project_lite_slug}.zip (or .tar.gz, or repo)." />
+              <fail msg="Project not ready yet. Missing: ${_variations_lite_release_repo_dir}" />
             </then>
           </if>
           <!-- Preparing for lite release creation. -->
-
-          <property name="_variations_lite_release_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo" />
 
           <echo msg="Preparing to create release: ${project_lite_title} v${project_version}" />
 
@@ -77,7 +71,14 @@
 
           <delete file="${_variations_lite_release_repo_dir}/.~commit.msg" quiet="true" />
           <adHocExtractChangelogForVersion version="${project_version}" inFile="${_variations_lite_release_repo_dir}/CHANGELOG.md" heading="${project_lite_title} v${project_version}" outFile="${_variations_lite_release_repo_dir}/.~commit.msg" />
-
+          <if>
+            <not>
+              <available resource="${_variations_lite_release_repo_dir}/.~commit.msg" type="file" />
+            </not>
+            <then>
+              <echo msg="${project_lite_title} v${project_version}" file="${_variations_lite_release_repo_dir}/.~commit.msg" />
+            </then>
+          </if>
           <!-- Collect pre-release status for this release. -->
           <if>
             <and>

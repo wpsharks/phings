@@ -26,6 +26,7 @@
       <phingCall target="-builds-in-build-dir-js-css-cleanup" />
       <phingCall target="-linters-phpcs" />
       <phingCall target="-distros-packages" />
+      <phingCall target="-properties-save-project-version" />
     </target>
 
     <!-- ============================================  -->
@@ -58,6 +59,7 @@
       <phingCall target="-builds-in-build-dir-js-css-cleanup" />
       <phingCall target="-linters-phpcs" />
       <phingCall target="-distros-packages" />
+      <phingCall target="-properties-save-project-version" />
     </target>
 
     <!-- ============================================  -->
@@ -112,7 +114,7 @@
     <!-- Run with `$ phing test`. -->
     <!-- ============================================  -->
 
-    <target name="test">
+    <target name="test" depends="-validations-existing-build">
       <echo msg="Running target: test" />
       <phingCall target="-tests-phpunit" />
       <phingCall target="-tests-casperjs" />
@@ -124,7 +126,7 @@
     <!-- Run with `$ phing codex`. -->
     <!-- ============================================  -->
 
-    <target name="codex">
+    <target name="codex" depends="-validations-existing-build">
       <echo msg="Running target: codex" />
       <phingCall target="-codex-apigen" />
     </target>
@@ -135,19 +137,16 @@
     <!-- Run with `$ phing release`. -->
     <!-- ============================================  -->
 
-    <target name="pre-release">
-      <echo msg="Running target: pre-release" />
-      <property name="type" value="pre" />
+    <target name="release" depends="-validations-existing-build">
+      <echo msg="Running target: release" />
       <phingCall target="-releases-release" />
-      <phingCall target="-variations-lite-push" />
       <phingCall target="-variations-lite-release" />
     </target>
 
-    <target name="release">
-      <echo msg="Running target: release" />
-      <phingCall target="-releases-release" />
-      <phingCall target="-variations-lite-push" />
-      <phingCall target="-variations-lite-release" />
+    <target name="pre-release">
+      <echo msg="Running target: pre-release" />
+      <property name="type" value="pre" />
+      <phingCall target="release" />
     </target>
 
   </project>

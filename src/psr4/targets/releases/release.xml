@@ -8,20 +8,6 @@
 
     <target name="-releases-release" hidden="true">
 
-      <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
-      <if>
-        <or>
-          <not>
-            <available resource="${project.basedir}/.~build/${project_slug}.zip" type="file" />
-          </not>
-          <not>
-            <available resource="${project.basedir}/.~build/${project_slug}.tar.gz" type="file" />
-          </not>
-        </or>
-        <then>
-          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}.zip (or .tar.gz)." />
-        </then>
-      </if>
       <!-- Preparing for release creation. -->
 
       <echo msg="Preparing to create GitHub release: ${project_title} v${project_version}" />
@@ -63,7 +49,14 @@
 
       <delete file="${project.basedir}/.~build/.~commit.msg" quiet="true" />
       <adHocExtractChangelogForVersion version="${project_version}" inFile="${project.basedir}/CHANGELOG.md" heading="${project_title} v${project_version}" outFile="${project.basedir}/.~build/.~commit.msg" />
-
+      <if>
+        <not>
+          <available resource="${project.basedir}/.~build/.~commit.msg" type="file" />
+        </not>
+        <then>
+          <echo msg="${project_title} v${project_version}" file="${project.basedir}/.~build/.~commit.msg" />
+        </then>
+      </if>
       <!-- Collect pre-release status for this release. -->
       <if>
         <and>
