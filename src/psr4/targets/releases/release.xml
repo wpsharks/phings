@@ -71,7 +71,7 @@
           <contains string="${type}" substring="pre" caseSensitive="false" />
         </and>
         <then>
-          <property name="_releases_release_git_create_pre" value=" --prerelease" />
+          <property name="_releases_release_git_create_pre" value=" -p" />
         </then>
         <else>
           <property name="_releases_release_git_create_pre" value="" />
@@ -92,7 +92,7 @@
           </and>
         </or>
         <then>
-          <property name="_releases_release_git_create_draft" value=" --draft" />
+          <property name="_releases_release_git_create_draft" value=" -d" />
         </then>
         <else>
           <property name="_releases_release_git_create_draft" value="" />
@@ -104,27 +104,26 @@
           <available resource="${project.basedir}/.~build/${project_slug}.phar" type="file" />
         </and>
         <then>
-          <property name="_releases_release_git_create_assets" value="--attach '${project.basedir}/.~build/${project_slug}.phar' --attach '${project.basedir}/.~build/${project_slug}.zip' --attach '${project.basedir}/.~build/${project_slug}.tar.gz'" />
+          <property name="_releases_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_slug}.phar' -a '${project.basedir}/.~build/${project_slug}.zip' -a '${project.basedir}/.~build/${project_slug}.tar.gz'" />
         </then>
         <else>
-          <property name="_releases_release_git_create_assets" value="--attach '${project.basedir}/.~build/${project_slug}.zip' --attach '${project.basedir}/.~build/${project_slug}.tar.gz'" />
+          <property name="_releases_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_slug}.zip' -a '${project.basedir}/.~build/${project_slug}.tar.gz'" />
         </else>
       </if>
       <!-- Build the command that we are going to execute; i.e., `hub release create ...` -->
 
-      <property name="_releases_release_git_create" value="hub release create --file '${project.basedir}/.~build/.~commit.msg'${_releases_release_git_create_pre}${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${project_version}" />
+      <property name="_releases_release_git_create" value="hub release create -f '${project.basedir}/.~build/.~commit.msg'${_releases_release_git_create_pre}${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${project_version}" />
 
       <!-- Run the command that we need to execute now; i.e., `hub release create ...` -->
 
       <echo msg="Creating GitHub release tagged: `${project_version}`; targeted at branch: `master`." />
-      <echo msg="${_releases_release_git_create}" />
 
       <!-- @TODO: In the future, the `hub` tool will expose a `-c` arg that can be used instead of switching branches. -->
       <!-- The new `-c` arg is available in the dev branch for the `hub` tool, but it's not available via package managers yet. -->
 
-      <gitCheckout repository="${project.basedir}" branchname="master" />
-      <exec command="echo $@; ${_releases_release_git_create}" dir="${project.basedir}" passthru="true" checkReturn="true" />
-      <gitCheckout repository="${project.basedir}" branchname="000000-dev" />
+      <exec command="git checkout master" dir="${project.basedir}" passthru="true" checkReturn="true" />
+      <exec command="${_releases_release_git_create}" dir="${project.basedir}" passthru="true" checkReturn="true" />
+      <exec command="git checkout 000000-dev" dir="${project.basedir}" passthru="true" checkReturn="true" />
 
     </target>
 
