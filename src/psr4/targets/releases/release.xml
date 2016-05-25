@@ -71,7 +71,7 @@
           <contains string="${type}" substring="pre" caseSensitive="false" />
         </and>
         <then>
-          <property name="_releases_release_git_create_pre" value="--prerelease" />
+          <property name="_releases_release_git_create_pre" value=" --prerelease" />
         </then>
         <else>
           <property name="_releases_release_git_create_pre" value="" />
@@ -92,7 +92,7 @@
           </and>
         </or>
         <then>
-          <property name="_releases_release_git_create_draft" value="--draft" />
+          <property name="_releases_release_git_create_draft" value=" --draft" />
         </then>
         <else>
           <property name="_releases_release_git_create_draft" value="" />
@@ -112,7 +112,7 @@
       </if>
       <!-- Build the command that we are going to execute; i.e., `hub release create ...` -->
 
-      <property name="_releases_release_git_create" value="hub release create --file '${project.basedir}/.~build/.~commit.msg' ${_releases_release_git_create_pre} ${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${project_version}" />
+      <property name="_releases_release_git_create" value="hub release create --file '${project.basedir}/.~build/.~commit.msg'${_releases_release_git_create_pre}${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${project_version}" />
 
       <!-- Run the command that we need to execute now; i.e., `hub release create ...` -->
 

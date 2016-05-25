@@ -85,7 +85,7 @@
               <contains string="${type}" substring="pre" caseSensitive="false" />
             </and>
             <then>
-              <property name="_variations_lite_release_git_create_pre" value="--prerelease" />
+              <property name="_variations_lite_release_git_create_pre" value=" --prerelease" />
             </then>
             <else>
               <property name="_variations_lite_release_git_create_pre" value="" />
@@ -98,7 +98,7 @@
               <isTrue value="${draft}" />
             </and>
             <then>
-              <property name="_variations_lite_release_git_create_draft" value="--draft" />
+              <property name="_variations_lite_release_git_create_draft" value=" --draft" />
             </then>
             <else>
               <property name="_variations_lite_release_git_create_draft" value="" />
@@ -118,7 +118,7 @@
           </if>
           <!-- Build the command that we are going to execute; i.e., `hub release create ...` -->
 
-          <property name="_variations_lite_release_git_create" value="hub release create --file '${_variations_lite_release_repo_dir}/.~commit.msg' ${_variations_lite_release_git_create_pre} ${_variations_lite_release_git_create_draft} ${_variations_lite_release_git_create_assets} ${project_version}" />
+          <property name="_variations_lite_release_git_create" value="hub release create --file '${_variations_lite_release_repo_dir}/.~commit.msg'${_variations_lite_release_git_create_pre}${_variations_lite_release_git_create_draft} ${_variations_lite_release_git_create_assets} ${project_version}" />
 
           <!-- Run the command that we need to execute now; i.e., `hub release create ...` -->
 
