@@ -128,14 +128,24 @@
     </target>
 
     <!-- ============================================  -->
-    <!-- Release procedure target. -->
+    <!-- Release procedure targets. -->
     <!-- For project leads doing a release. -->
     <!-- Run with `$ phing release`. -->
     <!-- ============================================  -->
 
+    <target name="pre-release">
+      <echo msg="Running target: pre-release" />
+      <property name="type" value="pre" />
+      <phingCall target="-releases-release" />
+      <phingCall target="-variations-lite-push" />
+      <phingCall target="-variations-lite-release" />
+    </target>
+
     <target name="release">
       <echo msg="Running target: release" />
+      <phingCall target="-releases-release" />
       <phingCall target="-variations-lite-push" />
+      <phingCall target="-variations-lite-release" />
     </target>
 
   </project>

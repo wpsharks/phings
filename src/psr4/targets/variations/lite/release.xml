@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- GitHub release for lite variation.  -->
+    <!-- ============================================  -->
+
+    <target name="-variations-lite-release" hidden="true">
+
+      <if>
+        <and>
+          <not>
+            <isset property="_is_lite_build" />
+          </not>
+          <isTrue value="${_has_lite_build_props}" />
+        </and>
+        <then>
+          <!-- Depends on ${project.basedir}/.~build/${project_lite_slug} -->
+          <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo -->
+          <if>
+            <or>
+              <not>
+                <available resource="${project.basedir}/.~build/${project_lite_slug}/${project_lite_slug}.zip" type="file" />
+              </not>
+              <not>
+                <available resource="${project.basedir}/.~build/${project_lite_slug}/${project_lite_slug}.tar.gz" type="file" />
+              </not>
+              <not>
+                <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo" type="dir" />
+              </not>
+            </or>
+            <then>
+              <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}/${project_lite_slug}.zip (or .tar.gz, or repo)." />
+            </then>
+          </if>
+          <!-- Preparing for lite release creation. -->
+
+          <property name="_variations_lite_release_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo" />
+
+          <echo msg="Preparing to create release: ${project_lite_title} v${project_version}" />
+
+          <!-- Check current git repo status and make sure it is clean. -->
+
+          <exec command="git status --short" dir="${_variations_lite_release_repo_dir}" outputProperty="_variations_lite_release_git_status" />
+          <if>
+            <not>
+              <equals arg1="${_variations_lite_release_git_status}" arg2="" trim="true" />
+            </not>
+            <then>
+              <fail msg="Repo is dirty. Please commit and push changes." />
+            </then>
+          </if>
+          <!-- Check current git repo to be sure that it has a github.com origin.  -->
+
+          <exec command="git remote -v | grep --extended-regexp --ignore-case '^origin\s.+?github\.com'" dir="${_variations_lite_release_repo_dir}" returnProperty="_variations_lite_release_git_has_github_origin" />
+          <if>
+            <not>
+              <equals arg1="${_variations_lite_release_git_has_github_origin}" arg2="0" trim="true" />
+            </not>
+            <then>
+              <fail msg="Repo does not have a github.com origin." />
+            </then>
+          </if>
+          <!-- Collect the changelog for this version, which is used as the release message.  -->
+
+          <delete file="${_variations_lite_release_repo_dir}/.~commit.msg" quiet="true" />
+          <adHocExtractChangelogForVersion version="${project_version}" inFile="${_variations_lite_release_repo_dir}/CHANGELOG.md" heading="${project_lite_title} v${project_version}" outFile="${_variations_lite_release_repo_dir}/.~commit.msg" />
+
+          <!-- Collect pre-release status for this release. -->
+          <if>
+            <and>
+              <isset property="type" />
+              <contains string="${type}" substring="pre" caseSensitive="false" />
+            </and>
+            <then>
+              <property name="_variations_lite_release_git_create_pre" value="--prerelease" />
+            </then>
+            <else>
+              <property name="_variations_lite_release_git_create_pre" value="" />
+            </else>
+          </if>
+          <!-- Collect draft status for this release. -->
+          <if>
+            <and>
+              <isset property="draft" />
+              <isTrue value="${draft}" />
+            </and>
+            <then>
+              <property name="_variations_lite_release_git_create_draft" value="--draft" />
+            </then>
+            <else>
+              <property name="_variations_lite_release_git_create_draft" value="" />
+            </else>
+          </if>
+          <!-- Collect distros that we can append to the release. -->
+          <if>
+            <and>
+              <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.phar" type="file" />
+            </and>
+            <then>
+              <property name="_variations_lite_release_git_create_assets" value="--asset '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.phar' --asset '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip' --asset '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz'" />
+            </then>
+            <else>
+              <property name="_variations_lite_release_git_create_assets" value="--asset '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip' --asset '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz'" />
+            </else>
+          </if>
+          <!-- Build the command that we are going to execute; i.e., `git release create -c master ...` -->
+
+          <property name="_variations_lite_release_git_create" value="git release create -c master --file '${_variations_lite_release_repo_dir}/.~commit.msg' ${_variations_lite_release_git_create_pre} ${_variations_lite_release_git_create_draft} ${_variations_lite_release_git_create_assets} ${project_version}" />
+
+          <!-- Run the command that we need to execute now; i.e., `git release create -c master ...` -->
+
+          <echo msg="Creating GitHub release tagged: `${project_version}`; targeted at branch: `master`." />
+
+          <exec command="${_variations_lite_release_git_create}" dir="${_variations_lite_release_repo_dir}" passthru="true" checkReturn="true" />
+
+        </then>
+        <else>
+          <echo msg="N/A: skipping lite repo release creation; lite not applicable." />
+        </else>
+      </if>
+
+    </target>
+
+  </project>

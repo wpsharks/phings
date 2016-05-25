@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Create a GitHub release.  -->
+    <!-- ============================================  -->
+
+    <target name="-releases-release" hidden="true">
+
+      <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
+      <if>
+        <or>
+          <not>
+            <available resource="${project.basedir}/.~build/${project_slug}.zip" type="file" />
+          </not>
+          <not>
+            <available resource="${project.basedir}/.~build/${project_slug}.tar.gz" type="file" />
+          </not>
+        </or>
+        <then>
+          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}.zip (or .tar.gz)." />
+        </then>
+      </if>
+      <!-- Preparing for release creation. -->
+
+      <echo msg="Preparing to create GitHub release: ${project_title} v${project_version}" />
+
+      <!-- Check current git repo status and make sure it is clean. -->
+
+      <exec command="git status --short" dir="${project.basedir}" outputProperty="_releases_release_git_status" />
+      <if>
+        <not>
+          <equals arg1="${_releases_release_git_status}" arg2="" trim="true" />
+        </not>
+        <then>
+          <fail msg="Repo is dirty. Please commit and push changes." />
+        </then>
+      </if>
+      <!-- Check current git repo to be sure that it has a github.com origin.  -->
+
+      <exec command="git remote -v | grep --extended-regexp --ignore-case '^origin\s.+?github\.com'" dir="${project.basedir}" returnProperty="_releases_release_git_has_github_origin" />
+      <if>
+        <not>
+          <equals arg1="${_releases_release_git_has_github_origin}" arg2="0" trim="true" />
+        </not>
+        <then>
+          <fail msg="Repo does not have a github.com origin." />
+        </then>
+      </if>
+      <!-- Collect the changelog for this version, which is used as the release message.  -->
+
+      <delete file="${project.basedir}/.~build/.~commit.msg" quiet="true" />
+      <adHocExtractChangelogForVersion version="${project_version}" inFile="${project.basedir}/CHANGELOG.md" heading="${project_title} v${project_version}" outFile="${project.basedir}/.~build/.~commit.msg" />
+
+      <!-- Collect pre-release status for this release. -->
+      <if>
+        <and>
+          <isset property="type" />
+          <contains string="${type}" substring="pre" caseSensitive="false" />
+        </and>
+        <then>
+          <property name="_releases_release_git_create_pre" value="--prerelease" />
+        </then>
+        <else>
+          <property name="_releases_release_git_create_pre" value="" />
+        </else>
+      </if>
+      <!-- Collect draft status for this release. -->
+      <if>
+        <or>
+          <and>
+            <not>
+              <isset property="draft" />
+            </not>
+            <isTrue value="${_is_pro_project}" />
+          </and>
+          <and>
+            <isset property="draft" />
+            <isTrue value="${draft}" />
+          </and>
+        </or>
+        <then>
+          <property name="_releases_release_git_create_draft" value="--draft" />
+        </then>
+        <else>
+          <property name="_releases_release_git_create_draft" value="" />
+        </else>
+      </if>
+      <!-- Collect distros that we can append to the release. -->
+      <if>
+        <and>
+          <available resource="${project.basedir}/.~build/${project_slug}.phar" type="file" />
+        </and>
+        <then>
+          <property name="_releases_release_git_create_assets" value="--asset '${project.basedir}/.~build/${project_slug}.phar' --asset '${project.basedir}/.~build/${project_slug}.zip' --asset '${project.basedir}/.~build/${project_slug}.tar.gz'" />
+        </then>
+        <else>
+          <property name="_releases_release_git_create_assets" value="--asset '${project.basedir}/.~build/${project_slug}.zip' --asset '${project.basedir}/.~build/${project_slug}.tar.gz'" />
+        </else>
+      </if>
+      <!-- Build the command that we are going to execute; i.e., `git release create -c master ...` -->
+
+      <property name="_releases_release_git_create" value="git release create -c master --file '${project.basedir}/.~build/.~commit.msg' ${_releases_release_git_create_pre} ${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${project_version}" />
+
+      <!-- Run the command that we need to execute now; i.e., `git release create -c master ...` -->
+
+      <echo msg="Creating GitHub release tagged: `${project_version}`; targeted at branch: `master`." />
+
+      <exec command="${_releases_release_git_create}" dir="${project.basedir}" passthru="true" checkReturn="true" />
+
+    </target>
+
+  </project>
