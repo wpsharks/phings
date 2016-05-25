@@ -128,9 +128,9 @@
           <!-- @TODO: In the future, the `hub` tool will expose a `-c` arg that can be used instead of switching branches. -->
           <!-- The new `-c` arg is available in the dev branch for the `hub` tool, but it's not available via package managers yet. -->
 
-          <exec command="git checkout master" dir="${_variations_lite_release_git_create}" passthru="true" checkReturn="true" />
+          <exec command="git checkout master" dir="${_variations_lite_release_repo_dir}" passthru="true" checkReturn="true" />
           <exec command="${_variations_lite_release_git_create}" dir="${_variations_lite_release_repo_dir}" passthru="true" checkReturn="true" />
-          <exec command="git checkout 000000-dev" dir="${_variations_lite_release_git_create}" passthru="true" checkReturn="true" />
+          <exec command="git checkout 000000-dev" dir="${_variations_lite_release_repo_dir}" passthru="true" checkReturn="true" />
 
         </then>
         <else>

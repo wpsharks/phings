@@ -77,17 +77,15 @@
           <exec command="git status" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
 
           <!-- Commit changes in lite dev branch (optional, if desired by user). -->
-
-          <echo />
-
-          <echo msg="To make changes or commit these files manually, choose 'no' at the next prompt and navigate to: ${_variations_lite_push_repo_dir}" />
-
           <if>
             <and>
               <isset property="interactive" />
               <isTrue value="${interactive}" />
             </and>
             <then>
+              <echo />
+
+              <echo msg="To make changes or commit these files manually, choose 'no' at the next prompt and navigate to: ${_variations_lite_push_repo_dir}" />
               <propertyPrompt propertyName="_variations_lite_push_lite_do_commit_changes" defaultValue="yes" promptText="Commit changes in lite dev branch? (yes/no)" />
             </then>
             <else>
@@ -130,14 +128,14 @@
               <exec command="git commit -F .~commit.msg" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
 
               <!-- Push to remote repo (optional, if desired by user). -->
-              <echo />
-
               <if>
                 <and>
                   <isset property="interactive" />
                   <isTrue value="${interactive}" />
                 </and>
                 <then>
+                  <echo />
+
                   <propertyPrompt propertyName="_variations_lite_push_lite_do_push_changes" defaultValue="yes" promptText="Merge dev into master &amp; push both to remote? (yes/no)" />
                 </then>
                 <else>
