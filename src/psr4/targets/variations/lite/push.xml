@@ -42,9 +42,11 @@
           <gitClone repository="${_variations_lite_push_repo_remote}" targetPath="${_variations_lite_push_repo_dir}" depth="1" />
 
           <!-- Switch to `000000-dev` branch in lite version. -->
+          <!-- First swith to `master` so that if either of these branches are missing an error occurs. -->
 
           <echo />
 
+          <gitCheckout repository="${_variations_lite_push_repo_dir}" branchname="master" />
           <gitCheckout repository="${_variations_lite_push_repo_dir}" branchname="000000-dev" />
 
           <!-- Delete all existing files in lite dev branch. -->
@@ -87,7 +89,18 @@
 
           <echo msg="To make changes or commit these files manually, choose 'no' at the next prompt and navigate to: ${_variations_lite_push_repo_dir}" />
 
-          <propertyPrompt propertyName="_variations_lite_push_lite_do_commit_changes" defaultValue="no" promptText="Commit changes in lite dev branch? (yes/no)" />
+          <if>
+            <and>
+              <isset property="interactive" />
+              <isTrue value="${interactive}" />
+            </and>
+            <then>
+              <propertyPrompt propertyName="_variations_lite_push_lite_do_commit_changes" defaultValue="yes" promptText="Commit changes in lite dev branch? (yes/no)" />
+            </then>
+            <else>
+              <property name="_variations_lite_push_lite_do_commit_changes" value="yes" />
+            </else>
+          </if>
 
           <if>
             <or>
@@ -139,7 +152,18 @@
                 <then>
                   <echo />
 
-                  <propertyPrompt propertyName="_variations_lite_push_lite_do_push_changes" defaultValue="no" promptText="Push commit to remote repo? (yes/no)" />
+                  <if>
+                    <and>
+                      <isset property="interactive" />
+                      <isTrue value="${interactive}" />
+                    </and>
+                    <then>
+                      <propertyPrompt propertyName="_variations_lite_push_lite_do_push_changes" defaultValue="yes" promptText="Merge dev into master &amp; push both to remote? (yes/no)" />
+                    </then>
+                    <else>
+                      <property name="_variations_lite_push_lite_do_push_changes" value="yes" />
+                    </else>
+                  </if>
 
                   <if>
                     <or>
@@ -149,7 +173,11 @@
                     <then>
                       <echo />
 
-                      <gitPush repository="${_variations_lite_push_repo_dir}" />
+                      <gitCheckout repository="${_variations_lite_push_repo_dir}" branchname="master" />
+                      <gitMerge repository="${_variations_lite_push_repo_dir}" remote="000000-dev" fastForwardCommit="true" message="Merging dev into master via Phing." />
+
+                      <gitCheckout repository="${_variations_lite_push_repo_dir}" branchname="000000-dev" />
+                      <gitPush repository="${_variations_lite_push_repo_dir}" all="true" />
                     </then>
                   </if>
                 </then>
