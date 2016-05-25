@@ -42,7 +42,7 @@
           <gitClone repository="${_variations_lite_push_repo_remote}" targetPath="${_variations_lite_push_repo_dir}" depth="1" />
 
           <!-- Switch to `000000-dev` branch in lite version. -->
-          <!-- First swith to `master` so that if either of these branches are missing an error occurs. -->
+          <!-- First switch to `master` so that if either of these branches are missing an error occurs. -->
 
           <echo />
 
