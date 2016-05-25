@@ -57,6 +57,7 @@
     <!-- Build (in build directory) targets. -->
     <!-- ============================================  -->
 
+    <import file="${phing.dir.targets}/targets/builds/in-build-dir/composer.xml" />
     <import file="${phing.dir.targets}/targets/builds/in-build-dir/dotbuilds.xml" />
     <import file="${phing.dir.targets}/targets/builds/in-build-dir/js-css-cleanup.xml" />
 
@@ -92,11 +93,18 @@
     <import file="${phing.dir.targets}/targets/codex/apigen.xml" />
 
     <!-- ============================================  -->
+    <!-- Release-related targets. -->
+    <!-- ============================================  -->
+
+    <import file="${phing.dir.targets}/targets/releases/release.xml" />
+
+    <!-- ============================================  -->
     <!-- Lite variation-related targets. -->
     <!-- ============================================  -->
 
     <import file="${phing.dir.targets}/targets/variations/lite/prepare.xml" />
     <import file="${phing.dir.targets}/targets/variations/lite/builds.xml" />
     <import file="${phing.dir.targets}/targets/variations/lite/push.xml" />
+    <import file="${phing.dir.targets}/targets/variations/lite/release.xml" />
 
   </project>
