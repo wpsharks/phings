@@ -40,7 +40,10 @@
 
           <if>
             <and>
-              <available resource="${project.basedir}/.~build/${project_slug}/src/vendor/composer/autoload_psr4.php" type="file" />
+              <or>
+                <available resource="${project.basedir}/.~build/${project_slug}/src/vendor/composer/autoload_psr4.php" type="file" />
+                <available resource="${project.basedir}/.~build/${project_slug}/src/vendor/composer/autoload_classmap.php" type="file" />
+              </or>
               <available resource="${project.basedir}/.~build/${project_slug}/src/vendor/websharks/core" type="dir" />
             </and>
             <then>
@@ -61,6 +64,7 @@
               <reflexive>
                 <fileSet dir="${project.basedir}/.~build/${project_slug}/src/vendor/composer" caseSensitive="false">
                   <include pattern="autoload_psr4.php" />
+                  <include pattern="autoload_classmap.php" />
                 </fileSet>
                 <filterChain>
                   <replaceRegExp>
