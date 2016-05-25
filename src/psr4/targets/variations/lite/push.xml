@@ -34,13 +34,13 @@
           <delete dir="${_variations_lite_push_repo_dir}" includeEmptyDirs="true" quiet="true" />
           <exec command="git clone '${_variations_lite_push_repo_remote}' '${_variations_lite_push_repo_dir}' --depth=1" passthru="true" checkReturn="true" />
 
-          <!-- Switch to `000000-dev` branch in lite version. -->
-          <!-- First switch to `master` so that if either of these branches are missing an error occurs. -->
+          <!-- Make sure both of these branches exist (at HEAD) and start from the 000000-dev branch. -->
+          <!-- Note the interesting use of the `-B` flag below. See also: <https://git-scm.com/docs/git-checkout> -->
 
           <echo />
 
-          <exec command="git checkout master" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
-          <exec command="git checkout 000000-dev" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
+          <exec command="git checkout -B master" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
+          <exec command="git checkout -B 000000-dev" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
 
           <!-- Delete all existing files in lite dev branch. -->
 
