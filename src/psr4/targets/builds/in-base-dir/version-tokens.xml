@@ -52,7 +52,7 @@
         </fileSet>
         <filterChain>
           <replaceRegExp>
-            <regExp pattern="^\$\{\[project_version\]\}$" replace="${project_version}" modifiers="u" />
+            <regExp pattern="\$\{\[project_version\]\}" replace="${project_version}" modifiers="u" />
           </replaceRegExp>
         </filterChain>
       </reflexive>
