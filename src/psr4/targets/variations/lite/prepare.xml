@@ -250,6 +250,8 @@
 
                 <regExp pattern="^project_lite_other_phar_fileset_exclusions(\s+)" replace="project_other_phar_fileset_exclusions\1" modifiers="um" />
                 <regExp pattern="^project_lite_other_zip_tgz_fileset_exclusions(\s+)" replace="project_other_zip_tgz_fileset_exclusions\1" modifiers="um" />
+
+                <regExp pattern="^project_version\s+.*$" replace="project_version = ${project_version}" modifiers="um" />
               </replaceRegExp>
             </filterChain>
           </reflexive>

@@ -41,9 +41,9 @@
 
       <!-- README/CHANGELOG version token replacements. -->
 
-      <echo msg="Replacing README/CHANGELOG version tokens: ${project.basedir}" />
-
       <echo />
+
+      <echo msg="Replacing README/CHANGELOG version tokens: ${project.basedir}" />
 
       <reflexive>
         <fileSet dir="${project.basedir}" caseSensitive="false">
