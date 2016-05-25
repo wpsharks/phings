@@ -123,6 +123,7 @@
           <!-- Run the command that we need to execute now; i.e., `hub release create ...` -->
 
           <echo msg="Creating GitHub release tagged: `${project_version}`; targeted at branch: `master`." />
+          <echo msg="${_variations_lite_release_git_create}" />
 
           <!-- @TODO: In the future, the `hub` tool will expose a `-c` arg that can be used instead of switching branches. -->
           <!-- The new `-c` arg is available in the dev branch for the `hub` tool, but it's not available via package managers yet. -->
