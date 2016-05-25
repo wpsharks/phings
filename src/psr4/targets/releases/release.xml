@@ -123,7 +123,7 @@
       <!-- The new `-c` arg is available in the dev branch for the `hub` tool, but it's not available via package managers yet. -->
 
       <gitCheckout repository="${project.basedir}" branchname="master" />
-      <exec command="${_releases_release_git_create}" dir="${project.basedir}" passthru="true" checkReturn="true" />
+      <exec command="echo $@; ${_releases_release_git_create}" dir="${project.basedir}" passthru="true" checkReturn="true" />
       <gitCheckout repository="${project.basedir}" branchname="000000-dev" />
 
     </target>

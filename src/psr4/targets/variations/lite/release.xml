@@ -129,7 +129,7 @@
           <!-- The new `-c` arg is available in the dev branch for the `hub` tool, but it's not available via package managers yet. -->
 
           <gitCheckout repository="${_variations_lite_push_repo_dir}" branchname="master" />
-          <exec command="${_variations_lite_release_git_create}" dir="${_variations_lite_release_repo_dir}" passthru="true" checkReturn="true" />
+          <exec command="echo $@; ${_variations_lite_release_git_create}" dir="${_variations_lite_release_repo_dir}" passthru="true" checkReturn="true" />
           <gitCheckout repository="${_variations_lite_push_repo_dir}" branchname="000000-dev" />
 
         </then>
