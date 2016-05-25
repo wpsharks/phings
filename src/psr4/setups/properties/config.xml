@@ -330,6 +330,7 @@
           </and>
           <then>
             <php expression="str_replace('%y%m%d', date('ymd'), '${project_version}')" returnProperty="project_version" />
+            <php expression="str_replace('%h%i', date('hi'), '${project_version}')" returnProperty="project_version" />
           </then>
         </if>
 
