@@ -99,11 +99,11 @@
           <property name="_releases_release_git_create_assets" value="--asset '${project.basedir}/.~build/${project_slug}.zip' --asset '${project.basedir}/.~build/${project_slug}.tar.gz'" />
         </else>
       </if>
-      <!-- Build the command that we are going to execute; i.e., `git release create -c master ...` -->
+      <!-- Build the command that we are going to execute; i.e., `hub release create -c master ...` -->
 
-      <property name="_releases_release_git_create" value="git release create -c master --file '${project.basedir}/.~build/.~commit.msg' ${_releases_release_git_create_pre} ${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${project_version}" />
+      <property name="_releases_release_git_create" value="hub release create -c master --file '${project.basedir}/.~build/.~commit.msg' ${_releases_release_git_create_pre} ${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${project_version}" />
 
-      <!-- Run the command that we need to execute now; i.e., `git release create -c master ...` -->
+      <!-- Run the command that we need to execute now; i.e., `hub release create -c master ...` -->
 
       <echo msg="Creating GitHub release tagged: `${project_version}`; targeted at branch: `master`." />
 
