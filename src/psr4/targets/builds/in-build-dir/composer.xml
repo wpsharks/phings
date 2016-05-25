@@ -6,44 +6,33 @@
     <!-- Composer install routine. -->
     <!-- ============================================  -->
 
-    <target name="-builds-in-base-dir-composer" hidden="true">
+    <target name="-builds-in-build-dir-composer" hidden="true">
 
       <if>
         <and>
-          <available resource="${project.basedir}/composer.json" type="file" />
+          <available resource="${project.basedir}/.~build/${project_slug}/composer.json" type="file" />
         </and>
         <then>
           <!-- Composer install routines. -->
 
-          <echo msg="Running Composer in: ${project.basedir}" />
+          <echo msg="Running Composer in: ${project.basedir}/.~build/${project_slug}" />
 
           <echo />
 
           <if>
             <and>
-              <isset property="composer-lock-delete" />
-              <isTrue value="${composer-lock-delete}" />
-              <available resource="${project.basedir}/composer.lock" type="file" />
+              <available resource="${project.basedir}/.~build/${project_slug}/src/vendor" type="dir" />
             </and>
             <then>
-              <delete file="${project.basedir}/composer.lock" quiet="true" />
-
-              <echo />
-            </then>
-          </if>
-          <if>
-            <and>
-              <available resource="${project.basedir}/src/vendor" type="dir" />
-            </and>
-            <then>
-              <delete dir="${project.basedir}/src/vendor" includeEmptyDirs="true" quiet="true" />
+              <delete dir="${project.basedir}/.~build/${project_slug}/src/vendor" includeEmptyDirs="true" quiet="true" />
 
               <echo />
             </then>
           </if>
 
-          <exec executable="${_deps_composer_path}" dir="${project.basedir}" passthru="true" checkReturn="true">
+          <exec executable="${_deps_composer_path}" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkReturn="true">
             <arg value="install" />
+            <arg value="--no-dev" />
             <arg value="--optimize-autoloader" />
           </exec>
 
@@ -51,16 +40,16 @@
 
           <if>
             <and>
-              <available resource="${project.basedir}/src/vendor/composer/autoload_psr4.php" type="file" />
-              <available resource="${project.basedir}/src/vendor/websharks/core" type="dir" />
+              <available resource="${project.basedir}/.~build/${project_slug}/src/vendor/composer/autoload_psr4.php" type="file" />
+              <available resource="${project.basedir}/.~build/${project_slug}/src/vendor/websharks/core" type="dir" />
             </and>
             <then>
               <echo />
 
-              <echo msg="Rebranding: ${project.basedir}/src/vendor/websharks/core" />
+              <echo msg="Rebranding: ${project.basedir}/.~build/${project_slug}/src/vendor/websharks/core" />
 
               <reflexive>
-                <fileSet dir="${project.basedir}/src/vendor/websharks/core" caseSensitive="false">
+                <fileSet dir="${project.basedir}/.~build/${project_slug}/src/vendor/websharks/core" caseSensitive="false">
                   <patternSet refId="_php_pattern_set" />
                 </fileSet>
                 <filterChain>
@@ -70,7 +59,7 @@
                 </filterChain>
               </reflexive>
               <reflexive>
-                <fileSet dir="${project.basedir}/src/vendor/composer" caseSensitive="false">
+                <fileSet dir="${project.basedir}/.~build/${project_slug}/src/vendor/composer" caseSensitive="false">
                   <include pattern="autoload_psr4.php" />
                 </fileSet>
                 <filterChain>
@@ -82,10 +71,10 @@
 
               <echo />
 
-              <echo msg="Rebranding text-domain in: ${project.basedir}/src/vendor/websharks/core" />
+              <echo msg="Rebranding text-domain in: ${project.basedir}/.~build/${project_slug}/src/vendor/websharks/core" />
 
               <reflexive>
-                <fileSet dir="${project.basedir}/src/vendor/websharks/core" caseSensitive="false">
+                <fileSet dir="${project.basedir}/.~build/${project_slug}/src/vendor/websharks/core" caseSensitive="false">
                   <patternSet refId="_php_pattern_set" />
                 </fileSet>
                 <filterChain>

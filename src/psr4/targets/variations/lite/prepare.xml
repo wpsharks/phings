@@ -158,6 +158,22 @@
                   </replaceRegExp>
                 </filterChain>
               </reflexive>
+
+              <echo />
+
+              <echo msg="Switching to 'lite-require' in: ${project.basedir}/.~build/${project_lite_slug}/composer.json" />
+
+              <reflexive>
+                <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false">
+                  <include pattern="composer.json" />
+                </fileSet>
+                <filterChain>
+                  <replaceRegExp>
+                    <regExp pattern="&quot;require&quot;\s*\:\s*\{[^{}]*?\}\s*,\s*" replace="" modifiers="u" />
+                    <regExp pattern="&quot;require\-lite&quot;\s*\:\s*\{" replace="&quot;require&quot;: {" modifiers="u" />
+                  </replaceRegExp>
+                </filterChain>
+              </reflexive>
             </then>
           </if>
           <!-- Strip pro tokens. -->
