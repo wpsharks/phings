@@ -37,6 +37,17 @@
           <fail msg="Repo is dirty. Please commit and push changes." />
         </then>
       </if>
+      <!-- Check current git repo and make sure we are on the dev branch. -->
+
+      <exec command="git symbolic-ref --short --quiet HEAD" dir="${project.basedir}" outputProperty="_releases_release_git_branch" />
+      <if>
+        <not>
+          <equals arg1="${_releases_release_git_branch}" arg2="000000-dev" trim="true" />
+        </not>
+        <then>
+          <fail msg="Must start from the dev branch. Please checkout 000000-dev and try again." />
+        </then>
+      </if>
       <!-- Check current git repo to be sure that it has a github.com origin.  -->
 
       <exec command="git remote -v | grep --extended-regexp --ignore-case '^origin\s.+?github\.com'" dir="${project.basedir}" returnProperty="_releases_release_git_has_github_origin" />
@@ -93,21 +104,26 @@
           <available resource="${project.basedir}/.~build/${project_slug}.phar" type="file" />
         </and>
         <then>
-          <property name="_releases_release_git_create_assets" value="--asset '${project.basedir}/.~build/${project_slug}.phar' --asset '${project.basedir}/.~build/${project_slug}.zip' --asset '${project.basedir}/.~build/${project_slug}.tar.gz'" />
+          <property name="_releases_release_git_create_assets" value="--attach '${project.basedir}/.~build/${project_slug}.phar' --attach '${project.basedir}/.~build/${project_slug}.zip' --attach '${project.basedir}/.~build/${project_slug}.tar.gz'" />
         </then>
         <else>
-          <property name="_releases_release_git_create_assets" value="--asset '${project.basedir}/.~build/${project_slug}.zip' --asset '${project.basedir}/.~build/${project_slug}.tar.gz'" />
+          <property name="_releases_release_git_create_assets" value="--attach '${project.basedir}/.~build/${project_slug}.zip' --attach '${project.basedir}/.~build/${project_slug}.tar.gz'" />
         </else>
       </if>
-      <!-- Build the command that we are going to execute; i.e., `hub release create -c master ...` -->
+      <!-- Build the command that we are going to execute; i.e., `hub release create ...` -->
 
-      <property name="_releases_release_git_create" value="hub release create -c master --file '${project.basedir}/.~build/.~commit.msg' ${_releases_release_git_create_pre} ${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${project_version}" />
+      <property name="_releases_release_git_create" value="hub release create --file '${project.basedir}/.~build/.~commit.msg' ${_releases_release_git_create_pre} ${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${project_version}" />
 
-      <!-- Run the command that we need to execute now; i.e., `hub release create -c master ...` -->
+      <!-- Run the command that we need to execute now; i.e., `hub release create ...` -->
 
       <echo msg="Creating GitHub release tagged: `${project_version}`; targeted at branch: `master`." />
 
+      <!-- @TODO: In the future, the `hub` tool will expose a `-c` arg that can be used instead of switching branches. -->
+      <!-- The new `-c` arg is available in the dev branch for the `hub` tool, but it's not available via package managers yet. -->
+
+      <gitCheckout repository="${project.basedir}" branchname="master" />
       <exec command="${_releases_release_git_create}" dir="${project.basedir}" passthru="true" checkReturn="true" />
+      <gitCheckout repository="${project.basedir}" branchname="000000-dev" />
 
     </target>
 
