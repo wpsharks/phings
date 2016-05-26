@@ -8,17 +8,6 @@
 
     <target name="-builds-in-build-dir-js-css-cleanup" hidden="true">
 
-      <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
-      <if>
-        <and>
-          <not>
-            <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
-          </not>
-        </and>
-        <then>
-          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}" />
-        </then>
-      </if>
       <!-- Remove `sourceMappingURL` from JS/CSS files. -->
 
       <echo msg="Stripping sourceMappingURL from JS/CSS in: ${project.basedir}/.~build/${project_slug}" />

@@ -9,18 +9,18 @@
     <target name="-validations-existing-build" hidden="true">
 
       <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
+
       <if>
-        <and>
-          <not>
-            <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
-          </not>
-        </and>
+        <not>
+          <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
+        </not>
         <then>
           <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}" />
         </then>
       </if>
 
       <!-- Depends on ${project.basedir}/.~build/.properties/project-version -->
+
       <if>
         <and>
           <available resource="${project.basedir}/.~build/.properties/project-version" type="file" />
@@ -34,6 +34,7 @@
       </if>
 
       <!-- Depends on ${project.basedir}/.~build/${project_slug}.[zip|tar.gz] -->
+
       <if>
         <or>
           <not>

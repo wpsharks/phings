@@ -8,17 +8,6 @@
 
     <target name="-builds-in-build-dir-dotbuilds" hidden="true">
 
-      <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
-      <if>
-        <and>
-          <not>
-            <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
-          </not>
-        </and>
-        <then>
-          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}" />
-        </then>
-      </if>
       <!-- Iterate over all `.build.in-build-dir.php` files. -->
 
       <echo msg="Running .build.php &amp; .build.in-build-dir.php files in: ${project.basedir}/.~build/${project_slug}" />
@@ -38,6 +27,8 @@
     <!-- ============================================  -->
 
     <target name="--builds-in-build-dir-dotbuild" hidden="true">
+
+      <!-- Callback that runs a `.build.in-build-dir.php` file. -->
 
       <echo msg="Running : ${__abs_build_in_build_dir_php}" />
 

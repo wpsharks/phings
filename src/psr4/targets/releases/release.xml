@@ -23,6 +23,7 @@
           <fail msg="Repo is dirty. Please commit and push changes." />
         </then>
       </if>
+
       <!-- Check current git repo and make sure we are on the dev branch. -->
 
       <exec command="git symbolic-ref --short --quiet HEAD" dir="${project.basedir}" outputProperty="_releases_release_git_branch" />
@@ -34,6 +35,7 @@
           <fail msg="Must start from the dev branch. Please checkout 000000-dev and try again." />
         </then>
       </if>
+
       <!-- Check current git repo to be sure that it has a github.com origin.  -->
 
       <exec command="git remote -v | grep --extended-regexp --ignore-case '^origin\s.+?github\.com'" dir="${project.basedir}" returnProperty="_releases_release_git_has_github_origin" />
@@ -45,6 +47,7 @@
           <fail msg="Repo does not have a github.com origin." />
         </then>
       </if>
+
       <!-- Collect the changelog for this version, which is used as the release message.  -->
 
       <delete file="${project.basedir}/.~build/.~commit.msg" quiet="true" />
@@ -57,7 +60,9 @@
           <echo msg="${project_title} v${project_version}" file="${project.basedir}/.~build/.~commit.msg" />
         </then>
       </if>
+
       <!-- Collect pre-release status for this release. -->
+
       <if>
         <and>
           <isset property="type" />
@@ -70,7 +75,9 @@
           <property name="_releases_release_git_create_pre" value="" />
         </else>
       </if>
+
       <!-- Collect draft status for this release. -->
+
       <if>
         <or>
           <and>
@@ -91,7 +98,9 @@
           <property name="_releases_release_git_create_draft" value="" />
         </else>
       </if>
+
       <!-- Collect distros that we can append to the release. -->
+
       <if>
         <and>
           <available resource="${project.basedir}/.~build/${project_slug}.phar" type="file" />
@@ -103,6 +112,7 @@
           <property name="_releases_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_slug}.zip' -a '${project.basedir}/.~build/${project_slug}.tar.gz'" />
         </else>
       </if>
+
       <!-- Build the command that we are going to execute; i.e., `hub release create ...` -->
 
       <property name="_releases_release_git_create" value="hub release create -f '${project.basedir}/.~build/.~commit.msg'${_releases_release_git_create_pre}${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${project_version}" />

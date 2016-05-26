@@ -7,11 +7,9 @@
     <!-- ============================================  -->
 
     <if>
-      <and>
-        <not>
-          <available resource="${project.basedir}/.~build/.properties" type="dir" />
-        </not>
-      </and>
+      <not>
+        <available resource="${project.basedir}/.~build/.properties" type="dir" />
+      </not>
       <then>
         <mkdir dir="${project.basedir}/.~build/.properties" />
       </then>

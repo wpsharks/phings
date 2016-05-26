@@ -31,6 +31,7 @@
               <echo />
             </then>
           </if>
+
           <if>
             <and>
               <available resource="${project.basedir}/src/vendor" type="dir" />
@@ -48,6 +49,7 @@
           </exec>
 
           <!-- WebSharks Core rebranding. -->
+
           <if>
             <and>
               <or>

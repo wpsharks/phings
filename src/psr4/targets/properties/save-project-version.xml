@@ -8,6 +8,8 @@
 
     <target name="-properties-save-project-version" hidden="true">
 
+      <!-- Save project version property. -->
+
       <echo msg="${project_version}" file="${project.basedir}/.~build/.properties/project-version" />
 
     </target>

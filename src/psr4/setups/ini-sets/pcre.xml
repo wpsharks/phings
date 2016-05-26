@@ -7,11 +7,9 @@
     <!-- ============================================  -->
 
     <if>
-      <and>
-        <not>
-          <isset property="_setups_ini_sets_pcre_complete" />
-        </not>
-      </and>
+      <not>
+        <isset property="_setups_ini_sets_pcre_complete" />
+      </not>
       <then>
         <!-- Maximize backtrack limit. -->
 

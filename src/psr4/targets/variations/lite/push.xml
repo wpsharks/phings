@@ -77,6 +77,7 @@
           <exec command="git status" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
 
           <!-- Commit changes in lite dev branch (optional, if desired by user). -->
+
           <if>
             <and>
               <isset property="interactive" />
@@ -128,6 +129,7 @@
               <exec command="git commit -F .~commit.msg" dir="${_variations_lite_push_repo_dir}" passthru="true" checkReturn="true" />
 
               <!-- Push to remote repo (optional, if desired by user). -->
+
               <if>
                 <and>
                   <isset property="interactive" />

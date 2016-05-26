@@ -72,6 +72,7 @@
               <move file="${project.basedir}/.~build/${project_lite_slug}/${project_slug}.php" toFile="${project.basedir}/.~build/${project_lite_slug}/${project_lite_slug}.php" />
             </then>
           </if>
+
           <!-- WordPress token replacements. -->
 
           <if>
@@ -98,6 +99,7 @@
               </reflexive>
             </then>
           </if>
+
           <!-- README project title token replacements. -->
 
           <echo />
@@ -176,6 +178,7 @@
               </reflexive>
             </then>
           </if>
+
           <!-- Strip pro tokens. -->
 
           <echo />
@@ -218,6 +221,7 @@
               </reflexive>
             </then>
           </if>
+
           <!-- Modify build properties; i.e., swap w/ lite property values. -->
 
           <echo />
@@ -253,7 +257,7 @@
 
                 <regExp pattern="^project_version\s+.*$" replace="project_version = ${project_version}" modifiers="um" />
 
-                <regExp pattern="[\r\n]{3,}" replace="\n\n" modifiers="u" />
+                <regExp pattern="[\r\n]{3,}" replace="${line.separator}${line.separator}" modifiers="u" />
                 <regExp pattern="^\s+|\s+$" replace="" modifiers="u" />
               </replaceRegExp>
             </filterChain>

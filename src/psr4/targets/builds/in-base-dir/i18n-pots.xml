@@ -40,6 +40,7 @@
               </exec>
             </then>
           </if>
+
           <!-- WordPress plugin. -->
 
           <if>

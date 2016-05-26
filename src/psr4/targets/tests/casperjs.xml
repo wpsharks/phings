@@ -14,20 +14,8 @@
           <available resource="/bootstrap-ci/src/docker/casperjs/includes.js" type="file" />
         </and>
         <then>
-
-          <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
-          <if>
-            <and>
-              <not>
-                <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
-              </not>
-            </and>
-            <then>
-              <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}" />
-            </then>
-          </if>
-
           <!-- Check if this project has CasperJS test files. -->
+
           <if>
             <and>
               <available resource="${project.basedir}/.~build/${project_slug}/tests/casperjs" type="dir" />
