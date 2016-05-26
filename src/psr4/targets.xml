@@ -134,7 +134,7 @@
     <!-- ============================================  -->
     <!-- Release procedure targets. -->
     <!-- For project leads doing a release. -->
-    <!-- Run with `$ phing release`. -->
+    <!-- Run with `$ phing [rc-]release`. -->
     <!-- ============================================  -->
 
     <target name="release" depends="-validations-existing-build">
@@ -143,9 +143,9 @@
       <phingCall target="-variations-lite-release" />
     </target>
 
-    <target name="pre-release">
-      <echo msg="Running target: pre-release" />
-      <property name="type" value="pre" />
+    <target name="rc-release">
+      <echo msg="Running target: rc-release" />
+      <property name="type" value="rc" />
       <phingCall target="release" />
     </target>
 

@@ -16,69 +16,38 @@
           <isTrue value="${_has_lite_build_props}" />
         </and>
         <then>
-          <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo -->
+          <!-- Determine release type/version. -->
 
-          <property name="_variations_lite_release_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo" />
           <if>
-            <not>
-              <available resource="${_variations_lite_release_repo_dir}" type="dir" />
-            </not>
+            <and>
+              <isset property="type" />
+              <equals arg1="${type}" arg2="rc" caseSensitive="false" />
+            </and>
             <then>
-              <fail msg="Project not ready yet. Missing: ${_variations_lite_release_repo_dir}" />
+              <property name="_variations_lite_release_type" value="rc" />
+              <property name="_variations_lite_release_version" value="${project_version}-RC" />
             </then>
+            <else>
+              <property name="_variations_lite_release_type" value="" />
+              <property name="_variations_lite_release_version" value="${project_version}" />
+            </else>
           </if>
 
           <!-- Preparing for lite release creation. -->
 
-          <echo msg="Preparing to create release: ${project_lite_title} v${project_version}" />
-
-          <!-- Check current git repo status and make sure it is clean. -->
-
-          <exec command="git status --short" dir="${_variations_lite_release_repo_dir}" outputProperty="_variations_lite_release_git_status" />
-          <if>
-            <not>
-              <equals arg1="${_variations_lite_release_git_status}" arg2="" trim="true" />
-            </not>
-            <then>
-              <fail msg="Repo is dirty. Please commit and push changes." />
-            </then>
-          </if>
-
-          <!-- Check current git repo and make sure we are on the dev branch. -->
-
-          <exec command="git symbolic-ref --short --quiet HEAD" dir="${_variations_lite_release_repo_dir}" outputProperty="_variations_lite_release_git_branch" />
-          <if>
-            <not>
-              <equals arg1="${_variations_lite_release_git_branch}" arg2="000000-dev" trim="true" />
-            </not>
-            <then>
-              <fail msg="Must start from the dev branch. Please checkout 000000-dev and try again." />
-            </then>
-          </if>
-
-          <!-- Check current git repo to be sure that it has a github.com origin.  -->
-
-          <exec command="git remote -v | grep --extended-regexp --ignore-case '^origin\s.+?github\.com'" dir="${_variations_lite_release_repo_dir}" returnProperty="_variations_lite_release_git_has_github_origin" />
-          <if>
-            <not>
-              <equals arg1="${_variations_lite_release_git_has_github_origin}" arg2="0" trim="true" />
-            </not>
-            <then>
-              <fail msg="Repo does not have a github.com origin." />
-            </then>
-          </if>
+          <echo msg="Preparing to create release: ${project_lite_title} v${_variations_lite_release_version}" />
 
           <!-- Collect the changelog for this version, which is used as the release message.  -->
 
           <delete file="${_variations_lite_release_repo_dir}/.~commit.msg" quiet="true" />
           <echo msg="Generating new commit message based on CHANGELOG.md file contents if at all possible." />
-          <adHocExtractChangelogForVersion version="${project_version}" inFile="${_variations_lite_release_repo_dir}/CHANGELOG.md" heading="${project_lite_title} v${project_version}" outFile="${_variations_lite_release_repo_dir}/.~commit.msg" />
+          <adHocExtractChangelogForVersion version="${_variations_lite_release_version}" inFile="${_variations_lite_release_repo_dir}/CHANGELOG.md" heading="${project_lite_title} v${_variations_lite_release_version}" outFile="${_variations_lite_release_repo_dir}/.~commit.msg" />
           <if>
             <not>
               <available resource="${_variations_lite_release_repo_dir}/.~commit.msg" type="file" />
             </not>
             <then>
-              <echo msg="${project_lite_title} v${project_version}" file="${_variations_lite_release_repo_dir}/.~commit.msg" />
+              <echo msg="${project_lite_title} v${_variations_lite_release_version}" file="${_variations_lite_release_repo_dir}/.~commit.msg" />
             </then>
           </if>
 
@@ -86,8 +55,7 @@
 
           <if>
             <and>
-              <isset property="type" />
-              <contains string="${type}" substring="pre" caseSensitive="false" />
+              <equals arg1="${_variations_lite_release_type}" arg2="rc" />
             </and>
             <then>
               <property name="_variations_lite_release_git_create_pre" value=" -p" />
@@ -126,27 +94,54 @@
             </else>
           </if>
 
-          <!-- Switch to master branch, merge dev into master, create an annotated tag, and push master branch (including tags) to remote.  -->
+          <!-- For an RC, simply create an annotated tag, and push dev branch (including tags) to remote.  -->
+          <!-- Else: switch to master branch, merge dev into master, create an annotated tag, and push master branch (including tags) to remote.  -->
 
-          <echo />
+          <if>
+            <and>
+              <equals arg1="${_variations_lite_release_type}" arg2="rc" />
+            </and>
+            <then>
+              <echo />
 
-          <echo msg="Merging dev into master and creating annotated tag `${project_version}`; targeted at master branch." />
+              <echo msg="Creating annotated tag `${_variations_lite_release_version}`; targeted at dev branch." />
 
-          <exec command="git checkout master" dir="${_variations_lite_release_repo_dir}" passthru="false" checkReturn="true" />
-          <exec command="git merge 000000-dev -m 'Merging 000000-dev into master via Phing.'" dir="${_variations_lite_release_repo_dir}" passthru="false" checkReturn="true" />
-          <exec command="git tag --annotate ${project_version} --message='${project_lite_title} v${project_version} via Phing.'" dir="${_variations_lite_release_repo_dir}" passthru="false" checkReturn="true" />
-          <exec command="git push --tags --set-upstream origin master" dir="${_variations_lite_release_repo_dir}" passthru="false" checkReturn="true" />
+              <exec command="git checkout 000000-dev" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
+              <exec command="git tag --annotate ${_variations_lite_release_version} --message='${project_lite_title} v${_variations_lite_release_version} via Phing.'" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
+              <exec command="git push --tags" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
+            </then>
+            <else>
+              <echo />
 
-          <!-- Still on master branch. Create a formal release using the `hub` tool provided by GitHub. In the case of a draft, no tag is generated by GitHub, but we created one anyway. -->
+              <echo msg="Merging dev into master and creating annotated tag `${_variations_lite_release_version}`; targeted at master branch." />
+
+              <exec command="git checkout master" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
+              <exec command="git merge 000000-dev -m 'Merging 000000-dev into master via Phing.'" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
+              <exec command="git tag --annotate ${_variations_lite_release_version} --message='${project_lite_title} v${_variations_lite_release_version} via Phing.'" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
+              <exec command="git push --tags" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
+            </else>
+          </if>
+
+          <!-- At this point, we can be on either the dev branch (in the case of an RC) or on the master branch. The `hub` tool points the new release to the current branch. -->
+          <!-- Create a formal release using the `hub` tool provided by GitHub. In the case of a draft, no tag is generated by GitHub, but we created one anyway above. -->
           <!-- Also, collect and verify the existence of a release URL. Release URL is output by the `hub` tool. -->
           <!-- Then, print the release URL for the operator; i.e., so the release can be reviewed in a browser. -->
 
           <echo />
 
-          <echo msg="Creating GitHub release tagged: `${project_version}`; targeted at master branch." />
-
-          <property name="_variations_lite_release_git_create_command" value="hub release create -f '${_variations_lite_release_repo_dir}/.~commit.msg'${_variations_lite_release_git_create_pre}${_variations_lite_release_git_create_draft} ${_variations_lite_release_git_create_assets} ${project_version}" />
-          <exec command="${_variations_lite_release_git_create_command}" dir="${_variations_lite_release_repo_dir}" passthru="false" checkReturn="true" outputProperty="_variations_lite_release_git_create_output" />
+          <if>
+            <and>
+              <equals arg1="${_variations_lite_release_type}" arg2="rc" />
+            </and>
+            <then>
+              <echo msg="Creating GitHub release tagged: `${_variations_lite_release_version}`; targeted at dev branch." />
+            </then>
+            <else>
+              <echo msg="Creating GitHub release tagged: `${_variations_lite_release_version}`; targeted at master branch." />
+            </else>
+          </if>
+          <property name="_variations_lite_release_git_create_command" value="hub release create -f '${_variations_lite_release_repo_dir}/.~commit.msg'${_variations_lite_release_git_create_pre}${_variations_lite_release_git_create_draft} ${_variations_lite_release_git_create_assets} ${_variations_lite_release_version}" />
+          <exec command="${_variations_lite_release_git_create_command}" dir="${_variations_lite_release_repo_dir}" checkReturn="true" outputProperty="_variations_lite_release_git_create_output" />
 
           <property name="_variations_lite_release_git_create_release_url" value="${_variations_lite_release_git_create_output}">
             <filterChain>
@@ -167,9 +162,9 @@
             </else>
           </if>
 
-          <!-- Switch back to the dev branch so the operator is back where they started from. -->
+          <!-- Switch back to the dev branch even though this is a temporary repo. Just in case we'd like to use it for anything else.  -->
 
-          <exec command="git checkout 000000-dev" dir="${_variations_lite_release_repo_dir}" passthru="false" checkReturn="true" />
+          <exec command="git checkout 000000-dev" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
 
         </then>
         <else>
