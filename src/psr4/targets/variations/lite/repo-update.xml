@@ -62,7 +62,7 @@
             </not>
             <then>
               <exec command="git checkout -b 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
-              <exec command="git pull" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+              <exec command="git pull origin 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
               <exec command="git push --set-upstream origin 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
             </then>
           </if>
@@ -72,7 +72,7 @@
             </not>
             <then>
               <exec command="git checkout -b master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
-              <exec command="git pull" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+              <exec command="git pull origin master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
               <exec command="git push --set-upstream origin master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
             </then>
           </if>
