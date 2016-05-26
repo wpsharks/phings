@@ -45,7 +45,7 @@
           <echo msg="Cloning remote lite repo for local update routines that follow." />
 
           <delete dir="${_variations_lite_repo_update_repo_dir}" includeEmptyDirs="true" quiet="true" />
-          <exec command="git clone '${_variations_lite_repo_update_repo_remote}' '${_variations_lite_repo_update_repo_dir}' --depth=1" checkReturn="true" />
+          <exec command="git clone '${_variations_lite_repo_update_repo_remote}' '${_variations_lite_repo_update_repo_dir}' --depth=1 --no-single-branch" checkReturn="true" />
 
           <!-- Make sure the repo has a dev and master branch that we can work with below. -->
           <!-- Also make sure that we start (always) from the 000000-dev branch for remaining routines. -->
@@ -55,15 +55,27 @@
           <echo msg="Forcing the existence of both a dev and master branch." />
 
           <exec command="git rev-parse --verify --quiet 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" returnProperty="_variations_lite_repo_update_git_dev_branch_exists" />
+          <exec command="git ls-remote --exit-code origin refs/heads/000000-dev" dir="${_variations_lite_repo_update_repo_dir}" returnProperty="_variations_lite_repo_update_git_remote_dev_branch_exists" />
+
           <exec command="git rev-parse --verify --quiet master" dir="${_variations_lite_repo_update_repo_dir}" returnProperty="_variations_lite_repo_update_git_master_branch_exists" />
+          <exec command="git ls-remote --exit-code origin refs/heads/master" dir="${_variations_lite_repo_update_repo_dir}" returnProperty="_variations_lite_repo_update_git_remote_master_branch_exists" />
           <if>
             <not>
               <equals arg1="${_variations_lite_repo_update_git_dev_branch_exists}" arg2="0" />
             </not>
             <then>
-              <exec command="git checkout -b 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
-              <exec command="git pull origin 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
-              <exec command="git push --set-upstream origin 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+              <if>
+                <and>
+                  <equals arg1="${_variations_lite_repo_update_git_remote_dev_branch_exists}" arg2="0" />
+                </and>
+                <then>
+                  <exec command="git checkout -b 000000-dev origin/000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+                </then>
+                <else>
+                  <exec command="git checkout -b 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+                  <exec command="git push --set-upstream origin 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+                </else>
+              </if>
             </then>
           </if>
           <if>
@@ -71,9 +83,18 @@
               <equals arg1="${_variations_lite_repo_update_git_master_branch_exists}" arg2="0" />
             </not>
             <then>
-              <exec command="git checkout -b master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
-              <exec command="git pull origin master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
-              <exec command="git push --set-upstream origin master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+              <if>
+                <and>
+                  <equals arg1="${_variations_lite_repo_update_git_remote_master_branch_exists}" arg2="0" />
+                </and>
+                <then>
+                  <exec command="git checkout -b master origin/master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+                </then>
+                <else>
+                  <exec command="git checkout -b master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+                  <exec command="git push --set-upstream origin master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+                </else>
+              </if>
             </then>
           </if>
           <exec command="git checkout 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
