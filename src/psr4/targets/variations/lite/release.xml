@@ -6,7 +6,7 @@
     <!-- GitHub release for lite variation.  -->
     <!-- ============================================  -->
 
-    <target name="-variations-lite-release" depends="-validations-existing-lite-build -variations-lite-repo-update" hidden="true">
+    <target name="-variations-lite-release" depends="-validations-existing-lite-build,-variations-lite-repo-update" hidden="true">
 
       <if>
         <and>
