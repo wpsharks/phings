@@ -8,7 +8,6 @@
 
     <target name="-builds-in-base-dir-i18n-text-domains" hidden="true">
 
-      <!-- WordPress i18n text-domain handling. -->
       <if>
         <and>
           <isTrue value="${_is_wp_theme_plugin}" />

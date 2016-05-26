@@ -7,11 +7,9 @@
     <!-- ============================================  -->
 
     <if>
-      <and>
-        <not>
-          <available resource="${_tmp_sub_dir}" type="dir" />
-        </not>
-      </and>
+      <not>
+        <available resource="${_tmp_sub_dir}" type="dir" />
+      </not>
       <then>
         <mkdir dir="${_tmp_sub_dir}" />
       </then>

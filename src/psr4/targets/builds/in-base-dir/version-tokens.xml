@@ -8,9 +8,9 @@
 
     <target name="-builds-in-base-dir-version-tokens" hidden="true">
 
-      <!-- Other PHP/JS token replacements. -->
+      <!-- PHP/JS/CSS/SCSS token replacements. -->
 
-      <echo msg="Replacing version tokens in: ${project.basedir}" />
+      <echo msg="Replacing PHP/JS/CSS/SCSS version tokens in: ${project.basedir}" />
 
       <reflexive>
         <fileSet dir="${project.basedir}" caseSensitive="false">
@@ -35,6 +35,24 @@
 
             <regExp pattern="\b[0-9]+([,;])\s*\/\/php\-required\-bits\/\/$" replace="${project_php_required_bits}$1 //php-required-bits//" modifiers="um" />
             <regExp pattern="\barray\s*\([^()]*\)([,;])\s*\/\/php\-required\-extensions\/\/" replace="array(${_php_required_extensions})$1 //php-required-extensions//" modifiers="u" />
+          </replaceRegExp>
+        </filterChain>
+      </reflexive>
+
+      <!-- README/CHANGELOG version token replacements. -->
+
+      <echo />
+
+      <echo msg="Replacing README/CHANGELOG version tokens: ${project.basedir}" />
+
+      <reflexive>
+        <fileSet dir="${project.basedir}" caseSensitive="false">
+          <include pattern="README.md" />
+          <include pattern="CHANGELOG.md" />
+        </fileSet>
+        <filterChain>
+          <replaceRegExp>
+            <regExp pattern="\$\{\[project_version\]\}" replace="${project_version}" modifiers="u" />
           </replaceRegExp>
         </filterChain>
       </reflexive>
@@ -90,6 +108,7 @@
 
         </then>
       </if>
+
       <!-- WordPress token replacements. -->
 
       <if>

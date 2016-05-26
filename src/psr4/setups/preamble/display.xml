@@ -7,11 +7,9 @@
     <!-- ============================================  -->
 
     <if>
-      <and>
-        <not>
-          <isset property="_setups_preamble_display_complete" />
-        </not>
-      </and>
+      <not>
+        <isset property="_setups_preamble_display_complete" />
+      </not>
       <then>
         <!-- Begin preamble. -->
 

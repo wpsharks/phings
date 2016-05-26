@@ -7,11 +7,9 @@
     <!-- ============================================  -->
 
     <if>
-      <and>
-        <not>
-          <available resource="${_deps_apigen_path}" type="file" />
-        </not>
-      </and>
+      <not>
+        <available resource="${_deps_apigen_path}" type="file" />
+      </not>
       <then>
         <echo />
 
@@ -19,11 +17,9 @@
         <echo msg="Install path: ${_deps_apigen_path}" />
 
         <if>
-          <and>
-            <not>
-              <available resource="${_deps_apigen_path_dirname}" type="dir" />
-            </not>
-          </and>
+          <not>
+            <available resource="${_deps_apigen_path_dirname}" type="dir" />
+          </not>
           <then>
             <mkdir dir="${_deps_apigen_path_dirname}" />
           </then>

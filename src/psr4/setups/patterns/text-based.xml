@@ -7,6 +7,7 @@
     <!-- ============================================  -->
 
     <patternSet id="_text_based_pattern_set">
+
       <exclude pattern=".~build/**" />
       <exclude pattern="**/.~build/**" />
 
@@ -57,6 +58,7 @@
 
       <include pattern=".ht*" />
       <include pattern="**/.ht*" />
+
     </patternSet>
 
   </project>

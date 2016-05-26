@@ -21,10 +21,12 @@
       <phingCall target="-builds-in-base-dir-dotbuilds" />
       <phingCall target="-builds-in-base-dir-i18n-text-domains" />
       <phingCall target="-builds-in-base-dir-after-create-build-dir" />
+      <phingCall target="-builds-in-build-dir-composer" />
       <phingCall target="-builds-in-build-dir-dotbuilds" />
       <phingCall target="-builds-in-build-dir-js-css-cleanup" />
       <phingCall target="-linters-phpcs" />
       <phingCall target="-distros-packages" />
+      <phingCall target="-properties-save-project-version" />
     </target>
 
     <!-- ============================================  -->
@@ -52,10 +54,12 @@
       <phingCall target="-builds-in-base-dir-i18n-text-domains" />
       <phingCall target="-builds-in-base-dir-i18n-pots" />
       <phingCall target="-builds-in-base-dir-after-create-build-dir" />
+      <phingCall target="-builds-in-build-dir-composer" />
       <phingCall target="-builds-in-build-dir-dotbuilds" />
       <phingCall target="-builds-in-build-dir-js-css-cleanup" />
       <phingCall target="-linters-phpcs" />
       <phingCall target="-distros-packages" />
+      <phingCall target="-properties-save-project-version" />
     </target>
 
     <!-- ============================================  -->
@@ -110,7 +114,7 @@
     <!-- Run with `$ phing test`. -->
     <!-- ============================================  -->
 
-    <target name="test">
+    <target name="test" depends="-validations-existing-build">
       <echo msg="Running target: test" />
       <phingCall target="-tests-phpunit" />
       <phingCall target="-tests-casperjs" />
@@ -122,20 +126,27 @@
     <!-- Run with `$ phing codex`. -->
     <!-- ============================================  -->
 
-    <target name="codex">
+    <target name="codex" depends="-validations-existing-build">
       <echo msg="Running target: codex" />
       <phingCall target="-codex-apigen" />
     </target>
 
     <!-- ============================================  -->
-    <!-- Release procedure target. -->
+    <!-- Release procedure targets. -->
     <!-- For project leads doing a release. -->
-    <!-- Run with `$ phing release`. -->
+    <!-- Run with `$ phing [rc-]release`. -->
     <!-- ============================================  -->
 
-    <target name="release">
+    <target name="release" depends="-validations-existing-build">
       <echo msg="Running target: release" />
-      <phingCall target="-variations-lite-push" />
+      <phingCall target="-releases-release" />
+      <phingCall target="-variations-lite-release" />
+    </target>
+
+    <target name="rc-release">
+      <echo msg="Running target: rc-release" />
+      <property name="type" value="rc" />
+      <phingCall target="release" />
     </target>
 
   </project>

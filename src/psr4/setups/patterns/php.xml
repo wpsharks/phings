@@ -7,6 +7,7 @@
     <!-- ============================================  -->
 
     <patternSet id="_php_pattern_set">
+
       <exclude pattern=".~build/**" />
       <exclude pattern="**/.~build/**" />
 
@@ -24,6 +25,7 @@
 
       <include pattern="*.x-php" />
       <include pattern="**/**.x-php" />
+
     </patternSet>
 
   </project>

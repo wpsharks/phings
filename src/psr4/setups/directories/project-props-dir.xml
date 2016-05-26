@@ -3,15 +3,15 @@
   <project>
 
     <!-- ============================================  -->
-    <!-- Initialize `${project.basedir}/.~build`. -->
+    <!-- Initialize `${project.basedir}/.~build/.properties`. -->
     <!-- ============================================  -->
 
     <if>
       <not>
-        <available resource="${project.basedir}/.~build" type="dir" />
+        <available resource="${project.basedir}/.~build/.properties" type="dir" />
       </not>
       <then>
-        <mkdir dir="${project.basedir}/.~build" />
+        <mkdir dir="${project.basedir}/.~build/.properties" />
       </then>
     </if>
 

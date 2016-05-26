@@ -28,6 +28,8 @@
 
     <target name="--builds-in-base-dir-dotbuild" hidden="true">
 
+      <!-- Callback that runs a `.build.in-base-dir.php` file. -->
+
       <echo msg="Running : ${__abs_build_in_base_dir_php}" />
 
       <exec executable="php" dir="${project.basedir}" passthru="true" checkReturn="true">

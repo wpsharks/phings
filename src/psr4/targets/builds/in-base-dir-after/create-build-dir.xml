@@ -18,6 +18,7 @@
           <echo />
         </then>
       </if>
+
       <mkdir dir="${project.basedir}/.~build/${project_slug}" />
 
       <copy toDir="${project.basedir}/.~build/${project_slug}">

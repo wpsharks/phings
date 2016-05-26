@@ -7,6 +7,7 @@
     <!-- ============================================  -->
 
     <patternSet id="_zip_tgz_pattern_set">
+
       <exclude pattern="phar-stub.php" />
       <exclude pattern="**/phar-stub.php" />
 
@@ -105,6 +106,7 @@
 
       <exclude pattern="PULL_REQUEST_TEMPLATE.md" />
       <exclude pattern="**/PULL_REQUEST_TEMPLATE.md" />
+
     </patternSet>
 
   </project>

@@ -13,20 +13,8 @@
           <isset property="env.CI" />
         </and>
         <then>
-
-          <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
-          <if>
-            <and>
-              <not>
-                <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
-              </not>
-            </and>
-            <then>
-              <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}" />
-            </then>
-          </if>
-
           <!-- Check if this project has PHPUnit test files. -->
+
           <if>
             <or>
               <available resource="${project.basedir}/.~build/${project_slug}/phpunit.xml" type="file" />
@@ -36,7 +24,6 @@
               </and>
             </or>
             <then>
-
               <!-- Run PHPUnit tests via CI server. -->
 
               <echo msg="Running PHPUnit tests via CI server." />

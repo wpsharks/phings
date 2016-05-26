@@ -48,8 +48,6 @@
             </fileSet>
           </copy>
 
-          <echo />
-
           <delete includeEmptyDirs="true" verbose="true" quiet="true">
             <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false">
               <patternSet refId="_text_based_pattern_set" />
@@ -72,6 +70,7 @@
               <move file="${project.basedir}/.~build/${project_lite_slug}/${project_slug}.php" toFile="${project.basedir}/.~build/${project_lite_slug}/${project_lite_slug}.php" />
             </then>
           </if>
+
           <!-- WordPress token replacements. -->
 
           <if>
@@ -98,6 +97,7 @@
               </reflexive>
             </then>
           </if>
+
           <!-- README project title token replacements. -->
 
           <echo />
@@ -158,8 +158,25 @@
                   </replaceRegExp>
                 </filterChain>
               </reflexive>
+
+              <echo />
+
+              <echo msg="Switching to 'lite-require' in: ${project.basedir}/.~build/${project_lite_slug}/composer.json" />
+
+              <reflexive>
+                <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false">
+                  <include pattern="composer.json" />
+                </fileSet>
+                <filterChain>
+                  <replaceRegExp>
+                    <regExp pattern="&quot;require&quot;\s*\:\s*\{[^{}]*?\}\s*,\s*" replace="" modifiers="u" />
+                    <regExp pattern="&quot;require\-lite&quot;\s*\:\s*\{" replace="&quot;require&quot;: {" modifiers="u" />
+                  </replaceRegExp>
+                </filterChain>
+              </reflexive>
             </then>
           </if>
+
           <!-- Strip pro tokens. -->
 
           <echo />
@@ -202,6 +219,7 @@
               </reflexive>
             </then>
           </if>
+
           <!-- Modify build properties; i.e., swap w/ lite property values. -->
 
           <echo />
@@ -234,6 +252,11 @@
 
                 <regExp pattern="^project_lite_other_phar_fileset_exclusions(\s+)" replace="project_other_phar_fileset_exclusions\1" modifiers="um" />
                 <regExp pattern="^project_lite_other_zip_tgz_fileset_exclusions(\s+)" replace="project_other_zip_tgz_fileset_exclusions\1" modifiers="um" />
+
+                <regExp pattern="^project_version\s+.*$" replace="project_version = ${project_version}" modifiers="um" />
+
+                <regExp pattern="[\r\n]{3,}" replace="${line.separator}${line.separator}" modifiers="u" />
+                <regExp pattern="^\s+|\s+$" replace="" modifiers="u" />
               </replaceRegExp>
             </filterChain>
           </reflexive>

@@ -7,6 +7,7 @@
     <!-- ============================================  -->
 
     <patternSet id="_token_pattern_set">
+
       <exclude pattern=".~build/**" />
       <exclude pattern="**/.~build/**" />
 
@@ -33,6 +34,7 @@
 
       <include pattern="*.bash" />
       <include pattern="**/**.bash" />
+
     </patternSet>
 
   </project>

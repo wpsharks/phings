@@ -7,11 +7,9 @@
     <!-- ============================================  -->
 
     <if>
-      <and>
-        <not>
-          <isset property="_setups_properties_config_complete" />
-        </not>
-      </and>
+      <not>
+        <isset property="_setups_properties_config_complete" />
+      </not>
       <then>
         <!-- Temp sub-directory path. -->
 
@@ -37,6 +35,7 @@
 
         <!-- PHPUnit dependency info. -->
         <!-- This differs depending on the installed version of PHP. -->
+
         <if>
           <and>
             <versioncompare version="${php.version}" desiredVersion="5.6" operator="ge" />
@@ -125,6 +124,7 @@
             <property name="_is_wp_theme_plugin" value="false" />
           </else>
         </if>
+
         <!-- WordPress WP Sharks Core theme/plugin detection. -->
 
         <if>
@@ -143,6 +143,7 @@
             <property name="_is_wp_sharks_core_theme_plugin" value="false" />
           </else>
         </if>
+
         <!-- WP core framework project detection. -->
 
         <if>
@@ -157,6 +158,7 @@
             <property name="_is_wp_core_framework_project" value="false" />
           </else>
         </if>
+
         <!-- Lite detection; i.e., is applicable? -->
 
         <if>
@@ -185,6 +187,7 @@
             <property name="_has_lite_build_props" value="false" />
           </else>
         </if>
+
         <!-- Pro project detection; not the same as build detection; e.g., `is_lite_build` is different. -->
 
         <if>
@@ -243,6 +246,7 @@
             <property name="project_other_zip_tgz_fileset_exclusions" value="" />
           </then>
         </if>
+
         <!-- Make sure optional lite properties are defined. -->
 
         <if>
@@ -287,6 +291,7 @@
             </if>
           </then>
         </if>
+
         <!-- Make sure optional WP Sharks core properties are defined. -->
 
         <if>
@@ -305,6 +310,7 @@
             </if>
           </then>
         </if>
+
         <!-- Properties derived from other properties. -->
 
         <if>
@@ -330,6 +336,7 @@
           </and>
           <then>
             <php expression="str_replace('%y%m%d', date('ymd'), '${project_version}')" returnProperty="project_version" />
+            <php expression="str_replace('%now', time() % 86400, '${project_version}')" returnProperty="project_version" />
           </then>
         </if>
 
