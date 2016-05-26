@@ -132,7 +132,8 @@
               <exec command="git checkout ${_releases_release_git_branch}" checkReturn="true" />
             </then>
             <else>
-              <exec command="git checkout -b ${_releases_release_git_branch} --track" checkReturn="true" />
+              <exec command="git checkout -b ${_releases_release_git_branch}" checkReturn="true" />
+              <exec command="git push --set-upstream origin ${_releases_release_git_branch}" checkReturn="true" />
             </else>
           </if>
         </then>
@@ -253,7 +254,7 @@
 
       <echo msg="Updating remote; i.e., pushing current `${_releases_release_git_branch}` branch." />
 
-      <exec command="git push" dir="${project.basedir}" checkReturn="true" />
+      <exec command="git push origin ${_releases_release_git_branch}" dir="${project.basedir}" checkReturn="true" />
 
       <!-- For an RC, simply create an annotated tag, and push RC branch (including tags) to remote.  -->
       <!-- Else: switch to master branch, merge release/ into master, create an annotated tag, and push master branch (including tags) to remote.  -->
@@ -268,7 +269,7 @@
           <echo msg="Creating annotated RC tag `${_releases_release_version}`; targeted at ${_releases_release_git_branch} branch." />
 
           <exec command="git tag --force --annotate ${_releases_release_version} --message='${project_title} v${_releases_release_version} via Phing.'" dir="${project.basedir}" checkReturn="true" />
-          <exec command="git push --tags" dir="${project.basedir}" checkReturn="true" />
+          <exec command="git push --tags origin ${_releases_release_git_branch}" dir="${project.basedir}" checkReturn="true" />
 
         </then>
         <else>
@@ -279,7 +280,7 @@
           <exec command="git checkout master" dir="${project.basedir}" checkReturn="true" />
           <exec command="git merge ${_releases_release_git_branch} -m 'Merging ${_releases_release_git_branch} into master via Phing.'" dir="${project.basedir}" checkReturn="true" />
           <exec command="git tag --force --annotate ${_releases_release_version} --message='${project_title} v${_releases_release_version} via Phing.'" dir="${project.basedir}" checkReturn="true" />
-          <exec command="git push --tags" dir="${project.basedir}" checkReturn="true" />
+          <exec command="git push --tags origin master" dir="${project.basedir}" checkReturn="true" />
         </else>
       </if>
 
