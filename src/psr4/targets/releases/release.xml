@@ -51,6 +51,7 @@
       <!-- Collect the changelog for this version, which is used as the release message.  -->
 
       <delete file="${project.basedir}/.~build/.~commit.msg" quiet="true" />
+      <echo msg="Generating new commit message based on CHANGELOG.md file contents if at all possible." />
       <adHocExtractChangelogForVersion version="${project_version}" inFile="${project.basedir}/CHANGELOG.md" heading="${project_title} v${project_version}" outFile="${project.basedir}/.~build/.~commit.msg" />
       <if>
         <not>
@@ -158,13 +159,14 @@
           <fail msg="Unable to acquire release URL for unknown reason." />
         </then>
         <else>
-          <echo msg="Release URL: &lt;${_releases_release_git_create_release_url}&gt;" />
+          <echo msg="Release URL: &lt;${_releases_release_git_create_release_url}&gt;" level="warning" />
         </else>
       </if>
 
-      <!-- Switch back to the release/ branch so the operator is back where they started from. -->
+      <!-- Switch to dev branch because the release is done now. However, don't delete the release/ branch—must be done manually. -->
 
-      <exec command="git checkout ${_releases_release_git_branch}" dir="${project.basedir}" passthru="false" checkReturn="true" />
+      <echo msg="Be advised. I'm moving you back to the dev branch now that the release is done." level="warning" />
+      <exec command="git checkout 000000-dev" dir="${project.basedir}" passthru="false" checkReturn="true" />
 
     </target>
 

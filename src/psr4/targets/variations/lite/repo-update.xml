@@ -78,6 +78,7 @@
           <echo msg="Committing changes in lite dev branch." />
 
           <delete file="${_variations_lite_repo_update_repo_dir}/.~commit.msg" quiet="true" />
+          <echo msg="Generating new commit message based on CHANGELOG.md file contents if at all possible." />
           <adHocExtractChangelogForVersion version="${project_version}" inFile="${_variations_lite_repo_update_repo_dir}/CHANGELOG.md" heading="Phing release of v${project_version} with the following changes:" outFile="${_variations_lite_repo_update_repo_dir}/.~commit.msg" />
           <if>
             <not>

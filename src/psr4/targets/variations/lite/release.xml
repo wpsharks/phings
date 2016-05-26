@@ -71,6 +71,7 @@
           <!-- Collect the changelog for this version, which is used as the release message.  -->
 
           <delete file="${_variations_lite_release_repo_dir}/.~commit.msg" quiet="true" />
+          <echo msg="Generating new commit message based on CHANGELOG.md file contents if at all possible." />
           <adHocExtractChangelogForVersion version="${project_version}" inFile="${_variations_lite_release_repo_dir}/CHANGELOG.md" heading="${project_lite_title} v${project_version}" outFile="${_variations_lite_release_repo_dir}/.~commit.msg" />
           <if>
             <not>
@@ -162,7 +163,7 @@
               <fail msg="Unable to acquire lite release URL for unknown reason." />
             </then>
             <else>
-              <echo msg="Lite Release URL: &lt;${_variations_lite_release_git_create_release_url}&gt;" />
+              <echo msg="Lite Release URL: &lt;${_variations_lite_release_git_create_release_url}&gt;" level="warning" />
             </else>
           </if>
 
