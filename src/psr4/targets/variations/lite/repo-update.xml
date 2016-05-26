@@ -45,7 +45,7 @@
           <echo msg="Cloning remote lite repo for local update routines that follow." />
 
           <delete dir="${_variations_lite_repo_update_repo_dir}" includeEmptyDirs="true" quiet="true" />
-          <exec command="git clone '${_variations_lite_repo_update_repo_remote}' '${_variations_lite_repo_update_repo_dir}' --depth=1 --no-single-branch" checkReturn="true" />
+          <exec command="git clone '${_variations_lite_repo_update_repo_remote}' '${_variations_lite_repo_update_repo_dir}' --depth=1" checkReturn="true" />
 
           <!-- Make sure the repo has a dev and master branch that we can work with below. -->
           <!-- Also make sure that we start (always) from the 000000-dev branch for remaining routines. -->
@@ -62,6 +62,7 @@
             </not>
             <then>
               <exec command="git checkout -b 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+              <exec command="git pull" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
               <exec command="git push --set-upstream origin 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
             </then>
           </if>
@@ -71,6 +72,7 @@
             </not>
             <then>
               <exec command="git checkout -b master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+              <exec command="git pull" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
               <exec command="git push --set-upstream origin master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
             </then>
           </if>
