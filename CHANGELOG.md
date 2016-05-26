@@ -1,3 +1,21 @@
+## 160526
+
+- [x] Adding support for `project_required_os` in https://github.com/websharks/phings/issues/98
+- [x] Adding support for `project_php_required_bits` in https://github.com/websharks/phings/issues/98
+- [x] Adding support for `project_php_required_extensions` in https://github.com/websharks/phings/issues/98
+- [x] Support for `%now` in version strings.
+  - Suggested use: `project_version = %y%m%d.%now`
+  - `%now` = `time() % 86400` ... See also: http://semver.org/
+  - e.g., `160525.49351`, where `.49351` is a minor version represented by the current number of seconds into the current day. Using versions like this in our build process can make it easier to maintain projects that are commonly updated more than once each day; e.g., the WPSC.
+- [x] ~~Noting that `$ phing release` depends on a PEAR extension.~~
+  - ~~`$ pear install VersionControl_Git-0.4.4;` on a Mac.~~
+  - I removed calls that relied on this extension, in favor of `<exec command="git ...`.
+- [x] Resolved issue in https://github.com/websharks/phings/issues/90 & resolved issue in https://github.com/websharks/phings/issues/88 (however, see note below).
+- [x] Fix bug that prevents namespace updates (sometimes) in core rebranding via `composer install`.
+- [x] Adding support for a new CLI switch: `$ phing release -D interactive=true`. The `interactive` flag is off by default now, so that it's not necessary to answer prompts. If you want to take extra care during a release you can enter interactive mode where you are given a choice before things occur; e.g., prompted to commit and push changes in lite repo variation. However, I consider this interactive mode to be deprecated now; i.e., that's why it's off by default now. The next checklist items covers some of the new `$ phing release` functionality. Given the new functionality, it's not expected that an operator would need to answer prompts during an automated release process.
+- [x] Optimize autoloader built by Composer.
+- [x] Teach the Phing system how to do GitHub releases following our Git workflow standards. See also: https://github.com/websharks/phings/wiki/GitHub-Releases
+
 ## 160517
 
 - Bourbon exclusions. See: #92
