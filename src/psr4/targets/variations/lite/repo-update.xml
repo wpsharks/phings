@@ -16,6 +16,21 @@
           <isTrue value="${_has_lite_build_props}" />
         </and>
         <then>
+          <!-- Determine release type. -->
+
+          <if>
+            <and>
+              <isset property="type" />
+              <equals arg1="${type}" arg2="rc" caseSensitive="false" />
+            </and>
+            <then>
+              <property name="_variations_lite_repo_update_release_type" value="rc" />
+            </then>
+            <else>
+              <property name="_variations_lite_repo_update_release_type" value="" />
+            </else>
+          </if>
+
           <!-- Preparing to update lite repo. -->
 
           <property name="_variations_lite_repo_update_repo_remote" value="git@github.com:${project_owner}/${project_lite_slug}.git" />
@@ -33,6 +48,7 @@
           <exec command="git clone '${_variations_lite_repo_update_repo_remote}' '${_variations_lite_repo_update_repo_dir}' --depth=1" checkReturn="true" />
 
           <!-- Make sure the repo has a dev and master branch that we can work with below. -->
+          <!-- Also make sure that we start (always) from the 000000-dev branch for remaining routines. -->
 
           <echo />
 
@@ -46,6 +62,7 @@
             </not>
             <then>
               <exec command="git checkout -b 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+              <exec command="git push --set-upstream origin 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
             </then>
           </if>
           <if>
@@ -54,8 +71,10 @@
             </not>
             <then>
               <exec command="git checkout -b master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+              <exec command="git push --set-upstream origin master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
             </then>
           </if>
+          <exec command="git checkout 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
 
           <!-- Delete all existing files in lite dev branch. -->
 
@@ -86,7 +105,7 @@
           <php expression="time()" returnProperty="_variations_lite_repo_update_timestamp" />
           <echo msg="${_variations_lite_repo_update_timestamp}" file="${_variations_lite_repo_update_repo_dir}/.gitchange" />
 
-          <!-- Stage and commit changes (from the dev branch still). -->
+          <!-- Stage and commit changes that exist here in the dev branch. -->
 
           <echo />
 
@@ -108,16 +127,37 @@
 
           <!-- Merge dev into master and push all changes (for dev and master) to remote. -->
 
-          <echo />
+          <if>
+            <and>
+              <equals arg1="${_variations_lite_repo_update_release_type}" arg2="rc" />
+            </and>
+            <then>
+              <echo />
 
-          <echo msg="Merging dev into master branch and pushing all changes (for dev and master) to remote." />
+              <echo msg="Pushing all changes in the dev branch to remote." />
 
-          <exec command="git checkout master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
-          <exec command="git merge 000000-dev -m 'Merging dev into master via Phing.'" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
-          <exec command="git push --set-upstream origin master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+              <exec command="git push --set-upstream origin 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+            </then>
+            <else>
+              <echo />
+
+              <echo msg="Pushing all changes in the dev branch to remote." />
+
+              <exec command="git push --set-upstream origin 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+
+              <echo />
+
+              <echo msg="Merging dev into master branch and pushing all changes to remote." />
+
+              <exec command="git checkout master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+              <exec command="git merge 000000-dev -m 'Merging dev into master via Phing.'" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+              <exec command="git push --set-upstream origin master" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
+            </else>
+          </if>
+
+          <!-- Switch back to the dev branch; i.e., the expected starting point.  -->
 
           <exec command="git checkout 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
-          <exec command="git push --set-upstream origin 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" checkReturn="true" />
 
         </then>
         <else>

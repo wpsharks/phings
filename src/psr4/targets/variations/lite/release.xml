@@ -37,6 +37,8 @@
 
           <echo msg="Preparing to create release: ${project_lite_title} v${_variations_lite_release_version}" />
 
+          <property name="_variations_lite_release_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo" />
+
           <!-- Collect the changelog for this version, which is used as the release message.  -->
 
           <delete file="${_variations_lite_release_repo_dir}/.~commit.msg" quiet="true" />
@@ -162,7 +164,7 @@
             </else>
           </if>
 
-          <!-- Switch back to the dev branch even though this is a temporary repo. Just in case we'd like to use it for anything else.  -->
+          <!-- Switch back to the dev branch; i.e., the expected starting point.  -->
 
           <exec command="git checkout 000000-dev" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
 
