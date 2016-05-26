@@ -91,7 +91,7 @@
 
       <!-- Make sure we have the latest copy of all remote branches for validation routines that follow. -->
 
-      <exec command="git fetch --all" checkReturn="true" />
+      <exec command="git fetch --all" dir="${project.basedir}" checkReturn="true" />
 
       <!-- Check current git repo and make sure we are on a release/ branch or the dev branch. -->
       <!-- Note that it's OK to start from any release/ branch as the basis for a new release. -->
@@ -129,11 +129,11 @@
               <equals arg1="${_releases_release_git_branch_exists}" arg2="0" />
             </and>
             <then>
-              <exec command="git checkout ${_releases_release_git_branch}" checkReturn="true" />
+              <exec command="git checkout ${_releases_release_git_branch}" dir="${project.basedir}" checkReturn="true" />
             </then>
             <else>
-              <exec command="git checkout -b ${_releases_release_git_branch}" checkReturn="true" />
-              <exec command="git push --set-upstream origin ${_releases_release_git_branch}" checkReturn="true" />
+              <exec command="git checkout -b ${_releases_release_git_branch}" dir="${project.basedir}" checkReturn="true" />
+              <exec command="git push --set-upstream origin ${_releases_release_git_branch}" dir="${project.basedir}" checkReturn="true" />
             </else>
           </if>
         </then>
@@ -179,6 +179,18 @@
               <fail msg="Your local copy of the master branch is behind in commits. Please merge with the remote and try again." />
             </then>
           </if>
+        </then>
+      </if>
+
+      <!-- Make sure the remote does not already have a tag for this version. Avoid overwriting an existing tag on the remote. -->
+
+      <exec command="git ls-remote --exit-code origin refs/tags/${_releases_release_version}" dir="${project.basedir}" returnProperty="_releases_release_git_release_tag_exists_on_remote" />
+      <if>
+        <and>
+          <equals arg1="${_releases_release_git_release_tag_exists_on_remote}" arg2="0" />
+        </and>
+        <then>
+          <fail msg="Release tag `${_releases_release_version}` already exists on the remote." />
         </then>
       </if>
 

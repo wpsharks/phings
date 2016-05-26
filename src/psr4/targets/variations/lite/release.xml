@@ -39,6 +39,18 @@
 
           <property name="_variations_lite_release_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo" />
 
+          <!-- Make sure the remote does not already have a tag for this version. Avoid overwriting an existing tag on the remote. -->
+
+          <exec command="git ls-remote --exit-code origin refs/tags/${_variations_lite_release_version}" dir="${_variations_lite_release_repo_dir}" returnProperty="_variations_lite_release_tag_exists_on_remote" />
+          <if>
+            <and>
+              <equals arg1="${_variations_lite_release_tag_exists_on_remote}" arg2="0" />
+            </and>
+            <then>
+              <fail msg="Release tag `${_variations_lite_release_version}` already exists on the remote." />
+            </then>
+          </if>
+
           <!-- Collect the changelog for this version, which is used as the release message.  -->
 
           <delete file="${_variations_lite_release_repo_dir}/.~commit.msg" quiet="true" />
