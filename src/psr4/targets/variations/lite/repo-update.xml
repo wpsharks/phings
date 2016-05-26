@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Update lite repo (including remote). -->
+    <!-- ============================================  -->
+
+    <target name="-variations-lite-repo-update" hidden="true">
+
+      <if>
+        <and>
+          <not>
+            <isset property="_is_lite_build" />
+          </not>
+          <isTrue value="${_has_lite_build_props}" />
+        </and>
+        <then>
+          <!-- Preparing for lite generation. -->
+
+          <property name="_variations_lite_repo_update_repo_remote" value="git@github.com:${project_owner}/${project_lite_slug}.git" />
+          <property name="_variations_lite_repo_update_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo" />
+
+          <echo msg="Preparing to push ${project_lite_title} to ${_variations_lite_repo_update_repo_remote}" />
+
+          <!-- Clone lite repository. -->
+
+          <echo />
+
+          <delete dir="${_variations_lite_repo_update_repo_dir}" includeEmptyDirs="true" quiet="true" />
+          <exec command="git clone '${_variations_lite_repo_update_repo_remote}' '${_variations_lite_repo_update_repo_dir}' --depth=1" passthru="true" checkReturn="true" />
+
+          <!-- Make sure both of these branches exist (at HEAD) and start from the 000000-dev branch. -->
+          <!-- Note the interesting use of the `-B` flag below. See also: <https://git-scm.com/docs/git-checkout> -->
+
+          <echo />
+
+          <exec command="git checkout -B master" dir="${_variations_lite_repo_update_repo_dir}" passthru="true" checkReturn="true" />
+          <exec command="git checkout -B 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" passthru="true" checkReturn="true" />
+
+          <!-- Delete all existing files in lite dev branch. -->
+
+          <echo />
+
+          <echo msg="Deleting (clearing out) all files in `000000-dev` branch of newly cloned repo." />
+
+          <delete includeEmptyDirs="true" quiet="true">
+            <fileSet dir="${_variations_lite_repo_update_repo_dir}" caseSensitive="false" defaultExcludes="false">
+              <exclude pattern=".git" />
+              <exclude pattern=".git/**" />
+            </fileSet>
+          </delete>
+
+          <!-- Copy new files into lite dev branch. -->
+
+          <echo />
+
+          <echo msg="Updating 000000-dev branch to: ${project.basedir}/.~build/${project_lite_slug} (i.e., most recent build of the lite variation)." />
+
+          <copy toDir="${_variations_lite_repo_update_repo_dir}">
+            <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false" defaultExcludes="false">
+              <patternSet refId="_lite_repo_pattern_set" />
+            </fileSet>
+          </copy>
+
+          <!-- Force changes to exist in the lite dev branch so that commit/push does not choke. -->
+
+          <php expression="time()" returnProperty="_variations_lite_repo_update_timestamp" />
+          <echo msg="${_variations_lite_repo_update_timestamp}" file="${_variations_lite_repo_update_repo_dir}/.gitchange" />
+
+          <!-- Stage changed files in lite dev branch. -->
+
+          <echo />
+
+          <echo msg="Staging changed files in lite dev branch." />
+
+          <exec command="git add --all" dir="${_variations_lite_repo_update_repo_dir}" passthru="true" checkReturn="true" />
+          <exec command="git status" dir="${_variations_lite_repo_update_repo_dir}" passthru="true" checkReturn="true" />
+
+          <!-- Commit changes in lite dev branch (optional, if desired by user). -->
+
+          <if>
+            <and>
+              <isset property="interactive" />
+              <isTrue value="${interactive}" />
+            </and>
+            <then>
+              <echo />
+
+              <echo msg="To make changes or commit these files manually, choose 'no' at the next prompt and navigate to: ${_variations_lite_repo_update_repo_dir}" />
+              <propertyPrompt propertyName="_variations_lite_repo_update_lite_do_commit_changes" defaultValue="yes" promptText="Commit changes in lite dev branch? (yes/no)" />
+            </then>
+            <else>
+              <property name="_variations_lite_repo_update_lite_do_commit_changes" value="yes" />
+            </else>
+          </if>
+
+          <if>
+            <or>
+              <equals arg1="${_variations_lite_repo_update_lite_do_commit_changes}" arg2="y" caseSensitive="false" trim="yes" />
+              <equals arg1="${_variations_lite_repo_update_lite_do_commit_changes}" arg2="yes" caseSensitive="false" trim="yes" />
+            </or>
+            <then>
+              <delete file="${_variations_lite_repo_update_repo_dir}/.~commit.msg" quiet="true" />
+              <adHocExtractChangelogForVersion version="${project_version}" inFile="${_variations_lite_repo_update_repo_dir}/CHANGELOG.md" heading="Phing release of v${project_version} with the following changes:" outFile="${_variations_lite_repo_update_repo_dir}/.~commit.msg" />
+
+              <echo />
+
+              <echo msg="Auto-generated changelog (commit message):" />
+              <if>
+                <and>
+                  <available resource="${_variations_lite_repo_update_repo_dir}/.~commit.msg" type="file" />
+                </and>
+                <then>
+                  <loadfile property="_variations_lite_repo_update_lite_changelog_contents" file="${_variations_lite_repo_update_repo_dir}/.~commit.msg" />
+                </then>
+                <else>
+                  <property name="_variations_lite_repo_update_lite_changelog_contents" value="Phing release of v${project_version}." />
+                  <echo msg="${_variations_lite_repo_update_lite_changelog_contents}" file="${_variations_lite_repo_update_repo_dir}/.~commit.msg" />
+                </else>
+              </if>
+              <echo msg="---------------------------------------------------------" />
+              <echo msg="${_variations_lite_repo_update_lite_changelog_contents}" />
+              <echo msg="---------------------------------------------------------" />
+
+              <echo />
+
+              <echo msg="Committing changes in lite dev branch." />
+
+              <exec command="git commit -F .~commit.msg" dir="${_variations_lite_repo_update_repo_dir}" passthru="true" checkReturn="true" />
+
+              <!-- Push to remote repo (optional, if desired by user). -->
+
+              <if>
+                <and>
+                  <isset property="interactive" />
+                  <isTrue value="${interactive}" />
+                </and>
+                <then>
+                  <echo />
+
+                  <propertyPrompt propertyName="_variations_lite_repo_update_lite_do_push_changes" defaultValue="yes" promptText="Merge dev into master &amp; push both to remote? (yes/no)" />
+                </then>
+                <else>
+                  <property name="_variations_lite_repo_update_lite_do_push_changes" value="yes" />
+                </else>
+              </if>
+
+              <if>
+                <or>
+                  <equals arg1="${_variations_lite_repo_update_lite_do_push_changes}" arg2="y" caseSensitive="false" trim="yes" />
+                  <equals arg1="${_variations_lite_repo_update_lite_do_push_changes}" arg2="yes" caseSensitive="false" trim="yes" />
+                </or>
+                <then>
+                  <echo />
+
+                  <exec command="git checkout master" dir="${_variations_lite_repo_update_repo_dir}" passthru="true" checkReturn="true" />
+                  <exec command="git merge 000000-dev -m 'Merging dev into master via Phing.'" dir="${_variations_lite_repo_update_repo_dir}" passthru="true" checkReturn="true" />
+                  <exec command="git push --set-upstream origin master" dir="${_variations_lite_repo_update_repo_dir}" passthru="true" checkReturn="true" />
+
+                  <exec command="git checkout 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" passthru="true" checkReturn="true" />
+                  <exec command="git push --set-upstream origin 000000-dev" dir="${_variations_lite_repo_update_repo_dir}" passthru="true" checkReturn="true" />
+                </then>
+              </if>
+
+            </then>
+          </if>
+
+        </then>
+        <else>
+          <echo msg="N/A: skipping lite repo update; lite not applicable." />
+        </else>
+      </if>
+
+    </target>
+
+  </project>

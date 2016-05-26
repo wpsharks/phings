@@ -6,7 +6,7 @@
     <!-- GitHub release for lite variation.  -->
     <!-- ============================================  -->
 
-    <target name="-variations-lite-release" depends="-variations-lite-push" hidden="true">
+    <target name="-variations-lite-release" depends="-validations-existing-lite-build -variations-lite-repo-update" hidden="true">
 
       <if>
         <and>
@@ -16,10 +16,6 @@
           <isTrue value="${_has_lite_build_props}" />
         </and>
         <then>
-          <!-- Depends on existing lite build. -->
-
-          <phingCall target="-validations-existing-lite-build" />
-
           <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo -->
 
           <property name="_variations_lite_release_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo" />

@@ -8,45 +8,60 @@
 
     <target name="-validations-existing-lite-build" hidden="true">
 
-      <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug} -->
-
-      <if>
-        <not>
-          <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}" type="dir" />
-        </not>
-        <then>
-          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}" />
-        </then>
-      </if>
-
-      <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version -->
-
       <if>
         <and>
-          <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version" type="file" />
+          <not>
+            <isset property="_is_lite_build" />
+          </not>
+          <isTrue value="${_has_lite_build_props}" />
         </and>
         <then>
-          <loadfile property="project_version" file="${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version" />
+          <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug} -->
+
+          <if>
+            <not>
+              <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}" type="dir" />
+            </not>
+            <then>
+              <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}" />
+            </then>
+          </if>
+
+          <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version -->
+
+          <if>
+            <and>
+              <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version" type="file" />
+            </and>
+            <then>
+              <loadfile property="project_version" file="${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version" />
+              <echo msg="Project version for existing lite build: ${project_version}" />
+            </then>
+            <else>
+              <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version" />
+            </else>
+          </if>
+
+          <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.[zip|tar.gz] -->
+
+          <if>
+            <or>
+              <not>
+                <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip" type="file" />
+              </not>
+              <not>
+                <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz" type="file" />
+              </not>
+            </or>
+            <then>
+              <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.[zip|tar.gz]." />
+            </then>
+          </if>
+
         </then>
         <else>
-          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version" />
+          <echo msg="N/A: skipping existing lite build validation; lite not applicable." />
         </else>
-      </if>
-
-      <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.[zip|tar.gz] -->
-
-      <if>
-        <or>
-          <not>
-            <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip" type="file" />
-          </not>
-          <not>
-            <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz" type="file" />
-          </not>
-        </or>
-        <then>
-          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.[zip|tar.gz]." />
-        </then>
       </if>
 
     </target>

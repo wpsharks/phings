@@ -48,8 +48,6 @@
             </fileSet>
           </copy>
 
-          <echo />
-
           <delete includeEmptyDirs="true" verbose="true" quiet="true">
             <fileSet dir="${project.basedir}/.~build/${project_lite_slug}" caseSensitive="false">
               <patternSet refId="_text_based_pattern_set" />

@@ -118,7 +118,7 @@
     <import file="${phing.dir.targets}/targets/variations/lite/prepare.xml" />
     <import file="${phing.dir.targets}/targets/variations/lite/builds.xml" />
 
-    <import file="${phing.dir.targets}/targets/variations/lite/push.xml" />
+    <import file="${phing.dir.targets}/targets/variations/lite/repo-update.xml" />
     <import file="${phing.dir.targets}/targets/variations/lite/release.xml" />
 
   </project>

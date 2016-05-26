@@ -27,6 +27,7 @@
         </and>
         <then>
           <loadfile property="project_version" file="${project.basedir}/.~build/.properties/project-version" />
+          <echo msg="Project version for existing build: ${project_version}" />
         </then>
         <else>
           <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/.properties/project-version" />
