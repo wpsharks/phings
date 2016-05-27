@@ -8,345 +8,554 @@
 
     <target name="-releases-release" hidden="true">
 
-      <!-- Determine release type/version. -->
+      <!-- Make sure we are in a git repo. -->
 
+      <if>
+        <and>
+          <isFalse value="${_in_git_repo}" />
+        </and>
+        <then>
+          <fail msg="Not in a git repo. Run `$ git init` and try again." />
+        </then>
+      </if>
+
+      <!-- Make sure the repo has a github.com origin.  -->
+
+      <if>
+        <and>
+          <isFalse value="${_in_github_repo}" />
+        </and>
+        <then>
+          <fail msg="Repo does not have a github.com remote origin." />
+        </then>
+      </if>
+
+      <!-- Make sure the repo is clean. -->
+
+      <if>
+        <and>
+          <isFalse value="${_in_clean_git_repo}" />
+        </and>
+        <then>
+          <fail msg="Repo is dirty. Please commit and push changes, then try again." />
+        </then>
+      </if>
+
+      <!-- Make sure the repo has both a dev and master branch.  -->
+
+      <if>
+        <or>
+          <isFalse value="${_git_dev_branch_exists}" />
+          <isFalse value="${_git_master_branch_exists}" />
+        </or>
+        <then>
+          <fail msg="Current repo is missing a dev and/or master branch. Both are required for our Git workflow please." />
+        </then>
+      </if>
+
+      <!-- Make sure the dev and master branches have an upstream. -->
+
+      <if>
+        <or>
+          <isFalse value="${_git_dev_branch_has_upstream}" />
+          <isFalse value="${_git_master_branch_has_upstream}" />
+        </or>
+        <then>
+          <fail msg="The dev and/or master branches do not have an upstream tracking branch yet. Please run `git branch --set-upstream-to ...` and try again." />
+        </then>
+      </if>
+
+      <!-- Make sure we are on the dev branch, or a release branch. -->
+
+      <if>
+        <and>
+          <isFalse value="${_starting_git_branch_is_dev}" />
+          <isFalse value="${_starting_git_branch_is_release}" />
+        </and>
+        <then>
+          <fail msg="Must start from the dev branch, or a release/ branch." />
+        </then>
+      </if>
+
+      <!-- Make sure we have the latest copy of all remote branches. -->
+
+      <echo msg="Fetcing latest copy of all branches from remote origin." />
+      <exec command="git fetch origin" dir="${project.basedir}" checkReturn="true" />
+
+      <!-- Flags to assist with release type detection below. -->
       <if>
         <and>
           <isset property="type" />
           <equals arg1="${type}" arg2="rc" caseSensitive="false" />
         </and>
         <then>
-          <property name="_releases_release_type" value="rc" />
-          <property name="_releases_release_version" value="${project_version}-RC" />
+          <property name="_releases_release_type_is_rc" value="true" />
         </then>
         <else>
-          <property name="_releases_release_type" value="" />
-          <property name="_releases_release_version" value="${project_version}" />
+          <property name="_releases_release_type_is_rc" value="false" />
         </else>
       </if>
 
-      <!-- Preparing for release creation. -->
+      <!-- If not starting from a release branch, interpret as the desire to prepare (begin) a new release. -->
+      <!-- Or, prepare (begin) a new release that is based on a starting release branch of a different type. -->
+      <!-- Otherwise, if starting from a release branch of the same type, interpret as doing (finishing) a release. -->
 
-      <echo msg="Preparing to create GitHub release: ${project_title} v${_releases_release_version}" />
-
-      <!-- Check current git repo status and make sure it is clean. -->
-
-      <exec command="git status --short" dir="${project.basedir}" outputProperty="_releases_release_git_status" />
-      <if>
-        <not>
-          <equals arg1="${_releases_release_git_status}" arg2="" trim="true" />
-        </not>
-        <then>
-          <fail msg="Repo is dirty. Please commit and push changes, then try again." />
-        </then>
-      </if>
-
-      <!-- Check current git repo to be sure that it has a github.com origin.  -->
-
-      <exec command="git remote -v | grep --extended-regexp --ignore-case '^origin\s.+?github\.com'" dir="${project.basedir}" returnProperty="_releases_release_git_has_github_origin" />
-      <if>
-        <not>
-          <equals arg1="${_releases_release_git_has_github_origin}" arg2="0" trim="true" />
-        </not>
-        <then>
-          <fail msg="Repo does not have a github.com origin." />
-        </then>
-      </if>
-
-      <!-- Check current git repo to be sure that it has a dev and master branch.  -->
-
-      <exec command="git rev-parse --verify --quiet 000000-dev" dir="${project.basedir}" returnProperty="_releases_release_git_dev_branch_exists" />
-      <exec command="git rev-parse --verify --quiet master" dir="${project.basedir}" returnProperty="_releases_release_git_master_branch_exists" />
       <if>
         <or>
-          <not>
-            <equals arg1="${_releases_release_git_dev_branch_exists}" arg2="0" />
-          </not>
-          <not>
-            <equals arg1="${_releases_release_git_master_branch_exists}" arg2="0" />
-          </not>
+          <isFalse value="${_starting_git_branch_is_release}" />
+          <and>
+            <isTrue value="${_starting_git_branch_is_release}" />
+            <isTrue value="${_starting_git_branch_is_release_rc}" />
+            <isFalse value="${_releases_release_type_is_rc}" />
+          </and>
+          <and>
+            <isTrue value="${_starting_git_branch_is_release}" />
+            <isFalse value="${_starting_git_branch_is_release_rc}" />
+            <isTrue value="${_releases_release_type_is_rc}" />
+          </and>
         </or>
+        <!-- Preparing a new release; i.e., beginning a new release that can be finished later. -->
+
         <then>
-          <fail msg="Current repo is missing a 000000-dev and/or master branch. Both are required for our Git workflow please." />
-        </then>
-      </if>
+          <!-- Determine release version (complex conditionals) and branch name. -->
 
-      <!-- Also make sure the dev and master branches have an upstream remote associated with them. -->
-
-      <exec command="git rev-parse --abbrev-ref 000000-dev'@{upstream}'" dir="${project.basedir}" returnProperty="_releases_release_git_release_dev_branch_has_upstream" />
-      <exec command="git rev-parse --abbrev-ref master'@{upstream}'" dir="${project.basedir}" returnProperty="_releases_release_git_release_master_branch_has_upstream" />
-      <if>
-        <or>
-          <not>
-            <equals arg1="${_releases_release_git_release_dev_branch_has_upstream}" arg2="0" />
-          </not>
-          <not>
-            <equals arg1="${_releases_release_git_release_master_branch_has_upstream}" arg2="0" />
-          </not>
-        </or>
-        <then>
-          <fail msg="The 000000-dev and/or master branches do not have an upstream tracking branch yet. Please run `git branch --set-upstream-to ...` and try again." />
-        </then>
-      </if>
-
-      <!-- Make sure we have the latest copy of all remote branches for validation routines that follow. -->
-
-      <exec command="git fetch --all" dir="${project.basedir}" checkReturn="true" />
-
-      <!-- Check current git repo and make sure we are on a release/ branch or the dev branch. -->
-      <!-- Note that it's OK to start from any release/ branch as the basis for a new release. -->
-      <!-- For instance, it might be desirable to start a new release based on an existing release in accordance w/ Hubflow. -->
-      <!-- The most common example of this would be to start a new release based on a previous RC release branch. -->
-
-      <exec command="git symbolic-ref --short --quiet HEAD" dir="${project.basedir}" outputProperty="_releases_release_git_starting_branch" />
-      <if>
-        <and>
-          <not>
-            <equals arg1="${_releases_release_git_starting_branch}" arg2="000000-dev" />
-          </not>
-          <not>
-            <contains string="${_releases_release_git_starting_branch}" substring="release/" caseSensitive="true" />
-          </not>
-        </and>
-        <then>
-          <fail msg="Must start from a release/ branch. See: &lt;https://github.com/websharks/hubflow&gt;. Or, you can also start from the 000000-dev branch, in which case a new release/ branch will be created automatically if it does not exist already." />
-        </then>
-      </if>
-
-      <!-- If we are not on a release/ branch (i.e., on the dev branch), create a new release/ branch automatically. -->
-      <!-- If the starting branch is a release/ branch, but it's not for *this* release, then we still create a new release branch automatically. -->
-      <!-- In that case, the new release/ branch is based on the starting release/ branch; e.g., doing a full release based on a previous RC release. -->
-
-      <property name="_releases_release_git_branch" value="release/${_releases_release_version}" />
-      <if>
-        <not>
-          <equals arg1="${_releases_release_git_starting_branch}" arg2="${_releases_release_git_branch}" />
-        </not>
-        <then>
-          <exec command="git rev-parse --verify --quiet ${_releases_release_git_branch}" dir="${project.basedir}" returnProperty="_releases_release_git_branch_exists" />
           <if>
+            <!-- If starting from an existing release, establish new version. -->
             <and>
-              <equals arg1="${_releases_release_git_branch_exists}" arg2="0" />
+              <isTrue value="${_starting_git_branch_is_release}" />
             </and>
             <then>
-              <exec command="git checkout ${_releases_release_git_branch}" dir="${project.basedir}" checkReturn="true" />
+              <loadFile property="_releases_release_build_props_file_contents" file="${project.basedir}/.build.props" />
+
+              <property name="_releases_release_version" value="${_releases_release_build_props_file_contents}">
+                <filterChain>
+                  <replaceRegExp>
+                    <regExp pattern=".*?\nproject_version\s*\=\s*([^\s]+).*" replace="$1" modifiers="us" />
+                  </replaceRegExp>
+                </filterChain>
+              </property>
+
+              <if>
+                <!-- If it's not being auto-generated by date, ask operator. -->
+                <not>
+                  <contains string="${_releases_release_version}" substring="%y%m%d" />
+                </not>
+                <then>
+                  <property name="_releases_release_version" value="%y%m%d.%now" override="true" />
+                  <input propertyName="_releases_release_version_via_input" validArgs="%y%m%d,%y%m%d.%now">Enter one of these release version formats:</input>
+                  <property name="_releases_release_version" value="${_releases_release_version_via_input}" override="true" />
+                </then>
+              </if>
+
+              <php expression="str_replace('%y%m%d', date('ymd'), '${_releases_release_version}')" returnProperty="_releases_release_version" level="verbose" />
+              <php expression="str_replace('%now', time() % 86400, '${_releases_release_version}')" returnProperty="_releases_release_version" level="verbose" />
             </then>
             <else>
-              <exec command="git checkout -b ${_releases_release_git_branch}" dir="${project.basedir}" checkReturn="true" />
-              <exec command="git push --set-upstream origin ${_releases_release_git_branch}" dir="${project.basedir}" checkReturn="true" />
+              <!-- Else respect ${project_version}, including a case where it's passed via the command line. -->
+              <property name="_releases_release_version" value="${project_version}" />
             </else>
           </if>
-        </then>
-      </if>
 
-      <!-- While on the release/ branch, make sure the release/ branch has an upstream remote associated with it. -->
+          <property name="_releases_release_version" value="${_releases_release_version}" override="true">
+            <filterChain>
+              <replaceRegExp>
+                <regExp pattern="\-RC$" replace="" modifiers="ui" />
+              </replaceRegExp>
+            </filterChain>
+          </property>
 
-      <exec command="git rev-parse --abbrev-ref '@{upstream}'" dir="${project.basedir}" returnProperty="_releases_release_git_release_branch_has_upstream" />
-      <if>
-        <not>
-          <equals arg1="${_releases_release_git_release_branch_has_upstream}" arg2="0" />
-        </not>
-        <then>
-          <fail msg="The ${_releases_release_git_branch} branch does not have an upstream tracking branch yet. Please run `git branch --set-upstream-to ...` and try again." />
-        </then>
-      </if>
-
-      <!-- While on the release/ branch, make sure the release/ branch is not behind the upstream remote by any number of commits. -->
-
-      <exec command="git log --oneline '..@{upstream}'" dir="${project.basedir}" outputProperty="_releases_release_git_release_branch_log_output" />
-      <if>
-        <not>
-          <equals arg1="${_releases_release_git_release_branch_log_output}" arg2="" trim="true" />
-        </not>
-        <then>
-          <fail msg="Your local copy of the ${_releases_release_git_branch} branch is behind in commits. Please merge with the remote and try again." />
-        </then>
-      </if>
-
-      <!-- If doing a full release, also make sure the master branch is not behind the upstream remote by any number of commits. -->
-
-      <if>
-        <not>
-          <equals arg1="${_releases_release_type}" arg2="rc" />
-        </not>
-        <then>
-          <exec command="git log --oneline 'master..master@{upstream}'" dir="${project.basedir}" outputProperty="_releases_release_git_release_master_branch_log_output" />
           <if>
-            <not>
-              <equals arg1="${_releases_release_git_release_master_branch_log_output}" arg2="" trim="true" />
-            </not>
+            <and>
+              <isTrue value="${_releases_release_type_is_rc}" />
+            </and>
             <then>
-              <fail msg="Your local copy of the master branch is behind in commits. Please merge with the remote and try again." />
+              <property name="_releases_release_version" value="${_releases_release_version}-RC" override="true" />
             </then>
           </if>
-        </then>
-      </if>
 
-      <!-- Make sure the remote does not already have a tag for this version. Avoid overwriting an existing tag on the remote. -->
+          <property name="_releases_release_branch" value="release/${_releases_release_version}" />
 
-      <exec command="git ls-remote --exit-code origin refs/tags/${_releases_release_version}" dir="${project.basedir}" returnProperty="_releases_release_git_release_tag_exists_on_remote" />
-      <if>
-        <and>
-          <equals arg1="${_releases_release_git_release_tag_exists_on_remote}" arg2="0" />
-        </and>
-        <then>
-          <fail msg="Release tag `${_releases_release_version}` already exists on the remote." />
-        </then>
-      </if>
+          <!-- If release branch already exists, move to that branch. Else, create a new release branch and push to remote origin. -->
+          <!-- Branch may already exist locally or remotely. In either case, avoid creating a duplicate release branch here. -->
 
-      <!-- Collect the changelog for this version, which is used as the release message.  -->
-
-      <delete file="${project.basedir}/.~build/.~commit.msg" quiet="true" />
-      <echo msg="Generating new commit message based on CHANGELOG.md file contents if at all possible." />
-      <adHocExtractChangelogForVersion version="${_releases_release_version}" inFile="${project.basedir}/CHANGELOG.md" heading="${project_title} v${_releases_release_version}" outFile="${project.basedir}/.~build/.~commit.msg" />
-      <if>
-        <not>
-          <available resource="${project.basedir}/.~build/.~commit.msg" type="file" />
-        </not>
-        <then>
-          <echo msg="${project_title} v${_releases_release_version}" file="${project.basedir}/.~build/.~commit.msg" />
-        </then>
-      </if>
-
-      <!-- Collect pre-release status for this release. -->
-
-      <if>
-        <and>
-          <equals arg1="${_releases_release_type}" arg2="rc" />
-        </and>
-        <then>
-          <property name="_releases_release_git_create_pre" value=" -p" />
-        </then>
-        <else>
-          <property name="_releases_release_git_create_pre" value="" />
-        </else>
-      </if>
-
-      <!-- Collect draft status for this release. -->
-
-      <if>
-        <or>
-          <and>
+          <exec command="git rev-parse --verify --quiet ${_releases_release_branch}" dir="${project.basedir}" returnProperty="_releases_release_branch_exists_locally_return_status" />
+          <exec command="git ls-remote --exit-code origin refs/heads/${_releases_release_branch}" dir="${project.basedir}" returnProperty="_releases_release_branch_exists_remotely_return_status" />
+          <if>
             <not>
-              <isset property="draft" />
+              <isFailure code="${_releases_release_branch_exists_locally_return_status}" />
             </not>
-            <isTrue value="${_is_pro_project}" />
-          </and>
+            <then>
+              <echo />
+
+              <echo msg="Branch ${_releases_release_branch} already exists locally." />
+              <echo msg="Moving you to existing local ${_releases_release_branch} branch." />
+              <exec command="git checkout ${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
+            </then>
+            <elseif>
+              <not>
+                <isFailure code="${_releases_release_branch_exists_remotely_return_status}" />
+              </not>
+              <then>
+                <echo />
+
+                <echo msg="Branch ${_releases_release_branch} already exists remotely." />
+                <echo msg="Creating a new ${_releases_release_branch} branch locally; based on existing remote origin." />
+                <exec command="git checkout -b ${_releases_release_branch} origin/${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
+              </then>
+            </elseif>
+            <else>
+              <echo />
+
+              <echo msg="Creating ${_releases_release_branch} branch; based on ${_starting_git_branch}." />
+              <exec command="git checkout -b ${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
+
+              <echo msg="Pushing ${_releases_release_branch} branch to remote origin." />
+              <exec command="git push --set-upstream origin ${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
+            </else>
+          </if>
+
+          <!-- Delete any existing .~build directory. This is now stale. -->
+
+          <echo />
+
+          <echo msg="Removing stale .~build directory; i.e., expecting a new build soon." />
+          <delete dir="${project.basedir}/.~build" includeEmptyDirs="true" quiet="true" />
+
+          <!-- Provide operator with some feedback about what just happened and what comes next. -->
+
+          <echo />
+
+          <echo msg="Nice! A new release is coming soon. Run `$ phing full-build-all` when ready." />
+        </then>
+
+        <!-- Actually doing a release (i.e., not just preparing). It's time to finish things up. -->
+        <!-- This is accomplished by running the command a second time on an existing release branch of the same type. -->
+
+        <elseif>
           <and>
-            <isset property="draft" />
-            <isTrue value="${draft}" />
+            <or>
+              <and>
+                <isTrue value="${_starting_git_branch_is_release}" />
+                <isTrue value="${_starting_git_branch_is_release_rc}" />
+                <isTrue value="${_releases_release_type_is_rc}" />
+              </and>
+              <and>
+                <isTrue value="${_starting_git_branch_is_release}" />
+                <isFalse value="${_starting_git_branch_is_release_rc}" />
+                <isFalse value="${_releases_release_type_is_rc}" />
+              </and>
+            </or>
           </and>
-        </or>
-        <then>
-          <property name="_releases_release_git_create_draft" value=" -d" />
-        </then>
+          <then>
+            <!-- Require an existing build. -->
+
+            <phingCall target="-validations-existing-build" />
+            <loadfile property="project_version" file="${project.basedir}/.~build/.properties/project-version" />
+
+            <!-- Here, ${project_version} represents the currently built version (including anything like an `-RC` suffix). -->
+            <!-- This is because ${project_version} is locked to the release branch version when a build occurs. -->
+            <!-- See: `setups/properties/config.xml` to learn more about how this works. -->
+
+            <!-- Determine release version (force existing build to match) and branch name. -->
+
+            <property name="_releases_release_version" value="${project_version}" />
+            <property name="_releases_release_branch" value="release/${_releases_release_version}" />
+
+            <if>
+              <!-- Quick sanity check. Make sure versions are an exact match. -->
+              <not>
+                <equals arg1="${_starting_git_release_branch_version}" arg2="${_releases_release_version}" />
+              </not>
+              <then>
+                <fail msg="Release/build version mismatch: ${_starting_git_release_branch_version}/${_releases_release_version}" />
+              </then>
+            </if>
+
+            <!-- Finishing this release; indicate as such. -->
+
+            <echo />
+
+            <echo msg="Finishing release: ${project_title} v${_releases_release_version}" />
+
+            <!-- Make sure the release branch has an upstream remote associated with it. -->
+
+            <exec command="git rev-parse --abbrev-ref '${_releases_release_branch}@{upstream}'" dir="${project.basedir}" returnProperty="_releases_release_git_release_branch_has_upstream_return_status" />
+            <if>
+              <and>
+                <isFailure code="${_releases_release_git_release_branch_has_upstream_return_status}" />
+              </and>
+              <then>
+                <fail msg="The ${_releases_release_branch} branch does not have an upstream tracking branch yet. Please run `git branch --set-upstream-to ...` and try again." />
+              </then>
+            </if>
+
+            <!-- Make sure the release branch is not behind the upstream remote by any number of commits. -->
+
+            <exec command="git log --oneline '${_releases_release_branch}..${_releases_release_branch}@{upstream}'" dir="${project.basedir}" outputProperty="_releases_release_git_release_branch_log_output" />
+            <if>
+              <not>
+                <equals arg1="${_releases_release_git_release_branch_log_output}" arg2="" trim="true" />
+              </not>
+              <then>
+                <fail msg="Your local copy of the ${_releases_release_branch} branch is behind in commits. Please merge with the remote and try again." />
+              </then>
+            </if>
+
+            <!-- If doing a full release, also make sure the master branch is not behind the upstream remote by any number of commits. -->
+            <if>
+              <and>
+                <isFalse value="${_releases_release_type_is_rc}" />
+              </and>
+              <then>
+                <exec command="git log --oneline 'master..master@{upstream}'" dir="${project.basedir}" outputProperty="_releases_release_git_release_master_branch_log_output" />
+                <if>
+                  <not>
+                    <equals arg1="${_releases_release_git_release_master_branch_log_output}" arg2="" trim="true" />
+                  </not>
+                  <then>
+                    <fail msg="Your local copy of the master branch is behind in commits. Please merge with the remote and try again." />
+                  </then>
+                </if>
+              </then>
+            </if>
+
+            <!-- Make sure the remote does not already have a tag for this version. Avoid overwriting an existing tag on the remote. -->
+
+            <exec command="git ls-remote --exit-code origin refs/tags/${_releases_release_version}" dir="${project.basedir}" returnProperty="_releases_release_git_release_tag_exists_on_remote_return_status" />
+            <if>
+              <not>
+                <isFailure code="${_releases_release_git_release_tag_exists_on_remote_return_status}" />
+              </not>
+              <then>
+                <fail msg="Release tag `${_releases_release_version}` already exists on the remote." />
+              </then>
+            </if>
+
+            <!-- Collect the changelog for this version, which is used as the release message.  -->
+
+            <echo />
+
+            <delete file="${project.basedir}/.~build/.~commit.msg" quiet="true" />
+
+            <echo msg="Generating new commit message based on CHANGELOG.md file contents if at all possible." />
+            <adHocExtractChangelogForVersion version="${_releases_release_version}" inFile="${project.basedir}/CHANGELOG.md" heading="${project_title} v${_releases_release_version}" outFile="${project.basedir}/.~build/.~commit.msg" />
+            <if>
+              <not>
+                <available resource="${project.basedir}/.~build/.~commit.msg" type="file" />
+              </not>
+              <then>
+                <echo msg="${project_title} v${_releases_release_version}" file="${project.basedir}/.~build/.~commit.msg" />
+              </then>
+            </if>
+
+            <!-- Collect pre-release status for this release. -->
+
+            <if>
+              <and>
+                <isTrue value="${_releases_release_type_is_rc}" />
+              </and>
+              <then>
+                <property name="_releases_release_git_create_pre" value=" -p" />
+              </then>
+              <else>
+                <property name="_releases_release_git_create_pre" value="" />
+              </else>
+            </if>
+
+            <!-- Collect draft status for this release. -->
+
+            <if>
+              <or>
+                <and>
+                  <not>
+                    <isset property="draft" />
+                  </not>
+                  <isTrue value="${_is_pro_project}" />
+                </and>
+                <and>
+                  <isset property="draft" />
+                  <isTrue value="${draft}" />
+                </and>
+              </or>
+              <then>
+                <property name="_releases_release_git_create_draft" value=" -d" />
+              </then>
+              <else>
+                <property name="_releases_release_git_create_draft" value="" />
+              </else>
+            </if>
+
+            <!-- Collect distros that we can append to the release. -->
+
+            <if>
+              <and>
+                <available resource="${project.basedir}/.~build/${project_slug}.phar" type="file" />
+              </and>
+              <then>
+                <property name="_releases_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_slug}.phar' -a '${project.basedir}/.~build/${project_slug}.zip' -a '${project.basedir}/.~build/${project_slug}.tar.gz'" />
+              </then>
+              <else>
+                <property name="_releases_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_slug}.zip' -a '${project.basedir}/.~build/${project_slug}.tar.gz'" />
+              </else>
+            </if>
+
+            <!-- RC: Create an annotated tag and push RC branch (including tags) to remote. Don't delete the release branch.  -->
+            <!-- Formal: Push release to remote, merge release into master, create an annotated tag, push master branch (including tags) to remote.  -->
+            <!-- Formal: Also back-merge master branch into dev branch (just in case) and then push any changes to remote origin. -->
+
+            <if>
+              <and>
+                <isTrue value="${_releases_release_type_is_rc}" />
+              </and>
+              <then>
+                <echo />
+
+                <echo msg="Creating annotated RC tag `${_releases_release_version}`; targeted at ${_releases_release_branch} branch." />
+                <!-- Still on the release branch at this point. No need to run `git checkout`. -->
+                <exec command="git tag --force --annotate ${_releases_release_version} --message='${project_title} v${_releases_release_version} via Phing.'" dir="${project.basedir}" checkReturn="true" />
+
+                <echo />
+
+                <echo msg="Pushing ${_releases_release_branch} branch (and tags) to remote origin." />
+                <!-- Still on the release branch at this point. No need to run `git checkout`. -->
+                <exec command="git push --tags origin ${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
+              </then>
+              <else>
+                <echo />
+
+                <echo msg="Pushing `${_releases_release_branch}` branch to remote origin." />
+                <!-- Still on the release branch at this point. No need to run `git checkout`. -->
+                <exec command="git push origin ${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
+
+                <echo />
+
+                <echo msg="Merging ${_releases_release_branch} into master branch." />
+                <exec command="git checkout master" dir="${project.basedir}" checkReturn="true" />
+                <exec command="git merge ${_releases_release_branch} -m 'Merging ${_releases_release_branch} into master via Phing.'" dir="${project.basedir}" checkReturn="true" />
+
+                <echo />
+
+                <echo msg="Creating annotated tag `${_releases_release_version}`; targeted at master branch." />
+                <!-- Still on the master branch at this point. No need to run `git checkout`. -->
+                <exec command="git tag --force --annotate ${_releases_release_version} --message='${project_title} v${_releases_release_version} via Phing.'" dir="${project.basedir}" checkReturn="true" />
+
+                <echo />
+
+                <echo msg="Pushing master branch (and tags) to remote origin." />
+                <!-- Still on the master branch at this point. No need to run `git checkout`. -->
+                <exec command="git push --tags origin master" dir="${project.basedir}" checkReturn="true" />
+
+                <echo />
+
+                <echo msg="Back-merging master branch into dev branch." />
+                <exec command="git checkout 000000-dev" dir="${project.basedir}" checkReturn="true" />
+                <exec command="git merge master -m 'Back-merging master into dev after release via Phing.'" dir="${project.basedir}" checkReturn="true" />
+
+                <echo />
+
+                <echo msg="Pushing dev branch to remote origin." />
+                <!-- Still on the dev branch at this point. No need to run `git checkout`. -->
+                <exec command="git push origin 000000-dev" dir="${project.basedir}" checkReturn="true" />
+              </else>
+            </if>
+
+            <!-- Create release notes/downloads using the `hub` tool provided by GitHub. -->
+            <!-- Also, collect and verify the existence of a release URL. Release URL is output by the `hub` tool. -->
+            <!-- Then, print the release URL for the operator; i.e., so the release can be reviewed in a browser. -->
+
+            <if>
+              <and>
+                <isTrue value="${_releases_release_type_is_rc}" />
+              </and>
+              <then>
+                <echo />
+
+                <echo msg="Creating GitHub release tagged: `${_releases_release_version}`; targeted at ${_releases_release_branch} branch." />
+                <exec command="git checkout ${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
+              </then>
+              <else>
+                <echo />
+
+                <echo msg="Creating GitHub release tagged: `${_releases_release_version}`; targeted at master branch." />
+                <exec command="git checkout master" dir="${project.basedir}" checkReturn="true" />
+              </else>
+            </if>
+
+            <property name="_releases_release_git_create_command" value="hub release create -f '${project.basedir}/.~build/.~commit.msg'${_releases_release_git_create_pre}${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${_releases_release_version}" />
+            <exec command="${_releases_release_git_create_command}" dir="${project.basedir}" checkReturn="true" outputProperty="_releases_release_git_create_output" />
+
+            <property name="_releases_release_git_create_release_url" value="${_releases_release_git_create_output}">
+              <filterChain>
+                <replaceRegExp>
+                  <regExp pattern=".*?(https?\:\/\/[^\s]+?\/releases\/[^\s]+).*" replace="$1" modifiers="uis" />
+                </replaceRegExp>
+              </filterChain>
+            </property>
+            <if>
+              <not>
+                <contains string="${_releases_release_git_create_release_url}" substring="/releases/" caseSensitive="false" />
+              </not>
+              <then>
+                <fail msg="Unable to acquire release URL for unknown reason." />
+              </then>
+              <else>
+                <echo msg="Release URL: &lt;${_releases_release_git_create_release_url}&gt;" level="warning" />
+              </else>
+            </if>
+
+            <!-- RC: Nothing to do here. An RC release branch should remain in case of any tweaks/additions being necessary. -->
+            <!-- Formal: Delete the release branch (done with it now). Delete locally and delete the remote too.  -->
+
+            <if>
+              <and>
+                <isFalse value="${_releases_release_type_is_rc}" />
+              </and>
+              <then>
+                <echo />
+
+                <echo msg="Deleting ${_releases_release_branch} branch from local repo &amp; remote origin." />
+                <exec command="git checkout 000000-dev" dir="${project.basedir}" checkReturn="true" />
+                <exec command="git branch --delete --force ${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
+                <exec command="git push origin --delete ${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
+              </then>
+            </if>
+
+            <!-- RC: Switch to the release branch now in case tweaks/additions are necessary. -->
+            <!-- Formal: Switch back to starting branch, unless that was the release branch, which no longer exists. -->
+
+            <if>
+              <and>
+                <isTrue value="${_releases_release_type_is_rc}" />
+              </and>
+              <then>
+                <exec command="git checkout ${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
+              </then>
+              <else>
+                <if>
+                  <and>
+                    <equals arg1="${_starting_git_branch}" arg2="${_releases_release_branch}" />
+                  </and>
+                  <then>
+                    <exec command="git checkout 000000-dev" dir="${project.basedir}" checkReturn="true" />
+                  </then>
+                  <else>
+                    <exec command="git checkout ${_starting_git_branch}" dir="${project.basedir}" checkReturn="true" />
+                  </else>
+                </if>
+              </else>
+            </if>
+
+            <!-- Possible lite variation release. -->
+
+            <phingCall target="-variations-lite-release" />
+
+          </then>
+        </elseif>
+
         <else>
-          <property name="_releases_release_git_create_draft" value="" />
+          <fail msg="Unexpected circumstance. Shouldn't be here. Please report this bug to a fellow WebShark™." />
         </else>
       </if>
-
-      <!-- Collect distros that we can append to the release. -->
-
-      <if>
-        <and>
-          <available resource="${project.basedir}/.~build/${project_slug}.phar" type="file" />
-        </and>
-        <then>
-          <property name="_releases_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_slug}.phar' -a '${project.basedir}/.~build/${project_slug}.zip' -a '${project.basedir}/.~build/${project_slug}.tar.gz'" />
-        </then>
-        <else>
-          <property name="_releases_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_slug}.zip' -a '${project.basedir}/.~build/${project_slug}.tar.gz'" />
-        </else>
-      </if>
-
-      <!-- We are currently on a clean release/ branch. Push this branch to the remote in case that hasn't been done yet. -->
-      <!-- In the case of a release/ branch being created automatically above, this may be the first time it is being pushed to the remote. -->
-
-      <echo />
-
-      <echo msg="Updating remote; i.e., pushing current `${_releases_release_git_branch}` branch." />
-
-      <exec command="git push origin ${_releases_release_git_branch}" dir="${project.basedir}" checkReturn="true" />
-
-      <!-- For an RC, simply create an annotated tag, and push RC branch (including tags) to remote.  -->
-      <!-- Else: switch to master branch, merge release/ into master, create an annotated tag, and push master branch (including tags) to remote.  -->
-
-      <if>
-        <and>
-          <equals arg1="${_releases_release_type}" arg2="rc" />
-        </and>
-        <then>
-          <echo />
-
-          <echo msg="Creating annotated RC tag `${_releases_release_version}`; targeted at ${_releases_release_git_branch} branch." />
-
-          <exec command="git tag --force --annotate ${_releases_release_version} --message='${project_title} v${_releases_release_version} via Phing.'" dir="${project.basedir}" checkReturn="true" />
-          <exec command="git push --tags origin ${_releases_release_git_branch}" dir="${project.basedir}" checkReturn="true" />
-
-        </then>
-        <else>
-          <echo />
-
-          <echo msg="Merging ${_releases_release_git_branch} into master and creating annotated tag `${_releases_release_version}`; targeted at master branch." />
-
-          <exec command="git checkout master" dir="${project.basedir}" checkReturn="true" />
-          <exec command="git merge ${_releases_release_git_branch} -m 'Merging ${_releases_release_git_branch} into master via Phing.'" dir="${project.basedir}" checkReturn="true" />
-          <exec command="git tag --force --annotate ${_releases_release_version} --message='${project_title} v${_releases_release_version} via Phing.'" dir="${project.basedir}" checkReturn="true" />
-          <exec command="git push --tags origin master" dir="${project.basedir}" checkReturn="true" />
-
-          <echo />
-
-          <echo msg="Merging master back into the dev branch now." />
-
-          <exec command="git checkout 000000-dev" dir="${project.basedir}" checkReturn="true" />
-          <exec command="git merge master -m 'Merging master back into dev after release via Phing.'" dir="${project.basedir}" checkReturn="true" />
-        </else>
-      </if>
-
-      <!-- Create a formal release using the `hub` tool provided by GitHub. In the case of a draft, no tag is generated by GitHub, but we created one anyway above. -->
-      <!-- Also, collect and verify the existence of a release URL. Release URL is output by the `hub` tool. -->
-      <!-- Then, print the release URL for the operator; i.e., so the release can be reviewed in a browser. -->
-
-      <echo />
-
-      <if>
-        <and>
-          <equals arg1="${_releases_release_type}" arg2="rc" />
-        </and>
-        <then>
-          <exec command="git checkout ${_releases_release_git_branch}" dir="${project.basedir}" checkReturn="true" />
-          <echo msg="Creating GitHub release tagged: `${_releases_release_version}`; targeted at ${_releases_release_git_branch} branch." />
-        </then>
-        <else>
-          <exec command="git checkout master" dir="${project.basedir}" checkReturn="true" />
-          <echo msg="Creating GitHub release tagged: `${_releases_release_version}`; targeted at master branch." />
-        </else>
-      </if>
-      <property name="_releases_release_git_create_command" value="hub release create -f '${project.basedir}/.~build/.~commit.msg'${_releases_release_git_create_pre}${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${_releases_release_version}" />
-      <exec command="${_releases_release_git_create_command}" dir="${project.basedir}" checkReturn="true" outputProperty="_releases_release_git_create_output" />
-
-      <property name="_releases_release_git_create_release_url" value="${_releases_release_git_create_output}">
-        <filterChain>
-          <replaceRegExp>
-            <regExp pattern=".*?(https?\:\/\/[^\s]+?\/releases\/[^\s]+).*" replace="$1" modifiers="uis" />
-          </replaceRegExp>
-        </filterChain>
-      </property>
-      <if>
-        <not>
-          <contains string="${_releases_release_git_create_release_url}" substring="/releases/" caseSensitive="false" />
-        </not>
-        <then>
-          <fail msg="Unable to acquire release URL for unknown reason." />
-        </then>
-        <else>
-          <echo msg="Release URL: &lt;${_releases_release_git_create_release_url}&gt;" level="warning" />
-        </else>
-      </if>
-
-      <!-- Switch back to the original starting branch. Note: We don't delete the release/ branch. -->
-
-      <exec command="git checkout ${_releases_release_git_starting_branch}" dir="${project.basedir}" checkReturn="true" />
 
     </target>
 

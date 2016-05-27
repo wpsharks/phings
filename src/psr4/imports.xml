@@ -106,6 +106,12 @@
     <import file="${phing.dir.targets}/targets/codex/apigen.xml" />
 
     <!-- ============================================  -->
+    <!-- Feature-related targets. -->
+    <!-- ============================================  -->
+
+    <import file="${phing.dir.targets}/targets/features/feature.xml" />
+
+    <!-- ============================================  -->
     <!-- Release-related targets. -->
     <!-- ============================================  -->
 

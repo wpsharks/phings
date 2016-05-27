@@ -13,7 +13,7 @@
       <then>
         <!-- Maximize backtrack limit. -->
 
-        <php expression="ini_set('pcre.backtrack_limit', (string) PHP_INT_MAX);" />
+        <php expression="ini_set('pcre.backtrack_limit', (string) PHP_INT_MAX);" level="verbose" />
 
         <!-- Flag complete. -->
 
