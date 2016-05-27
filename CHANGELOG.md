@@ -1,3 +1,11 @@
+## 160527
+
+- Renamed `$ phing rc-release` to `$ phing release-rc`.
+
+- Enhanced `$ phing release` (and related) functionality. See updated Wiki article: https://github.com/websharks/phings/wiki/GitHub-Releases and these checked-off implementations suggested by @raamdev. https://github.com/websharks/phings/issues/101
+
+- Added support for feature branch start/finish actions following the WS Hubflow model; i.e., I ported by custom bash scripts into Phing and documented them there. See: https://github.com/websharks/phings/wiki/GitHub-Features
+
 ## 160526
 
 - [x] Adding support for `project_required_os` in https://github.com/websharks/phings/issues/98
