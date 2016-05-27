@@ -311,6 +311,193 @@
           </then>
         </if>
 
+        <!-- Properties related to current git repo. -->
+
+        <exec command="git rev-parse --is-inside-work-tree" dir="${project.basedir}" returnProperty="_in_git_repo" />
+        <if>
+          <not>
+            <isFailure code="${_in_git_repo}" />
+          </not>
+          <then>
+            <property name="_in_git_repo" value="true" override="true" />
+
+            <exec command="git remote -v 2>/dev/null | grep --extended-regexp --ignore-case '^origin\s.+?github\.com'" dir="${project.basedir}" returnProperty="_in_github_repo" />
+            <if>
+              <not>
+                <isFailure code="${_in_github_repo}" />
+              </not>
+              <then>
+                <property name="_in_github_repo" value="true" override="true" />
+              </then>
+              <else>
+                <property name="_in_github_repo" value="false" override="true" />
+              </else>
+            </if>
+
+            <exec command="git status --short" dir="${project.basedir}" outputProperty="_in_clean_git_repo" />
+            <if>
+              <and>
+                <equals arg1="${_in_clean_git_repo}" arg2="" trim="true" />
+              </and>
+              <then>
+                <property name="_in_clean_git_repo" value="true" override="true" />
+              </then>
+              <else>
+                <property name="_in_clean_git_repo" value="false" override="true" />
+              </else>
+            </if>
+
+            <exec command="git symbolic-ref --short --quiet HEAD" dir="${project.basedir}" outputProperty="_starting_git_branch" />
+            <if>
+              <and>
+                <equals arg1="${_starting_git_branch}" arg2="" trim="true" />
+              </and>
+              <then>
+                <property name="_starting_git_branch" value="" override="true" />
+              </then>
+            </if>
+
+            <if>
+              <and>
+                <equals arg1="${_starting_git_branch}" arg2="000000-dev" />
+              </and>
+              <then>
+                <property name="_starting_git_branch_is_dev" value="true" />
+              </then>
+              <else>
+                <property name="_starting_git_branch_is_dev" value="false" />
+              </else>
+            </if>
+
+            <if>
+              <and>
+                <contains string="^${_starting_git_branch}" substring="^feature/" />
+              </and>
+              <then>
+                <property name="_starting_git_branch_is_feature" value="true" />
+                <property name="_starting_git_feature_branch_issue" value="${_starting_git_branch}">
+                  <filterChain>
+                    <replaceRegExp>
+                      <regExp pattern="^feature\/(.*)$" replace="$1" modifiers="ui" />
+                    </replaceRegExp>
+                  </filterChain>
+                </property>
+              </then>
+              <else>
+                <property name="_starting_git_branch_is_feature" value="false" />
+                <property name="_starting_git_feature_branch_issue" value="" />
+              </else>
+            </if>
+
+            <if>
+              <and>
+                <contains string="^${_starting_git_branch}" substring="^release/" />
+              </and>
+              <then>
+                <property name="_starting_git_branch_is_release" value="true" />
+                <property name="_starting_git_release_branch_version" value="${_starting_git_branch}">
+                  <filterChain>
+                    <replaceRegExp>
+                      <regExp pattern="^release\/(.*)$" replace="$1" modifiers="ui" />
+                    </replaceRegExp>
+                  </filterChain>
+                </property>
+                <if>
+                  <and>
+                    <contains string="${_starting_git_branch}$" substring="-RC$" caseSensitive="false" />
+                  </and>
+                  <then>
+                    <property name="_starting_git_branch_is_release_rc" value="true" />
+                  </then>
+                  <else>
+                    <property name="_starting_git_branch_is_release_rc" value="false" />
+                  </else>
+                </if>
+              </then>
+              <else>
+                <property name="_starting_git_branch_is_release" value="false" />
+                <property name="_starting_git_branch_is_release_rc" value="false" />
+                <property name="_starting_git_release_branch_version" value="" />
+              </else>
+            </if>
+
+            <exec command="git rev-parse --verify --quiet 000000-dev" dir="${project.basedir}" returnProperty="_git_dev_branch_exists" />
+            <if>
+              <not>
+                <isFailure code="${_git_dev_branch_exists}" />
+              </not>
+              <then>
+                <property name="_git_dev_branch_exists" value="true" override="true" />
+
+                <exec command="git rev-parse --abbrev-ref 000000-dev'@{upstream}'" dir="${project.basedir}" returnProperty="_git_dev_branch_has_upstream" />
+                <if>
+                  <not>
+                    <isFailure code="${_git_dev_branch_has_upstream}" />
+                  </not>
+                  <then>
+                    <property name="_git_dev_branch_has_upstream" value="true" override="true" />
+                  </then>
+                  <else>
+                    <property name="_git_dev_branch_has_upstream" value="false" override="true" />
+                  </else>
+                </if>
+              </then>
+              <else>
+                <property name="_git_dev_branch_exists" value="false" override="true" />
+                <property name="_git_dev_branch_has_upstream" value="false" />
+              </else>
+            </if>
+
+            <exec command="git rev-parse --verify --quiet master" dir="${project.basedir}" returnProperty="_git_master_branch_exists" />
+            <if>
+              <not>
+                <isFailure code="${_git_master_branch_exists}" />
+              </not>
+              <then>
+                <property name="_git_master_branch_exists" value="true" override="true" />
+
+                <exec command="git rev-parse --abbrev-ref master'@{upstream}'" dir="${project.basedir}" returnProperty="_git_master_branch_has_upstream" />
+                <if>
+                  <not>
+                    <isFailure code="${_git_master_branch_has_upstream}" />
+                  </not>
+                  <then>
+                    <property name="_git_master_branch_has_upstream" value="true" override="true" />
+                  </then>
+                  <else>
+                    <property name="_git_master_branch_has_upstream" value="false" override="true" />
+                  </else>
+                </if>
+              </then>
+              <else>
+                <property name="_git_master_branch_exists" value="false" override="true" />
+                <property name="_git_master_branch_has_upstream" value="false" />
+              </else>
+            </if>
+          </then>
+          <else>
+            <property name="_in_git_repo" value="false" override="true" />
+            <property name="_in_github_repo" value="false" />
+            <property name="_in_clean_git_repo" value="false" />
+
+            <property name="_starting_git_branch" value="" />
+            <property name="_starting_git_branch_is_dev" value="false" />
+
+            <property name="_starting_git_branch_is_feature" value="false" />
+            <property name="_starting_git_feature_branch_issue" value="" />
+
+            <property name="_starting_git_branch_is_release" value="false" />
+            <property name="_starting_git_branch_is_release_rc" value="false" />
+            <property name="_starting_git_release_branch_version" value="" />
+
+            <property name="_git_dev_branch_exists" value="false" />
+            <property name="_git_dev_branch_has_upstream" value="false" />
+
+            <property name="_git_master_branch_exists" value="false" />
+            <property name="_git_master_branch_has_upstream" value="false" />
+          </else>
+        </if>
+
         <!-- Properties derived from other properties. -->
 
         <if>
@@ -318,25 +505,35 @@
             <isset property="project_slug" />
           </and>
           <then>
-            <php expression="preg_replace('/\-(?:lite|pro)$/ui', '', '${project_slug}')" returnProperty="_project_text_domain" />
+            <php expression="preg_replace('/\-(?:lite|pro)$/ui', '', '${project_slug}')" returnProperty="_project_text_domain" level="verbose" />
           </then>
           <else>
             <property name="_project_text_domain" value="" />
           </else>
         </if>
 
-        <php expression="&quot;'&quot;.implode(&quot;', '&quot;, preg_split('/[\s,]+/u', '${project_php_required_extensions}', -1, PREG_SPLIT_NO_EMPTY)).&quot;'&quot;" returnProperty="_php_required_extensions" />
-        <php expression="&quot;${_php_required_extensions}&quot; === &quot;''&quot; ? '' : &quot;${_php_required_extensions}&quot;" returnProperty="_php_required_extensions" />
+        <php expression="&quot;'&quot;.implode(&quot;', '&quot;, preg_split('/[\s,]+/u', '${project_php_required_extensions}', -1, PREG_SPLIT_NO_EMPTY)).&quot;'&quot;" returnProperty="_php_required_extensions" level="verbose" />
+        <php expression="&quot;${_php_required_extensions}&quot; === &quot;''&quot; ? '' : &quot;${_php_required_extensions}&quot;" returnProperty="_php_required_extensions" level="verbose" />
 
-        <!-- Property replacement codes. -->
+        <!-- The current project version string. -->
+        <!-- When on a release branch, the version is forced to match. -->
 
         <if>
           <and>
             <isset property="project_version" />
           </and>
           <then>
-            <php expression="str_replace('%y%m%d', date('ymd'), '${project_version}')" returnProperty="project_version" />
-            <php expression="str_replace('%now', time() % 86400, '${project_version}')" returnProperty="project_version" />
+            <php expression="str_replace('%y%m%d', date('ymd'), '${project_version}')" returnProperty="project_version" level="verbose" />
+            <php expression="str_replace('%now', time() % 86400, '${project_version}')" returnProperty="project_version" level="verbose" />
+
+            <if>
+              <and>
+                <isTrue value="${_starting_git_branch_is_release}" />
+              </and>
+              <then>
+                <property name="project_version" value="${_starting_git_release_branch_version}" override="true" />
+              </then>
+            </if>
           </then>
         </if>
 

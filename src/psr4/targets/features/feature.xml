@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Create a GitHub feature branch & PR.  -->
+    <!-- ============================================  -->
+
+    <target name="-features-feature" hidden="true">
+
+      <!-- Make sure we are in a git repo. -->
+
+      <if>
+        <and>
+          <isFalse value="${_in_git_repo}" />
+        </and>
+        <then>
+          <fail msg="Not in a git repo. Run `$ git init` and try again." />
+        </then>
+      </if>
+
+      <!-- Make sure the repo has a github.com origin.  -->
+
+      <if>
+        <and>
+          <isFalse value="${_in_github_repo}" />
+        </and>
+        <then>
+          <fail msg="Repo does not have a github.com remote origin." />
+        </then>
+      </if>
+
+      <!-- Make sure the repo is clean. -->
+
+      <if>
+        <and>
+          <isFalse value="${_in_clean_git_repo}" />
+        </and>
+        <then>
+          <fail msg="Repo is dirty. Please commit and push changes, then try again." />
+        </then>
+      </if>
+
+      <!-- Make sure the repo has both a dev and master branch.  -->
+
+      <if>
+        <or>
+          <isFalse value="${_git_dev_branch_exists}" />
+          <isFalse value="${_git_master_branch_exists}" />
+        </or>
+        <then>
+          <fail msg="Current repo is missing a dev and/or master branch. Both are required for our Git workflow please." />
+        </then>
+      </if>
+
+      <!-- Make sure the dev and master branches have an upstream. -->
+
+      <if>
+        <or>
+          <isFalse value="${_git_dev_branch_has_upstream}" />
+          <isFalse value="${_git_master_branch_has_upstream}" />
+        </or>
+        <then>
+          <fail msg="The dev and/or master branches do not have an upstream tracking branch yet. Please run `git branch --set-upstream-to ...` and try again." />
+        </then>
+      </if>
+
+      <!-- Make sure we are on the dev branch or a feature branch. -->
+      <!-- Starting from the dev branch is only allowed when starting. -->
+      <!-- Starting from a feature branch is only allowed when finishing. -->
+
+      <if>
+        <or>
+          <and>
+            <not>
+              <isset property="action" />
+            </not>
+            <isTrue value="${_starting_git_branch_is_dev}" />
+          </and>
+          <and>
+            <isset property="action" />
+            <equals arg1="${action}" arg2="start" />
+            <isTrue value="${_starting_git_branch_is_dev}" />
+          </and>
+          <and>
+            <isset property="action" />
+            <equals arg1="${action}" arg2="finish" />
+            <isTrue value="${_starting_git_branch_is_feature}" />
+          </and>
+        </or>
+        <then>
+          <!-- Nothing here at this time. It's a positive match. -->
+        </then>
+        <else>
+          <fail msg="Invalid request. Must start from the dev branch when beginning a new feature, and from an existing feature branch when finishing." />
+        </else>
+      </if>
+
+      <!-- Ask for the issue number associated w/ feature. -->
+      <!-- If set via `-D issue=123` at the command line, this prompt is not shown. -->
+      <!-- If the starting branch is a feature/ branch, use the issue number from that branch and skip this. -->
+
+      <if>
+        <and>
+          <isTrue value="${_starting_git_branch_is_feature}" />
+        </and>
+        <then>
+          <property name="_features_feature_issue_number" value="${_starting_git_feature_branch_issue}" />
+        </then>
+        <else>
+          <propertyPrompt propertyName="issue" defaultValue="e.g., 123" promptCharacter="" useExistingValue="true" promptText="Issue #" />
+
+          <property name="_features_feature_issue_number" value="${issue}">
+            <filterChain>
+              <replaceRegExp>
+                <regExp pattern="[^0-9]+" replace="" modifiers="u" />
+              </replaceRegExp>
+            </filterChain>
+          </property>
+
+          <if>
+            <or>
+              <equals arg1="${issue}" arg2="e.g., 123" />
+              <equals arg1="${_features_feature_issue_number}" arg2="0" />
+              <equals arg1="${_features_feature_issue_number}" arg2="" />
+            </or>
+            <then>
+              <fail msg="Missing numeric issue number. Please try again." />
+            </then>
+          </if>
+        </else>
+      </if>
+
+      <!-- Define the name of the new feature branch, along with GitHub references. -->
+
+      <property name="_features_feature_branch" value="feature/${_features_feature_issue_number}" />
+      <property name="_features_feature_issue_url" value="https://github.com/${project_owner}/${project_slug}/issues/${_features_feature_issue_number}" />
+      <property name="_features_feature_issue_ref" value="${project_owner}/${project_slug}#${_features_feature_issue_number}" />
+      <property name="_features_feature_pr_title_body" value="PR: ${_features_feature_branch}${line.separator}${line.separator}See: ${_features_feature_issue_ref}" />
+
+      <!-- Make sure we have the latest copy of all remote branches. -->
+
+      <echo msg="Fetcing latest copy of all branches from remote origin." />
+      <exec command="git fetch origin" dir="${project.basedir}" checkReturn="true" />
+
+      <!-- If starting from a feature branch, finish the feature instead of starting a new one. -->
+      <!-- Otherwise, interpret as the desire to start a new feature branch based on the dev branch. -->
+
+      <if>
+        <and>
+          <isTrue value="${_starting_git_branch_is_feature}" />
+        </and>
+        <then>
+          <exec command="git ls-remote --exit-code origin refs/heads/${_features_feature_branch}" dir="${project.basedir}" returnProperty="_features_feature_branch_exists_remotely_return_status" />
+          <if>
+            <not>
+              <isFailure code="${_features_feature_branch_exists_remotely_return_status}" />
+            </not>
+            <then>
+              <fail msg="The ${_features_feature_branch} branch still exists at remote origin. It must be merged &amp; deleted by the project lead first." />
+            </then>
+          </if>
+
+          <echo />
+
+          <echo msg="Moving back to dev branch &amp; merging latest remote changes." />
+          <exec command="git checkout 000000-dev" dir="${project.basedir}" checkReturn="true" />
+          <exec command="git pull origin 000000-dev" dir="${project.basedir}" checkReturn="true" />
+
+          <echo />
+
+          <echo msg="Deleting local ${_features_feature_branch} branch." />
+          <exec command="git branch --delete ${_features_feature_branch}" dir="${project.basedir}" checkReturn="true" />
+        </then>
+
+        <else>
+          <!-- If feature branch already exists, move to that branch. Else, create a new feature branch and push to remote origin. -->
+          <!-- Branch may already exist locally or remotely. In either case, avoid creating a duplicate feature branch here. -->
+
+          <exec command="git rev-parse --verify --quiet ${_features_feature_branch}" dir="${project.basedir}" returnProperty="_features_feature_branch_exists_locally_return_status" />
+          <exec command="git ls-remote --exit-code origin refs/heads/${_features_feature_branch}" dir="${project.basedir}" returnProperty="_features_feature_branch_exists_remotely_return_status" />
+          <if>
+            <not>
+              <isFailure code="${_features_feature_branch_exists_locally_return_status}" />
+            </not>
+            <then>
+              <echo />
+
+              <echo msg="Branch ${_features_feature_branch} already exists locally." />
+              <echo msg="Moving you to existing local ${_features_feature_branch} branch." />
+              <exec command="git checkout ${_features_feature_branch}" dir="${project.basedir}" checkReturn="true" />
+            </then>
+            <elseif>
+              <not>
+                <isFailure code="${_features_feature_branch_exists_remotely_return_status}" />
+              </not>
+              <then>
+                <echo />
+
+                <echo msg="Branch ${_features_feature_branch} already exists remotely." />
+                <echo msg="Creating a new ${_features_feature_branch} branch locally; based on existing remote origin." />
+                <exec command="git checkout -b ${_features_feature_branch} origin/${_features_feature_branch}" dir="${project.basedir}" checkReturn="true" />
+              </then>
+            </elseif>
+            <else>
+              <echo />
+
+              <echo msg="Creating ${_features_feature_branch} branch; based on dev branch." />
+              <exec command="git checkout -b ${_features_feature_branch}" dir="${project.basedir}" checkReturn="true" />
+
+              <if>
+                <and>
+                  <isset property="pr" />
+                  <isFalse value="${pr}" />
+                </and>
+                <then>
+                  <echo />
+
+                  <echo msg="Pushing ${_features_feature_branch} branch to remote origin." />
+                  <exec command="git push --set-upstream origin ${_features_feature_branch}" dir="${project.basedir}" checkReturn="true" />
+
+                  <echo />
+
+                  <echo msg="Nice! A new feature is coming soon. Make some commits and push your changes." />
+                  <echo msg="~ Open a PR at GitHub when you're done." />
+                </then>
+                <else>
+                  <echo />
+
+                  <echo msg="Updating `.gitchange` in this branch so that a PR is possible." />
+                  <php expression="time()" returnProperty="_features_feature_timestamp" level="verbose" />
+                  <echo msg="${_features_feature_timestamp}" file="${project.basedir}/.gitchange" append="true" />
+
+                  <echo />
+
+                  <echo msg="Pushing ${_features_feature_branch} branch to remote origin." />
+                  <exec command="git add --all" dir="${project.basedir}" checkReturn="true" />
+                  <exec command="git commit --message='Preparing pull request. See: ${_features_feature_issue_ref}' --no-edit" dir="${project.basedir}" checkReturn="true" />
+                  <exec command="git push --set-upstream origin ${_features_feature_branch}" dir="${project.basedir}" checkReturn="true" />
+
+                  <echo />
+
+                  <echo msg="Opening a pull request at GitHub for future commits." />
+                  <exec command="hub pull-request -m '${_features_feature_pr_title_body}' -h ${_features_feature_branch} -b 000000-dev" dir="${project.basedir}" checkReturn="true" />
+
+                  <echo />
+
+                  <echo msg="Nice! A new feature is coming soon. Make some commits and push your changes." />
+                  <echo msg="~ Ask for a review in the PR at GitHub when you're done." />
+                </else>
+              </if>
+            </else>
+          </if>
+
+        </else>
+      </if>
+
+    </target>
+
+  </project>

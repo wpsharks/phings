@@ -132,20 +132,42 @@
     </target>
 
     <!-- ============================================  -->
-    <!-- Release procedure targets. -->
-    <!-- For project leads doing a release. -->
-    <!-- Run with `$ phing [rc-]release`. -->
+    <!-- Feature branch targets. -->
+    <!-- For all project contributors. -->
+    <!-- Run with `$ phing feature`. -->
     <!-- ============================================  -->
 
-    <target name="release" depends="-validations-existing-build">
-      <echo msg="Running target: release" />
-      <phingCall target="-releases-release" />
-      <phingCall target="-variations-lite-release" />
+    <target name="feature">
+      <echo msg="Running target: feature" />
+      <phingCall target="-features-feature" />
     </target>
 
-    <target name="rc-release">
-      <echo msg="Running target: rc-release" />
-      <property name="type" value="rc" />
+    <target name="feature-start">
+      <echo msg="Running target: feature-start" />
+      <property name="action" value="start" override="true" />
+      <phingCall target="-features-feature" />
+    </target>
+
+    <target name="feature-finish">
+      <echo msg="Running target: feature-finish" />
+      <property name="action" value="finish" override="true" />
+      <phingCall target="-features-feature" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Release procedure targets. -->
+    <!-- For project leads doing a release. -->
+    <!-- Run with `$ phing release[-rc]`. -->
+    <!-- ============================================  -->
+
+    <target name="release">
+      <echo msg="Running target: release" />
+      <phingCall target="-releases-release" />
+    </target>
+
+    <target name="release-rc">
+      <echo msg="Running target: release-rc" />
+      <property name="type" value="rc" override="true" />
       <phingCall target="release" />
     </target>
 
