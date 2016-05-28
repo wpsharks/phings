@@ -16,6 +16,8 @@
 
   To avoid this issue, the `<adHocUserSpecificGitChange>` task will intelligenty identify the current developer and build a unique string based on several environment variables concatenated together and hashed via `sha1()`. In this way, whenever the `.gitchange` file is altered, it is altering a specific line that identfies the current developer, followed by a `uniqid()` instead of a timestamp. So the effect is still the same, but now the change occurs always on a line that is unique to the user running `$ phing feature`, which avoids the multi-user issue and eliminates the potential for merge conflicts as a result of using this tool.
 
+- Enhancing `$ phing feature-start` by having it pull the latest dev branch automatically whenever a new feature branch is created. I was doing this myself, but now that I'm exposing this tool to others it should be more bulletproof. Whenever a new feature branch is started it should always start from the latest remote dev branch. Fixed in this release.
+
 - Enhanced this article. See: <https://github.com/websharks/phings/wiki/GitHub-Releases>
 
 - Enhanced this article. See: <https://github.com/websharks/phings/wiki/GitHub-Features>

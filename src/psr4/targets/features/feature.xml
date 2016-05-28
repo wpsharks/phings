@@ -205,7 +205,12 @@
             <else>
               <echo />
 
-              <echo msg="Creating ${_features_feature_branch} branch; based on dev branch." />
+              <echo msg="Pulling latest remote dev branch; i.e., starting from an up-to-date copy." />
+              <exec command="git pull origin 000000-dev" dir="${project.basedir}" checkReturn="true" />
+
+              <echo />
+
+              <echo msg="Creating ${_features_feature_branch} branch; based on latest dev branch." />
               <exec command="git checkout -b ${_features_feature_branch}" dir="${project.basedir}" checkReturn="true" />
 
               <if>
