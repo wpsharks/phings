@@ -136,9 +136,9 @@
             <else>
               <echo />
 
-              <echo msg="Merging dev branch into master branch (simple lite release strategy)." />
+              <echo msg="Merging dev into master with --strategy-option=theirs (simple strategy, favoring dev)." />
               <exec command="git checkout master" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
-              <exec command="git merge 000000-dev -m 'Merging 000000-dev into master via Phing.'" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
+              <exec command="git merge 000000-dev --strategy=recursive --strategy-option=theirs -m 'Merging 000000-dev into master via Phing.'" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
 
               <echo />
 
@@ -151,6 +151,18 @@
               <echo msg="Pushing master branch (and tags) to remote origin." />
               <!-- Still on the master branch at this point. No need to run `git checkout`. -->
               <exec command="git push --tags origin master" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
+
+              <echo />
+
+              <echo msg="Back-merging master branch into dev branch with --strategy-option=ours (simple strategy, favoring dev)." />
+              <exec command="git checkout 000000-dev" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
+              <exec command="git merge master --strategy=recursive --strategy-option=ours -m 'Back-merging master into dev after release via Phing.'" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
+
+              <echo />
+
+              <echo msg="Pushing dev branch to remote origin." />
+              <!-- Still on the dev branch at this point. No need to run `git checkout`. -->
+              <exec command="git push origin 000000-dev" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
             </else>
           </if>
 
