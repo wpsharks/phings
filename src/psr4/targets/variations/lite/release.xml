@@ -51,7 +51,7 @@
               <isFailure code="${_variations_lite_release_tag_exists_on_remote_return_status}" />
             </not>
             <then>
-              <fail msg="Release tag `${_variations_lite_release_version}` already exists on the remote." />
+              <fail msg="Release tag ${_variations_lite_release_version} already exists on the remote." />
             </then>
           </if>
 
@@ -123,7 +123,7 @@
             <then>
               <echo />
 
-              <echo msg="Creating annotated tag `${_variations_lite_release_version}`; targeted at dev branch." />
+              <echo msg="Creating annotated tag ${_variations_lite_release_version}; targeted at dev branch." />
               <exec command="git checkout 000000-dev" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
               <exec command="git tag --annotate ${_variations_lite_release_version} --message='${project_lite_title} v${_variations_lite_release_version} via Phing.'" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
 
@@ -142,7 +142,7 @@
 
               <echo />
 
-              <echo msg="Creating annotated tag `${_variations_lite_release_version}`; targeted at master branch." />
+              <echo msg="Creating annotated tag ${_variations_lite_release_version}; targeted at master branch." />
               <!-- Still on the master branch at this point. No need to run `git checkout`. -->
               <exec command="git tag --annotate ${_variations_lite_release_version} --message='${project_lite_title} v${_variations_lite_release_version} via Phing.'" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
 
@@ -165,13 +165,13 @@
             <then>
               <echo />
 
-              <echo msg="Creating GitHub release tagged: `${_variations_lite_release_version}`; targeted at dev branch." />
+              <echo msg="Creating GitHub release tagged: ${_variations_lite_release_version}; targeted at dev branch." />
               <exec command="git checkout 000000-dev" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
             </then>
             <else>
               <echo />
 
-              <echo msg="Creating GitHub release tagged: `${_variations_lite_release_version}`; targeted at master branch." />
+              <echo msg="Creating GitHub release tagged: ${_variations_lite_release_version}; targeted at master branch." />
               <exec command="git checkout master" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
             </else>
           </if>

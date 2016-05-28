@@ -327,7 +327,7 @@
                 <isFailure code="${_releases_release_git_release_tag_exists_on_remote_return_status}" />
               </not>
               <then>
-                <fail msg="Release tag `${_releases_release_version}` already exists on the remote." />
+                <fail msg="Release tag ${_releases_release_version} already exists on the remote." />
               </then>
             </if>
 
@@ -410,7 +410,7 @@
               <then>
                 <echo />
 
-                <echo msg="Creating annotated RC tag `${_releases_release_version}`; targeted at ${_releases_release_branch} branch." />
+                <echo msg="Creating annotated RC tag ${_releases_release_version}; targeted at ${_releases_release_branch} branch." />
                 <!-- Still on the release branch at this point. No need to run `git checkout`. -->
                 <exec command="git tag --force --annotate ${_releases_release_version} --message='${project_title} v${_releases_release_version} via Phing.'" dir="${project.basedir}" checkReturn="true" />
 
@@ -423,7 +423,7 @@
               <else>
                 <echo />
 
-                <echo msg="Pushing `${_releases_release_branch}` branch to remote origin." />
+                <echo msg="Pushing ${_releases_release_branch} branch to remote origin." />
                 <!-- Still on the release branch at this point. No need to run `git checkout`. -->
                 <exec command="git push origin ${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
 
@@ -435,7 +435,7 @@
 
                 <echo />
 
-                <echo msg="Creating annotated tag `${_releases_release_version}`; targeted at master branch." />
+                <echo msg="Creating annotated tag ${_releases_release_version}; targeted at master branch." />
                 <!-- Still on the master branch at this point. No need to run `git checkout`. -->
                 <exec command="git tag --force --annotate ${_releases_release_version} --message='${project_title} v${_releases_release_version} via Phing.'" dir="${project.basedir}" checkReturn="true" />
 
@@ -470,13 +470,13 @@
               <then>
                 <echo />
 
-                <echo msg="Creating GitHub release tagged: `${_releases_release_version}`; targeted at ${_releases_release_branch} branch." />
+                <echo msg="Creating GitHub release tagged: ${_releases_release_version}; targeted at ${_releases_release_branch} branch." />
                 <exec command="git checkout ${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
               </then>
               <else>
                 <echo />
 
-                <echo msg="Creating GitHub release tagged: `${_releases_release_version}`; targeted at master branch." />
+                <echo msg="Creating GitHub release tagged: ${_releases_release_version}; targeted at master branch." />
                 <exec command="git checkout master" dir="${project.basedir}" checkReturn="true" />
               </else>
             </if>
