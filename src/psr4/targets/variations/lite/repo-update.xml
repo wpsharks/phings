@@ -53,20 +53,20 @@
 
           <echo msg="Forcing the existence of both a dev and master branch." />
 
-          <exec command="git rev-parse --verify --quiet 000000-dev" dir="${_variations_lite_repo_update_dir}" returnProperty="_variations_lite_repo_update_git_dev_branch_exists" />
-          <exec command="git ls-remote --exit-code origin refs/heads/000000-dev" dir="${_variations_lite_repo_update_dir}" returnProperty="_variations_lite_repo_update_git_remote_dev_branch_exists" />
+          <exec command="git rev-parse --verify --quiet 000000-dev" dir="${_variations_lite_repo_update_dir}" returnProperty="_variations_lite_repo_update_git_dev_branch_exists_return_status" />
+          <exec command="git ls-remote --exit-code origin refs/heads/000000-dev" dir="${_variations_lite_repo_update_dir}" returnProperty="_variations_lite_repo_update_git_remote_dev_branch_exists_return_status" />
 
-          <exec command="git rev-parse --verify --quiet master" dir="${_variations_lite_repo_update_dir}" returnProperty="_variations_lite_repo_update_git_master_branch_exists" />
-          <exec command="git ls-remote --exit-code origin refs/heads/master" dir="${_variations_lite_repo_update_dir}" returnProperty="_variations_lite_repo_update_git_remote_master_branch_exists" />
+          <exec command="git rev-parse --verify --quiet master" dir="${_variations_lite_repo_update_dir}" returnProperty="_variations_lite_repo_update_git_master_branch_exists_return_status" />
+          <exec command="git ls-remote --exit-code origin refs/heads/master" dir="${_variations_lite_repo_update_dir}" returnProperty="_variations_lite_repo_update_git_remote_master_branch_exists_return_status" />
           <if>
-            <not>
-              <equals arg1="${_variations_lite_repo_update_git_dev_branch_exists}" arg2="0" />
-            </not>
+            <and>
+              <isFailure code="${_variations_lite_repo_update_git_dev_branch_exists_return_status}" />
+            </and>
             <then>
               <if>
-                <and>
-                  <equals arg1="${_variations_lite_repo_update_git_remote_dev_branch_exists}" arg2="0" />
-                </and>
+                <not>
+                  <isFailure code="${_variations_lite_repo_update_git_remote_dev_branch_exists_return_status}" />
+                </not>
                 <then>
                   <exec command="git checkout -b 000000-dev origin/000000-dev" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
                 </then>
@@ -78,14 +78,14 @@
             </then>
           </if>
           <if>
-            <not>
-              <equals arg1="${_variations_lite_repo_update_git_master_branch_exists}" arg2="0" />
-            </not>
+            <and>
+              <isFailure code="${_variations_lite_repo_update_git_master_branch_exists_return_status}" />
+            </and>
             <then>
               <if>
-                <and>
-                  <equals arg1="${_variations_lite_repo_update_git_remote_master_branch_exists}" arg2="0" />
-                </and>
+                <not>
+                  <isFailure code="${_variations_lite_repo_update_git_remote_master_branch_exists_return_status}" />
+                </not>
                 <then>
                   <exec command="git checkout -b master origin/master" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
                 </then>
