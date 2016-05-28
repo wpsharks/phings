@@ -1,3 +1,25 @@
+## 160528
+
+- Enhanced `$ phing release` validation when finishing. Always check to be sure the dev branch is up-to-date before finishing, in the same way we check the master branch. This slid by because originally I was not back-merging master into dev, so it didn't matter quite so much. This has been fixed in v160528, making `$ phing release` more bulletproof.
+
+- Removing unnecessary/overlapping git changes that impacted the master branch in target `-variations-lite-repo-update`. That target is a `-variations-lite-release` dependency and it's only job is to update the dev branch to the latest build. Not to make any changes to the master branch. Changes to the master branch should only occur during a formal release, and only in the `-variations-lite-release` target. Fixed in this release of the Phing release system. Not really a bug. More of an organizational issue.
+
+- Drastically reducing the odds of there being any merge conflict during the lite release process by enhancing validation sub-routines and then using a more logical merge strategy option given the way that we handle lite releases; i.e., the dev branch is always king during a release, because it contains the latest build, updated via Phing target `-variations-lite-repo-update`. So when merging dev into master, set `--strategy-option=theirs` (favoring dev at all times, should there be a conflict). This allows Git to resolve any conflicts automatically, always in favor of the dev branch, which is always going to be the case, even if we did it manually.
+
+- I am now back-merging master into dev when doing a lite release also, since it is conceivable that the master branch could (at times, depending on the project lead), contain commits not yet seen in the dev branch. Given the aforementioned merge strategy option, this is of little consequence, but the commit history should still be updated properly by back-merging master into dev after the release is done. For this reason, after a lite release, master is back-merged into the dev branch with `--strategy-option=ours` (favoring dev at all times, should there be a conflict). This ensures both branches having a matching history when the release is done.
+
+- Cleaned up the output produced by `$ phing release`; i.e., removing unnecessary backticks not parsed by a terminal anyway and generally improving the feedback given to the project lead during a release.
+
+- New ad-hoc task added to our Phing library called `<adHocUserSpecificGitChange>`. This impacts the `$ phing feature-start` (alias: `$ phing feature`) targets. Whenever a new feature branch is started, by default, a PR is opened also. In order for that to work I use a `.gitchange` file that is automatically incremented to the latest timestamp. Thereby forcing a change to occur and allowing a PR to be opened whenever the feature branch is first created; i.e., in anticipation of future commits. This prevents the developer working on the feature branch from needing to open a PR in their browser later.
+
+  While this technique has worked well for me, a problem arises whenever multiple developers are using `$ phing feature-start`. In the past, I was the only one making changes to the `.gitchange` file. However, if multiple developers change this file by opening feature branches of their own, then there is the potential for each PR to create a merge conflict with the others with respect to the `.gitchange` file.
+
+  To avoid this issue, the `<adHocUserSpecificGitChange>` task will intelligenty identify the current developer and build a unique string based on several environment variables concatenated together and hashed via `sha1()`. In this way, whenever the `.gitchange` file is altered, it is altering a specific line that identfies the current developer, followed by a `uniqid()` instead of a timestamp. So the effect is still the same, but now the change occurs always on a line that is unique to the user running `$ phing feature`, which avoids the multi-user issue and eliminates the potential for merge conflicts as a result of using this tool.
+
+- Enhanced this article. See: <https://github.com/websharks/phings/wiki/GitHub-Releases>
+
+- Enhanced this article. See: <https://github.com/websharks/phings/wiki/GitHub-Features>
+
 ## 160527
 
 - Renamed `$ phing rc-release` to `$ phing release-rc`.
