@@ -136,7 +136,7 @@
             <else>
               <echo />
 
-              <echo msg="Merging dev into master with --strategy-option=theirs (simple strategy, favoring dev)." />
+              <echo msg="Merging dev into master with --strategy-option=theirs (favoring dev)." />
               <exec command="git checkout master" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
               <exec command="git merge 000000-dev --strategy=recursive --strategy-option=theirs -m 'Merging 000000-dev into master via Phing.'" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
 
@@ -154,7 +154,7 @@
 
               <echo />
 
-              <echo msg="Back-merging master branch into dev branch with --strategy-option=ours (simple strategy, favoring dev)." />
+              <echo msg="Back-merging master branch into dev branch with --strategy-option=ours (favoring dev)." />
               <exec command="git checkout 000000-dev" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
               <exec command="git merge master --strategy=recursive --strategy-option=ours -m 'Back-merging master into dev after release via Phing.'" dir="${_variations_lite_release_repo_dir}" checkReturn="true" />
 
