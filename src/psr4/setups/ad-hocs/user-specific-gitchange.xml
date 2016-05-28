@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Setup ad hoc task. -->
+    <!-- ============================================  -->
+
+    <adHoc-task name="adHocUserSpecificGitChange">
+      <![CDATA[
+        class adHocUserSpecificGitChange extends Task {
+            private $dir;
+
+            function setDir($dir) {
+                $this->dir = (string) $dir;
+            }
+            function main() {
+              if (!$this->dir) {
+                  return; // Not possible.
+              } elseif (!is_dir($this->dir)) {
+                  return; // Not possible.
+              }
+              $user_identifier = ''; // Initialize.
+
+              if (!empty($_SERVER['USER'])) {
+                  $user_identifier .= $_SERVER['USER'];
+              }
+              if (!empty($_SERVER['LOGNAME'])) {
+                  $user_identifier .= $_SERVER['LOGNAME'];
+              }
+              if (!empty($_SERVER['HOME'])) {
+                  $user_identifier .= $_SERVER['HOME'];
+              }
+              if (!empty($_SERVER['WEBSHARK_HOME'])) {
+                  $user_identifier .= $_SERVER['WEBSHARK_HOME'];
+              }
+              $user_identifier .= php_uname('n'); // Current host name.
+
+              $user_prefix                   = sha1(strtolower($user_identifier)).':';
+              $user_unique_change_entry_line = $user_prefix.uniqid('', true); // A change!
+              $gitchange_file                = $this->dir.'/.gitchange'; // In the current repo.
+              $gitchange_file_contents       = is_file($this->dir.'/.gitchange') ? file_get_contents($gitchange_file) : '';
+              $gitchange_lines               = preg_split('/[\r\n]+/', $gitchange_file_contents, -1, PREG_SPLIT_NO_EMPTY);
+
+              foreach ($gitchange_lines as $_key => $_gitchange_line) {
+                  if (preg_match('/^'.preg_quote($user_prefix, '/').'/u', $_gitchange_line)) {
+                      $gitchange_lines[$_key] = $user_unique_change_entry_line;
+                      file_put_contents($gitchange_file, implode("\n", $gitchange_lines)."\n");
+                      return; // All done here.
+                  }
+              } // unset($_key, $_gitchange_line); // Housekeeping.
+
+              // Otherwise, create a new line for this user.
+              $gitchange_lines[] = $user_unique_change_entry_line;
+              file_put_contents($gitchange_file, implode("\n", $gitchange_lines)."\n");
+              return; // All done here.
+            }
+        }
+      ]]>
+    </adHoc-task>
+
+  </project>

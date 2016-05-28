@@ -228,8 +228,7 @@
                   <echo />
 
                   <echo msg="Updating `.gitchange` in this branch so that a PR is possible." />
-                  <php expression="time()" returnProperty="_features_feature_timestamp" level="verbose" />
-                  <echo msg="${_features_feature_timestamp}" file="${project.basedir}/.gitchange" append="true" />
+                  <adHocUserSpecificGitChange dir="${project.basedir}" />
 
                   <echo />
 

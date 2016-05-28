@@ -72,7 +72,12 @@
                 </then>
                 <else>
                   <exec command="git checkout -b 000000-dev" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
-                  <exec command="git push --set-upstream origin 000000-dev:000000-dev" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
+
+                  <adHocUserSpecificGitChange dir="${_variations_lite_repo_update_dir}" />
+                  <exec command="git add --all" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
+                  <exec command="git commit --message='Creating 000000-dev branch.' --no-edit" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
+
+                  <exec command="git push --set-upstream origin 000000-dev" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
                 </else>
               </if>
             </then>
@@ -91,7 +96,12 @@
                 </then>
                 <else>
                   <exec command="git checkout -b master" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
-                  <exec command="git push --set-upstream origin master:master" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
+
+                  <adHocUserSpecificGitChange dir="${_variations_lite_repo_update_dir}" />
+                  <exec command="git add --all" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
+                  <exec command="git commit --message='Creating master branch.' --no-edit" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
+
+                  <exec command="git push --set-upstream origin master" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
                 </else>
               </if>
             </then>
@@ -123,9 +133,7 @@
               <patternSet refId="_lite_repo_pattern_set" />
             </fileSet>
           </copy>
-
-          <php expression="time()" returnProperty="_variations_lite_repo_update_timestamp" level="verbose" />
-          <echo msg="${_variations_lite_repo_update_timestamp}" file="${_variations_lite_repo_update_dir}/.gitchange" />
+          <adHocUserSpecificGitChange dir="${_variations_lite_repo_update_dir}" />
 
           <!-- Stage and commit changes that exist here in the dev branch. -->
 
