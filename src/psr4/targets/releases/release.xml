@@ -301,6 +301,24 @@
               </then>
             </if>
 
+            <!-- If doing a full release, also make sure the dev branch is not behind the upstream remote by any number of commits. -->
+            <if>
+              <and>
+                <isFalse value="${_releases_release_type_is_rc}" />
+              </and>
+              <then>
+                <exec command="git log --oneline '000000-dev..000000-dev@{upstream}'" dir="${project.basedir}" outputProperty="_releases_release_git_release_dev_branch_log_output" />
+                <if>
+                  <not>
+                    <equals arg1="${_releases_release_git_release_dev_branch_log_output}" arg2="" trim="true" />
+                  </not>
+                  <then>
+                    <fail msg="Your local copy of the dev branch is behind in commits. Please merge with the remote and try again." />
+                  </then>
+                </if>
+              </then>
+            </if>
+
             <!-- If doing a full release, also make sure the master branch is not behind the upstream remote by any number of commits. -->
             <if>
               <and>
