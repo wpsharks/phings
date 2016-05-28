@@ -1,4 +1,6 @@
-#### Enhancing `$ phing feature-start` and  `$ phing release`
+## 160528
+
+- Enhancing `$ phing feature-start` and  `$ phing release`
 
 - Enhanced `$ phing release` validation when finishing. Always check to be sure the dev branch is up-to-date before finishing, in the same way we check the master branch. This slid by because originally I was not back-merging master into dev, so it didn't matter quite so much. This has been fixed in v160528, making `$ phing release` more bulletproof.
 
