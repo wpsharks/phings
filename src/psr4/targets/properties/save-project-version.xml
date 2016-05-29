@@ -12,7 +12,7 @@
 
       <echo msg="Saving project version for post-build targets." />
 
-      <echo msg="${project_version}" file="${project.basedir}/.~build/.properties/project-version" />
+      <echo msg="${project_version}" file="${project.basedir}/.~build/.~/properties/project-version" />
 
     </target>
 

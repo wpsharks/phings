@@ -128,19 +128,19 @@
 
           <echo msg="Committing changes in lite dev branch." />
 
-          <delete file="${_variations_lite_repo_update_dir}/.~commit.msg" quiet="true" />
+          <delete file="${_tmp_sub_dir}/${project_lite_slug}-commit-msg" quiet="true" />
           <echo msg="Generating new commit message based on CHANGELOG.md file contents if at all possible." />
-          <adHocExtractChangelogForVersion version="${project_version}" inFile="${_variations_lite_repo_update_dir}/CHANGELOG.md" heading="Phing release of v${project_version} with the following changes:" outFile="${_variations_lite_repo_update_dir}/.~commit.msg" />
+          <adHocExtractChangelogForVersion version="${project_version}" inFile="${_variations_lite_repo_update_dir}/CHANGELOG.md" heading="Phing release of v${project_version} with the following changes:" outFile="${_tmp_sub_dir}/${project_lite_slug}-commit-msg" />
           <if>
             <not>
-              <available resource="${_variations_lite_repo_update_dir}/.~commit.msg" type="file" />
+              <available resource="${_tmp_sub_dir}/${project_lite_slug}-commit-msg" type="file" />
             </not>
             <then>
-              <echo msg="Phing release of v${project_version}." file="${_variations_lite_repo_update_dir}/.~commit.msg" />
+              <echo msg="Phing release of v${project_version}." file="${_tmp_sub_dir}/${project_lite_slug}-commit-msg" />
             </then>
           </if>
           <exec command="git add --all" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
-          <exec command="git commit --file='${_variations_lite_repo_update_dir}/.~commit.msg' --no-edit" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
+          <exec command="git commit --file='${_tmp_sub_dir}/${project_lite_slug}-commit-msg' --no-edit" dir="${_variations_lite_repo_update_dir}" checkReturn="true" />
 
           <!-- Push changes in the dev branch to remote origin. -->
 
