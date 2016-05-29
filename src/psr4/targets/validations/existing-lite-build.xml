@@ -27,18 +27,18 @@
             </then>
           </if>
 
-          <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version -->
+          <!-- Depends on ${project.basedir}/.~build/${project_lite_slug}/.~build/.~/properties/project-version -->
 
           <if>
             <and>
-              <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version" type="file" />
+              <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/.~/properties/project-version" type="file" />
             </and>
             <then>
-              <loadfile property="project_version" file="${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version" />
+              <loadfile property="project_version" file="${project.basedir}/.~build/${project_lite_slug}/.~build/.~/properties/project-version" />
               <echo msg="Project version for existing lite build: ${project_version}" />
             </then>
             <else>
-              <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}/.~build/.properties/project-version" />
+              <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_lite_slug}/.~build/.~/properties/project-version" />
             </else>
           </if>
 

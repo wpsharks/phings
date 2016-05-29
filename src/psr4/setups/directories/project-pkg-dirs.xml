@@ -3,15 +3,15 @@
   <project>
 
     <!-- ============================================  -->
-    <!-- Initialize `${project.basedir}/.~build/.properties`. -->
+    <!-- Initialize `${project.basedir}/.~build/.~/pkg-dirs`. -->
     <!-- ============================================  -->
 
     <if>
       <not>
-        <available resource="${project.basedir}/.~build/.properties" type="dir" />
+        <available resource="${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz" type="dir" />
       </not>
       <then>
-        <mkdir dir="${project.basedir}/.~build/.properties" />
+        <mkdir dir="${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz" />
       </then>
     </if>
 

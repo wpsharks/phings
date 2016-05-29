@@ -29,27 +29,74 @@
         </then>
       </if>
 
-      <!-- ZIP file generation. -->
+      <!-- Build the ZIP/TGZ directory for archiving below (with default FS permissions). -->
+      <!-- ↓ Preserve executable bit on binaries that are set as world-executable. -->
 
-      <delete file="${project.basedir}/.~build/${project_slug}.zip" quiet="true" />
+      <if>
+        <and>
+          <available resource="${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz/${project_slug}" type="dir" />
+        </and>
+        <then>
+          <delete dir="${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz/${project_slug}" includeEmptyDirs="true" quiet="true" />
+        </then>
+      </if>
 
-      <zip baseDir="${project.basedir}/.~build/${project_slug}" prefix="${project_slug}/" includeEmptyDirs="false" destFile="${project.basedir}/.~build/${project_slug}.zip">
+      <copy toDir="${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz/${project_slug}">
         <fileSet dir="${project.basedir}/.~build/${project_slug}" caseSensitive="false" excludes="${project_other_zip_tgz_fileset_exclusions}">
           <patternSet refId="_zip_tgz_pattern_set" />
         </fileSet>
-      </zip>
+      </copy>
 
-      <!-- TGZ file generation. -->
+      <exec command="find ${project.basedir}/.~build/${project_slug} -type d -exec chmod 755 {} \;" checkReturn="true" />
+      <exec command="find ${project.basedir}/.~build/${project_slug} -type f ! -perm -u=x,g=x,o=x -exec chmod 644 {} \;" checkReturn="true" />
+      <exec command="find ${project.basedir}/.~build/${project_slug} -type f -perm -u=x,g=x,o=x -exec chmod 755 {} \;" checkReturn="true" />
+
+      <!-- ZIP file generation with permissions perserved. -->
 
       <echo />
 
-      <delete file="${project.basedir}/.~build/${project_slug}.tar.gz" quiet="true" />
+      <if>
+        <and>
+          <available resource="${project.basedir}/.~build/${project_slug}.zip" type="file" />
+        </and>
+        <then>
+          <delete file="${project.basedir}/.~build/${project_slug}.zip" quiet="true" />
+        </then>
+      </if>
 
-      <tar baseDir="${project.basedir}/.~build/${project_slug}" prefix="${project_slug}/" includeEmptyDirs="false" destFile="${project.basedir}/.~build/${project_slug}.tar.gz" compression="gzip">
-        <fileSet dir="${project.basedir}/.~build/${project_slug}" caseSensitive="false" excludes="${project_other_zip_tgz_fileset_exclusions}">
-          <patternSet refId="_zip_tgz_pattern_set" />
-        </fileSet>
-      </tar>
+      <echo msg="Packaging ZIP: ${project.basedir}/.~build/${project_slug}.zip" />
+      <echo msg="Based on: ${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz/${project_slug}" />
+
+      <exec executable="zip" dir="${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz" checkReturn="true">
+        <arg value="-X" />
+        <arg value="--recurse-paths" />
+        <arg value="${project.basedir}/.~build/${project_slug}.zip" />
+        <arg value="${project_slug}" />
+      </exec>
+
+      <!-- TGZ file generation with permissions perserved. -->
+
+      <echo />
+
+      <if>
+        <and>
+          <available resource="${project.basedir}/.~build/${project_slug}.tar.gz" type="file" />
+        </and>
+        <then>
+          <delete file="${project.basedir}/.~build/${project_slug}.tar.gz" quiet="true" />
+        </then>
+      </if>
+
+      <echo msg="Packaging TGZ: ${project.basedir}/.~build/${project_slug}.tar.gz" />
+      <echo msg="Based on: ${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz/${project_slug}" />
+
+      <exec executable="tar" dir="${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz" checkReturn="true">
+        <arg value="--create" />
+        <arg value="--gzip" />
+        <arg value="--file" />
+        <arg value="${project.basedir}/.~build/${project_slug}.tar.gz" />
+        <arg value="${project_slug}" />
+      </exec>
 
     </target>
 

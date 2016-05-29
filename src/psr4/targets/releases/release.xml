@@ -250,7 +250,7 @@
             <!-- Require an existing build. -->
 
             <phingCall target="-validations-existing-build" />
-            <loadfile property="project_version" file="${project.basedir}/.~build/.properties/project-version" />
+            <loadfile property="project_version" file="${project.basedir}/.~build/.~/properties/project-version" />
 
             <!-- Here, ${project_version} represents the currently built version (including anything like an `-RC` suffix). -->
             <!-- This is because ${project_version} is locked to the release branch version when a build occurs. -->
@@ -353,16 +353,16 @@
 
             <echo />
 
-            <delete file="${project.basedir}/.~build/.~commit.msg" quiet="true" />
+            <delete file="${_tmp_sub_dir}/${project_slug}-commit-msg" quiet="true" />
 
             <echo msg="Generating new commit message based on CHANGELOG.md file contents if at all possible." />
-            <adHocExtractChangelogForVersion version="${_releases_release_version}" inFile="${project.basedir}/CHANGELOG.md" heading="${project_title} v${_releases_release_version}" outFile="${project.basedir}/.~build/.~commit.msg" />
+            <adHocExtractChangelogForVersion version="${_releases_release_version}" inFile="${project.basedir}/CHANGELOG.md" heading="${project_title} v${_releases_release_version}" outFile="${_tmp_sub_dir}/${project_slug}-commit-msg" />
             <if>
               <not>
-                <available resource="${project.basedir}/.~build/.~commit.msg" type="file" />
+                <available resource="${_tmp_sub_dir}/${project_slug}-commit-msg" type="file" />
               </not>
               <then>
-                <echo msg="${project_title} v${_releases_release_version}" file="${project.basedir}/.~build/.~commit.msg" />
+                <echo msg="${project_title} v${_releases_release_version}" file="${_tmp_sub_dir}/${project_slug}-commit-msg" />
               </then>
             </if>
 
@@ -499,7 +499,7 @@
               </else>
             </if>
 
-            <property name="_releases_release_git_create_command" value="hub release create -f '${project.basedir}/.~build/.~commit.msg'${_releases_release_git_create_pre}${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${_releases_release_version}" />
+            <property name="_releases_release_git_create_command" value="hub release create -f '${_tmp_sub_dir}/${project_slug}-commit-msg'${_releases_release_git_create_pre}${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${_releases_release_version}" />
             <exec command="${_releases_release_git_create_command}" dir="${project.basedir}" checkReturn="true" outputProperty="_releases_release_git_create_output" />
 
             <property name="_releases_release_git_create_release_url" value="${_releases_release_git_create_output}">

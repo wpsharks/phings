@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Initialize `${project.basedir}/.~build/.~/properties`. -->
+    <!-- ============================================  -->
+
+    <if>
+      <not>
+        <available resource="${project.basedir}/.~build/.~/properties" type="dir" />
+      </not>
+      <then>
+        <mkdir dir="${project.basedir}/.~build/.~/properties" />
+      </then>
+    </if>
+
+  </project>
