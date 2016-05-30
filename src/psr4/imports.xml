@@ -3,6 +3,17 @@
   <project>
 
     <!-- ============================================  -->
+    <!-- Ad-hoc task definitions. -->
+    <!-- These run inline; no targets necessary. -->
+    <!-- ============================================  -->
+
+    <import>
+      <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false">
+        <include pattern="ad-hocs/**.xml" />
+      </fileSet>
+    </import>
+
+    <!-- ============================================  -->
     <!-- Property setup routines. -->
     <!-- These run inline; no targets necessary. -->
     <!-- ============================================  -->
@@ -17,12 +28,16 @@
 
     <import>
       <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false">
-        <include pattern="ad-hocs/**.xml" />
         <include pattern="patterns/**.xml" />
         <include pattern="ini-sets/**.xml" />
         <include pattern="directories/**.xml" />
       </fileSet>
     </import>
+
+    <!-- ============================================  -->
+    <!-- Dependency setup routines. -->
+    <!-- These run inline; no targets necessary. -->
+    <!-- ============================================  -->
 
     <import>
       <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false">
@@ -91,6 +106,13 @@
 
     <import file="${phing.dir.targets}/targets/validations/existing-build.xml" />
     <import file="${phing.dir.targets}/targets/validations/existing-lite-build.xml" />
+    <import file="${phing.dir.targets}/targets/validations/in-git-repo.xml" />
+    <import file="${phing.dir.targets}/targets/validations/in-github-repo.xml" />
+    <import file="${phing.dir.targets}/targets/validations/in-clean-git-repo.xml" />
+    <import file="${phing.dir.targets}/targets/validations/git-repo-has-dev-master.xml" />
+    <import file="${phing.dir.targets}/targets/validations/starting-git-release-branch.xml" />
+    <import file="${phing.dir.targets}/targets/validations/starting-git-dev-or-release-branch.xml" />
+    <import file="${phing.dir.targets}/targets/validations/aws-cli-credentials.xml" />
 
     <!-- ============================================  -->
     <!-- Test-related targets. -->
@@ -112,10 +134,29 @@
     <import file="${phing.dir.targets}/targets/features/feature.xml" />
 
     <!-- ============================================  -->
+    <!-- Upload-related targets. -->
+    <!-- ============================================  -->
+
+    <import file="${phing.dir.targets}/targets/uploads/bleeding-edge.xml" />
+    <import file="${phing.dir.targets}/targets/uploads/lite-bleeding-edge.xml" />
+    <import file="${phing.dir.targets}/targets/uploads/bleeding-edge-clipboard.xml" />
+
+    <!-- ============================================  -->
     <!-- Release-related targets. -->
     <!-- ============================================  -->
 
     <import file="${phing.dir.targets}/targets/releases/release.xml" />
+
+    <import file="${phing.dir.targets}/targets/releases/release-start.xml" />
+    <import file="${phing.dir.targets}/targets/releases/release-finish.xml" />
+
+    <import file="${phing.dir.targets}/targets/releases/lite-repo-update.xml" />
+    <import file="${phing.dir.targets}/targets/releases/lite-release-finish.xml" />
+
+    <import file="${phing.dir.targets}/targets/releases/upload.xml" />
+    <import file="${phing.dir.targets}/targets/releases/lite-upload.xml" />
+
+    <import file="${phing.dir.targets}/targets/releases/clipboard.xml" />
 
     <!-- ============================================  -->
     <!-- Lite variation-related targets. -->
@@ -123,8 +164,5 @@
 
     <import file="${phing.dir.targets}/targets/variations/lite/prepare.xml" />
     <import file="${phing.dir.targets}/targets/variations/lite/builds.xml" />
-
-    <import file="${phing.dir.targets}/targets/variations/lite/repo-update.xml" />
-    <import file="${phing.dir.targets}/targets/variations/lite/release.xml" />
 
   </project>

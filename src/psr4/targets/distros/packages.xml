@@ -8,30 +8,8 @@
 
     <target name="-distros-packages" hidden="true">
 
-      <!-- PHAR file generation. -->
-
-      <if>
-        <and>
-          <available resource="${project.basedir}/.~build/${project_slug}/src/includes/phar-stub.php" type="file" />
-        </and>
-        <then>
-          <delete file="${project.basedir}/.~build/${project_slug}.phar" quiet="true" />
-
-          <pharPackage baseDir="${project.basedir}/.~build/${project_slug}" stub="${project.basedir}/.~build/${project_slug}/src/includes/phar-stub.php" destFile="${project.basedir}/.~build/${project_slug}.phar">
-            <fileSet dir="${project.basedir}/.~build/${project_slug}" caseSensitive="false" excludes="${project_other_phar_fileset_exclusions}">
-              <patternSet refId="_phar_pattern_set" />
-            </fileSet>
-          </pharPackage>
-
-          <chmod file="${project.basedir}/.~build/${project_slug}.phar" mode="0744" />
-
-          <echo />
-        </then>
-      </if>
-
       <!-- Build the ZIP/TGZ directory for archiving below (with default FS permissions). -->
       <!-- ↓ Preserve executable bit on binaries that are set as world-executable. -->
-
       <if>
         <and>
           <available resource="${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz/${project_slug}" type="dir" />
@@ -51,7 +29,7 @@
       <exec command="find ${project.basedir}/.~build/${project_slug} -type f ! -perm -u=x,g=x,o=x -exec chmod 644 {} \;" checkReturn="true" />
       <exec command="find ${project.basedir}/.~build/${project_slug} -type f -perm -u=x,g=x,o=x -exec chmod 755 {} \;" checkReturn="true" />
 
-      <!-- ZIP file generation with permissions perserved. -->
+      <!-- ZIP file generation with permissions preserved. -->
 
       <echo />
 
@@ -74,7 +52,7 @@
         <arg value="${project_slug}" />
       </exec>
 
-      <!-- TGZ file generation with permissions perserved. -->
+      <!-- TGZ file generation with permissions preserved. -->
 
       <echo />
 
@@ -97,6 +75,27 @@
         <arg value="${project.basedir}/.~build/${project_slug}.tar.gz" />
         <arg value="${project_slug}" />
       </exec>
+
+      <!-- PHAR file generation. -->
+
+      <if>
+        <and>
+          <available resource="${project.basedir}/.~build/${project_slug}/src/includes/phar-stub.php" type="file" />
+        </and>
+        <then>
+          <echo />
+
+          <delete file="${project.basedir}/.~build/${project_slug}.phar" quiet="true" />
+
+          <pharPackage baseDir="${project.basedir}/.~build/${project_slug}" stub="${project.basedir}/.~build/${project_slug}/src/includes/phar-stub.php" destFile="${project.basedir}/.~build/${project_slug}.phar">
+            <fileSet dir="${project.basedir}/.~build/${project_slug}" caseSensitive="false" excludes="${project_other_phar_fileset_exclusions}">
+              <patternSet refId="_phar_pattern_set" />
+            </fileSet>
+          </pharPackage>
+
+          <chmod file="${project.basedir}/.~build/${project_slug}.phar" mode="0744" />
+        </then>
+      </if>
 
     </target>
 

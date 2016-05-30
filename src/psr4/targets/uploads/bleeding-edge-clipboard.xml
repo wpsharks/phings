@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Bleeding edge clipboard copy & details. -->
+    <!-- ============================================  -->
+
+    <target name="-uploads-bleeding-edge-clipboard" hidden="true">
+
+      <if>
+        <and>
+          <contains string="${host.os}" substring="darwin" caseSensitive="false" />
+        </and>
+        <then>
+          <!-- Copy contents to clipboard. -->
+
+          <exec command="pbcopy &lt; '${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard'" checkReturn="true" />
+
+          <!-- Mention the clipboard contents and explain the URLs. -->
+
+          <echo msg="Copied all URLs to clipboard via `pbcopy`. Type: `$ pbpaste` to review." />
+          <echo msg="Note: Please keep pro software URLs private. Lite URLs can be shared publicly." />
+          <echo msg="Bleeding edge distro URLs remains the same; i.e., they are overwritten on future calls to `$ phing update-bleeding-edge`." />
+
+          <!-- Run `pbpaste` now to prove that this works and let the operator review. -->
+          <echo />
+          <exec command="pbpaste" passthru="true" />
+        </then>
+      </if>
+
+    </target>
+
+  </project>

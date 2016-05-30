@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Require a git repo. -->
+    <!-- ============================================  -->
+
+    <target name="-validations-in-git-repo" hidden="true">
+
+      <!-- Make sure we are in a git repo. -->
+
+      <if>
+        <and>
+          <isFalse value="${_in_git_repo}" />
+        </and>
+        <then>
+          <fail msg="Not in a git repo. Run `$ git init` and try again." />
+        </then>
+      </if>
+
+      <!-- Indicate no validation issues. -->
+
+      <echo msg="No validation problems. Continuing without issue." />
+
+    </target>
+
+  </project>

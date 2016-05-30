@@ -6,7 +6,7 @@
     <!-- Run PHPUnit tests via CI server. -->
     <!-- ============================================  -->
 
-    <target name="-tests-phpunit" hidden="true">
+    <target name="-tests-phpunit" depends="-validations-existing-build" hidden="true">
 
       <if>
         <and>
@@ -24,7 +24,14 @@
               </and>
             </or>
             <then>
+              <!-- Use the existing `${project_version}`. -->
+
+              <loadfile property="project_version" file="${project.basedir}/.~build/.~/properties/project-version" />
+              <echo msg="Project version for existing build: ${project_version}" />
+
               <!-- Run PHPUnit tests via CI server. -->
+
+              <echo />
 
               <echo msg="Running PHPUnit tests via CI server." />
 

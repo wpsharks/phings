@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Upload bleeding edge distros. -->
+    <!-- ============================================  -->
+
+    <target name="-uploads-bleeding-edge" depends="-validations-existing-build,-validations-aws-cli-credentials" hidden="true">
+
+      <!-- Use the existing `${project_version}`. -->
+
+      <loadfile property="project_version" file="${project.basedir}/.~build/.~/properties/project-version" />
+      <echo msg="Project version for existing build: ${project_version}" />
+
+      <!-- Convey what is about to happen below. -->
+      <echo />
+      <echo msg="Uploading distros to Amazon S3/CloudFont storage ..." />
+
+      <!-- Reset clipboard contents file before we begin. -->
+
+      <delete file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" quiet="true" />
+      <if>
+        <and>
+          <isTrue value="${_is_pro_project}" />
+        </and>
+        <then>
+          <echo msg="--- REMINDER: Please do NOT share pro software URLs publicly. ---${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" append="true" />
+          <echo msg="--- Pro software files must be hidden behind a proxy to conceal their true location. ---${line.separator}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" append="true" />
+        </then>
+      </if>
+      <!-- Obfuscate the project sub-path for more secure S3 storage. -->
+
+      <adHocAwsS3ObfuscateSubPath base="software/latest/bleeding-edge" slug="${project_slug}" returnProperty="_uploads_bleeding_edge_sub_path" />
+
+      <!-- Upload distros as bleeding edge packages to assist with testing. -->
+
+      <forEach list="zip,tar.gz,phar" delimiter="," target="--uploads-bleeding-edge-extension" param="__uploads_bleeding_edge_extension" />
+
+      <!-- Possible lite bleeding edge uploads. -->
+      <if>
+        <and>
+          <not>
+            <isset property="_is_lite_build" />
+          </not>
+          <isTrue value="${_has_lite_build_props}" />
+        </and>
+        <then>
+          <phingCall target="-uploads-lite-bleeding-edge" />
+        </then>
+      </if>
+      <!-- Notify operator about clipboard contents. -->
+
+      <phingCall target="-uploads-bleeding-edge-clipboard" />
+
+    </target>
+
+    <!-- This target is used by the foreach loop above to reduce the amount of code we need to maintain. -->
+
+    <target name="--uploads-bleeding-edge-extension">
+      <if>
+        <and>
+          <available resource="${project.basedir}/.~build/${project_slug}.${__uploads_bleeding_edge_extension}" type="file" />
+        </and>
+        <then>
+          <!-- Determine the MIME type based on the extension. -->
+
+          <if>
+            <equals arg1="${__uploads_bleeding_edge_extension}" arg2="zip" />
+            <then>
+              <property name="__uploads_bleeding_edge_mime_type" value="application/zip" />
+            </then>
+            <elseif>
+              <equals arg1="${__uploads_bleeding_edge_extension}" arg2="tar.gz" />
+              <then>
+                <property name="__uploads_bleeding_edge_mime_type" value="application/gzip" />
+              </then>
+            </elseif>
+            <elseif>
+              <equals arg1="${__uploads_bleeding_edge_extension}" arg2="phar" />
+              <then>
+                <property name="__uploads_bleeding_edge_mime_type" value="application/x-phar" />
+              </then>
+            </elseif>
+            <else>
+              <fail msg="Unexpected file extension: ${__uploads_bleeding_edge_extension}" />
+            </else>
+          </if>
+          <!-- Upload a bleeding edge distro based on extension and MIME type. -->
+
+          <exec executable="aws" passthru="true" checkReturn="true">
+            <arg value="--profile" />
+            <arg value="websharks" />
+
+            <arg value="s3" />
+            <arg value="cp" />
+
+            <arg value="${project.basedir}/.~build/${project_slug}.${__uploads_bleeding_edge_extension}" />
+            <arg value="s3://${_aws_bucket}/cloudfront/${_uploads_bleeding_edge_sub_path}.${__uploads_bleeding_edge_extension}" />
+
+            <arg value="--metadata" />
+            <arg value="version=${project_version}" />
+
+            <arg value="--content-type" />
+            <arg value="${__uploads_bleeding_edge_mime_type}" />
+
+            <arg value="--content-disposition" />
+            <arg value='attachment; filename="${project_slug}.bleeding-edge.${__uploads_bleeding_edge_extension}"' />
+          </exec>
+
+          <echo msg="https://${_aws_bucket_cname}/${_uploads_bleeding_edge_sub_path}.${__uploads_bleeding_edge_extension}" />
+          <echo msg="https://${_aws_bucket_cname}/${_uploads_bleeding_edge_sub_path}.${__uploads_bleeding_edge_extension}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" append="true" />
+        </then>
+
+        <else>
+          <echo msg="Distro with extension `.${__uploads_bleeding_edge_extension}` does not exist. Bypassing." />
+        </else>
+      </if>
+    </target>
+
+  </project>

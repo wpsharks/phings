@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Require a starting git release branch. -->
+    <!-- ============================================  -->
+
+    <target name="-validations-starting-git-release-branch" hidden="true">
+
+      <!-- Make sure we are starting from a git release branch. -->
+
+      <if>
+        <and>
+          <isFalse value="${_starting_git_branch_is_release}" />
+        </and>
+        <then>
+          <fail msg="Must start from a git release/ branch." />
+        </then>
+      </if>
+
+      <!-- Indicate no validation issues. -->
+
+      <echo msg="No validation problems. Continuing without issue." />
+
+    </target>
+
+  </project>

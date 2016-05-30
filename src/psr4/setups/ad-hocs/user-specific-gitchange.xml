@@ -9,12 +9,12 @@
     <adHoc-task name="adHocUserSpecificGitChange">
       <![CDATA[
         class adHocUserSpecificGitChange extends Task {
-            private $dir;
+            protected $dir = '';
 
-            function setDir($dir) {
-                $this->dir = (string) $dir;
+            public function setDir($dir) {
+                $this->dir = trim((string) $dir);
             }
-            function main() {
+            public function main() {
               if (!$this->dir) {
                   return; // Not possible.
               } elseif (!is_dir($this->dir)) {

@@ -6,9 +6,16 @@
     <!-- Codex generation. -->
     <!-- ============================================  -->
 
-    <target name="-codex-apigen" hidden="true">
+    <target name="-codex-apigen" depends="-validations-existing-build" hidden="true">
+
+      <!-- Use the existing `${project_version}`. -->
+
+      <loadfile property="project_version" file="${project.basedir}/.~build/.~/properties/project-version" />
+      <echo msg="Project version for existing build: ${project_version}" />
 
       <!-- Codex generation; i.e., run APIgen. -->
+
+      <echo />
 
       <echo msg="Running ApiGen (i.e., building codex)." />
 
