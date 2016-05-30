@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Get `.ws.json` config keys. -->
+    <!-- ============================================  -->
+
+    <adHoc-task name="adHocWsJsonConfigKeys">
+      <![CDATA[
+        class adHocWsJsonConfigKeys extends Task {
+            protected $get_primary_key = '';
+            protected $property_prefix = '';
+
+            public function setGetPrimaryKey($get_primary_key) {
+                $this->get_primary_key = trim((string) $get_primary_key);
+            }
+            public function setPropertyPrefix($property_prefix) {
+                $this->property_prefix = trim((string) $property_prefix);
+            }
+            public function acquireHomeDir() {
+                if (!empty($_SERVER['WEBSHARK_HOME'])) {
+                    return (string) $_SERVER['WEBSHARK_HOME'];
+                }
+                if (!empty($_SERVER['HOME'])) {
+                    return (string) $_SERVER['HOME'];
+                }
+                return ''; // Failure.
+            }
+            public function acquireFile() {
+                if (!($home_dir = $this->acquireHomeDir())) {
+                    return ''; // Not possible.
+                }
+                if (is_file($home_dir.'/.ws.json')) {
+                    return $home_dir.'/.ws.json';
+                }
+                if (is_file($home_dir.'/.websharks.json')) {
+                    return $home_dir.'/.websharks.json';
+                }
+                return ''; // Failure.
+            }
+            public function dotKeys(array $array)
+            {
+                $dot_keys = []; // Initialize.
+                $Iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array));
+
+                foreach ($Iterator as $_key => $_value) {
+                    $_keys = []; // Initialize keys.
+
+                    foreach (range(0, $Iterator->getDepth()) as $_depth) {
+                        $_keys[] = $Iterator->getSubIterator($_depth)->key();
+                    }
+                    $dot_keys[implode('.', $_keys)] = $_value;
+                    // unset($_keys, $_depth); // Housekeeping.
+                } // unset($_key, $_value); // Housekeeping.
+
+                return $dot_keys;
+            }
+            public function main() {
+                if (!$this->get_primary_key) {
+                    return; // Not possible.
+                } elseif (!$this->property_prefix) {
+                    return; // Not possible.
+                } elseif (!($file = $this->acquireFile())) {
+                    return; // Not possible.
+                } elseif (!is_array($data = json_decode(file_get_contents($file), true))) {
+                    return; // Not possible.
+                } elseif (empty($data[$this->get_primary_key]) || !is_array($data[$this->get_primary_key])) {
+                    return; // Not possible.
+                }
+                foreach ($this->dotKeys($data[$this->get_primary_key]) as $_key => $_value) {
+                    $this->project->setProperty($this->property_prefix.$_key, $_value);
+                } // unset($_key, $_value); // Housekeeping.
+            }
+        }
+      ]]>
+    </adHoc-task>
+
+  </project>

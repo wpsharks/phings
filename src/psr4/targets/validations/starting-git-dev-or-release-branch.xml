@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Require a starting git dev or release branch. -->
+    <!-- ============================================  -->
+
+    <target name="-validations-starting-git-dev-or-release-branch" hidden="true">
+
+      <!-- Make sure we are on the dev branch, or a release branch. -->
+
+      <if>
+        <and>
+          <isFalse value="${_starting_git_branch_is_dev}" />
+          <isFalse value="${_starting_git_branch_is_release}" />
+        </and>
+        <then>
+          <fail msg="Must start from the dev branch, or a release/ branch." />
+        </then>
+      </if>
+
+      <!-- Indicate no validation issues. -->
+
+      <echo msg="No validation problems. Continuing without issue." />
+
+    </target>
+
+  </project>

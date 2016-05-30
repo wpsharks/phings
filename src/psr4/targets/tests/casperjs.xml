@@ -6,7 +6,7 @@
     <!-- Run CasperJS tests via CI server. -->
     <!-- ============================================  -->
 
-    <target name="-tests-casperjs" hidden="true">
+    <target name="-tests-casperjs" depends="-validations-existing-build" hidden="true">
 
       <if>
         <and>
@@ -22,7 +22,14 @@
               <available resource="${project.basedir}/.~build/${project_slug}/tests/includes/casperjs.js" type="file" />
             </and>
             <then>
+              <!-- Use the existing `${project_version}`. -->
+
+              <loadfile property="project_version" file="${project.basedir}/.~build/.~/properties/project-version" />
+              <echo msg="Project version for existing build: ${project_version}" />
+
               <!-- Run CasperJS tests via CI server. -->
+
+              <echo />
 
               <echo msg="Running CasperJS tests via CI server." />
 

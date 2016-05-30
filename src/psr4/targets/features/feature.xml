@@ -6,69 +6,11 @@
     <!-- Create a GitHub feature branch & PR.  -->
     <!-- ============================================  -->
 
-    <target name="-features-feature" hidden="true">
-
-      <!-- Make sure we are in a git repo. -->
-
-      <if>
-        <and>
-          <isFalse value="${_in_git_repo}" />
-        </and>
-        <then>
-          <fail msg="Not in a git repo. Run `$ git init` and try again." />
-        </then>
-      </if>
-
-      <!-- Make sure the repo has a github.com origin.  -->
-
-      <if>
-        <and>
-          <isFalse value="${_in_github_repo}" />
-        </and>
-        <then>
-          <fail msg="Repo does not have a github.com remote origin." />
-        </then>
-      </if>
-
-      <!-- Make sure the repo is clean. -->
-
-      <if>
-        <and>
-          <isFalse value="${_in_clean_git_repo}" />
-        </and>
-        <then>
-          <fail msg="Repo is dirty. Please commit and push changes, then try again." />
-        </then>
-      </if>
-
-      <!-- Make sure the repo has both a dev and master branch.  -->
-
-      <if>
-        <or>
-          <isFalse value="${_git_dev_branch_exists}" />
-          <isFalse value="${_git_master_branch_exists}" />
-        </or>
-        <then>
-          <fail msg="Current repo is missing a dev and/or master branch. Both are required for our Git workflow please." />
-        </then>
-      </if>
-
-      <!-- Make sure the dev and master branches have an upstream. -->
-
-      <if>
-        <or>
-          <isFalse value="${_git_dev_branch_has_upstream}" />
-          <isFalse value="${_git_master_branch_has_upstream}" />
-        </or>
-        <then>
-          <fail msg="The dev and/or master branches do not have an upstream tracking branch yet. Please run `git branch --set-upstream-to ...` and try again." />
-        </then>
-      </if>
+    <target name="-features-feature" depends="-validations-in-git-repo,-validations-in-github-repo,-validations-in-clean-git-repo,-validations-git-repo-has-dev-master" hidden="true">
 
       <!-- Make sure we are on the dev branch or a feature branch. -->
       <!-- Starting from the dev branch is only allowed when starting. -->
       <!-- Starting from a feature branch is only allowed when finishing. -->
-
       <if>
         <or>
           <and>
@@ -89,7 +31,7 @@
           </and>
         </or>
         <then>
-          <!-- Nothing here at this time. It's a positive match. -->
+          <echo msg="Currently on a dev or feature branch. OK." />
         </then>
         <else>
           <fail msg="Invalid request. Must start from the dev branch when beginning a new feature, and from an existing feature branch when finishing." />
@@ -99,7 +41,6 @@
       <!-- Ask for the issue number associated w/ feature. -->
       <!-- If set via `-D issue=123` at the command line, this prompt is not shown. -->
       <!-- If the starting branch is a feature/ branch, use the issue number from that branch and skip this. -->
-
       <if>
         <and>
           <isTrue value="${_starting_git_branch_is_feature}" />
@@ -108,7 +49,7 @@
           <property name="_features_feature_issue_number" value="${_starting_git_feature_branch_issue}" />
         </then>
         <else>
-          <propertyPrompt propertyName="issue" defaultValue="e.g., 123" promptCharacter="" useExistingValue="true" promptText="Issue #" />
+          <propertyPrompt propertyName="issue" defaultValue="e.g., 123" promptCharacter="" useExistingValue="true" promptText="Enter Issue #" />
 
           <property name="_features_feature_issue_number" value="${issue}">
             <filterChain>
@@ -139,13 +80,14 @@
       <property name="_features_feature_pr_title_body" value="PR: ${_features_feature_branch}${line.separator}${line.separator}See: ${_features_feature_issue_ref}" />
 
       <!-- Make sure we have the latest copy of all remote branches. -->
+      <echo />
 
-      <echo msg="Fetcing latest copy of all branches from remote origin." />
+      <echo msg="Fetching latest copy of all branches from remote origin." />
+
       <exec command="git fetch origin" dir="${project.basedir}" checkReturn="true" />
 
       <!-- If starting from a feature branch, finish the feature instead of starting a new one. -->
       <!-- Otherwise, interpret as the desire to start a new feature branch based on the dev branch. -->
-
       <if>
         <and>
           <isTrue value="${_starting_git_branch_is_feature}" />
@@ -159,6 +101,11 @@
             <then>
               <fail msg="The ${_features_feature_branch} branch still exists at remote origin. It must be merged &amp; deleted by the project lead first." />
             </then>
+            <else>
+              <echo />
+
+              <echo msg="Feature branch doesn't exist at remote origin. OK." />
+            </else>
           </if>
 
           <echo />
@@ -203,6 +150,10 @@
               </then>
             </elseif>
             <else>
+              <echo />
+
+              <echo msg="Feature branch doesn't exist locally or remotely. OK." />
+
               <echo />
 
               <echo msg="Pulling latest remote dev branch; i.e., starting from an up-to-date copy." />

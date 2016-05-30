@@ -6,7 +6,7 @@
     <!-- Lite generation (build). -->
     <!-- ============================================  -->
 
-    <target name="-variations-lite-build" depends="-variations-lite-prepare" hidden="true">
+    <target name="-variations-lite-build" hidden="true">
 
       <if>
         <and>
@@ -16,8 +16,17 @@
           <isTrue value="${_has_lite_build_props}" />
         </and>
         <then>
+          <!-- Build lite variation w/ target `build`. -->
 
           <echo msg="Building lite variation from: ${project.basedir}/.~build/${project_lite_slug}/build.xml" />
+
+          <phingCall target="-variations-lite-prepare" />
+
+          <echo />
+
+          <echo msg="Running lite build by starting over with modified .build.props ..." />
+
+          <echo />
 
           <phing phingFile="${project.basedir}/.~build/${project_lite_slug}/build.xml" target="build" inheritAll="false" inheritRefs="false" haltOnFailure="true">
             <property name="_is_lite_build" value="true" />
@@ -35,7 +44,7 @@
     <!-- Lite generation (full build). -->
     <!-- ============================================  -->
 
-    <target name="-variations-lite-full-build" depends="-variations-lite-prepare" hidden="true">
+    <target name="-variations-lite-full-build" hidden="true">
 
       <if>
         <and>
@@ -45,8 +54,17 @@
           <isTrue value="${_has_lite_build_props}" />
         </and>
         <then>
+          <!-- Build lite variation w/ target `full-build`. -->
 
           <echo msg="Building lite variation from: ${project.basedir}/.~build/${project_lite_slug}/build.xml" />
+
+          <phingCall target="-variations-lite-prepare" />
+
+          <echo />
+
+          <echo msg="Running lite build by starting over with modified .build.props ..." />
+
+          <echo />
 
           <phing phingFile="${project.basedir}/.~build/${project_lite_slug}/build.xml" target="full-build" inheritAll="false" inheritRefs="false" haltOnFailure="true">
             <property name="_is_lite_build" value="true" />

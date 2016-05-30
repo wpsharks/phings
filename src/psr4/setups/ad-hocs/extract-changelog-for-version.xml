@@ -9,27 +9,27 @@
     <adHoc-task name="adHocExtractChangelogForVersion">
       <![CDATA[
         class adHocExtractChangelogForVersion extends Task {
-            private $version;
-            private $infile;
-            private $heading;
-            private $outfile;
+            protected $version = '';
+            protected $infile = '';
+            protected $heading = '';
+            protected $outfile = '';
 
-            function setVersion($version) {
-                $this->version = (string) $version;
+            public function setVersion($version) {
+                $this->version = trim((string) $version);
             }
-            function setInFile($infile) {
-                $this->infile = (string) $infile;
+            public function setInFile($infile) {
+                $this->infile = trim((string) $infile);
             }
-            function setHeading($heading) {
+            public function setHeading($heading) {
                 $this->heading = trim((string) $heading);
             }
-            function setOutFile($outfile) {
-                $this->outfile = (string) $outfile;
+            public function setOutFile($outfile) {
+                $this->outfile = trim((string) $outfile);
                 if ($this->outfile && is_file($this->outfile)) {
                     unlink($this->outfile); // Remove.
                 }
             }
-            function main() {
+            public function main() {
               if (!$this->version) {
                   return; // Not possible.
               }

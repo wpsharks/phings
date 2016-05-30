@@ -106,9 +106,10 @@
 
         <property name="_codex_ignore" value="*/assets/*,*/phings/*,*/tests/*,*/vendor/*" />
 
-        <!-- Property values. -->
+        <!-- Property values (including `.ws.json` config keys). -->
 
         <property file="${project.basedir}/.build.props" />
+        <adHocWsJsonConfigKeys getPrimaryKey="phings" propertyPrefix="_ws_json.phings." />
 
         <!-- WordPress theme/plugin detection. -->
 
@@ -156,6 +157,22 @@
           </then>
           <else>
             <property name="_is_wp_core_framework_project" value="false" />
+          </else>
+        </if>
+
+        <!-- AWS bucket configuratin; based on project type. -->
+
+        <if>
+          <and>
+            <isTrue value="${_is_wp_theme_plugin}" />
+          </and>
+          <then>
+            <property name="_aws_bucket" value="wpsharks" />
+            <property name="_aws_bucket_cname" value="cdn.wpsharks.com" />
+          </then>
+          <else>
+            <property name="_aws_bucket" value="websharks" />
+            <property name="_aws_bucket_cname" value="cdn.websharks.org" />
           </else>
         </if>
 

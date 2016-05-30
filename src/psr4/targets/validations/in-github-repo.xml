@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Require a GitHub repo. -->
+    <!-- ============================================  -->
+
+    <target name="-validations-in-github-repo" hidden="true">
+
+      <!-- Make sure the repo has a github.com origin.  -->
+
+      <if>
+        <and>
+          <isFalse value="${_in_github_repo}" />
+        </and>
+        <then>
+          <fail msg="Repo does not have a github.com remote origin." />
+        </then>
+      </if>
+
+      <!-- Indicate no validation issues. -->
+
+      <echo msg="No validation problems. Continuing without issue." />
+
+    </target>
+
+  </project>

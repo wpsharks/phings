@@ -11,14 +11,8 @@
         <isset property="_setups_ini_sets_pcre_complete" />
       </not>
       <then>
-        <!-- Maximize backtrack limit. -->
-
         <php expression="ini_set('pcre.backtrack_limit', (string) PHP_INT_MAX);" level="verbose" />
-
-        <!-- Flag complete. -->
-
         <property name="_setups_ini_sets_pcre_complete" value="true" />
-
       </then>
     </if>
 

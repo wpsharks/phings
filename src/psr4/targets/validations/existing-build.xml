@@ -22,16 +22,12 @@
       <!-- Depends on ${project.basedir}/.~build/.~/properties/project-version -->
 
       <if>
-        <and>
+        <not>
           <available resource="${project.basedir}/.~build/.~/properties/project-version" type="file" />
-        </and>
+        </not>
         <then>
-          <loadfile property="project_version" file="${project.basedir}/.~build/.~/properties/project-version" />
-          <echo msg="Project version for existing build: ${project_version}" />
-        </then>
-        <else>
           <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/.~/properties/project-version" />
-        </else>
+        </then>
       </if>
 
       <!-- Depends on ${project.basedir}/.~build/${project_slug}.[zip|tar.gz] -->
@@ -49,6 +45,10 @@
           <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}.[zip|tar.gz]." />
         </then>
       </if>
+
+      <!-- Indicate no validation issues. -->
+
+      <echo msg="No validation problems. Continuing without issue." />
 
     </target>
 

@@ -1,3 +1,15 @@
+## 160530
+
+- `$ phing release` now requires that you install the AWS CLI Tools. See: <https://github.com/websharks/phings/wiki/AWS-Uploads>
+
+- New command `$ phing update-bleeding-edge`. See: <https://github.com/websharks/phings/wiki/AWS-Uploads#using--phing-update-bleeding-edge>
+
+- Refactored ZIP/TGZ generation. Now calling `zip`, `unzip`, and `tar` directly, but still using `<copy toDir="">` in Phing, along with the same include/exclude patterns as before.
+
+  The goal here was to remove our dependency on the built-in ZIP/TAR tasks in Phing, because they do not support some advanced features, such as the ability to preserve permissions in ZIP files. Fixed in this release. Props @raamdev for his research assistance and for reposting a report in https://github.com/websharks/phings/issues/97
+
+  _Note also that a new directory is added to `.~build/.~/pkg-dirs/for-zip-tgz` for review. The `.zip` and `.tar.gz` distros are based on this directory, and this directory is created using our existing ZIP/TGZ pattern sets for inclusion/exclusion._
+
 ## 160528
 
 - Enhancing `$ phing feature-start` and  `$ phing release`

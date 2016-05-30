@@ -114,7 +114,7 @@
     <!-- Run with `$ phing test`. -->
     <!-- ============================================  -->
 
-    <target name="test" depends="-validations-existing-build">
+    <target name="test">
       <echo msg="Running target: test" />
       <phingCall target="-tests-phpunit" />
       <phingCall target="-tests-casperjs" />
@@ -126,7 +126,7 @@
     <!-- Run with `$ phing codex`. -->
     <!-- ============================================  -->
 
-    <target name="codex" depends="-validations-existing-build">
+    <target name="codex">
       <echo msg="Running target: codex" />
       <phingCall target="-codex-apigen" />
     </target>
@@ -152,6 +152,17 @@
       <echo msg="Running target: feature-finish" />
       <property name="action" value="finish" override="true" />
       <phingCall target="-features-feature" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Upload procedure targets. -->
+    <!-- For project leads updating bleeding edge. -->
+    <!-- Run with `$ phing update-bleeding-edge`. -->
+    <!-- ============================================  -->
+
+    <target name="update-bleeding-edge">
+      <echo msg="Running target: update-bleeding-edge" />
+      <phingCall target="-uploads-bleeding-edge" />
     </target>
 
     <!-- ============================================  -->
