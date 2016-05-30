@@ -15,7 +15,7 @@
 
       <!-- Convey what is about to happen below. -->
       <echo />
-      <echo msg="Uploading distros to Amazon S3/CloudFont storage ..." />
+      <echo msg="Uploading distros to Amazon S3/CloudFront storage ..." />
 
       <!-- Reset clipboard contents file before we begin. -->
 

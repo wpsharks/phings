@@ -10,7 +10,7 @@
 
       <!-- Convey what is about to happen below. -->
 
-      <echo msg="Uploading lite distros to Amazon S3/CloudFont storage ..." />
+      <echo msg="Uploading lite distros to Amazon S3/CloudFront storage ..." />
 
       <!-- Obfuscate the project sub-path for more secure S3 storage. -->
 
