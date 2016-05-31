@@ -21,16 +21,27 @@
           <property name="_releases_release_type_is_rc" value="false" />
         </else>
       </if>
-      <!-- Delete an existing clipboard file before we begin. -->
 
-      <delete file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" quiet="true" />
+      <!-- Delete an existing clipboard file before we begin. -->
+      <if>
+        <and>
+          <available resource="${_tmp_sub_dir}/${project_slug}-releases-clipboard" type="file" />
+        </and>
+        <then>
+          <delete file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" quiet="true" />
+          <echo />
+        </then>
+      </if>
+
+      <!-- Preface the clipboard contents with a warning about pro URLs. -->
       <if>
         <and>
           <isTrue value="${_is_pro_project}" />
         </and>
         <then>
           <echo msg="--- REMINDER: Please do NOT share pro software URLs publicly. ---${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
-          <echo msg="--- Pro software files must be hidden behind a proxy to conceal their true location. ---${line.separator}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
+          <echo msg="--- Pro software files must be hidden behind a proxy to conceal their true location. ---${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
+          <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
         </then>
       </if>
       <!-- Make sure we have the latest copy of all remote branches. -->
