@@ -292,7 +292,7 @@
         </then>
         <else>
           <echo msg="Release URL: ${_releases_release_git_create_release_url}" />
-          <echo msg="${_releases_release_git_create_release_url}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
+          <echo msg="${_releases_release_git_create_release_url}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
         </else>
       </if>
 

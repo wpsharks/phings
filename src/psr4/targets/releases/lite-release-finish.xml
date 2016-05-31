@@ -177,7 +177,7 @@
         </then>
         <else>
           <echo msg="Lite Release URL: ${_releases_lite_release_git_create_release_url}" />
-          <echo msg="${line.separator}${_releases_lite_release_git_create_release_url}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
+          <echo msg="${_releases_lite_release_git_create_release_url}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
         </else>
       </if>
 

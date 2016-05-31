@@ -21,7 +21,7 @@
 
           <echo msg="Copied all URLs to clipboard via `pbcopy`. Type: `$ pbpaste` to review." />
           <echo msg="Note: Please keep pro software URLs private. Lite URLs can be shared publicly." />
-          <echo msg="These URLs are unique; i.e., they contain version-specific details in their file name." />
+          <echo msg="These URLs are unique. They contain version-specific details in their file name." />
           <if>
             <and>
               <isFalse value="${_releases_release_type_is_rc}" />
@@ -29,7 +29,7 @@
             <then>
               <echo />
               <echo msg="~ However, '/latest/' distros are simply updated after each release." />
-              <echo msg="  i.e., They change only in content. URLs remains the same." />
+              <echo msg="  They change only in content. URLs remains the same." />
             </then>
           </if>
 

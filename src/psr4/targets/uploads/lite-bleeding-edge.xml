@@ -14,15 +14,15 @@
 
       <!-- Obfuscate the project sub-path for more secure S3 storage. -->
 
-      <adHocAwsS3ObfuscateSubPath base="software/latest/bleeding-edge" slug="${project_lite_slug}" returnProperty="_uploads_lite_bleeding_edge_sub_path" />
-
-      <!-- Separate lite from pro in the clipboard contents file. -->
-
-      <echo msg="${line.separator}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" append="true" />
+      <adHocAwsS3ObfuscateSubPath base="software/bleeding-edge" slug="${project_lite_slug}" returnProperty="_uploads_lite_bleeding_edge_sub_path" />
 
       <!-- Upload distros as bleeding edge packages to assist with testing. -->
 
       <forEach list="zip,tar.gz,phar" delimiter="," target="--uploads-lite-bleeding-edge-extension" param="__uploads_lite_bleeding_edge_extension" />
+
+      <!-- Also upload a `${project_lite_slug}/version.txt` file we can query. -->
+
+      <phingCall target="--uploads-lite-bleeding-edge-version" />
 
     </target>
 
@@ -78,15 +78,41 @@
             <arg value="--content-disposition" />
             <arg value='attachment; filename="${project_lite_slug}.bleeding-edge.${__uploads_lite_bleeding_edge_extension}"' />
           </exec>
-
           <echo msg="https://${_aws_bucket_cname}/${_uploads_lite_bleeding_edge_sub_path}.${__uploads_lite_bleeding_edge_extension}" />
-          <echo msg="https://${_aws_bucket_cname}/${_uploads_lite_bleeding_edge_sub_path}.${__uploads_lite_bleeding_edge_extension}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" append="true" />
+
+          <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" append="true" />
+          <echo msg="https://${_aws_bucket_cname}/${_uploads_lite_bleeding_edge_sub_path}.${__uploads_lite_bleeding_edge_extension}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" append="true" />
         </then>
 
         <else>
           <echo msg="Distro with extension `.${__uploads_lite_bleeding_edge_extension}` does not exist. Bypassing." />
         </else>
       </if>
+    </target>
+
+    <!-- Uploads a `${project_lite_slug}/version.txt` file we can query. -->
+
+    <target name="--uploads-lite-bleeding-edge-version">
+      <exec executable="aws" passthru="true" checkReturn="true">
+        <arg value="--profile" />
+        <arg value="websharks" />
+
+        <arg value="s3" />
+        <arg value="cp" />
+
+        <arg value="${project.basedir}/.~build/${project_lite_slug}/.~build/.~/properties/project-version" />
+        <arg value="s3://${_aws_bucket}/cloudfront/software/bleeding-edge/${project_lite_slug}/version.txt" />
+
+        <arg value="--metadata" />
+        <arg value="version=${project_version}" />
+
+        <arg value="--content-type" />
+        <arg value="text/plain; charset=utf-8" />
+      </exec>
+      <echo msg="https://${_aws_bucket_cname}/software/bleeding-edge/${project_lite_slug}/version.txt" />
+
+      <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" append="true" />
+      <echo msg="https://${_aws_bucket_cname}/software/bleeding-edge/${project_lite_slug}/version.txt${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" append="true" />
     </target>
 
   </project>

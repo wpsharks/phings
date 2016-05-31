@@ -17,39 +17,17 @@
       <adHocAwsS3ObfuscateSubPath base="software/releases" slug="${project_lite_slug}" version="${project_version}" returnProperty="_releases_lite_upload_sub_path" />
       <adHocAwsS3ObfuscateSubPath base="software/latest" slug="${project_lite_slug}" returnProperty="_releases_lite_upload_latest_sub_path" />
 
-      <!-- Separate lite from pro in the clipboard contents file. -->
-
-      <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
-
       <!-- Upload distros as release packages, and maybe update the 'latest' packages also. -->
 
       <forEach list="zip,tar.gz,phar" delimiter="," target="--releases-lite-upload-extension" param="__releases_lite_upload_extension" />
 
-      <!-- If doing a formal release, also upload a `${project_lite_slug}/version.txt` file we can query. -->
+      <!-- If doing a formal release, update `${project_lite_slug}/version.txt`. -->
       <if>
         <and>
           <isFalse value="${_releases_release_type_is_rc}" />
         </and>
         <then>
-          <exec executable="aws" passthru="true" checkReturn="true">
-            <arg value="--profile" />
-            <arg value="websharks" />
-
-            <arg value="s3" />
-            <arg value="cp" />
-
-            <arg value="${project.basedir}/.~build/${project_lite_slug}/.~build/.~/properties/project-version" />
-            <arg value="s3://${_aws_bucket}/cloudfront/software/latest/${project_lite_slug}/version.txt" />
-
-            <arg value="--metadata" />
-            <arg value="version=${project_version}" />
-
-            <arg value="--content-type" />
-            <arg value="text/plain; charset=utf-8" />
-          </exec>
-
-          <echo msg="https://${_aws_bucket_cname}/software/latest/${project_lite_slug}/version.txt" />
-          <echo msg="https://${_aws_bucket_cname}/software/latest/${project_lite_slug}/version.txt${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
+          <phingCall target="--releases-lite-upload-version" />
         </then>
       </if>
 
@@ -108,9 +86,10 @@
             <arg value="--content-disposition" />
             <arg value='attachment; filename="${project_lite_slug}-v${project_version}.${__releases_lite_upload_extension}"' />
           </exec>
-
           <echo msg="https://${_aws_bucket_cname}/${_releases_lite_upload_sub_path}.${__releases_lite_upload_extension}" />
-          <echo msg="https://${_aws_bucket_cname}/${_releases_lite_upload_sub_path}.${__releases_lite_upload_extension}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
+
+          <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
+          <echo msg="https://${_aws_bucket_cname}/${_releases_lite_upload_sub_path}.${__releases_lite_upload_extension}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
 
           <!-- If doing a formal release, copy this version into the 'latest' package. -->
           <if>
@@ -130,17 +109,44 @@
                 <arg value="s3://${_aws_bucket}/cloudfront/${_releases_lite_upload_sub_path}.${__releases_lite_upload_extension}" />
                 <arg value="s3://${_aws_bucket}/cloudfront/${_releases_lite_upload_latest_sub_path}.${__releases_lite_upload_extension}" />
               </exec>
-
               <echo msg="https://${_aws_bucket_cname}/${_releases_lite_upload_latest_sub_path}.${__releases_lite_upload_extension}" />
-              <echo msg="https://${_aws_bucket_cname}/${_releases_lite_upload_latest_sub_path}.${__releases_lite_upload_extension}${line.separator}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
-            </then>
 
-            <else>
-              <echo msg="Distro with extension `.${__releases_lite_upload_extension}` does not exist. Bypassing." />
-            </else>
+              <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
+              <echo msg="https://${_aws_bucket_cname}/${_releases_lite_upload_latest_sub_path}.${__releases_lite_upload_extension}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
+            </then>
           </if>
         </then>
+        <else>
+          <echo msg="Distro with extension `.${__releases_lite_upload_extension}` does not exist. Bypassing." />
+        </else>
       </if>
+
+    </target>
+
+    <!-- Uploads a `${project_lite_slug}/version.txt` file we can query. -->
+
+    <target name="--releases-lite-upload-version">
+
+      <exec executable="aws" passthru="true" checkReturn="true">
+        <arg value="--profile" />
+        <arg value="websharks" />
+
+        <arg value="s3" />
+        <arg value="cp" />
+
+        <arg value="${project.basedir}/.~build/${project_lite_slug}/.~build/.~/properties/project-version" />
+        <arg value="s3://${_aws_bucket}/cloudfront/software/latest/${project_lite_slug}/version.txt" />
+
+        <arg value="--metadata" />
+        <arg value="version=${project_version}" />
+
+        <arg value="--content-type" />
+        <arg value="text/plain; charset=utf-8" />
+      </exec>
+      <echo msg="https://${_aws_bucket_cname}/software/latest/${project_lite_slug}/version.txt" />
+
+      <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
+      <echo msg="https://${_aws_bucket_cname}/software/latest/${project_lite_slug}/version.txt${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
 
     </target>
 
