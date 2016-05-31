@@ -1,0 +1,12 @@
+project_title                               = WebSharks Phings
+
+project_owner                               = websharks
+project_slug                                = phings
+
+project_namespace                           = WebSharks\\Phings
+project_sub_namespace                       = Phings
+
+project_version                             = %y%m%d.%now
+
+project_php_required_version                = 5.5
+project_php_tested_up_to_version            = ${php.version}

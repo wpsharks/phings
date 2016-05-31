@@ -1,5 +1,6 @@
 ## 160531
 
+- Now possible to build and release `websharks/phings` using `websharks/phings` :-)
 - Adding `version.txt` for bleeding edge distros also, so systems can query the bleeding edge build version.
 - Moving bleeding edge distro URLs from `/software/latest/bleeding-edge` to `/software/bleeding-edge` in order to avoid namespace conflicts in the `/latest/` directory and to make room for additional distro types in the future. I'm making this change while I can still improve this; i.e., before these bleeding edge URLs are circulated.
 
