@@ -1,3 +1,7 @@
+## $v
+
+- Adding support for `## $v` in `CHANGELOG.md` instead of the longer replacement code that is more difficult to type out all the time.
+
 ## 160531
 
 - Now possible to build and release `websharks/phings` using `websharks/phings` :-)
