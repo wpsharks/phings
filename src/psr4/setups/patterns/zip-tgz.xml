@@ -17,6 +17,9 @@
       <exclude pattern=".git**" />
       <exclude pattern="**/.git**" />
 
+      <exclude pattern=".github/**" />
+      <exclude pattern="**/.github/**" />
+
       <exclude pattern=".idea/**" />
       <exclude pattern="**/.idea/**" />
 
