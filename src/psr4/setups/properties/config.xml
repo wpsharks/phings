@@ -554,6 +554,23 @@
           </then>
         </if>
 
+        <!-- The current project build version string. -->
+        <!-- When on a release branch, the version is forced to match. -->
+        <!-- This version applies only to the `build` target and only to the build directory. -->
+
+        <property name="_project_build_version" value="%y%m%d.%now" override="true" />
+        <php expression="str_replace('%y%m%d', date('ymd'), '${_project_build_version}')" returnProperty="_project_build_version" level="verbose" />
+        <php expression="str_replace('%now', time() % 86400, '${_project_build_version}')" returnProperty="_project_build_version" level="verbose" />
+
+        <if>
+          <and>
+            <isTrue value="${_starting_git_branch_is_release}" />
+          </and>
+          <then>
+            <property name="_project_build_version" value="${_starting_git_release_branch_version}" override="true" />
+          </then>
+        </if>
+
         <!-- Flag complete. -->
 
         <property name="_setups_properties_config_complete" value="true" />
