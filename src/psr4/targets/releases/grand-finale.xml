@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Release grand finale (i.e., Slack, etc). -->
+    <!-- ============================================  -->
+
+    <target name="-releases-grand-finale" hidden="true">
+
+      <!-- Load release URL files into properties needed below. -->
+
+      <loadFile property="_releases_grand_finale_release_url" file="${_tmp_sub_dir}/${project_slug}-release-url" />
+      <loadFile property="_releases_grand_finale_release_urls" file="${_tmp_sub_dir}/${project_slug}-release-urls" />
+
+      <!-- Send a Slack notification and explain the URLs. -->
+      <if>
+        <and>
+          <isset property="_ws_json.phings.slack.username" />
+          <not>
+            <equals arg1="${_ws_json.phings.slack.username}" arg2="" />
+          </not>
+          <isset property="_ws_json.phings.slack.email" />
+          <not>
+            <equals arg1="${_ws_json.phings.slack.email}" arg2="" />
+          </not>
+          <isset property="_ws_json.phings.slack.api_webhook_url" />
+          <not>
+            <equals arg1="${_ws_json.phings.slack.api_webhook_url}" arg2="" />
+          </not>
+        </and>
+        <then>
+          <adHocSlackNotify text="*${project_title}:* &lt;${_releases_grand_finale_release_url}|v${project_version}&gt; release completely successfully." attachmentColor="#3DAF59" attachmentAuthorIcon="https://websharks.org/wp-content/uploads/2016/06/attachment-icon.png" attachmentAuthorName="Release URLs are as follows:" attachmentText="${_releases_grand_finale_release_urls}" attachmentFooter="Please keep pro software URLs private!" attachmentFooterIcon="https://websharks.org/wp-content/uploads/2016/06/warning-icon.png" cleanUrlLines="true" />
+          <echo />
+        </then>
+      </if>
+
+      <!-- Print details for the project lead. -->
+
+      <echo msg="Note: Please keep pro software URLs private." />
+      <echo msg="${line.separator}${_releases_grand_finale_release_urls}" />
+
+    </target>
+
+  </project>

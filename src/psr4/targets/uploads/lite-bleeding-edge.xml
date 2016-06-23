@@ -80,8 +80,8 @@
           </exec>
           <echo msg="https://${_aws_bucket_cname}/${_uploads_lite_bleeding_edge_sub_path}.${__uploads_lite_bleeding_edge_extension}" />
 
-          <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" append="true" />
-          <echo msg="https://${_aws_bucket_cname}/${_uploads_lite_bleeding_edge_sub_path}.${__uploads_lite_bleeding_edge_extension}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" append="true" />
+          <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" append="true" />
+          <echo msg="https://${_aws_bucket_cname}/${_uploads_lite_bleeding_edge_sub_path}.${__uploads_lite_bleeding_edge_extension}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" append="true" />
         </then>
 
         <else>
@@ -111,8 +111,8 @@
       </exec>
       <echo msg="https://${_aws_bucket_cname}/software/bleeding-edge/${project_lite_slug}/version.txt" />
 
-      <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" append="true" />
-      <echo msg="https://${_aws_bucket_cname}/software/bleeding-edge/${project_lite_slug}/version.txt${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-clipboard" append="true" />
+      <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" append="true" />
+      <echo msg="https://${_aws_bucket_cname}/software/bleeding-edge/${project_lite_slug}/version.txt${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" append="true" />
     </target>
 
   </project>

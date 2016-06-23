@@ -88,8 +88,8 @@
           </exec>
           <echo msg="https://${_aws_bucket_cname}/${_releases_lite_upload_sub_path}.${__releases_lite_upload_extension}" />
 
-          <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
-          <echo msg="https://${_aws_bucket_cname}/${_releases_lite_upload_sub_path}.${__releases_lite_upload_extension}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
+          <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
+          <echo msg="https://${_aws_bucket_cname}/${_releases_lite_upload_sub_path}.${__releases_lite_upload_extension}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
 
           <!-- If doing a formal release, copy this version into the 'latest' package. -->
           <if>
@@ -111,8 +111,8 @@
               </exec>
               <echo msg="https://${_aws_bucket_cname}/${_releases_lite_upload_latest_sub_path}.${__releases_lite_upload_extension}" />
 
-              <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
-              <echo msg="https://${_aws_bucket_cname}/${_releases_lite_upload_latest_sub_path}.${__releases_lite_upload_extension}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
+              <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
+              <echo msg="https://${_aws_bucket_cname}/${_releases_lite_upload_latest_sub_path}.${__releases_lite_upload_extension}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
             </then>
           </if>
         </then>
@@ -145,8 +145,8 @@
       </exec>
       <echo msg="https://${_aws_bucket_cname}/software/latest/${project_lite_slug}/version.txt" />
 
-      <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
-      <echo msg="https://${_aws_bucket_cname}/software/latest/${project_lite_slug}/version.txt${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
+      <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
+      <echo msg="https://${_aws_bucket_cname}/software/latest/${project_lite_slug}/version.txt${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
 
     </target>
 
