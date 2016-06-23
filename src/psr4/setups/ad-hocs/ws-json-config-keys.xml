@@ -12,12 +12,16 @@
             protected $get_primary_key = '';
             protected $property_prefix = '';
 
+            /* ---------------------------- */
+
             public function setGetPrimaryKey($get_primary_key) {
                 $this->get_primary_key = trim((string) $get_primary_key);
             }
             public function setPropertyPrefix($property_prefix) {
                 $this->property_prefix = trim((string) $property_prefix);
             }
+            /* ---------------------------- */
+
             public function acquireHomeDir() {
                 if (!empty($_SERVER['WEBSHARK_HOME'])) {
                     return (string) $_SERVER['WEBSHARK_HOME'];
@@ -56,6 +60,8 @@
 
                 return $dot_keys;
             }
+            /* ---------------------------- */
+
             public function main() {
                 if (!$this->get_primary_key) {
                     return; // Not possible.

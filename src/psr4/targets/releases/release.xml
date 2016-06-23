@@ -22,28 +22,26 @@
         </else>
       </if>
 
-      <!-- Delete an existing clipboard file before we begin. -->
+      <!-- Delete existing release URL files before we begin. -->
       <if>
         <and>
-          <available resource="${_tmp_sub_dir}/${project_slug}-releases-clipboard" type="file" />
+          <available resource="${_tmp_sub_dir}/${project_slug}-release-url" type="file" />
         </and>
         <then>
-          <delete file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" quiet="true" />
+          <delete file="${_tmp_sub_dir}/${project_slug}-release-url" quiet="true" />
+          <echo />
+        </then>
+      </if>
+      <if>
+        <and>
+          <available resource="${_tmp_sub_dir}/${project_slug}-release-urls" type="file" />
+        </and>
+        <then>
+          <delete file="${_tmp_sub_dir}/${project_slug}-release-urls" quiet="true" />
           <echo />
         </then>
       </if>
 
-      <!-- Preface the clipboard contents with a warning about pro URLs. -->
-      <if>
-        <and>
-          <isTrue value="${_is_pro_project}" />
-        </and>
-        <then>
-          <echo msg="--- REMINDER: Please do NOT share pro software URLs publicly. ---${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
-          <echo msg="--- Pro software files must be hidden behind a proxy to conceal their true location. ---${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
-          <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-releases-clipboard" append="true" />
-        </then>
-      </if>
       <!-- Make sure we have the latest copy of all remote branches. -->
 
       <echo msg="Fetching latest copy of all branches from remote origin." />
