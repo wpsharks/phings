@@ -1,5 +1,11 @@
 ## $v
 
+- Bug fix in lite clone. See: #114
+- Exclude `.github` folder. See: #113
+- Set `user.email` in lite repo clone. See: #117
+- Adding `${_project_build_version}` in build directory phase. See: #111
+- Auto-replace `@since $v` or `@since [0-9]{2}[xX]{4}` during a release build. See: #109
+- `adHocSlackNotify()` See: #108 and review README for this repo.
 - Adding support for `## $v` in `CHANGELOG.md` instead of the longer replacement code that is more difficult to type out all the time.
 
 ## 160531
