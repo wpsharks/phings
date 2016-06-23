@@ -1,4 +1,4 @@
-## $v
+## v160623.42457
 
 - Bug fix in lite clone. See: #114
 - Exclude `.github` folder. See: #113
