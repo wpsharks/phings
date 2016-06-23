@@ -1,3 +1,7 @@
+## v160623.42648
+
+- Fix typo in release notification.
+
 ## v160623.42457
 
 - Bug fix in lite clone. See: #114
