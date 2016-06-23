@@ -26,6 +26,21 @@
       <delete dir="${_releases_lite_repo_update_dir}" includeEmptyDirs="true" quiet="true" />
       <exec command="git clone '${_releases_lite_repo_update_remote}' '${_releases_lite_repo_update_dir}'" checkReturn="true" />
 
+      <!-- Set `user.email` in local clone whenever the user has configured an email address for that purpose. -->
+      <if>
+        <and>
+          <isset property="_ws_json.phings.git.email" />
+          <not>
+            <equals arg1="${_ws_json.phings.git.email}" arg2="" />
+          </not>
+        </and>
+        <then>
+          <echo />
+          <echo msg="Setting Git `user.email` to: ${_ws_json.phings.git.email}" />
+          <exec command="git config user.email '${_ws_json.phings.git.email}'" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
+        </then>
+      </if>
+
       <!-- Make sure the repo has a dev and master branch that we can work with below. -->
       <!-- Also make sure that we start (always) from the 000000-dev branch for remaining routines. -->
 
