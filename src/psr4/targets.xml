@@ -17,10 +17,13 @@
 
     <target name="build">
       <echo msg="Running target: build" />
+      <property name="_target" value="build" />
+
       <phingCall target="-builds-in-base-dir-composer" />
       <phingCall target="-builds-in-base-dir-dotbuilds" />
       <phingCall target="-builds-in-base-dir-i18n-text-domains" />
       <phingCall target="-builds-in-base-dir-after-create-build-dir" />
+      <phingCall target="-builds-in-build-dir-version-tokens" />
       <phingCall target="-builds-in-build-dir-composer" />
       <phingCall target="-builds-in-build-dir-dotbuilds" />
       <phingCall target="-builds-in-build-dir-js-css-cleanup" />
@@ -37,6 +40,8 @@
 
     <target name="build-lite">
       <echo msg="Running target: build-lite" />
+      <property name="_target" value="build" />
+
       <phingCall target="-variations-lite-build" />
     </target>
 
@@ -48,6 +53,8 @@
 
     <target name="full-build">
       <echo msg="Running target: full-build" />
+      <property name="_target" value="full-build" />
+
       <phingCall target="-builds-in-base-dir-version-tokens" />
       <phingCall target="-builds-in-base-dir-composer" />
       <phingCall target="-builds-in-base-dir-dotbuilds" />
@@ -70,6 +77,8 @@
 
     <target name="full-build-lite">
       <echo msg="Running target: full-build-lite" />
+      <property name="_target" value="full-build-lite" />
+
       <phingCall target="-variations-lite-full-build" />
     </target>
 
@@ -81,6 +90,8 @@
 
     <target name="build-all">
       <echo msg="Running target: build-all" />
+      <property name="_target" value="build-all" />
+
       <phingCall target="build" />
       <phingCall target="build-lite" />
     </target>
@@ -93,6 +104,8 @@
 
     <target name="full-build-all">
       <echo msg="Running target: full-build-all" />
+      <property name="_target" value="full-build-all" />
+
       <phingCall target="full-build" />
       <phingCall target="full-build-lite" />
     </target>
@@ -105,6 +118,8 @@
 
     <target name="post-receive-build">
       <echo msg="Running target: post-receive-build" />
+      <property name="_target" value="post-receive-build" />
+
       <phingCall target="-builds-in-base-dir-composer" />
     </target>
 
@@ -116,6 +131,8 @@
 
     <target name="test">
       <echo msg="Running target: test" />
+      <property name="_target" value="test" />
+
       <phingCall target="-tests-phpunit" />
       <phingCall target="-tests-casperjs" />
     </target>
@@ -128,6 +145,8 @@
 
     <target name="codex">
       <echo msg="Running target: codex" />
+      <property name="_target" value="codex" />
+
       <phingCall target="-codex-apigen" />
     </target>
 
@@ -139,17 +158,23 @@
 
     <target name="feature">
       <echo msg="Running target: feature" />
+      <property name="_target" value="feature" />
+
       <phingCall target="-features-feature" />
     </target>
 
     <target name="feature-start">
       <echo msg="Running target: feature-start" />
+      <property name="_target" value="feature-start" />
+
       <property name="action" value="start" override="true" />
       <phingCall target="-features-feature" />
     </target>
 
     <target name="feature-finish">
       <echo msg="Running target: feature-finish" />
+      <property name="_target" value="feature-finish" />
+
       <property name="action" value="finish" override="true" />
       <phingCall target="-features-feature" />
     </target>
@@ -162,6 +187,8 @@
 
     <target name="update-bleeding-edge">
       <echo msg="Running target: update-bleeding-edge" />
+      <property name="_target" value="update-bleeding-edge" />
+
       <phingCall target="-uploads-bleeding-edge" />
     </target>
 
@@ -173,11 +200,15 @@
 
     <target name="release">
       <echo msg="Running target: release" />
+      <property name="_target" value="release" />
+
       <phingCall target="-releases-release" />
     </target>
 
     <target name="release-rc">
       <echo msg="Running target: release-rc" />
+      <property name="_target" value="release-rc" />
+
       <property name="type" value="rc" override="true" />
       <phingCall target="release" />
     </target>

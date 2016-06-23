@@ -72,6 +72,7 @@
     <!-- Build (in build directory) targets. -->
     <!-- ============================================  -->
 
+    <import file="${phing.dir.targets}/targets/builds/in-build-dir/version-tokens.xml" />
     <import file="${phing.dir.targets}/targets/builds/in-build-dir/composer.xml" />
     <import file="${phing.dir.targets}/targets/builds/in-build-dir/dotbuilds.xml" />
     <import file="${phing.dir.targets}/targets/builds/in-build-dir/js-css-cleanup.xml" />
