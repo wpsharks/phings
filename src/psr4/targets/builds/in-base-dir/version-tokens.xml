@@ -39,6 +39,29 @@
         </filterChain>
       </reflexive>
 
+      <!-- PHP/JS/CSS/SCSS @since version tokens. -->
+
+      <if>
+        <and>
+          <isTrue value="${_starting_git_branch_is_release}" />
+          <isFalse value="${_starting_git_branch_is_release_rc}" />
+        </and>
+        <then>
+          <echo msg="Replacing PHP/JS/CSS/SCSS @since version tokens in: ${project.basedir}" />
+
+          <reflexive>
+            <fileSet dir="${project.basedir}" caseSensitive="false">
+              <patternSet refId="_token_pattern_set" />
+            </fileSet>
+            <filterChain>
+              <replaceRegExp>
+                <regExp pattern="^(\s*\*\s+@since\s+)(?:\$v|[0-9]{2}[xX]{4})(\s|$)" replace="$1${project_version}$2" modifiers="um" />
+              </replaceRegExp>
+            </filterChain>
+          </reflexive>
+        </then>
+      </if>
+
       <!-- README/CHANGELOG version token replacements. -->
 
       <echo />
