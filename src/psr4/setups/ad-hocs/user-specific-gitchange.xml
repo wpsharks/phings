@@ -11,9 +11,13 @@
         class adHocUserSpecificGitChange extends Task {
             protected $dir = '';
 
+            /* ---------------------------- */
+
             public function setDir($dir) {
                 $this->dir = trim((string) $dir);
             }
+            /* ---------------------------- */
+
             public function main() {
               if (!$this->dir) {
                   return; // Not possible.

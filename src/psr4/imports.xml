@@ -140,7 +140,7 @@
 
     <import file="${phing.dir.targets}/targets/uploads/bleeding-edge.xml" />
     <import file="${phing.dir.targets}/targets/uploads/lite-bleeding-edge.xml" />
-    <import file="${phing.dir.targets}/targets/uploads/bleeding-edge-clipboard.xml" />
+    <import file="${phing.dir.targets}/targets/uploads/bleeding-edge-finale.xml" />
 
     <!-- ============================================  -->
     <!-- Release-related targets. -->
@@ -157,7 +157,7 @@
     <import file="${phing.dir.targets}/targets/releases/upload.xml" />
     <import file="${phing.dir.targets}/targets/releases/lite-upload.xml" />
 
-    <import file="${phing.dir.targets}/targets/releases/clipboard.xml" />
+    <import file="${phing.dir.targets}/targets/releases/grand-finale.xml" />
 
     <!-- ============================================  -->
     <!-- Lite variation-related targets. -->

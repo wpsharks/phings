@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <project>
+
+    <!-- ============================================  -->
+    <!-- Bleeding edge finale (i.e., Slack, etc). -->
+    <!-- ============================================  -->
+
+    <target name="-uploads-bleeding-edge-finale" hidden="true">
+
+      <!-- Load bleeding edge URLs file into property needed below. -->
+
+      <loadFile property="_uploads_bleeding_edge_finale_urls" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" />
+
+      <!-- Send a Slack notification and explain the URLs. -->
+      <if>
+        <and>
+          <isset property="_ws_json.phings.slack.username" />
+          <not>
+            <equals arg1="${_ws_json.phings.slack.username}" arg2="" />
+          </not>
+          <isset property="_ws_json.phings.slack.email" />
+          <not>
+            <equals arg1="${_ws_json.phings.slack.email}" arg2="" />
+          </not>
+          <isset property="_ws_json.phings.slack.api_webhook_url" />
+          <not>
+            <equals arg1="${_ws_json.phings.slack.api_webhook_url}" arg2="" />
+          </not>
+        </and>
+        <then>
+          <adHocSlackNotify channel="#jaswsinc-sandbox" text="*${project_title}*: bleeding edge updated to v${project_version}." attachmentColor="#782c2c" attachmentAuthorIcon="https://websharks.org/wp-content/uploads/2016/06/attachment-icon.png" attachmentAuthorName="Bleeding edge URLs are as follows:" attachmentText="${_uploads_bleeding_edge_finale_urls}" attachmentFooter="Please keep pro software URLs private!" attachmentFooterIcon="https://websharks.org/wp-content/uploads/2016/06/warning-icon.png" cleanUrlLines="true" />
+          <echo />
+        </then>
+      </if>
+
+      <!-- Print details for the project lead. -->
+
+      <echo msg="Note: Please keep pro software URLs private." />
+      <echo msg="${line.separator}${_uploads_bleeding_edge_finale_urls}" />
+
+    </target>
+
+  </project>

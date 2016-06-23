@@ -14,6 +14,8 @@
             protected $version = '';
             protected $return_property = '';
 
+            /* ---------------------------- */
+
             public function setBase($base) {
                 $this->base = trim((string) $base);
                 $this->base = trim($this->base, '/');
@@ -27,6 +29,8 @@
             public function setReturnProperty($return_property) {
                 $this->return_property = trim((string) $return_property);
             }
+            /* ---------------------------- */
+
             public function main() {
                 if (!$this->base) {
                     return; // Not possible.
