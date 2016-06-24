@@ -1,3 +1,7 @@
+# $v
+
+- Nasty bug related to `@since` getting mangled during a release build. Fixed in this release. Referencing: #109
+
 ## v160623.42648
 
 - Fix typo in release notification.
