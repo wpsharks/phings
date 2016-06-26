@@ -48,7 +48,7 @@
 
   <!-- This target is used by the foreach loop above to reduce the amount of code we need to maintain. -->
 
-  <target name="--releases-upload-extension">
+  <target name="--releases-upload-extension" hidden="true">
 
     <if>
       <and>
@@ -138,7 +138,7 @@
 
   <!-- Uploads a `${project_slug}/version.txt` file we can query. -->
 
-  <target name="--releases-upload-version">
+  <target name="--releases-upload-version" hidden="true">
 
     <exec executable="aws" passthru="true" checkReturn="true">
       <arg value="--profile" />

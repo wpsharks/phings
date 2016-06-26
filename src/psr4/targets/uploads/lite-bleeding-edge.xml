@@ -28,7 +28,7 @@
 
   <!-- This target is used by the foreach loop above to reduce the amount of code we need to maintain. -->
 
-  <target name="--uploads-lite-bleeding-edge-extension">
+  <target name="--uploads-lite-bleeding-edge-extension" hidden="true">
     <if>
       <and>
         <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.${__uploads_lite_bleeding_edge_extension}" type="file" />
@@ -92,7 +92,7 @@
 
   <!-- Uploads a `${project_lite_slug}/version.txt` file we can query. -->
 
-  <target name="--uploads-lite-bleeding-edge-version">
+  <target name="--uploads-lite-bleeding-edge-version" hidden="true">
     <exec executable="aws" passthru="true" checkReturn="true">
       <arg value="--profile" />
       <arg value="websharks" />
