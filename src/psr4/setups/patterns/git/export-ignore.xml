@@ -189,35 +189,65 @@
     <exclude pattern="**.css.map" />
     <exclude pattern="**/**.css.map" />
 
-    <exclude pattern="bourbon/**" />
-    <exclude pattern="**/bourbon/**" />
+    <exclude pattern="src/client-s/bourbon/**" />
+    <exclude pattern="src/client-s/**/bourbon/**" />
+
+    <exclude pattern="src/vendor/websharks/*/src/client-s/bourbon/**" />
+    <exclude pattern="src/vendor/websharks/*/src/client-s/**/bourbon/**" />
 
     <!-- Git -->
 
     <exclude pattern=".gitignore" />
+    <exclude pattern="src/vendor/*/*/.gitignore" />
+
     <exclude pattern=".gitattributes" />
+    <exclude pattern="src/vendor/*/*/.gitattributes" />
+
     <exclude pattern=".gitmodules" />
+    <exclude pattern="src/vendor/*/*/.gitmodules" />
+
     <exclude pattern=".gitchange" />
+    <exclude pattern="src/vendor/websharks/*/.gitchange" />
 
     <!-- GitHub -->
 
     <exclude pattern=".github/**" />
+    <exclude pattern="src/vendor/*/*/.github/**" />
+
     <exclude pattern="CONTRIBUTING.md" />
+    <exclude pattern="src/vendor/*/*/CONTRIBUTING.md" />
+
     <exclude pattern="ISSUE_TEMPLATE.md" />
+    <exclude pattern="src/vendor/*/*/ISSUE_TEMPLATE.md" />
+
     <exclude pattern="PULL_REQUEST_TEMPLATE.md" />
+    <exclude pattern="src/vendor/*/*/PULL_REQUEST_TEMPLATE.md" />
 
     <!-- Assets -->
 
     <exclude pattern="assets/**" />
+    <exclude pattern="src/vendor/websharks/*/assets/**" />
 
     <!-- Build Files -->
 
     <exclude pattern="phings/**" />
+    <exclude pattern="src/vendor/*/*/phing/**" />
+    <exclude pattern="src/vendor/*/*/phings/**" />
 
     <exclude pattern=".build.props" />
+    <exclude pattern="src/vendor/*/*/.build.props" />
 
     <exclude pattern="build-*.xml" />
+    <exclude pattern="src/vendor/*/*/build-*.xml" />
+
     <exclude pattern="build.xml" />
+    <exclude pattern="src/vendor/*/*/build.xml" />
+
+    <exclude pattern="src/client-s/.build.php" />
+    <exclude pattern="src/client-s/.build.*.php" />
+
+    <exclude pattern="src/client-s/**/.build.php" />
+    <exclude pattern="src/client-s/**/.build.*.php" />
 
     <exclude pattern=".build.php" />
     <exclude pattern="**/.build.php" />
@@ -228,29 +258,42 @@
     <!-- Tests -->
 
     <exclude pattern="tests/**" />
+    <exclude pattern="src/vendor/*/*/test/**" />
+    <exclude pattern="src/vendor/*/*/tests/**" />
 
     <!-- Drone -->
 
     <exclude pattern=".drone.yml" />
+    <exclude pattern="src/vendor/*/*/.drone.yml" />
+
     <exclude pattern=".drone.sec" />
+    <exclude pattern="src/vendor/*/*/.drone.sec" />
 
     <!-- Travis -->
 
     <exclude pattern=".travis.yml" />
+    <exclude pattern="src/vendor/*/*/.travis.yml" />
+
     <exclude pattern=".travis.bash" />
+    <exclude pattern="src/vendor/*/*/.travis.bash" />
 
     <!-- Coverage -->
 
     <exclude pattern=".coveralls.yml" />
+    <exclude pattern="src/vendor/*/*/.coveralls.yml" />
+
     <exclude pattern=".scrutinizer.yml" />
+    <exclude pattern="src/vendor/*/*/.scrutinizer.yml" />
 
     <!-- Post-Receive -->
 
     <exclude pattern="post-receive" />
+    <exclude pattern="src/vendor/websharks/*/post-receive" />
 
     <!-- PHAR Stub -->
 
     <exclude pattern="src/includes/phar-stub.php" />
+    <exclude pattern="src/vendor/websharks/*/src/includes/phar-stub.php" />
 
   </patternSet>
 

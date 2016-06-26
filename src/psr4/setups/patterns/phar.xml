@@ -9,14 +9,17 @@
 
   <patternSet id="_phar_pattern_set">
 
-    <!-- Composer -->
-
-    <exclude pattern="composer.json" />
-    <exclude pattern="composer.lock" />
-
     <!-- Binaries -->
 
     <exclude pattern="src/vendor/bin/**" />
+
+    <!-- Composer -->
+
+    <exclude pattern="composer.json" />
+    <exclude pattern="src/vendor/*/*/composer.json" />
+
+    <exclude pattern="composer.lock" />
+    <exclude pattern="src/vendor/*/*/composer.lock" />
 
   </patternSet>
 
