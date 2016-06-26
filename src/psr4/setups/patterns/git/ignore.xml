@@ -113,20 +113,47 @@
 
     <!-- Mac Files -->
 
-    <exclude pattern=".Spotlight-V100" />
-    <exclude pattern="**/.Spotlight-V100" />
+    <exclude pattern=".AppleDB" />
+    <exclude pattern="**/.AppleDB" />
 
     <exclude pattern=".AppleDouble" />
     <exclude pattern="**/.AppleDouble" />
 
+    <exclude pattern=".AppleDesktop" />
+    <exclude pattern="**/.AppleDesktop" />
+
+    <exclude pattern=".com.apple.timemachine.donotpresent" />
+    <exclude pattern="**/.com.apple.timemachine.donotpresent" />
+
+    <exclude pattern="Network Trash Folder" />
+    <exclude pattern="**/Network Trash Folder" />
+
+    <exclude pattern="Temporary Items" />
+    <exclude pattern="**/Temporary Items" />
+
     <exclude pattern=".LSOverride" />
     <exclude pattern="**/.LSOverride" />
+
+    <exclude pattern=".Spotlight-V100" />
+    <exclude pattern="**/.Spotlight-V100" />
+
+    <exclude pattern=".VolumeIcon.icns" />
+    <exclude pattern="**/.VolumeIcon.icns" />
+
+    <exclude pattern=".TemporaryItems" />
+    <exclude pattern="**/.TemporaryItems" />
+
+    <exclude pattern=".fseventsd" />
+    <exclude pattern="**/.fseventsd" />
 
     <exclude pattern=".DS_Store" />
     <exclude pattern="**/.DS_Store" />
 
     <exclude pattern=".Trashes" />
     <exclude pattern="**/.Trashes" />
+
+    <exclude pattern=".apdisk" />
+    <exclude pattern="**/.apdisk" />
 
     <exclude pattern="Icon\r" />
     <exclude pattern="**/Icon\r" />

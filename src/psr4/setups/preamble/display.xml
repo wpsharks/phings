@@ -78,6 +78,7 @@
 
           <echo msg="Project Lite Title: ${project_lite_title}" />
           <echo msg="Project Lite Slug: ${project_lite_slug}" />
+          <echo msg="Project Lite Text Domain: ${project_lite_text_domain}" />
 
           <echo />
 

@@ -12,7 +12,6 @@
 - **New Wiki Article:** https://github.com/websharks/phings/wiki/Build-Flags-&-Props
 - Reorganized all pattern sets. Now using a layered approach that is based on our `.gitignore` and `.gitattributes` file for better consistency and easier maintenance.
 - Adding `defaultExcludes="false"` to all `<fileSet>` tags now that there is a more comprehensive approach being taken with exclusions (i.e., pattern sets were drastically improved in this release).
-- Changing `-X` argument on `zip` command to the long name for improved clarity; i.e., `--no-extra`.
 - Refactor: `_is_wp_core_framework_project` now `_is_core_project`.
 - Refactor: `_is_lite_build` now `_doing_lite_build`.
 - Refactor: `_has_lite_build_props` now `_has_lite_variation`.

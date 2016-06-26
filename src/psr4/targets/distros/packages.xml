@@ -47,7 +47,9 @@
     <echo msg="Based on: ${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz/${project_slug}" />
 
     <exec executable="zip" dir="${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz" checkReturn="true">
-      <arg value="--no-extra" />
+      <!-- Long option `no-extra` doesn't work on a Mac. -->
+      <!-- Using `-X` (short option name). -->
+      <arg value="-X" />
       <arg value="--recurse-paths" />
       <arg value="${project.basedir}/.~build/${project_slug}.zip" />
       <arg value="${project_slug}" />
