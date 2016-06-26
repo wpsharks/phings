@@ -1,72 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- i18n POT generation. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- i18n POT generation. -->
+  <!-- ============================================  -->
 
-    <target name="-builds-in-base-dir-i18n-pots" hidden="true">
+  <target name="-builds-in-base-dir-i18n-pots" hidden="true">
 
-      <!-- WordPress i18n POT generation. -->
-      <if>
-        <and>
-          <not>
-            <isset property="_is_lite_build" />
-          </not>
-          <isTrue value="${_is_wp_theme_plugin}" />
+    <!-- WordPress i18n POT generation. -->
+    <if>
+      <and>
+        <not>
+          <isset property="_doing_lite_build" />
+        </not>
+        <isTrue value="${_is_wp_theme_plugin}" />
+        <or>
+          <isTrue value="${_is_core_project}" />
+          <isTrue value="${_is_pro_project}" />
+        </or>
+      </and>
+      <then>
+        <!-- WordPress theme. -->
+
+        <if>
           <or>
-            <isTrue value="${_is_wp_core_framework_project}" />
-            <isTrue value="${_is_pro_project}" />
+            <available resource="${project.basedir}/style.css" type="file" />
+            <available resource="${project.basedir}/functions.php" type="file" />
           </or>
-        </and>
-        <then>
-          <!-- WordPress theme. -->
+          <then>
+            <echo msg="Building POT translation file for WP theme: ${project.basedir}" />
 
-          <if>
-            <or>
-              <available resource="${project.basedir}/style.css" type="file" />
-              <available resource="${project.basedir}/functions.php" type="file" />
-            </or>
-            <then>
-              <echo msg="Building POT translation file for WP theme: ${project.basedir}" />
+            <mkdir dir="${project.basedir}/src/includes/translations" />
 
-              <mkdir dir="${project.basedir}/src/includes/translations" />
+            <exec executable="${_deps_wp_i18n_tools_path}" dir="${project.basedir}" passthru="true" checkReturn="true" output="/dev/null">
+              <arg value="wp-theme" />
+              <arg value="${project.basedir}" />
+              <arg value="${project.basedir}/src/includes/translations/${project_slug}.pot" />
+            </exec>
+          </then>
+        </if>
 
-              <exec executable="${_deps_wp_i18n_tools_path}" dir="${project.basedir}" passthru="true" checkReturn="true" output="/dev/null">
-                <arg value="wp-theme" />
-                <arg value="${project.basedir}" />
-                <arg value="${project.basedir}/src/includes/translations/${project_slug}.pot" />
-              </exec>
-            </then>
-          </if>
+        <!-- WordPress plugin. -->
 
-          <!-- WordPress plugin. -->
+        <if>
+          <or>
+            <available resource="${project.basedir}/plugin.php" type="file" />
+            <available resource="${project.basedir}/${project_slug}.php" type="file" />
+          </or>
+          <then>
+            <echo msg="Building POT translation file for WP plugin: ${project.basedir}" />
 
-          <if>
-            <or>
-              <available resource="${project.basedir}/plugin.php" type="file" />
-              <available resource="${project.basedir}/${project_slug}.php" type="file" />
-            </or>
-            <then>
-              <echo msg="Building POT translation file for WP plugin: ${project.basedir}" />
+            <mkdir dir="${project.basedir}/src/includes/translations" />
 
-              <mkdir dir="${project.basedir}/src/includes/translations" />
+            <exec executable="${_deps_wp_i18n_tools_path}" dir="${project.basedir}" passthru="true" checkReturn="true" output="/dev/null">
+              <arg value="wp-plugin" />
+              <arg value="${project.basedir}" />
+              <arg value="${project.basedir}/src/includes/translations/${project_slug}.pot" />
+            </exec>
+          </then>
+        </if>
 
-              <exec executable="${_deps_wp_i18n_tools_path}" dir="${project.basedir}" passthru="true" checkReturn="true" output="/dev/null">
-                <arg value="wp-plugin" />
-                <arg value="${project.basedir}" />
-                <arg value="${project.basedir}/src/includes/translations/${project_slug}.pot" />
-              </exec>
-            </then>
-          </if>
+      </then>
+      <else>
+        <echo msg="N/A: skipping WordPress POT generation." />
+      </else>
+    </if>
 
-        </then>
-        <else>
-          <echo msg="N/A: skipping WordPress POT generation." />
-        </else>
-      </if>
+  </target>
 
-    </target>
-
-  </project>
+</project>

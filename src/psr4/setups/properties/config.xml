@@ -1,581 +1,570 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Configuration. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Configuration. -->
+  <!-- ============================================  -->
 
-    <if>
-      <not>
-        <isset property="_setups_properties_config_complete" />
-      </not>
-      <then>
-        <!-- Temp sub-directory path. -->
+  <if>
+    <not>
+      <isset property="_setups_properties_config_complete" />
+    </not>
+    <then>
+      <!-- Temp sub-directory path. -->
 
-        <property name="_tmp_sub_dir" value="/tmp/.websharks/phings" />
+      <property name="_tmp_sub_dir" value="/tmp/.websharks/phings" />
 
-        <!-- Home sub-directory path. -->
+      <!-- Home sub-directory path. -->
 
-        <property name="_home_sub_dir" value="${user.home}/.websharks/phings" />
+      <property name="_home_sub_dir" value="${user.home}/.websharks/phings" />
 
-        <!-- Composer dependency info. -->
+      <!-- Composer dependency info. -->
 
-        <property name="_deps_composer_version" value="1.0.0" />
-        <property name="_deps_composer_url" value="https://getcomposer.org/download/${_deps_composer_version}/composer.phar" />
-        <property name="_deps_composer_path" value="${_home_sub_dir}/deps/composer/${_deps_composer_version}.phar" />
-        <dirname property="_deps_composer_path_dirname" file="${_deps_composer_path}" />
+      <property name="_deps_composer_version" value="1.0.0" />
+      <property name="_deps_composer_url" value="https://getcomposer.org/download/${_deps_composer_version}/composer.phar" />
+      <property name="_deps_composer_path" value="${_home_sub_dir}/deps/composer/${_deps_composer_version}.phar" />
+      <dirname property="_deps_composer_path_dirname" file="${_deps_composer_path}" />
 
-        <!-- PHP Code Sniffer dependency info. -->
+      <!-- PHP Code Sniffer dependency info. -->
 
-        <property name="_deps_phpcs_version" value="2.5.1" />
-        <property name="_deps_phpcs_url" value="https://github.com/squizlabs/PHP_CodeSniffer/releases/download/${_deps_phpcs_version}/phpcs.phar" />
-        <property name="_deps_phpcs_path" value="${_home_sub_dir}/deps/phpcs/${_deps_phpcs_version}.phar" />
-        <dirname property="_deps_phpcs_path_dirname" file="${_deps_phpcs_path}" />
+      <property name="_deps_phpcs_version" value="2.5.1" />
+      <property name="_deps_phpcs_url" value="https://github.com/squizlabs/PHP_CodeSniffer/releases/download/${_deps_phpcs_version}/phpcs.phar" />
+      <property name="_deps_phpcs_path" value="${_home_sub_dir}/deps/phpcs/${_deps_phpcs_version}.phar" />
+      <dirname property="_deps_phpcs_path_dirname" file="${_deps_phpcs_path}" />
 
-        <!-- PHPUnit dependency info. -->
-        <!-- This differs depending on the installed version of PHP. -->
+      <!-- PHPUnit dependency info. -->
+      <!-- This differs depending on the installed version of PHP. -->
 
-        <if>
+      <if>
+        <and>
+          <versioncompare version="${php.version}" desiredVersion="5.6" operator="ge" />
+        </and>
+        <then>
+          <property name="_deps_phpunit_version" value="5.3.1" />
+        </then>
+        <else>
+          <property name="_deps_phpunit_version" value="4.8.9" />
+        </else>
+      </if>
+      <property name="_deps_phpunit_url" value="https://phar.phpunit.de/phpunit-${_deps_phpunit_version}.phar" />
+      <property name="_deps_phpunit_path" value="${_home_sub_dir}/deps/phpunit/${_deps_phpunit_version}.phar" />
+      <dirname property="_deps_phpunit_path_dirname" file="${_deps_phpunit_path}" />
+
+      <!-- APIGen dependency info. -->
+
+      <property name="_deps_apigen_version" value="4.1.2" />
+      <property name="_deps_apigen_url" value="https://github.com/ApiGen/ApiGen/releases/download/v${_deps_apigen_version}/apigen.phar" />
+      <property name="_deps_apigen_path" value="${_home_sub_dir}/deps/apigen/${_deps_apigen_version}.phar" />
+      <dirname property="_deps_apigen_path_dirname" file="${_deps_apigen_path}" />
+
+      <!-- PhantomJS dependency info. -->
+
+      <property name="_deps_phantomjs_version" value="2.1.1" />
+      <if>
+        <and>
+          <contains string="${host.os}" substring="darwin" caseSensitive="false" />
+        </and>
+        <then>
+          <property name="_deps_phantomjs_url" value="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${_deps_phantomjs_version}-macosx.zip" />
+          <property name="_deps_phantomjs_path" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}/phantomjs-${_deps_phantomjs_version}-macosx/bin/phantomjs" />
+        </then>
+        <elseif>
           <and>
-            <versioncompare version="${php.version}" desiredVersion="5.6" operator="ge" />
+            <contains string="${host.os}" substring="linux" caseSensitive="false" />
+            <contains string="${host.arch}" substring="x86_64" caseSensitive="false" />
           </and>
           <then>
-            <property name="_deps_phpunit_version" value="5.3.1" />
+            <property name="_deps_phantomjs_url" value="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${_deps_phantomjs_version}-linux-x86_64.tar.bz2" />
+            <property name="_deps_phantomjs_path" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}/phantomjs-${_deps_phantomjs_version}-linux-x86_64/bin/phantomjs" />
           </then>
-          <else>
-            <property name="_deps_phpunit_version" value="4.8.9" />
-          </else>
-        </if>
-        <property name="_deps_phpunit_url" value="https://phar.phpunit.de/phpunit-${_deps_phpunit_version}.phar" />
-        <property name="_deps_phpunit_path" value="${_home_sub_dir}/deps/phpunit/${_deps_phpunit_version}.phar" />
-        <dirname property="_deps_phpunit_path_dirname" file="${_deps_phpunit_path}" />
+        </elseif>
+        <else>
+          <property name="_deps_phantomjs_url" value="http://phantomjs.org/download.html" />
+          <property name="_deps_phantomjs_path" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}/bin/phantomjs" />
+        </else>
+      </if>
+      <property name="_deps_phantomjs_path_dir" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}" />
+      <dirname property="_deps_phantomjs_path_dirname" file="${_deps_phantomjs_path}" />
 
-        <!-- APIGen dependency info. -->
+      <!-- CasperJS dependency info. -->
 
-        <property name="_deps_apigen_version" value="4.1.2" />
-        <property name="_deps_apigen_url" value="https://github.com/ApiGen/ApiGen/releases/download/v${_deps_apigen_version}/apigen.phar" />
-        <property name="_deps_apigen_path" value="${_home_sub_dir}/deps/apigen/${_deps_apigen_version}.phar" />
-        <dirname property="_deps_apigen_path_dirname" file="${_deps_apigen_path}" />
+      <property name="_deps_casperjs_version" value="1.1.0" />
+      <property name="_deps_casperjs_url" value="https://github.com/casperjs/casperjs/archive/${_deps_casperjs_version}.zip" />
+      <property name="_deps_casperjs_path" value="${_home_sub_dir}/deps/casperjs/${_deps_casperjs_version}/casperjs-${_deps_casperjs_version}/bin/casperjs" />
+      <property name="_deps_casperjs_path_dir" value="${_home_sub_dir}/deps/casperjs/${_deps_casperjs_version}" />
+      <dirname property="_deps_casperjs_path_dirname" file="${_deps_casperjs_path}" />
 
-        <!-- PhantomJS dependency info. -->
+      <!-- WP i18n Tools dependency info. -->
 
-        <property name="_deps_phantomjs_version" value="2.1.1" />
-        <if>
-          <and>
-            <contains string="${host.os}" substring="darwin" caseSensitive="false" />
-          </and>
-          <then>
-            <property name="_deps_phantomjs_url" value="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${_deps_phantomjs_version}-macosx.zip" />
-            <property name="_deps_phantomjs_path" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}/phantomjs-${_deps_phantomjs_version}-macosx/bin/phantomjs" />
-          </then>
-          <elseif>
+      <property name="_deps_wp_i18n_tools_version" value="160416" />
+      <property name="_deps_wp_i18n_tools_url" value="https://github.com/websharks/wp-i18n-tools/releases/download/${_deps_wp_i18n_tools_version}/wp-i18n-tools.phar" />
+      <property name="_deps_wp_i18n_tools_path" value="${_home_sub_dir}/deps/wp-i18n-tools/${_deps_wp_i18n_tools_version}.phar" />
+      <dirname property="_deps_wp_i18n_tools_path_dirname" file="${_deps_wp_i18n_tools_path}" />
+
+      <!-- Codex ignore list. -->
+
+      <property name="_codex_ignore" value="*/assets/*,*/phings/*,*/tests/*,*/vendor/*" />
+
+      <!-- Properties related to current git repo. -->
+
+      <exec command="git rev-parse --is-inside-work-tree" dir="${project.basedir}" returnProperty="_in_git_repo" />
+      <if>
+        <not>
+          <isFailure code="${_in_git_repo}" />
+        </not>
+        <then>
+          <property name="_in_git_repo" value="true" override="true" />
+
+          <exec command="git remote -v 2>/dev/null | grep --extended-regexp --ignore-case '^origin\s.+?github\.com'" dir="${project.basedir}" returnProperty="_in_github_repo" />
+          <if>
+            <not>
+              <isFailure code="${_in_github_repo}" />
+            </not>
+            <then>
+              <property name="_in_github_repo" value="true" override="true" />
+            </then>
+            <else>
+              <property name="_in_github_repo" value="false" override="true" />
+            </else>
+          </if>
+
+          <exec command="git status --short" dir="${project.basedir}" outputProperty="_in_clean_git_repo" />
+          <if>
             <and>
-              <contains string="${host.os}" substring="linux" caseSensitive="false" />
-              <contains string="${host.arch}" substring="x86_64" caseSensitive="false" />
+              <equals arg1="${_in_clean_git_repo}" arg2="" trim="true" />
             </and>
             <then>
-              <property name="_deps_phantomjs_url" value="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${_deps_phantomjs_version}-linux-x86_64.tar.bz2" />
-              <property name="_deps_phantomjs_path" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}/phantomjs-${_deps_phantomjs_version}-linux-x86_64/bin/phantomjs" />
+              <property name="_in_clean_git_repo" value="true" override="true" />
             </then>
-          </elseif>
-          <else>
-            <property name="_deps_phantomjs_url" value="http://phantomjs.org/download.html" />
-            <property name="_deps_phantomjs_path" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}/bin/phantomjs" />
-          </else>
-        </if>
-        <property name="_deps_phantomjs_path_dir" value="${_home_sub_dir}/deps/phantomjs/${_deps_phantomjs_version}" />
-        <dirname property="_deps_phantomjs_path_dirname" file="${_deps_phantomjs_path}" />
+            <else>
+              <property name="_in_clean_git_repo" value="false" override="true" />
+            </else>
+          </if>
 
-        <!-- CasperJS dependency info. -->
+          <exec command="git symbolic-ref --short --quiet HEAD" dir="${project.basedir}" outputProperty="_starting_git_branch" />
+          <if>
+            <and>
+              <equals arg1="${_starting_git_branch}" arg2="" trim="true" />
+            </and>
+            <then>
+              <property name="_starting_git_branch" value="" override="true" />
+            </then>
+          </if>
 
-        <property name="_deps_casperjs_version" value="1.1.0" />
-        <property name="_deps_casperjs_url" value="https://github.com/casperjs/casperjs/archive/${_deps_casperjs_version}.zip" />
-        <property name="_deps_casperjs_path" value="${_home_sub_dir}/deps/casperjs/${_deps_casperjs_version}/casperjs-${_deps_casperjs_version}/bin/casperjs" />
-        <property name="_deps_casperjs_path_dir" value="${_home_sub_dir}/deps/casperjs/${_deps_casperjs_version}" />
-        <dirname property="_deps_casperjs_path_dirname" file="${_deps_casperjs_path}" />
+          <if>
+            <and>
+              <equals arg1="${_starting_git_branch}" arg2="000000-dev" />
+            </and>
+            <then>
+              <property name="_starting_git_branch_is_dev" value="true" />
+            </then>
+            <else>
+              <property name="_starting_git_branch_is_dev" value="false" />
+            </else>
+          </if>
 
-        <!-- WP i18n Tools dependency info. -->
+          <if>
+            <and>
+              <contains string="^${_starting_git_branch}" substring="^feature/" />
+            </and>
+            <then>
+              <property name="_starting_git_branch_is_feature" value="true" />
+              <property name="_starting_git_feature_branch_issue" value="${_starting_git_branch}">
+                <filterChain>
+                  <replaceRegExp>
+                    <regExp pattern="^feature\/(.*)$" replace="$1" modifiers="ui" />
+                  </replaceRegExp>
+                </filterChain>
+              </property>
+            </then>
+            <else>
+              <property name="_starting_git_branch_is_feature" value="false" />
+              <property name="_starting_git_feature_branch_issue" value="" />
+            </else>
+          </if>
 
-        <property name="_deps_wp_i18n_tools_version" value="160416" />
-        <property name="_deps_wp_i18n_tools_url" value="https://github.com/websharks/wp-i18n-tools/releases/download/${_deps_wp_i18n_tools_version}/wp-i18n-tools.phar" />
-        <property name="_deps_wp_i18n_tools_path" value="${_home_sub_dir}/deps/wp-i18n-tools/${_deps_wp_i18n_tools_version}.phar" />
-        <dirname property="_deps_wp_i18n_tools_path_dirname" file="${_deps_wp_i18n_tools_path}" />
+          <if>
+            <and>
+              <contains string="^${_starting_git_branch}" substring="^release/" />
+            </and>
+            <then>
+              <property name="_starting_git_branch_is_release" value="true" />
+              <property name="_starting_git_release_branch_version" value="${_starting_git_branch}">
+                <filterChain>
+                  <replaceRegExp>
+                    <regExp pattern="^release\/(.*)$" replace="$1" modifiers="ui" />
+                  </replaceRegExp>
+                </filterChain>
+              </property>
+              <if>
+                <and>
+                  <contains string="${_starting_git_branch}$" substring="-RC$" caseSensitive="false" />
+                </and>
+                <then>
+                  <property name="_starting_git_branch_is_release_rc" value="true" />
+                </then>
+                <else>
+                  <property name="_starting_git_branch_is_release_rc" value="false" />
+                </else>
+              </if>
+            </then>
+            <else>
+              <property name="_starting_git_branch_is_release" value="false" />
+              <property name="_starting_git_branch_is_release_rc" value="false" />
+              <property name="_starting_git_release_branch_version" value="" />
+            </else>
+          </if>
 
-        <!-- Codex ignore list. -->
-
-        <property name="_codex_ignore" value="*/assets/*,*/phings/*,*/tests/*,*/vendor/*" />
-
-        <!-- Property values (including `.ws.json` config keys). -->
-
-        <property file="${project.basedir}/.build.props" />
-        <adHocWsJsonConfigKeys getPrimaryKey="phings" propertyPrefix="_ws_json.phings." />
-
-        <!-- WordPress theme/plugin detection. -->
-
-        <if>
-          <or>
-            <isset property="project_wp_required_version" />
-            <isset property="project_wp_tested_up_to_version" />
-          </or>
-          <then>
-            <property name="_is_wp_theme_plugin" value="true" />
-          </then>
-          <else>
-            <property name="_is_wp_theme_plugin" value="false" />
-          </else>
-        </if>
-
-        <!-- WordPress WP Sharks Core theme/plugin detection. -->
-
-        <if>
-          <and>
-            <isTrue value="${_is_wp_theme_plugin}" />
-            <or>
-              <isset property="project_wp_sharks_core_required_version" />
-              <isset property="project_wp_sharks_core_tested_up_to_version" />
-              <isset property="project_wp_sharks_core_max_compatible_version" />
-            </or>
-          </and>
-          <then>
-            <property name="_is_wp_sharks_core_theme_plugin" value="true" />
-          </then>
-          <else>
-            <property name="_is_wp_sharks_core_theme_plugin" value="false" />
-          </else>
-        </if>
-
-        <!-- WP core framework project detection. -->
-
-        <if>
-          <and>
-            <isTrue value="${_is_wp_theme_plugin}" />
-            <contains string="\\${project_namespace}\\" substring="\\Core\\" caseSensitive="false" />
-          </and>
-          <then>
-            <property name="_is_wp_core_framework_project" value="true" />
-          </then>
-          <else>
-            <property name="_is_wp_core_framework_project" value="false" />
-          </else>
-        </if>
-
-        <!-- AWS bucket configuratin; based on project type. -->
-
-        <if>
-          <and>
-            <isTrue value="${_is_wp_theme_plugin}" />
-          </and>
-          <then>
-            <property name="_aws_bucket" value="wpsharks" />
-            <property name="_aws_bucket_cname" value="cdn.wpsharks.com" />
-          </then>
-          <else>
-            <property name="_aws_bucket" value="websharks" />
-            <property name="_aws_bucket_cname" value="cdn.websharks.org" />
-          </else>
-        </if>
-
-        <!-- Lite detection; i.e., is applicable? -->
-
-        <if>
-          <and>
+          <exec command="git rev-parse --verify --quiet 000000-dev" dir="${project.basedir}" returnProperty="_git_dev_branch_exists" />
+          <if>
             <not>
-              <isset property="_is_lite_build" />
+              <isFailure code="${_git_dev_branch_exists}" />
             </not>
-            <or>
-              <isset property="project_lite_title" />
-              <isset property="project_lite_slug" />
+            <then>
+              <property name="_git_dev_branch_exists" value="true" override="true" />
 
-              <isset property="project_lite_namespace" />
-              <isset property="project_lite_sub_namespace" />
+              <exec command="git rev-parse --abbrev-ref 000000-dev'@{upstream}'" dir="${project.basedir}" returnProperty="_git_dev_branch_has_upstream" />
+              <if>
+                <not>
+                  <isFailure code="${_git_dev_branch_has_upstream}" />
+                </not>
+                <then>
+                  <property name="_git_dev_branch_has_upstream" value="true" override="true" />
+                </then>
+                <else>
+                  <property name="_git_dev_branch_has_upstream" value="false" override="true" />
+                </else>
+              </if>
+            </then>
+            <else>
+              <property name="_git_dev_branch_exists" value="false" override="true" />
+              <property name="_git_dev_branch_has_upstream" value="false" />
+            </else>
+          </if>
 
+          <exec command="git rev-parse --verify --quiet master" dir="${project.basedir}" returnProperty="_git_master_branch_exists" />
+          <if>
+            <not>
+              <isFailure code="${_git_master_branch_exists}" />
+            </not>
+            <then>
+              <property name="_git_master_branch_exists" value="true" override="true" />
+
+              <exec command="git rev-parse --abbrev-ref master'@{upstream}'" dir="${project.basedir}" returnProperty="_git_master_branch_has_upstream" />
+              <if>
+                <not>
+                  <isFailure code="${_git_master_branch_has_upstream}" />
+                </not>
+                <then>
+                  <property name="_git_master_branch_has_upstream" value="true" override="true" />
+                </then>
+                <else>
+                  <property name="_git_master_branch_has_upstream" value="false" override="true" />
+                </else>
+              </if>
+            </then>
+            <else>
+              <property name="_git_master_branch_exists" value="false" override="true" />
+              <property name="_git_master_branch_has_upstream" value="false" />
+            </else>
+          </if>
+        </then>
+        <else>
+          <property name="_in_git_repo" value="false" override="true" />
+          <property name="_in_github_repo" value="false" />
+          <property name="_in_clean_git_repo" value="false" />
+
+          <property name="_starting_git_branch" value="" />
+          <property name="_starting_git_branch_is_dev" value="false" />
+
+          <property name="_starting_git_branch_is_feature" value="false" />
+          <property name="_starting_git_feature_branch_issue" value="" />
+
+          <property name="_starting_git_branch_is_release" value="false" />
+          <property name="_starting_git_branch_is_release_rc" value="false" />
+          <property name="_starting_git_release_branch_version" value="" />
+
+          <property name="_git_dev_branch_exists" value="false" />
+          <property name="_git_dev_branch_has_upstream" value="false" />
+
+          <property name="_git_master_branch_exists" value="false" />
+          <property name="_git_master_branch_has_upstream" value="false" />
+        </else>
+      </if>
+
+      <!-- Project properties. -->
+
+      <property file="${project.basedir}/.build.props" />
+
+      <!-- User phing-specific properties. -->
+
+      <adHocWsJsonConfigKeys getPrimaryKey="phings" propertyPrefix="_ws_json.phings." />
+
+      <!-- Core detection. -->
+
+      <if>
+        <and>
+          <contains string="\\${project_namespace}\\" substring="\\Core\\" caseSensitive="false" />
+        </and>
+        <then>
+          <property name="_is_core_project" value="true" />
+        </then>
+        <else>
+          <property name="_is_core_project" value="false" />
+        </else>
+      </if>
+
+      <!-- Pro detection. -->
+
+      <if>
+        <or>
+          <contains string="\\${project_namespace}\\" substring="\\Pro\\" caseSensitive="false" />
+        </or>
+        <then>
+          <property name="_is_pro_project" value="true" />
+        </then>
+        <else>
+          <property name="_is_pro_project" value="false" />
+        </else>
+      </if>
+
+      <!-- Lite detection. -->
+
+      <if>
+        <and>
+          <not>
+            <isset property="_doing_lite_build" />
+          </not>
+          <or>
+            <isset property="project_lite_title" />
+            <isset property="project_lite_slug" />
+            <isset property="project_lite_text_domain" />
+
+            <isset property="project_lite_namespace" />
+            <isset property="project_lite_sub_namespace" />
+
+            <isset property="project_lite_other_phar_fileset_exclusions" />
+            <isset property="project_lite_other_zip_tgz_fileset_exclusions" />
+
+            <isset property="project_lite_text_domain_regex_replacement_pattern" />
+            <isset property="project_lite_alter_namespace_in_other_files_pattern" />
+          </or>
+        </and>
+        <then>
+          <property name="_has_lite_variation" value="true" />
+        </then>
+        <else>
+          <property name="_has_lite_variation" value="false" />
+        </else>
+      </if>
+
+      <!-- WordPress theme/plugin detection. -->
+
+      <if>
+        <or>
+          <isset property="project_wp_required_version" />
+          <isset property="project_wp_tested_up_to_version" />
+        </or>
+        <then>
+          <property name="_is_wp_theme_plugin" value="true" />
+        </then>
+        <else>
+          <property name="_is_wp_theme_plugin" value="false" />
+        </else>
+      </if>
+
+      <!-- WordPress WP Sharks Core theme/plugin detection. -->
+
+      <if>
+        <and>
+          <isTrue value="${_is_wp_theme_plugin}" />
+          <or>
+            <isset property="project_wp_sharks_core_required_version" />
+            <isset property="project_wp_sharks_core_tested_up_to_version" />
+            <isset property="project_wp_sharks_core_max_compatible_version" />
+          </or>
+        </and>
+        <then>
+          <property name="_is_wp_sharks_core_theme_plugin" value="true" />
+        </then>
+        <else>
+          <property name="_is_wp_sharks_core_theme_plugin" value="false" />
+        </else>
+      </if>
+
+      <!-- The current project version string. -->
+      <!-- When on a release branch, the version is forced to match. -->
+
+      <if>
+        <and>
+          <isset property="project_version" />
+        </and>
+        <then>
+          <php expression="str_replace('%y%m%d', date('ymd'), '${project_version}')" returnProperty="project_version" level="verbose" />
+          <php expression="str_replace('%now', time() % 86400, '${project_version}')" returnProperty="project_version" level="verbose" />
+
+          <if>
+            <and>
+              <isTrue value="${_starting_git_branch_is_release}" />
+            </and>
+            <then>
+              <property name="project_version" value="${_starting_git_release_branch_version}" override="true" />
+            </then>
+          </if>
+        </then>
+      </if>
+
+      <!-- The current project build version string. -->
+      <!-- When on a release branch, the version is forced to match. -->
+      <!-- This version applies only to the `build` target and only to the build directory. -->
+
+      <property name="_project_build_version" value="%y%m%d.%now" override="true" />
+      <php expression="str_replace('%y%m%d', date('ymd'), '${_project_build_version}')" returnProperty="_project_build_version" level="verbose" />
+      <php expression="str_replace('%now', time() % 86400, '${_project_build_version}')" returnProperty="_project_build_version" level="verbose" />
+
+      <if>
+        <and>
+          <isTrue value="${_starting_git_branch_is_release}" />
+        </and>
+        <then>
+          <property name="_project_build_version" value="${_starting_git_release_branch_version}" override="true" />
+        </then>
+      </if>
+
+      <!-- Make sure optional properties are defined. -->
+
+      <if>
+        <not>
+          <isset property="project_required_os" />
+        </not>
+        <then>
+          <property name="project_required_os" value="" />
+        </then>
+      </if>
+      <if>
+        <not>
+          <isset property="project_php_required_bits" />
+        </not>
+        <then>
+          <property name="project_php_required_bits" value="0" />
+        </then>
+      </if>
+      <if>
+        <not>
+          <isset property="project_php_required_extensions" />
+        </not>
+        <then>
+          <property name="project_php_required_extensions" value="" />
+          <property name="_project_php_required_extensions" value="" />
+        </then>
+        <else>
+          <php expression="&quot;'&quot;.implode(&quot;', '&quot;, preg_split('/[\s,]+/u', '${project_php_required_extensions}', -1, PREG_SPLIT_NO_EMPTY)).&quot;'&quot;" returnProperty="_project_php_required_extensions" level="verbose" />
+          <php expression="&quot;${_project_php_required_extensions}&quot; === &quot;''&quot; ? '' : &quot;${_project_php_required_extensions}&quot;" returnProperty="_project_php_required_extensions" level="verbose" />
+        </else>
+      </if>
+      <if>
+        <not>
+          <isset property="project_other_phar_fileset_exclusions" />
+        </not>
+        <then>
+          <property name="project_other_phar_fileset_exclusions" value="" />
+        </then>
+      </if>
+      <if>
+        <not>
+          <isset property="project_other_zip_tgz_fileset_exclusions" />
+        </not>
+        <then>
+          <property name="project_other_zip_tgz_fileset_exclusions" value="" />
+        </then>
+      </if>
+
+      <!-- Make sure optional lite properties are defined. -->
+
+      <if>
+        <and>
+          <not>
+            <isset property="_doing_lite_build" />
+          </not>
+          <isTrue value="${_has_lite_variation}" />
+        </and>
+        <then>
+          <if>
+            <not>
               <isset property="project_lite_other_phar_fileset_exclusions" />
-              <isset property="project_lite_other_zip_tgz_fileset_exclusions" />
-
-              <isset property="project_lite_text_domain_regex_replacement_pattern" />
-              <isset property="project_lite_alter_namespace_in_other_files_pattern" />
-            </or>
-          </and>
-          <then>
-            <property name="_has_lite_build_props" value="true" />
-          </then>
-          <else>
-            <property name="_has_lite_build_props" value="false" />
-          </else>
-        </if>
-
-        <!-- Pro project detection; not the same as build detection; e.g., `is_lite_build` is different. -->
-
-        <if>
-          <or>
-            <isset property="_is_lite_build" />
-            <isTrue value="${_has_lite_build_props}" />
-            <contains string="\\${project_namespace}\\" substring="\\Pro\\" caseSensitive="false" />
-          </or>
-          <then>
-            <property name="_is_pro_project" value="true" />
-          </then>
-          <else>
-            <property name="_is_pro_project" value="false" />
-          </else>
-        </if>
-
-        <!-- Make sure optional properties are defined. -->
-
-        <if>
-          <not>
-            <isset property="project_required_os" />
-          </not>
-          <then>
-            <property name="project_required_os" value="" />
-          </then>
-        </if>
-        <if>
-          <not>
-            <isset property="project_php_required_bits" />
-          </not>
-          <then>
-            <property name="project_php_required_bits" value="0" />
-          </then>
-        </if>
-        <if>
-          <not>
-            <isset property="project_php_required_extensions" />
-          </not>
-          <then>
-            <property name="project_php_required_extensions" value="" />
-          </then>
-        </if>
-        <if>
-          <not>
-            <isset property="project_other_phar_fileset_exclusions" />
-          </not>
-          <then>
-            <property name="project_other_phar_fileset_exclusions" value="" />
-          </then>
-        </if>
-        <if>
-          <not>
-            <isset property="project_other_zip_tgz_fileset_exclusions" />
-          </not>
-          <then>
-            <property name="project_other_zip_tgz_fileset_exclusions" value="" />
-          </then>
-        </if>
-
-        <!-- Make sure optional lite properties are defined. -->
-
-        <if>
-          <and>
-            <not>
-              <isset property="_is_lite_build" />
             </not>
-            <isTrue value="${_has_lite_build_props}" />
-          </and>
-          <then>
-            <if>
-              <not>
-                <isset property="project_lite_other_phar_fileset_exclusions" />
-              </not>
-              <then>
-                <property name="project_lite_other_phar_fileset_exclusions" value="" />
-              </then>
-            </if>
-            <if>
-              <not>
-                <isset property="project_lite_other_zip_tgz_fileset_exclusions" />
-              </not>
-              <then>
-                <property name="project_lite_other_zip_tgz_fileset_exclusions" value="" />
-              </then>
-            </if>
-            <if>
-              <not>
-                <isset property="project_lite_text_domain_regex_replacement_pattern" />
-              </not>
-              <then>
-                <property name="project_lite_text_domain_regex_replacement_pattern" value="" />
-              </then>
-            </if>
-            <if>
-              <not>
-                <isset property="project_lite_alter_namespace_in_other_files_pattern" />
-              </not>
-              <then>
-                <property name="project_lite_alter_namespace_in_other_files_pattern" value="" />
-              </then>
-            </if>
-          </then>
-        </if>
+            <then>
+              <property name="project_lite_other_phar_fileset_exclusions" value="" />
+            </then>
+          </if>
+          <if>
+            <not>
+              <isset property="project_lite_other_zip_tgz_fileset_exclusions" />
+            </not>
+            <then>
+              <property name="project_lite_other_zip_tgz_fileset_exclusions" value="" />
+            </then>
+          </if>
+          <if>
+            <not>
+              <isset property="project_lite_text_domain_regex_replacement_pattern" />
+            </not>
+            <then>
+              <property name="project_lite_text_domain_regex_replacement_pattern" value="" />
+            </then>
+          </if>
+          <if>
+            <not>
+              <isset property="project_lite_alter_namespace_in_other_files_pattern" />
+            </not>
+            <then>
+              <property name="project_lite_alter_namespace_in_other_files_pattern" value="" />
+            </then>
+          </if>
+        </then>
+      </if>
 
-        <!-- Make sure optional WP Sharks core properties are defined. -->
+      <!-- Make sure optional WP Sharks core properties are defined. -->
 
-        <if>
-          <and>
-            <isTrue value="${_is_wp_theme_plugin}" />
-            <isTrue value="${_is_wp_sharks_core_theme_plugin}" />
-          </and>
-          <then>
-            <if>
-              <not>
-                <isset property="project_wp_sharks_core_max_compatible_version" />
-              </not>
-              <then>
-                <property name="project_wp_sharks_core_max_compatible_version" value="" />
-              </then>
-            </if>
-          </then>
-        </if>
+      <if>
+        <and>
+          <isTrue value="${_is_wp_theme_plugin}" />
+          <isTrue value="${_is_wp_sharks_core_theme_plugin}" />
+        </and>
+        <then>
+          <if>
+            <not>
+              <isset property="project_wp_sharks_core_max_compatible_version" />
+            </not>
+            <then>
+              <property name="project_wp_sharks_core_max_compatible_version" value="" />
+            </then>
+          </if>
+        </then>
+      </if>
 
-        <!-- Properties related to current git repo. -->
+      <!-- AWS bucket configuration. -->
 
-        <exec command="git rev-parse --is-inside-work-tree" dir="${project.basedir}" returnProperty="_in_git_repo" />
-        <if>
-          <not>
-            <isFailure code="${_in_git_repo}" />
-          </not>
-          <then>
-            <property name="_in_git_repo" value="true" override="true" />
+      <if>
+        <and>
+          <isTrue value="${_is_wp_theme_plugin}" />
+        </and>
+        <then>
+          <property name="_aws_bucket" value="wpsharks" />
+          <property name="_aws_bucket_cname" value="cdn.wpsharks.com" />
+        </then>
+        <else>
+          <property name="_aws_bucket" value="websharks" />
+          <property name="_aws_bucket_cname" value="cdn.websharks.org" />
+        </else>
+      </if>
 
-            <exec command="git remote -v 2>/dev/null | grep --extended-regexp --ignore-case '^origin\s.+?github\.com'" dir="${project.basedir}" returnProperty="_in_github_repo" />
-            <if>
-              <not>
-                <isFailure code="${_in_github_repo}" />
-              </not>
-              <then>
-                <property name="_in_github_repo" value="true" override="true" />
-              </then>
-              <else>
-                <property name="_in_github_repo" value="false" override="true" />
-              </else>
-            </if>
+      <!-- Flag complete. -->
 
-            <exec command="git status --short" dir="${project.basedir}" outputProperty="_in_clean_git_repo" />
-            <if>
-              <and>
-                <equals arg1="${_in_clean_git_repo}" arg2="" trim="true" />
-              </and>
-              <then>
-                <property name="_in_clean_git_repo" value="true" override="true" />
-              </then>
-              <else>
-                <property name="_in_clean_git_repo" value="false" override="true" />
-              </else>
-            </if>
+      <property name="_setups_properties_config_complete" value="true" />
 
-            <exec command="git symbolic-ref --short --quiet HEAD" dir="${project.basedir}" outputProperty="_starting_git_branch" />
-            <if>
-              <and>
-                <equals arg1="${_starting_git_branch}" arg2="" trim="true" />
-              </and>
-              <then>
-                <property name="_starting_git_branch" value="" override="true" />
-              </then>
-            </if>
+    </then>
+  </if>
 
-            <if>
-              <and>
-                <equals arg1="${_starting_git_branch}" arg2="000000-dev" />
-              </and>
-              <then>
-                <property name="_starting_git_branch_is_dev" value="true" />
-              </then>
-              <else>
-                <property name="_starting_git_branch_is_dev" value="false" />
-              </else>
-            </if>
-
-            <if>
-              <and>
-                <contains string="^${_starting_git_branch}" substring="^feature/" />
-              </and>
-              <then>
-                <property name="_starting_git_branch_is_feature" value="true" />
-                <property name="_starting_git_feature_branch_issue" value="${_starting_git_branch}">
-                  <filterChain>
-                    <replaceRegExp>
-                      <regExp pattern="^feature\/(.*)$" replace="$1" modifiers="ui" />
-                    </replaceRegExp>
-                  </filterChain>
-                </property>
-              </then>
-              <else>
-                <property name="_starting_git_branch_is_feature" value="false" />
-                <property name="_starting_git_feature_branch_issue" value="" />
-              </else>
-            </if>
-
-            <if>
-              <and>
-                <contains string="^${_starting_git_branch}" substring="^release/" />
-              </and>
-              <then>
-                <property name="_starting_git_branch_is_release" value="true" />
-                <property name="_starting_git_release_branch_version" value="${_starting_git_branch}">
-                  <filterChain>
-                    <replaceRegExp>
-                      <regExp pattern="^release\/(.*)$" replace="$1" modifiers="ui" />
-                    </replaceRegExp>
-                  </filterChain>
-                </property>
-                <if>
-                  <and>
-                    <contains string="${_starting_git_branch}$" substring="-RC$" caseSensitive="false" />
-                  </and>
-                  <then>
-                    <property name="_starting_git_branch_is_release_rc" value="true" />
-                  </then>
-                  <else>
-                    <property name="_starting_git_branch_is_release_rc" value="false" />
-                  </else>
-                </if>
-              </then>
-              <else>
-                <property name="_starting_git_branch_is_release" value="false" />
-                <property name="_starting_git_branch_is_release_rc" value="false" />
-                <property name="_starting_git_release_branch_version" value="" />
-              </else>
-            </if>
-
-            <exec command="git rev-parse --verify --quiet 000000-dev" dir="${project.basedir}" returnProperty="_git_dev_branch_exists" />
-            <if>
-              <not>
-                <isFailure code="${_git_dev_branch_exists}" />
-              </not>
-              <then>
-                <property name="_git_dev_branch_exists" value="true" override="true" />
-
-                <exec command="git rev-parse --abbrev-ref 000000-dev'@{upstream}'" dir="${project.basedir}" returnProperty="_git_dev_branch_has_upstream" />
-                <if>
-                  <not>
-                    <isFailure code="${_git_dev_branch_has_upstream}" />
-                  </not>
-                  <then>
-                    <property name="_git_dev_branch_has_upstream" value="true" override="true" />
-                  </then>
-                  <else>
-                    <property name="_git_dev_branch_has_upstream" value="false" override="true" />
-                  </else>
-                </if>
-              </then>
-              <else>
-                <property name="_git_dev_branch_exists" value="false" override="true" />
-                <property name="_git_dev_branch_has_upstream" value="false" />
-              </else>
-            </if>
-
-            <exec command="git rev-parse --verify --quiet master" dir="${project.basedir}" returnProperty="_git_master_branch_exists" />
-            <if>
-              <not>
-                <isFailure code="${_git_master_branch_exists}" />
-              </not>
-              <then>
-                <property name="_git_master_branch_exists" value="true" override="true" />
-
-                <exec command="git rev-parse --abbrev-ref master'@{upstream}'" dir="${project.basedir}" returnProperty="_git_master_branch_has_upstream" />
-                <if>
-                  <not>
-                    <isFailure code="${_git_master_branch_has_upstream}" />
-                  </not>
-                  <then>
-                    <property name="_git_master_branch_has_upstream" value="true" override="true" />
-                  </then>
-                  <else>
-                    <property name="_git_master_branch_has_upstream" value="false" override="true" />
-                  </else>
-                </if>
-              </then>
-              <else>
-                <property name="_git_master_branch_exists" value="false" override="true" />
-                <property name="_git_master_branch_has_upstream" value="false" />
-              </else>
-            </if>
-          </then>
-          <else>
-            <property name="_in_git_repo" value="false" override="true" />
-            <property name="_in_github_repo" value="false" />
-            <property name="_in_clean_git_repo" value="false" />
-
-            <property name="_starting_git_branch" value="" />
-            <property name="_starting_git_branch_is_dev" value="false" />
-
-            <property name="_starting_git_branch_is_feature" value="false" />
-            <property name="_starting_git_feature_branch_issue" value="" />
-
-            <property name="_starting_git_branch_is_release" value="false" />
-            <property name="_starting_git_branch_is_release_rc" value="false" />
-            <property name="_starting_git_release_branch_version" value="" />
-
-            <property name="_git_dev_branch_exists" value="false" />
-            <property name="_git_dev_branch_has_upstream" value="false" />
-
-            <property name="_git_master_branch_exists" value="false" />
-            <property name="_git_master_branch_has_upstream" value="false" />
-          </else>
-        </if>
-
-        <!-- Properties derived from other properties. -->
-
-        <if>
-          <and>
-            <isset property="project_slug" />
-          </and>
-          <then>
-            <php expression="preg_replace('/\-(?:lite|pro)$/ui', '', '${project_slug}')" returnProperty="_project_text_domain" level="verbose" />
-          </then>
-          <else>
-            <property name="_project_text_domain" value="" />
-          </else>
-        </if>
-
-        <php expression="&quot;'&quot;.implode(&quot;', '&quot;, preg_split('/[\s,]+/u', '${project_php_required_extensions}', -1, PREG_SPLIT_NO_EMPTY)).&quot;'&quot;" returnProperty="_php_required_extensions" level="verbose" />
-        <php expression="&quot;${_php_required_extensions}&quot; === &quot;''&quot; ? '' : &quot;${_php_required_extensions}&quot;" returnProperty="_php_required_extensions" level="verbose" />
-
-        <!-- The current project version string. -->
-        <!-- When on a release branch, the version is forced to match. -->
-
-        <if>
-          <and>
-            <isset property="project_version" />
-          </and>
-          <then>
-            <php expression="str_replace('%y%m%d', date('ymd'), '${project_version}')" returnProperty="project_version" level="verbose" />
-            <php expression="str_replace('%now', time() % 86400, '${project_version}')" returnProperty="project_version" level="verbose" />
-
-            <if>
-              <and>
-                <isTrue value="${_starting_git_branch_is_release}" />
-              </and>
-              <then>
-                <property name="project_version" value="${_starting_git_release_branch_version}" override="true" />
-              </then>
-            </if>
-          </then>
-        </if>
-
-        <!-- The current project build version string. -->
-        <!-- When on a release branch, the version is forced to match. -->
-        <!-- This version applies only to the `build` target and only to the build directory. -->
-
-        <property name="_project_build_version" value="%y%m%d.%now" override="true" />
-        <php expression="str_replace('%y%m%d', date('ymd'), '${_project_build_version}')" returnProperty="_project_build_version" level="verbose" />
-        <php expression="str_replace('%now', time() % 86400, '${_project_build_version}')" returnProperty="_project_build_version" level="verbose" />
-
-        <if>
-          <and>
-            <isTrue value="${_starting_git_branch_is_release}" />
-          </and>
-          <then>
-            <property name="_project_build_version" value="${_starting_git_release_branch_version}" override="true" />
-          </then>
-        </if>
-
-        <!-- Flag complete. -->
-
-        <property name="_setups_properties_config_complete" value="true" />
-
-      </then>
-    </if>
-
-  </project>
+</project>

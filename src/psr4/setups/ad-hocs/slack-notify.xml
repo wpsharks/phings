@@ -1,150 +1,155 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Send a Slack notification. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Send a Slack notification. -->
+  <!-- ============================================  -->
 
-    <adHoc-task name="adHocSlackNotify">
-      <![CDATA[
-        class adHocSlackNotify extends Task {
-            protected $channel                = '';
-            protected $text                   = '';
-            protected $attachment_color       = '';
-            protected $attachment_author_name = '';
-            protected $attachment_author_link = '';
-            protected $attachment_author_icon = '';
-            protected $attachment_title       = '';
-            protected $attachment_title_link  = '';
-            protected $attachment_text        = '';
-            protected $attachment_footer      = '';
-            protected $attachment_footer_icon = '';
-            protected $clean_url_lines        = 'false';
+  <adHoc-task name="adHocSlackNotify">
+    <![CDATA[
+      class adHocSlackNotify extends Task {
+          protected $channel                = '';
+          protected $text                   = '';
+          protected $attachment_color       = '';
+          protected $attachment_author_name = '';
+          protected $attachment_author_link = '';
+          protected $attachment_author_icon = '';
+          protected $attachment_title       = '';
+          protected $attachment_title_link  = '';
+          protected $attachment_text        = '';
+          protected $attachment_footer      = '';
+          protected $attachment_footer_icon = '';
+          protected $clean_url_lines        = 'false';
 
-            /* ---------------------------- */
+          /* ---------------------------- */
 
-            public function setChannel($channel) {
-                $this->channel = trim((string) $channel);
-            }
-            public function setText($text) {
-                $this->text = trim((string) $text);
-            }
-            public function setAttachmentColor($attachment_color) {
-                $this->attachment_color = trim((string) $attachment_color);
-            }
-            public function setAttachmentAuthorName($attachment_author_name) {
-                $this->attachment_author_name = trim((string) $attachment_author_name);
-            }
-            public function setAttachmentAuthorLink($attachment_author_link) {
-                $this->attachment_author_link = trim((string) $attachment_author_link);
-            }
-            public function setAttachmentAuthorIcon($attachment_author_icon) {
-                $this->attachment_author_icon = trim((string) $attachment_author_icon);
-            }
-            public function setAttachmentTitle($attachment_title) {
-                $this->attachment_title = trim((string) $attachment_title);
-            }
-            public function setAttachmentTitleLink($attachment_title_link) {
-                $this->attachment_title_link = trim((string) $attachment_title_link);
-            }
-            public function setAttachmentText($attachment_text) {
-                $this->attachment_text = trim((string) $attachment_text);
-            }
-            public function setAttachmentFooter($attachment_footer) {
-                $this->attachment_footer = trim((string) $attachment_footer);
-            }
-            public function setAttachmentFooterIcon($attachment_footer_icon) {
-                $this->attachment_footer_icon = trim((string) $attachment_footer_icon);
-            }
-            public function setCleanUrlLines($clean_url_lines) {
-                $this->clean_url_lines = filter_var($clean_url_lines, FILTER_VALIDATE_BOOLEAN);
-            }
+          public function setChannel($channel) {
+              $this->channel = trim((string) $channel);
+          }
+          public function setText($text) {
+              $this->text = trim((string) $text);
+          }
+          public function setAttachmentColor($attachment_color) {
+              $this->attachment_color = trim((string) $attachment_color);
+          }
+          public function setAttachmentAuthorName($attachment_author_name) {
+              $this->attachment_author_name = trim((string) $attachment_author_name);
+          }
+          public function setAttachmentAuthorLink($attachment_author_link) {
+              $this->attachment_author_link = trim((string) $attachment_author_link);
+          }
+          public function setAttachmentAuthorIcon($attachment_author_icon) {
+              $this->attachment_author_icon = trim((string) $attachment_author_icon);
+          }
+          public function setAttachmentTitle($attachment_title) {
+              $this->attachment_title = trim((string) $attachment_title);
+          }
+          public function setAttachmentTitleLink($attachment_title_link) {
+              $this->attachment_title_link = trim((string) $attachment_title_link);
+          }
+          public function setAttachmentText($attachment_text) {
+              $this->attachment_text = trim((string) $attachment_text);
+          }
+          public function setAttachmentFooter($attachment_footer) {
+              $this->attachment_footer = trim((string) $attachment_footer);
+          }
+          public function setAttachmentFooterIcon($attachment_footer_icon) {
+              $this->attachment_footer_icon = trim((string) $attachment_footer_icon);
+          }
+          public function setCleanUrlLines($clean_url_lines) {
+              $this->clean_url_lines = filter_var($clean_url_lines, FILTER_VALIDATE_BOOLEAN);
+          }
 
-            /* ---------------------------- */
+          /* ---------------------------- */
 
-            protected function maybeCleanUrlLines($text) {
-                if (!$this->clean_url_lines) {
-                    return $text; // Not applicable.
-                }
-                $cdn_software_path         = '/software/';
-                $github_project_owner_path = '/'.$this->project->getProperty('project_owner').'/';
+          protected function maybeCleanUrlLines($text) {
+              if (!$this->clean_url_lines) {
+                  return $text; // Not applicable.
+              }
+              $cdn_software_path         = '/software/';
+              $github_project_owner_path = '/'.$this->project->getProperty('project_owner').'/';
 
-                return preg_replace_callback('/^https?\:\/\/[^\s]+$/umi', function($m) use ($cdn_software_path, $github_project_owner_path) {
-                    if (!($parts = parse_url($m[0]))) {
-                        return $m[0]; // Not possible.
-                    } elseif (empty($parts['host']) || empty($parts['path'])) {
-                        return $m[0]; // Not possible.
-                    }
-                    $short_path = $parts['path']; // Start with the full path and work down from there.
+              return preg_replace_callback('/^https?\:\/\/[^\s]+$/umi', function($m) use ($cdn_software_path, $github_project_owner_path) {
+                  if (!($parts = parse_url($m[0]))) {
+                      return $m[0]; // Not possible.
+                  } elseif (empty($parts['host']) || empty($parts['path'])) {
+                      return $m[0]; // Not possible.
+                  }
+                  $short_path = $parts['path']; // Start with the full path and work down from there.
 
-                    if (stripos($parts['host'], 'cdn.') === 0) {
-                        $short_path = preg_replace('/^'.preg_quote($cdn_software_path, '/').'/ui', '/', $short_path);
-                    }
-                    if (strcasecmp($parts['host'], 'github.com') === 0) {
-                        $short_path = preg_replace('/^'.preg_quote($github_project_owner_path, '/').'/ui', '/', $short_path);
-                    }
-                    return '- <'.$m[0].'|'.$short_path.'>';
-                }, (string) $text);
-            }
+                  if (stripos($parts['host'], 'cdn.') === 0) {
+                      $short_path = preg_replace('/^'.preg_quote($cdn_software_path, '/').'/ui', '/', $short_path);
+                  }
+                  if (strcasecmp($parts['host'], 'github.com') === 0) {
+                      $short_path = preg_replace('/^'.preg_quote($github_project_owner_path, '/').'/ui', '/', $short_path);
+                  }
+                  return '- <'.$m[0].'|'.$short_path.'>';
+              }, (string) $text);
+          }
 
-            /* ---------------------------- */
+          /* ---------------------------- */
 
-            public function main() {
-                $username        = $this->project->getProperty('_ws_json.phings.slack.username');
-                $email           = $this->project->getProperty('_ws_json.phings.slack.email');
-                $api_webhook_url = $this->project->getProperty('_ws_json.phings.slack.api_webhook_url');
+          public function main() {
+              $enable_cli_arg  = $this->project->getProperty('slack-enable');
+              $channel_cli_arg = $this->project->getProperty('slack-channel');
 
-                if(!$username || !$email || !$api_webhook_url) {
-                    return; // Not possible.
-                } elseif (!$this->text && !$this->attachment_text) {
-                    return; // Not possible.
-                }
-                $gravatar_url          = 'https://www.gravatar.com/avatar/'.md5($email).'?s=128';
-                $slack_profile_url     = 'https://websharks.slack.com/team/'.urlencode($username);
+              $username        = $this->project->getProperty('_ws_json.phings.slack.username');
+              $email           = $this->project->getProperty('_ws_json.phings.slack.email');
+              $api_webhook_url = $this->project->getProperty('_ws_json.phings.slack.api_webhook_url');
 
-                $this->text            = $this->maybeCleanUrlLines($this->text);
-                $this->attachment_text = $this->maybeCleanUrlLines($this->attachment_text);
+              if (isset($enable_cli_arg) && !$enable_cli_arg) {
+                  return; // Disabled.
+              } elseif (!$username || !$email || !$api_webhook_url) {
+                  return; // Not possible.
+              } elseif (!$this->text && !$this->attachment_text) {
+                  return; // Not possible.
+              }
+              $gravatar_url          = 'https://www.gravatar.com/avatar/'.md5($email).'?s=128';
+              $slack_profile_url     = 'https://websharks.slack.com/team/'.urlencode($username);
 
-                $data                  = [
-                    'channel'          => $this->channel,
+              $this->text            = $this->maybeCleanUrlLines($this->text);
+              $this->attachment_text = $this->maybeCleanUrlLines($this->attachment_text);
 
-                    'username'         => $username.' — via Phing',
-                    'icon_url'         => $gravatar_url,
+              $data                  = [
+                  'channel'          => $channel_cli_arg ? $channel_cli_arg : $this->channel,
 
-                    'mrkdwn'           => true,
-                    'link_names'       => true,
-                    'text'             => $this->text,
+                  'username'         => $username.' — via Phing',
+                  'icon_url'         => $gravatar_url,
 
-                    'attachments'      => [
-                        [
-                            'mrkdwn_in'   => ['text', 'pretext'],
-                            'color'       => $this->attachment_color ? $this->attachment_color : '#625433',
+                  'mrkdwn'           => true,
+                  'link_names'       => true,
+                  'text'             => $this->text,
 
-                            'author_name' => $this->attachment_author_name,
-                            'author_link' => str_replace('%%slack_profile_url%%', $slack_profile_url, $this->attachment_author_link),
-                            'author_icon' => str_replace('%%gravatar_url%%', $gravatar_url, $this->attachment_author_icon),
+                  'attachments'      => [
+                      [
+                          'mrkdwn_in'   => ['text', 'pretext'],
+                          'color'       => $this->attachment_color ? $this->attachment_color : '#625433',
 
-                            'title'       => $this->attachment_title,
-                            'title_link'  => $this->attachment_title_link,
+                          'author_name' => $this->attachment_author_name,
+                          'author_link' => str_replace('%%slack_profile_url%%', $slack_profile_url, $this->attachment_author_link),
+                          'author_icon' => str_replace('%%gravatar_url%%', $gravatar_url, $this->attachment_author_icon),
 
-                            'text'        => $this->attachment_text,
+                          'title'       => $this->attachment_title,
+                          'title_link'  => $this->attachment_title_link,
 
-                            'footer'      => $this->attachment_footer,
-                            'footer_icon' => str_replace('%%gravatar_url%%', $gravatar_url, $this->attachment_footer_icon),
-                        ],
-                    ],
-                ];
-                if (empty($data['attachments'][0]['text'])) {
-                    unset($data['attachments']);
-                }
-                $esc_json_data       = escapeShellArg(json_encode($data));
-                $esc_api_webhook_url = escapeShellArg($api_webhook_url);
+                          'text'        => $this->attachment_text,
 
-                `curl --request POST --header 'content-type: application/json' --data $esc_json_data $esc_api_webhook_url`;
-            }
-        }
-      ]]>
-    </adHoc-task>
+                          'footer'      => $this->attachment_footer,
+                          'footer_icon' => str_replace('%%gravatar_url%%', $gravatar_url, $this->attachment_footer_icon),
+                      ],
+                  ],
+              ];
+              if (empty($data['attachments'][0]['text'])) {
+                  unset($data['attachments']);
+              }
+              $esc_json_data       = escapeShellArg(json_encode($data));
+              $esc_api_webhook_url = escapeShellArg($api_webhook_url);
 
-  </project>
+              `curl --request POST --header 'content-type: application/json' --data $esc_json_data $esc_api_webhook_url`;
+          }
+      }
+    ]]>
+  </adHoc-task>
+
+</project>

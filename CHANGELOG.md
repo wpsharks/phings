@@ -1,4 +1,26 @@
-# v160624.36916
+## $v
+
+### Most Important Changes
+
+- **IMPORTANT:** New required `.build.props` property: `project_text_domain`
+- **IMPORTANT:** New required `.build.props` property for lite variation: `project_lite_text_domain`
+- If you are missing either of these new properties Phing will fail validation and you will be warned that a property is missing.
+- **IMPORTANT:** As noted below, many of the pattern sets were updated in this release. Please review your next build carefully in case there are any new bugs. In particular, please be sure to review the files that make it into the final ZIP distro, as well as the final Lite repo at GitHub. I don't believe there are any problems, but given the number of changes to the pattern sets in this release, it would be worth your while to do a quick review just to be sure.
+
+### Additional Changes in This Release
+
+- **New Wiki Article:** https://github.com/websharks/phings/wiki/Build-Flags-&-Props
+- Reorganized all pattern sets. Now using a layered approach that is based on our `.gitignore` and `.gitattributes` file for better consistency and easier maintenance.
+- Adding `defaultExcludes="false"` to all `<fileSet>` tags now that there is a more comprehensive approach being taken with exclusions (i.e., pattern sets were drastically improved in this release).
+- Changing `-X` argument on `zip` command to the long name for improved clarity; i.e., `--no-extra`.
+- Refactor: `_is_wp_core_framework_project` now `_is_core_project`.
+- Refactor: `_is_lite_build` now `_doing_lite_build`.
+- Refactor: `_has_lite_build_props` now `_has_lite_variation`.
+- Adding GitHub credential validator. Now required to finish a release.
+- Adding Slack credential validator. Now required to finish a release or update bleeding edge.
+- Correcting indentation in all files; i.e., no need to indent inside `<?xml>` tag.
+
+## v160624.36916
 
 - Nasty bug related to `@since` getting mangled during a release build. Fixed in this release. Referencing: #109
 

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Initialize `${_tmp_sub_dir}`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Initialize `${_tmp_sub_dir}`. -->
+  <!-- ============================================  -->
 
-    <if>
-      <not>
-        <available resource="${_tmp_sub_dir}" type="dir" />
-      </not>
-      <then>
-        <mkdir dir="${_tmp_sub_dir}" />
-      </then>
-    </if>
+  <if>
+    <not>
+      <available resource="${_tmp_sub_dir}" type="dir" />
+    </not>
+    <then>
+      <mkdir dir="${_tmp_sub_dir}" />
+    </then>
+  </if>
 
-  </project>
+</project>

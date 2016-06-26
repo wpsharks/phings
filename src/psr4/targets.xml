@@ -1,216 +1,216 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project name="targets">
+<project name="targets">
 
-    <!-- ============================================  -->
-    <!-- Import hidden targets. -->
-    <!-- A stub that imports everything else. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Import hidden targets. -->
+  <!-- A stub that imports everything else. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/imports.xml" />
+  <import file="${phing.dir.targets}/imports.xml" />
 
-    <!-- ============================================  -->
-    <!-- Default build target. -->
-    <!-- For all project contributors. -->
-    <!-- Run with `$ phing` or `$ phing build`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Default build target. -->
+  <!-- For all project contributors. -->
+  <!-- Run with `$ phing` or `$ phing build`. -->
+  <!-- ============================================  -->
 
-    <target name="build">
-      <echo msg="Running target: build" />
-      <property name="_target" value="build" />
+  <target name="build">
+    <echo msg="Running target: build" />
+    <property name="_target" value="build" />
 
-      <phingCall target="-builds-in-base-dir-composer" />
-      <phingCall target="-builds-in-base-dir-dotbuilds" />
-      <phingCall target="-builds-in-base-dir-i18n-text-domains" />
-      <phingCall target="-builds-in-base-dir-after-create-build-dir" />
-      <phingCall target="-builds-in-build-dir-version-tokens" />
-      <phingCall target="-builds-in-build-dir-composer" />
-      <phingCall target="-builds-in-build-dir-dotbuilds" />
-      <phingCall target="-builds-in-build-dir-js-css-cleanup" />
-      <phingCall target="-linters-phpcs" />
-      <phingCall target="-distros-packages" />
-      <phingCall target="-properties-save-project-version" />
-    </target>
+    <phingCall target="-builds-in-base-dir-composer" />
+    <phingCall target="-builds-in-base-dir-dotbuilds" />
+    <phingCall target="-builds-in-base-dir-i18n-text-domains" />
+    <phingCall target="-builds-in-base-dir-after-create-build-dir" />
+    <phingCall target="-builds-in-build-dir-version-tokens" />
+    <phingCall target="-builds-in-build-dir-composer" />
+    <phingCall target="-builds-in-build-dir-dotbuilds" />
+    <phingCall target="-builds-in-build-dir-js-css-cleanup" />
+    <phingCall target="-linters-phpcs" />
+    <phingCall target="-distros-packages" />
+    <phingCall target="-properties-save-project-version" />
+  </target>
 
-    <!-- ============================================  -->
-    <!-- Lite build target. -->
-    <!-- For all project contributors. -->
-    <!-- Run with `$ phing build-lite`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Lite build target. -->
+  <!-- For all project contributors. -->
+  <!-- Run with `$ phing build-lite`. -->
+  <!-- ============================================  -->
 
-    <target name="build-lite">
-      <echo msg="Running target: build-lite" />
-      <property name="_target" value="build" />
+  <target name="build-lite">
+    <echo msg="Running target: build-lite" />
+    <property name="_target" value="build" />
 
-      <phingCall target="-variations-lite-build" />
-    </target>
+    <phingCall target="-variations-lite-build" />
+  </target>
 
-    <!-- ============================================  -->
-    <!-- Full build target. -->
-    <!-- For project leads & CI servers. -->
-    <!-- Run with `$ phing full-build`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Full build target. -->
+  <!-- For project leads & CI servers. -->
+  <!-- Run with `$ phing full-build`. -->
+  <!-- ============================================  -->
 
-    <target name="full-build">
-      <echo msg="Running target: full-build" />
-      <property name="_target" value="full-build" />
+  <target name="full-build">
+    <echo msg="Running target: full-build" />
+    <property name="_target" value="full-build" />
 
-      <phingCall target="-builds-in-base-dir-version-tokens" />
-      <phingCall target="-builds-in-base-dir-composer" />
-      <phingCall target="-builds-in-base-dir-dotbuilds" />
-      <phingCall target="-builds-in-base-dir-i18n-text-domains" />
-      <phingCall target="-builds-in-base-dir-i18n-pots" />
-      <phingCall target="-builds-in-base-dir-after-create-build-dir" />
-      <phingCall target="-builds-in-build-dir-composer" />
-      <phingCall target="-builds-in-build-dir-dotbuilds" />
-      <phingCall target="-builds-in-build-dir-js-css-cleanup" />
-      <phingCall target="-linters-phpcs" />
-      <phingCall target="-distros-packages" />
-      <phingCall target="-properties-save-project-version" />
-    </target>
+    <phingCall target="-builds-in-base-dir-version-tokens" />
+    <phingCall target="-builds-in-base-dir-composer" />
+    <phingCall target="-builds-in-base-dir-dotbuilds" />
+    <phingCall target="-builds-in-base-dir-i18n-text-domains" />
+    <phingCall target="-builds-in-base-dir-i18n-pots" />
+    <phingCall target="-builds-in-base-dir-after-create-build-dir" />
+    <phingCall target="-builds-in-build-dir-composer" />
+    <phingCall target="-builds-in-build-dir-dotbuilds" />
+    <phingCall target="-builds-in-build-dir-js-css-cleanup" />
+    <phingCall target="-linters-phpcs" />
+    <phingCall target="-distros-packages" />
+    <phingCall target="-properties-save-project-version" />
+  </target>
 
-    <!-- ============================================  -->
-    <!-- Full lite build target. -->
-    <!-- For project leads & CI servers. -->
-    <!-- Run with `$ phing full-build-lite`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Full lite build target. -->
+  <!-- For project leads & CI servers. -->
+  <!-- Run with `$ phing full-build-lite`. -->
+  <!-- ============================================  -->
 
-    <target name="full-build-lite">
-      <echo msg="Running target: full-build-lite" />
-      <property name="_target" value="full-build-lite" />
+  <target name="full-build-lite">
+    <echo msg="Running target: full-build-lite" />
+    <property name="_target" value="full-build-lite" />
 
-      <phingCall target="-variations-lite-full-build" />
-    </target>
+    <phingCall target="-variations-lite-full-build" />
+  </target>
 
-    <!-- ============================================  -->
-    <!-- Build (all) target. -->
-    <!-- For all project contributors. -->
-    <!-- Run with `$ phing build-all`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Build (all) target. -->
+  <!-- For all project contributors. -->
+  <!-- Run with `$ phing build-all`. -->
+  <!-- ============================================  -->
 
-    <target name="build-all">
-      <echo msg="Running target: build-all" />
-      <property name="_target" value="build-all" />
+  <target name="build-all">
+    <echo msg="Running target: build-all" />
+    <property name="_target" value="build-all" />
 
-      <phingCall target="build" />
-      <phingCall target="build-lite" />
-    </target>
+    <phingCall target="build" />
+    <phingCall target="build-lite" />
+  </target>
 
-    <!-- ============================================  -->
-    <!-- Full build (all) target. -->
-    <!-- For project leads & CI servers. -->
-    <!-- Run with `$ phing full-build-all`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Full build (all) target. -->
+  <!-- For project leads & CI servers. -->
+  <!-- Run with `$ phing full-build-all`. -->
+  <!-- ============================================  -->
 
-    <target name="full-build-all">
-      <echo msg="Running target: full-build-all" />
-      <property name="_target" value="full-build-all" />
+  <target name="full-build-all">
+    <echo msg="Running target: full-build-all" />
+    <property name="_target" value="full-build-all" />
 
-      <phingCall target="full-build" />
-      <phingCall target="full-build-lite" />
-    </target>
+    <phingCall target="full-build" />
+    <phingCall target="full-build-lite" />
+  </target>
 
-    <!-- ============================================  -->
-    <!-- Post-receive build target. -->
-    <!-- For remote deployments to use. -->
-    <!-- Run with `$ phing post-receive-build`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Post-receive build target. -->
+  <!-- For remote deployments to use. -->
+  <!-- Run with `$ phing post-receive-build`. -->
+  <!-- ============================================  -->
 
-    <target name="post-receive-build">
-      <echo msg="Running target: post-receive-build" />
-      <property name="_target" value="post-receive-build" />
+  <target name="post-receive-build">
+    <echo msg="Running target: post-receive-build" />
+    <property name="_target" value="post-receive-build" />
 
-      <phingCall target="-builds-in-base-dir-composer" />
-    </target>
+    <phingCall target="-builds-in-base-dir-composer" />
+  </target>
 
-    <!-- ============================================  -->
-    <!-- Test running target. -->
-    <!-- For remote CI servers to use. -->
-    <!-- Run with `$ phing test`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Test running target. -->
+  <!-- For remote CI servers to use. -->
+  <!-- Run with `$ phing test`. -->
+  <!-- ============================================  -->
 
-    <target name="test">
-      <echo msg="Running target: test" />
-      <property name="_target" value="test" />
+  <target name="test">
+    <echo msg="Running target: test" />
+    <property name="_target" value="test" />
 
-      <phingCall target="-tests-phpunit" />
-      <phingCall target="-tests-casperjs" />
-    </target>
+    <phingCall target="-tests-phpunit" />
+    <phingCall target="-tests-casperjs" />
+  </target>
 
-    <!-- ============================================  -->
-    <!-- Codex generation target. -->
-    <!-- For project leads or codex maintainers. -->
-    <!-- Run with `$ phing codex`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Codex generation target. -->
+  <!-- For project leads or codex maintainers. -->
+  <!-- Run with `$ phing codex`. -->
+  <!-- ============================================  -->
 
-    <target name="codex">
-      <echo msg="Running target: codex" />
-      <property name="_target" value="codex" />
+  <target name="codex">
+    <echo msg="Running target: codex" />
+    <property name="_target" value="codex" />
 
-      <phingCall target="-codex-apigen" />
-    </target>
+    <phingCall target="-codex-apigen" />
+  </target>
 
-    <!-- ============================================  -->
-    <!-- Feature branch targets. -->
-    <!-- For all project contributors. -->
-    <!-- Run with `$ phing feature`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Feature branch targets. -->
+  <!-- For all project contributors. -->
+  <!-- Run with `$ phing feature`. -->
+  <!-- ============================================  -->
 
-    <target name="feature">
-      <echo msg="Running target: feature" />
-      <property name="_target" value="feature" />
+  <target name="feature">
+    <echo msg="Running target: feature" />
+    <property name="_target" value="feature" />
 
-      <phingCall target="-features-feature" />
-    </target>
+    <phingCall target="-features-feature" />
+  </target>
 
-    <target name="feature-start">
-      <echo msg="Running target: feature-start" />
-      <property name="_target" value="feature-start" />
+  <target name="feature-start">
+    <echo msg="Running target: feature-start" />
+    <property name="_target" value="feature-start" />
 
-      <property name="action" value="start" override="true" />
-      <phingCall target="-features-feature" />
-    </target>
+    <property name="action" value="start" override="true" />
+    <phingCall target="-features-feature" />
+  </target>
 
-    <target name="feature-finish">
-      <echo msg="Running target: feature-finish" />
-      <property name="_target" value="feature-finish" />
+  <target name="feature-finish">
+    <echo msg="Running target: feature-finish" />
+    <property name="_target" value="feature-finish" />
 
-      <property name="action" value="finish" override="true" />
-      <phingCall target="-features-feature" />
-    </target>
+    <property name="action" value="finish" override="true" />
+    <phingCall target="-features-feature" />
+  </target>
 
-    <!-- ============================================  -->
-    <!-- Upload procedure targets. -->
-    <!-- For project leads updating bleeding edge. -->
-    <!-- Run with `$ phing update-bleeding-edge`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Release procedure targets. -->
+  <!-- For project leads doing a release. -->
+  <!-- Run with `$ phing release[-rc]`. -->
+  <!-- ============================================  -->
 
-    <target name="update-bleeding-edge">
-      <echo msg="Running target: update-bleeding-edge" />
-      <property name="_target" value="update-bleeding-edge" />
+  <target name="release">
+    <echo msg="Running target: release" />
+    <property name="_target" value="release" />
 
-      <phingCall target="-uploads-bleeding-edge" />
-    </target>
+    <phingCall target="-releases-release" />
+  </target>
 
-    <!-- ============================================  -->
-    <!-- Release procedure targets. -->
-    <!-- For project leads doing a release. -->
-    <!-- Run with `$ phing release[-rc]`. -->
-    <!-- ============================================  -->
+  <target name="release-rc">
+    <echo msg="Running target: release-rc" />
+    <property name="_target" value="release-rc" />
 
-    <target name="release">
-      <echo msg="Running target: release" />
-      <property name="_target" value="release" />
+    <property name="type" value="rc" override="true" />
+    <phingCall target="release" />
+  </target>
 
-      <phingCall target="-releases-release" />
-    </target>
+  <!-- ============================================  -->
+  <!-- Upload procedure targets. -->
+  <!-- For project leads updating bleeding edge. -->
+  <!-- Run with `$ phing update-bleeding-edge`. -->
+  <!-- ============================================  -->
 
-    <target name="release-rc">
-      <echo msg="Running target: release-rc" />
-      <property name="_target" value="release-rc" />
+  <target name="update-bleeding-edge">
+    <echo msg="Running target: update-bleeding-edge" />
+    <property name="_target" value="update-bleeding-edge" />
 
-      <property name="type" value="rc" override="true" />
-      <phingCall target="release" />
-    </target>
+    <phingCall target="-uploads-bleeding-edge" />
+  </target>
 
-  </project>
+</project>

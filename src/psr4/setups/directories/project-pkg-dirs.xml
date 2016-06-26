@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Initialize `${project.basedir}/.~build/.~/pkg-dirs`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Initialize `${project.basedir}/.~build/.~/pkg-dirs`. -->
+  <!-- ============================================  -->
 
-    <if>
-      <not>
-        <available resource="${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz" type="dir" />
-      </not>
-      <then>
-        <mkdir dir="${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz" />
-      </then>
-    </if>
+  <if>
+    <not>
+      <available resource="${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz" type="dir" />
+    </not>
+    <then>
+      <mkdir dir="${project.basedir}/.~build/.~/pkg-dirs/for-zip-tgz" />
+    </then>
+  </if>
 
-  </project>
+</project>

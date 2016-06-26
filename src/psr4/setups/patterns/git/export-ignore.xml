@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project>
+
+  <!-- ============================================  -->
+  <!-- Pattern set matching `export-ignore` directives in our `.gitattributes` file. -->
+  <!-- ============================================  -->
+
+  <patternSet id="_git_export_ignore_pattern_set">
+
+    <!-- ——————————————————————————————————————————— -->
+    <!-- This follows `.gitignore` almost exactly. -->
+    <!-- ——————————————————————————————————————————— -->
+
+    <!-- Local -->
+
+    <exclude pattern=".~**" />
+    <exclude pattern="**/.~**" />
+
+    <!-- Logs -->
+
+    <exclude pattern="*.log" />
+    <exclude pattern="**/*.log" />
+
+    <!-- Backups -->
+
+    <exclude pattern="*~" />
+    <exclude pattern="**/*~" />
+
+    <exclude pattern="*.bak" />
+    <exclude pattern="**/*.bak" />
+
+    <!-- Vendor
+    NOT excluded here.
+
+    <exclude pattern="vendor/**" />
+    <exclude pattern="**/vendor/**" />
+    -->
+
+    <!-- Node -->
+
+    <exclude pattern="node_modules/**" />
+    <exclude pattern="**/node_modules/**" />
+
+    <!-- SASS -->
+
+    <exclude pattern=".sass-cache/**" />
+    <exclude pattern="**/.sass-cache/**" />
+
+    <!-- IntelliJ -->
+
+    <exclude pattern=".idea/**" />
+    <exclude pattern="**/.idea/**" />
+
+    <!-- Sublime -->
+
+    <exclude pattern=".sublime-workspace" />
+    <exclude pattern="**/.sublime-workspace" />
+
+    <exclude pattern=".sublime-project" />
+    <exclude pattern="**/.sublime-project" />
+
+    <!-- CTags -->
+
+    <exclude pattern=".tags" />
+    <exclude pattern="**/.tags" />
+
+    <exclude pattern=".ctags" />
+    <exclude pattern="**/.ctags" />
+
+    <!-- VCS -->
+
+    <exclude pattern=".git/**" />
+    <exclude pattern="**/.git/**" />
+
+    <exclude pattern=".svn/**" />
+    <exclude pattern="**/.svn/**" />
+
+    <exclude pattern="_svn/**" />
+    <exclude pattern="**/_svn/**" />
+
+    <exclude pattern=".CVS/**" />
+    <exclude pattern="**/.CVS/**" />
+
+    <exclude pattern=".cvsignore" />
+    <exclude pattern="**/.cvsignore" />
+
+    <exclude pattern=".bzr/**" />
+    <exclude pattern="**/.bzr/**" />
+
+    <exclude pattern=".bzrignore" />
+    <exclude pattern="**/.bzrignore" />
+
+    <exclude pattern=".hg/**" />
+    <exclude pattern="**/.hg/**" />
+
+    <exclude pattern=".hgignore" />
+    <exclude pattern="**/.hgignore" />
+
+    <exclude pattern="SCCS/**" />
+    <exclude pattern="**/SCCS/**" />
+
+    <exclude pattern="RCS/**" />
+    <exclude pattern="**/RCS/**" />
+
+    <!-- PC Files -->
+
+    <exclude pattern=".$RECYCLE.BIN/**" />
+    <exclude pattern="**/.$RECYCLE.BIN/**" />
+
+    <exclude pattern="Desktop.ini" />
+    <exclude pattern="**/Desktop.ini" />
+
+    <exclude pattern="Thumbs.db" />
+    <exclude pattern="**/Thumbs.db" />
+
+    <exclude pattern="ehthumbs.db" />
+    <exclude pattern="**/ehthumbs.db" />
+
+    <!-- Mac Files -->
+
+    <exclude pattern=".Spotlight-V100" />
+    <exclude pattern="**/.Spotlight-V100" />
+
+    <exclude pattern=".AppleDouble" />
+    <exclude pattern="**/.AppleDouble" />
+
+    <exclude pattern=".LSOverride" />
+    <exclude pattern="**/.LSOverride" />
+
+    <exclude pattern=".DS_Store" />
+    <exclude pattern="**/.DS_Store" />
+
+    <exclude pattern=".Trashes" />
+    <exclude pattern="**/.Trashes" />
+
+    <exclude pattern="Icon\r" />
+    <exclude pattern="**/Icon\r" />
+
+    <exclude pattern="._**" />
+    <exclude pattern="**/._**" />
+
+    <!-- AWS -->
+
+    <exclude pattern=".elasticbeanstalk/**" />
+    <exclude pattern="**/.elasticbeanstalk/**" />
+
+    <!-- Vagrant -->
+
+    <exclude pattern=".vagrant/**" />
+    <exclude pattern="**/.vagrant/**" />
+
+    <!-- ——————————————————————————————————————————— -->
+    <!-- These are in addition to what we have in `.gitignore`. -->
+    <!-- ——————————————————————————————————————————— -->
+
+    <!-- SASS -->
+
+    <exclude pattern="**.scss" />
+    <exclude pattern="**/**.scss" />
+
+    <exclude pattern="**.css.map" />
+    <exclude pattern="**/**.css.map" />
+
+    <exclude pattern="bourbon/**" />
+    <exclude pattern="**/bourbon/**" />
+
+    <!-- Git -->
+
+    <exclude pattern=".gitignore" />
+    <exclude pattern=".gitattributes" />
+    <exclude pattern=".gitmodules" />
+    <exclude pattern=".gitchange" />
+
+    <!-- GitHub -->
+
+    <exclude pattern=".github/**" />
+    <exclude pattern="CONTRIBUTING.md" />
+    <exclude pattern="ISSUE_TEMPLATE.md" />
+    <exclude pattern="PULL_REQUEST_TEMPLATE.md" />
+
+    <!-- Assets -->
+
+    <exclude pattern="assets/**" />
+
+    <!-- Build Files -->
+
+    <exclude pattern="phings/**" />
+
+    <exclude pattern=".build.props" />
+
+    <exclude pattern="build-*.xml" />
+    <exclude pattern="build.xml" />
+
+    <exclude pattern=".build.php" />
+    <exclude pattern="**/.build.php" />
+
+    <exclude pattern=".build.*.php" />
+    <exclude pattern="**/.build.*.php" />
+
+    <!-- Tests -->
+
+    <exclude pattern="tests/**" />
+
+    <!-- Drone -->
+
+    <exclude pattern=".drone.yml" />
+    <exclude pattern=".drone.sec" />
+
+    <!-- Travis -->
+
+    <exclude pattern=".travis.yml" />
+    <exclude pattern=".travis.bash" />
+
+    <!-- Coverage -->
+
+    <exclude pattern=".coveralls.yml" />
+    <exclude pattern=".scrutinizer.yml" />
+
+    <!-- Post-Receive -->
+
+    <exclude pattern="post-receive" />
+
+    <!-- PHAR Stub -->
+
+    <exclude pattern="src/includes/phar-stub.php" />
+
+  </patternSet>
+
+</project>

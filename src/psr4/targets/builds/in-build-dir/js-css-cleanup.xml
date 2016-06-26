@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- JS/CSS cleanup handlers. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- JS/CSS cleanup handlers. -->
+  <!-- ============================================  -->
 
-    <target name="-builds-in-build-dir-js-css-cleanup" hidden="true">
+  <target name="-builds-in-build-dir-js-css-cleanup" hidden="true">
 
-      <!-- Remove `sourceMappingURL` from JS/CSS files. -->
+    <!-- Remove `sourceMappingURL` from JS/CSS files. -->
 
-      <echo msg="Stripping sourceMappingURL from JS/CSS in: ${project.basedir}/.~build/${project_slug}" />
+    <echo msg="Stripping sourceMappingURL from JS/CSS in: ${project.basedir}/.~build/${project_slug}" />
 
-      <reflexive>
-        <fileSet dir="${project.basedir}/.~build/${project_slug}" caseSensitive="false">
-          <patternSet refId="_js_css_pattern_set" />
-        </fileSet>
-        <filterChain>
-          <replaceRegExp>
-            <regExp pattern="\/\*\#\s+sourceMappingURL\=(?:.*?)\*\/" replace="" modifiers="us" />
-          </replaceRegExp>
-        </filterChain>
-      </reflexive>
+    <reflexive>
+      <fileSet dir="${project.basedir}/.~build/${project_slug}" caseSensitive="false" defaultExcludes="false">
+        <patternSet refId="_git_ignore_pattern_set" />
+        <patternSet refId="_alter_ignore_pattern_set" />
+        <patternSet refId="_js_css_pattern_set" />
+      </fileSet>
+      <filterChain>
+        <replaceRegExp>
+          <regExp pattern="\/\*\#\s+sourceMappingURL\=(?:.*?)\*\/" replace="" modifiers="us" />
+        </replaceRegExp>
+      </filterChain>
+    </reflexive>
 
-    </target>
+  </target>
 
-  </project>
+</project>

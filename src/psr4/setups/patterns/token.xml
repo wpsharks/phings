@@ -1,40 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Token pattern set. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Token pattern set. -->
+  <!-- Depends on: `_alter_ignore_pattern_set`. -->
+  <!-- ============================================  -->
 
-    <patternSet id="_token_pattern_set">
+  <patternSet id="_token_pattern_set">
 
-      <exclude pattern=".~build/**" />
-      <exclude pattern="**/.~build/**" />
+    <include pattern="*.php" />
+    <include pattern="**/**.php" />
 
-      <exclude pattern="phings/**" />
-      <exclude pattern="**/phings/**" />
+    <include pattern="*.phps" />
+    <include pattern="**/**.phps" />
 
-      <exclude pattern="vendor/**" />
-      <exclude pattern="**/vendor/**" />
+    <include pattern="*.x-php" />
+    <include pattern="**/**.x-php" />
 
-      <exclude pattern="bourbon/**" />
-      <exclude pattern="**/bourbon/**" />
+    <include pattern="*.js" />
+    <include pattern="**/**.js" />
 
-      <include pattern="*.x-php" />
-      <include pattern="**/**.x-php" />
+    <include pattern="*.scss" />
+    <include pattern="**/**.scss" />
 
-      <include pattern="*.php" />
-      <include pattern="**/**.php" />
+    <include pattern="*.bash" />
+    <include pattern="**/**.bash" />
 
-      <include pattern="*.js" />
-      <include pattern="**/**.js" />
+  </patternSet>
 
-      <include pattern="*.scss" />
-      <include pattern="**/**.scss" />
-
-      <include pattern="*.bash" />
-      <include pattern="**/**.bash" />
-
-    </patternSet>
-
-  </project>
+</project>

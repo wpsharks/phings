@@ -3,15 +3,26 @@
 <project>
 
   <!-- ============================================  -->
-  <!-- Pattern-set reference for lite repo. -->
+  <!-- Additional files to ignore when altering files. -->
   <!-- Depends on: `_git_ignore_pattern_set`. -->
   <!-- ============================================  -->
 
-  <patternSet id="_lite_repo_pattern_set">
+  <patternSet id="_alter_ignore_pattern_set">
+
+    <!-- SASS -->
+
+    <exclude pattern="**.css.map" />
+    <exclude pattern="**/**.css.map" />
+
+    <exclude pattern="bourbon/**" />
+    <exclude pattern="**/bourbon/**" />
 
     <!-- Git -->
 
+    <exclude pattern=".gitignore" />
+    <exclude pattern=".gitattributes" />
     <exclude pattern=".gitmodules" />
+    <exclude pattern=".gitchange" />
 
     <!-- Assets -->
 
@@ -26,34 +37,17 @@
     <exclude pattern="build-*.xml" />
     <exclude pattern="build.xml" />
 
+    <!-- These are NOT excluded here.
     <exclude pattern=".build.php" />
     <exclude pattern="**/.build.php" />
 
     <exclude pattern=".build.*.php" />
     <exclude pattern="**/.build.*.php" />
+    -->
 
-    <!-- Tests -->
+    <!-- Composer -->
 
-    <exclude pattern="tests/**" />
-
-    <!-- Drone -->
-
-    <exclude pattern=".drone.yml" />
-    <exclude pattern=".drone.sec" />
-
-    <!-- Travis -->
-
-    <exclude pattern=".travis.yml" />
-    <exclude pattern=".travis.bash" />
-
-    <!-- Coverage -->
-
-    <exclude pattern=".coveralls.yml" />
-    <exclude pattern=".scrutinizer.yml" />
-
-    <!-- Post-Receive -->
-
-    <exclude pattern="post-receive" />
+    <exclude pattern="composer.lock" />
 
   </patternSet>
 

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Initialize `${project.basedir}/.~build`. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Initialize `${project.basedir}/.~build`. -->
+  <!-- ============================================  -->
 
-    <if>
-      <not>
-        <available resource="${project.basedir}/.~build" type="dir" />
-      </not>
-      <then>
-        <mkdir dir="${project.basedir}/.~build" />
-      </then>
-    </if>
+  <if>
+    <not>
+      <available resource="${project.basedir}/.~build" type="dir" />
+    </not>
+    <then>
+      <mkdir dir="${project.basedir}/.~build" />
+    </then>
+  </if>
 
-  </project>
+</project>

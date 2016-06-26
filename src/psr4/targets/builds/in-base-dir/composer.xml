@@ -1,118 +1,122 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Composer install routine. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Composer install routine. -->
+  <!-- ============================================  -->
 
-    <target name="-builds-in-base-dir-composer" hidden="true">
+  <target name="-builds-in-base-dir-composer" hidden="true">
 
-      <if>
-        <and>
-          <available resource="${project.basedir}/composer.json" type="file" />
-        </and>
-        <then>
-          <!-- Composer install routines. -->
+    <if>
+      <and>
+        <available resource="${project.basedir}/composer.json" type="file" />
+      </and>
+      <then>
+        <!-- Composer install routines. -->
 
-          <echo msg="Running Composer in: ${project.basedir}" />
+        <echo msg="Running Composer in: ${project.basedir}" />
 
-          <echo />
+        <echo />
 
-          <if>
-            <and>
-              <isset property="composer-lock-delete" />
-              <isTrue value="${composer-lock-delete}" />
-              <available resource="${project.basedir}/composer.lock" type="file" />
-            </and>
-            <then>
-              <delete file="${project.basedir}/composer.lock" quiet="true" />
+        <if>
+          <and>
+            <isset property="composer-lock-delete" />
+            <isTrue value="${composer-lock-delete}" />
+            <available resource="${project.basedir}/composer.lock" type="file" />
+          </and>
+          <then>
+            <delete file="${project.basedir}/composer.lock" quiet="true" />
 
-              <echo />
-            </then>
-          </if>
+            <echo />
+          </then>
+        </if>
 
-          <if>
-            <and>
-              <available resource="${project.basedir}/src/vendor" type="dir" />
-            </and>
-            <then>
-              <delete dir="${project.basedir}/src/vendor" includeEmptyDirs="true" quiet="true" />
+        <if>
+          <and>
+            <available resource="${project.basedir}/src/vendor" type="dir" />
+          </and>
+          <then>
+            <delete dir="${project.basedir}/src/vendor" includeEmptyDirs="true" quiet="true" />
 
-              <echo />
-            </then>
-          </if>
+            <echo />
+          </then>
+        </if>
 
-          <exec executable="${_deps_composer_path}" dir="${project.basedir}" passthru="true" checkReturn="true">
-            <arg value="install" />
-            <arg value="--optimize-autoloader" />
-          </exec>
+        <exec executable="${_deps_composer_path}" dir="${project.basedir}" passthru="true" checkReturn="true">
+          <arg value="install" />
+          <arg value="--optimize-autoloader" />
+        </exec>
 
-          <!-- WebSharks Core rebranding. -->
+        <!-- WebSharks Core rebranding. -->
 
-          <if>
-            <and>
-              <or>
-                <available resource="${project.basedir}/src/vendor/composer/autoload_psr4.php" type="file" />
-                <available resource="${project.basedir}/src/vendor/composer/autoload_classmap.php" type="file" />
-                <available resource="${project.basedir}/src/vendor/composer/autoload_namespaces.php" type="file" />
-              </or>
-              <available resource="${project.basedir}/src/vendor/websharks/core" type="dir" />
-            </and>
-            <then>
-              <echo />
+        <if>
+          <and>
+            <or>
+              <available resource="${project.basedir}/src/vendor/composer/autoload_psr4.php" type="file" />
+              <available resource="${project.basedir}/src/vendor/composer/autoload_classmap.php" type="file" />
+              <available resource="${project.basedir}/src/vendor/composer/autoload_namespaces.php" type="file" />
+            </or>
+            <available resource="${project.basedir}/src/vendor/websharks/core" type="dir" />
+          </and>
+          <then>
+            <echo />
 
-              <echo msg="Rebranding: ${project.basedir}/src/vendor/websharks/core" />
+            <echo msg="Rebranding: ${project.basedir}/src/vendor/websharks/core" />
 
-              <reflexive>
-                <fileSet dir="${project.basedir}/src/vendor/websharks/core" caseSensitive="false">
-                  <patternSet refId="_php_pattern_set" />
-                </fileSet>
-                <filterChain>
-                  <replaceRegExp>
-                    <regExp pattern="\b(namespace|use|return)\s+(\\)?WebSharks\\Core\b" replace="\1 \2WebSharks\\Core\\${project_sub_namespace}" modifiers="u" />
-                  </replaceRegExp>
-                </filterChain>
-              </reflexive>
-              <reflexive>
-                <fileSet dir="${project.basedir}/src/vendor/composer" caseSensitive="false">
-                  <include pattern="autoload_psr4.php" />
-                  <include pattern="autoload_classmap.php" />
-                  <include pattern="autoload_namespaces.php" />
-                </fileSet>
-                <filterChain>
-                  <replaceRegExp>
-                    <regExp pattern="\b(\\\\)?WebSharks\\\\Core\b" replace="\1WebSharks\\\\Core\\\\${project_sub_namespace}" modifiers="u" />
-                  </replaceRegExp>
-                </filterChain>
-              </reflexive>
+            <reflexive>
+              <fileSet dir="${project.basedir}/src/vendor/websharks/core" caseSensitive="false" defaultExcludes="false">
+                <patternSet refId="_git_ignore_pattern_set" />
+                <patternSet refId="_alter_ignore_pattern_set" />
+                <patternSet refId="_php_pattern_set" />
+              </fileSet>
+              <filterChain>
+                <replaceRegExp>
+                  <regExp pattern="\b(namespace|use|return)\s+(\\)?WebSharks\\Core\b" replace="\1 \2WebSharks\\Core\\${project_sub_namespace}" modifiers="u" />
+                </replaceRegExp>
+              </filterChain>
+            </reflexive>
+            <reflexive>
+              <fileSet dir="${project.basedir}/src/vendor/composer" caseSensitive="false" defaultExcludes="false">
+                <include pattern="autoload_psr4.php" />
+                <include pattern="autoload_classmap.php" />
+                <include pattern="autoload_namespaces.php" />
+              </fileSet>
+              <filterChain>
+                <replaceRegExp>
+                  <regExp pattern="\b(\\\\)?WebSharks\\\\Core\b" replace="\1WebSharks\\\\Core\\\\${project_sub_namespace}" modifiers="u" />
+                </replaceRegExp>
+              </filterChain>
+            </reflexive>
 
-              <echo />
+            <echo />
 
-              <echo msg="Rebranding text-domain in: ${project.basedir}/src/vendor/websharks/core" />
+            <echo msg="Rebranding text-domain in: ${project.basedir}/src/vendor/websharks/core" />
 
-              <reflexive>
-                <fileSet dir="${project.basedir}/src/vendor/websharks/core" caseSensitive="false">
-                  <patternSet refId="_php_pattern_set" />
-                </fileSet>
-                <filterChain>
-                  <replaceRegExp>
-                    <regExp pattern="\b__\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="__('$1', '${_project_text_domain}')" modifiers="u" />
-                    <regExp pattern="\b_x\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_x('$1', '$2', '${_project_text_domain}')" modifiers="u" />
-                    <regExp pattern="\b_n\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*\)" replace="_n('$1', '$2', $3, '${_project_text_domain}')" modifiers="u" />
-                    <regExp pattern="\b_nx\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_nx('$1', '$2', $3, '$4', '${_project_text_domain}')" modifiers="u" />
-                  </replaceRegExp>
-                </filterChain>
-              </reflexive>
-            </then>
-          </if>
+            <reflexive>
+              <fileSet dir="${project.basedir}/src/vendor/websharks/core" caseSensitive="false" defaultExcludes="false">
+                <patternSet refId="_git_ignore_pattern_set" />
+                <patternSet refId="_alter_ignore_pattern_set" />
+                <patternSet refId="_php_pattern_set" />
+              </fileSet>
+              <filterChain>
+                <replaceRegExp>
+                  <regExp pattern="\b__\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="__('$1', '${project_text_domain}')" modifiers="u" />
+                  <regExp pattern="\b_x\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_x('$1', '$2', '${project_text_domain}')" modifiers="u" />
+                  <regExp pattern="\b_n\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*\)" replace="_n('$1', '$2', $3, '${project_text_domain}')" modifiers="u" />
+                  <regExp pattern="\b_nx\s*\(\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*,\s*([^(),]+)\s*,\s*'([^'\\]*(?:\\.[^'\\]*)*)'\s*\)" replace="_nx('$1', '$2', $3, '$4', '${project_text_domain}')" modifiers="u" />
+                </replaceRegExp>
+              </filterChain>
+            </reflexive>
+          </then>
+        </if>
 
-        </then>
-        <else>
-          <echo msg="N/A: composer.json does not exist in this project." />
-        </else>
-      </if>
+      </then>
+      <else>
+        <echo msg="N/A: composer.json does not exist in this project." />
+      </else>
+    </if>
 
-    </target>
+  </target>
 
-  </project>
+</project>

@@ -1,6 +1,8 @@
 project_title                                           = Project Title
+
 project_owner                                           = websharks
 project_slug                                            = project-slug
+project_text_domain                                     = project-text-domain
 
 project_namespace                                       = Project\\Namespace
 project_sub_namespace                                   = ProjectSubNamespace
@@ -10,6 +12,7 @@ project_other_zip_tgz_fileset_exclusions                = README.md
 
 project_lite_title                                      = Project Lite Title
 project_lite_slug                                       = project-lite-slug
+project_lite_text_domain                                = project-lite-text-domain
 
 project_lite_namespace                                  = Project\\NamespaceLite
 project_lite_sub_namespace                              = ProjectLiteSubNamespace

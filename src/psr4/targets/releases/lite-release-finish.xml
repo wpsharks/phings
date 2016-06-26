@@ -1,190 +1,190 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Finish release of lite variation. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Finish release of lite variation. -->
+  <!-- ============================================  -->
 
-    <target name="-releases-lite-release-finish" depends="-validations-existing-lite-build,-releases-lite-repo-update" hidden="true">
+  <target name="-releases-lite-release-finish" depends="-validations-existing-lite-build,-releases-lite-repo-update" hidden="true">
 
-      <!-- Begin by stating what is about to happen. -->
+    <!-- Begin by stating what is about to happen. -->
 
-      <echo msg="Finishing lite release of: ${project_lite_title} v${project_version}" />
+    <echo msg="Finishing lite release of: ${project_lite_title} v${project_version}" />
 
-      <!-- Establish a shorter reference the lite repo directory. -->
+    <!-- Establish a shorter reference the lite repo directory. -->
 
-      <property name="_releases_lite_release_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo" />
+    <property name="_releases_lite_release_repo_dir" value="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}-repo" />
 
-      <!-- Make sure the remote does not already have a tag for this version. Avoid overwriting an existing tag on the remote. -->
+    <!-- Make sure the remote does not already have a tag for this version. Avoid overwriting an existing tag on the remote. -->
 
-      <exec command="git ls-remote --exit-code origin refs/tags/${project_version}" dir="${_releases_lite_release_repo_dir}" returnProperty="_releases_lite_release_tag_exists_on_remote_return_status" />
-      <if>
-        <not>
-          <isFailure code="${_releases_lite_release_tag_exists_on_remote_return_status}" />
-        </not>
-        <then>
-          <fail msg="Release tag ${project_version} already exists on the remote." />
-        </then>
-      </if>
+    <exec command="git ls-remote --exit-code origin refs/tags/${project_version}" dir="${_releases_lite_release_repo_dir}" returnProperty="_releases_lite_release_tag_exists_on_remote_return_status" />
+    <if>
+      <not>
+        <isFailure code="${_releases_lite_release_tag_exists_on_remote_return_status}" />
+      </not>
+      <then>
+        <fail msg="Release tag ${project_version} already exists on the remote." />
+      </then>
+    </if>
 
-      <!-- Collect the changelog for this version, which is used as the release message.  -->
+    <!-- Collect the changelog for this version, which is used as the release message.  -->
 
-      <delete file="${_tmp_sub_dir}/${project_lite_slug}-commit-msg" quiet="true" />
-      <echo msg="Generating new commit message based on CHANGELOG.md file contents if at all possible." />
-      <adHocExtractChangelogForVersion version="${project_version}" inFile="${_releases_lite_release_repo_dir}/CHANGELOG.md" heading="${project_lite_title} v${project_version}" outFile="${_tmp_sub_dir}/${project_lite_slug}-commit-msg" />
-      <if>
-        <not>
-          <available resource="${_tmp_sub_dir}/${project_lite_slug}-commit-msg" type="file" />
-        </not>
-        <then>
-          <echo msg="${project_lite_title} v${project_version}" file="${_tmp_sub_dir}/${project_lite_slug}-commit-msg" />
-        </then>
-      </if>
+    <delete file="${_tmp_sub_dir}/${project_lite_slug}-commit-msg" quiet="true" />
+    <echo msg="Generating new commit message based on CHANGELOG.md file contents if at all possible." />
+    <adHocExtractChangelogForVersion version="${project_version}" inFile="${_releases_lite_release_repo_dir}/CHANGELOG.md" heading="${project_lite_title} v${project_version}" outFile="${_tmp_sub_dir}/${project_lite_slug}-commit-msg" />
+    <if>
+      <not>
+        <available resource="${_tmp_sub_dir}/${project_lite_slug}-commit-msg" type="file" />
+      </not>
+      <then>
+        <echo msg="${project_lite_title} v${project_version}" file="${_tmp_sub_dir}/${project_lite_slug}-commit-msg" />
+      </then>
+    </if>
 
-      <!-- Collect pre-release status for this release. -->
+    <!-- Collect pre-release status for this release. -->
 
-      <if>
-        <and>
-          <isTrue value="${_releases_release_type_is_rc}" />
-        </and>
-        <then>
-          <property name="_releases_lite_release_git_create_pre" value=" -p" />
-        </then>
-        <else>
-          <property name="_releases_lite_release_git_create_pre" value="" />
-        </else>
-      </if>
+    <if>
+      <and>
+        <isTrue value="${_releases_release_type_is_rc}" />
+      </and>
+      <then>
+        <property name="_releases_lite_release_git_create_pre" value=" -p" />
+      </then>
+      <else>
+        <property name="_releases_lite_release_git_create_pre" value="" />
+      </else>
+    </if>
 
-      <!-- Collect draft status for this release. -->
+    <!-- Collect draft status for this release. -->
 
-      <if>
-        <and>
-          <isset property="draft" />
-          <isTrue value="${draft}" />
-        </and>
-        <then>
-          <property name="_releases_lite_release_git_create_draft" value=" -d" />
-        </then>
-        <else>
-          <property name="_releases_lite_release_git_create_draft" value="" />
-        </else>
-      </if>
+    <if>
+      <and>
+        <isset property="draft" />
+        <isTrue value="${draft}" />
+      </and>
+      <then>
+        <property name="_releases_lite_release_git_create_draft" value=" -d" />
+      </then>
+      <else>
+        <property name="_releases_lite_release_git_create_draft" value="" />
+      </else>
+    </if>
 
-      <!-- Collect distros that we can append to the release. -->
-      <if>
-        <and>
-          <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.phar" type="file" />
-        </and>
-        <then>
-          <property name="_releases_lite_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.phar'" />
-        </then>
-        <else>
-          <property name="_releases_lite_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz'" />
-        </else>
-      </if>
+    <!-- Collect distros that we can append to the release. -->
+    <if>
+      <and>
+        <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.phar" type="file" />
+      </and>
+      <then>
+        <property name="_releases_lite_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.phar'" />
+      </then>
+      <else>
+        <property name="_releases_lite_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz'" />
+      </else>
+    </if>
 
-      <!-- RC: Simply create an annotated tag, and push dev branch (including tags) to remote.  -->
-      <!-- Formal: Merge dev into master, create an annotated tag, and push master branch (including tags) to remote.  -->
-      <!-- The lite variation release stategy is not Hubflow-compliant, but it's sufficient for keeping the lite repo up-to-date. -->
-      <if>
-        <and>
-          <isTrue value="${_releases_release_type_is_rc}" />
-        </and>
-        <then>
-          <echo />
+    <!-- RC: Simply create an annotated tag, and push dev branch (including tags) to remote.  -->
+    <!-- Formal: Merge dev into master, create an annotated tag, and push master branch (including tags) to remote.  -->
+    <!-- The lite variation release stategy is not Hubflow-compliant, but it's sufficient for keeping the lite repo up-to-date. -->
+    <if>
+      <and>
+        <isTrue value="${_releases_release_type_is_rc}" />
+      </and>
+      <then>
+        <echo />
 
-          <echo msg="Creating annotated tag ${project_version}; targeted at dev branch." />
-          <exec command="git checkout 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
-          <exec command="git tag --annotate ${project_version} --message='${project_lite_title} v${project_version} via Phing.'" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <echo msg="Creating annotated tag ${project_version}; targeted at dev branch." />
+        <exec command="git checkout 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <exec command="git tag --annotate ${project_version} --message='${project_lite_title} v${project_version} via Phing.'" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
 
-          <echo />
+        <echo />
 
-          <echo msg="Pushing dev branch (and tags) to remote origin." />
-          <!-- Still on the dev branch at this point. No need to run `git checkout`. -->
-          <exec command="git push --tags origin 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
-        </then>
-        <else>
-          <echo />
+        <echo msg="Pushing dev branch (and tags) to remote origin." />
+        <!-- Still on the dev branch at this point. No need to run `git checkout`. -->
+        <exec command="git push --tags origin 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+      </then>
+      <else>
+        <echo />
 
-          <echo msg="Merging dev into master with --strategy-option=theirs (favoring dev)." />
-          <exec command="git checkout master" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
-          <exec command="git merge 000000-dev --strategy=recursive --strategy-option=theirs -m 'Merging 000000-dev into master via Phing.'" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <echo msg="Merging dev into master with --strategy-option=theirs (favoring dev)." />
+        <exec command="git checkout master" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <exec command="git merge 000000-dev --strategy=recursive --strategy-option=theirs -m 'Merging 000000-dev into master via Phing.'" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
 
-          <echo />
+        <echo />
 
-          <echo msg="Creating annotated tag ${project_version}; targeted at master branch." />
-          <!-- Still on the master branch at this point. No need to run `git checkout`. -->
-          <exec command="git tag --annotate ${project_version} --message='${project_lite_title} v${project_version} via Phing.'" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <echo msg="Creating annotated tag ${project_version}; targeted at master branch." />
+        <!-- Still on the master branch at this point. No need to run `git checkout`. -->
+        <exec command="git tag --annotate ${project_version} --message='${project_lite_title} v${project_version} via Phing.'" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
 
-          <echo />
+        <echo />
 
-          <echo msg="Pushing master branch (and tags) to remote origin." />
-          <!-- Still on the master branch at this point. No need to run `git checkout`. -->
-          <exec command="git push --tags origin master" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <echo msg="Pushing master branch (and tags) to remote origin." />
+        <!-- Still on the master branch at this point. No need to run `git checkout`. -->
+        <exec command="git push --tags origin master" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
 
-          <echo />
+        <echo />
 
-          <echo msg="Back-merging master branch into dev branch with --strategy-option=ours (favoring dev)." />
-          <exec command="git checkout 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
-          <exec command="git merge master --strategy=recursive --strategy-option=ours -m 'Back-merging master into dev after release via Phing.'" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <echo msg="Back-merging master branch into dev branch with --strategy-option=ours (favoring dev)." />
+        <exec command="git checkout 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <exec command="git merge master --strategy=recursive --strategy-option=ours -m 'Back-merging master into dev after release via Phing.'" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
 
-          <echo />
+        <echo />
 
-          <echo msg="Pushing dev branch to remote origin." />
-          <!-- Still on the dev branch at this point. No need to run `git checkout`. -->
-          <exec command="git push origin 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
-        </else>
-      </if>
+        <echo msg="Pushing dev branch to remote origin." />
+        <!-- Still on the dev branch at this point. No need to run `git checkout`. -->
+        <exec command="git push origin 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+      </else>
+    </if>
 
-      <!-- Create release notes/downloads using the `hub` tool provided by GitHub. -->
-      <!-- Also, collect and verify the existence of a release URL. Release URL is output by the `hub` tool. -->
-      <!-- Then, print the release URL for the operator; i.e., so the release can be reviewed in a browser. -->
-      <if>
-        <and>
-          <isTrue value="${_releases_release_type_is_rc}" />
-        </and>
-        <then>
-          <echo />
+    <!-- Create release notes/downloads using the `hub` tool provided by GitHub. -->
+    <!-- Also, collect and verify the existence of a release URL. Release URL is output by the `hub` tool. -->
+    <!-- Then, print the release URL for the operator; i.e., so the release can be reviewed in a browser. -->
+    <if>
+      <and>
+        <isTrue value="${_releases_release_type_is_rc}" />
+      </and>
+      <then>
+        <echo />
 
-          <echo msg="Creating GitHub release tagged: ${project_version}; targeted at dev branch." />
-          <exec command="git checkout 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
-        </then>
-        <else>
-          <echo />
+        <echo msg="Creating GitHub release tagged: ${project_version}; targeted at dev branch." />
+        <exec command="git checkout 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+      </then>
+      <else>
+        <echo />
 
-          <echo msg="Creating GitHub release tagged: ${project_version}; targeted at master branch." />
-          <exec command="git checkout master" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
-        </else>
-      </if>
+        <echo msg="Creating GitHub release tagged: ${project_version}; targeted at master branch." />
+        <exec command="git checkout master" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+      </else>
+    </if>
 
-      <property name="_releases_lite_release_git_create_command" value="hub release create -f '${_tmp_sub_dir}/${project_lite_slug}-commit-msg'${_releases_lite_release_git_create_pre}${_releases_lite_release_git_create_draft} ${_releases_lite_release_git_create_assets} ${project_version}" />
-      <exec command="${_releases_lite_release_git_create_command}" dir="${_releases_lite_release_repo_dir}" checkReturn="true" outputProperty="_releases_lite_release_git_create_output" />
+    <property name="_releases_lite_release_git_create_command" value="hub release create -f '${_tmp_sub_dir}/${project_lite_slug}-commit-msg'${_releases_lite_release_git_create_pre}${_releases_lite_release_git_create_draft} ${_releases_lite_release_git_create_assets} ${project_version}" />
+    <exec command="${_releases_lite_release_git_create_command}" dir="${_releases_lite_release_repo_dir}" checkReturn="true" outputProperty="_releases_lite_release_git_create_output" />
 
-      <property name="_releases_lite_release_git_create_release_url" value="${_releases_lite_release_git_create_output}">
-        <filterChain>
-          <replaceRegExp>
-            <regExp pattern=".*?(https?\:\/\/[^\s]+?\/releases\/[^\s]+).*" replace="$1" modifiers="uis" />
-          </replaceRegExp>
-        </filterChain>
-      </property>
-      <if>
-        <not>
-          <contains string="${_releases_lite_release_git_create_release_url}" substring="/releases/" caseSensitive="false" />
-        </not>
-        <then>
-          <fail msg="Unable to acquire lite release URL for unknown reason." />
-        </then>
-        <else>
-          <echo msg="Lite Release URL: ${_releases_lite_release_git_create_release_url}" />
-          <echo msg="${_releases_lite_release_git_create_release_url}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
-        </else>
-      </if>
+    <property name="_releases_lite_release_git_create_release_url" value="${_releases_lite_release_git_create_output}">
+      <filterChain>
+        <replaceRegExp>
+          <regExp pattern=".*?(https?\:\/\/[^\s]+?\/releases\/[^\s]+).*" replace="$1" modifiers="uis" />
+        </replaceRegExp>
+      </filterChain>
+    </property>
+    <if>
+      <not>
+        <contains string="${_releases_lite_release_git_create_release_url}" substring="/releases/" caseSensitive="false" />
+      </not>
+      <then>
+        <fail msg="Unable to acquire lite release URL for unknown reason." />
+      </then>
+      <else>
+        <echo msg="Lite Release URL: ${_releases_lite_release_git_create_release_url}" />
+        <echo msg="${_releases_lite_release_git_create_release_url}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
+      </else>
+    </if>
 
-      <!-- Switch back to the dev branch; i.e., the expected starting point.  -->
+    <!-- Switch back to the dev branch; i.e., the expected starting point.  -->
 
-      <exec command="git checkout 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+    <exec command="git checkout 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
 
-    </target>
+  </target>
 
-  </project>
+</project>

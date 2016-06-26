@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Require an existing build and remember the last build version. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Require an existing build and remember the last build version. -->
+  <!-- ============================================  -->
 
-    <target name="-validations-existing-build" hidden="true">
+  <target name="-validations-existing-build" hidden="true">
 
-      <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
+    <!-- Depends on ${project.basedir}/.~build/${project_slug} -->
 
-      <if>
+    <if>
+      <not>
+        <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
+      </not>
+      <then>
+        <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}" />
+      </then>
+    </if>
+
+    <!-- Depends on ${project.basedir}/.~build/.~/properties/project-version -->
+
+    <if>
+      <not>
+        <available resource="${project.basedir}/.~build/.~/properties/project-version" type="file" />
+      </not>
+      <then>
+        <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/.~/properties/project-version" />
+      </then>
+    </if>
+
+    <!-- Depends on ${project.basedir}/.~build/${project_slug}.[zip|tar.gz] -->
+
+    <if>
+      <or>
         <not>
-          <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
+          <available resource="${project.basedir}/.~build/${project_slug}.zip" type="file" />
         </not>
-        <then>
-          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}" />
-        </then>
-      </if>
-
-      <!-- Depends on ${project.basedir}/.~build/.~/properties/project-version -->
-
-      <if>
         <not>
-          <available resource="${project.basedir}/.~build/.~/properties/project-version" type="file" />
+          <available resource="${project.basedir}/.~build/${project_slug}.tar.gz" type="file" />
         </not>
-        <then>
-          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/.~/properties/project-version" />
-        </then>
-      </if>
+      </or>
+      <then>
+        <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}.[zip|tar.gz]." />
+      </then>
+    </if>
 
-      <!-- Depends on ${project.basedir}/.~build/${project_slug}.[zip|tar.gz] -->
+    <!-- Indicate no validation issues. -->
 
-      <if>
-        <or>
-          <not>
-            <available resource="${project.basedir}/.~build/${project_slug}.zip" type="file" />
-          </not>
-          <not>
-            <available resource="${project.basedir}/.~build/${project_slug}.tar.gz" type="file" />
-          </not>
-        </or>
-        <then>
-          <fail msg="Project not built yet. Missing: ${project.basedir}/.~build/${project_slug}.[zip|tar.gz]." />
-        </then>
-      </if>
+    <echo msg="No validation problems. Continuing without issue." />
 
-      <!-- Indicate no validation issues. -->
+  </target>
 
-      <echo msg="No validation problems. Continuing without issue." />
-
-    </target>
-
-  </project>
+</project>

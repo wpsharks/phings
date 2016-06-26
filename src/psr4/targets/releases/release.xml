@@ -1,109 +1,109 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- GitHub release top-level handler. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- GitHub release top-level handler. -->
+  <!-- ============================================  -->
 
-    <target name="-releases-release" depends="-validations-in-git-repo,-validations-in-github-repo,-validations-in-clean-git-repo,-validations-git-repo-has-dev-master,-validations-starting-git-dev-or-release-branch" hidden="true">
+  <target name="-releases-release" depends="-validations-in-git-repo,-validations-in-github-repo,-validations-in-clean-git-repo,-validations-git-repo-has-dev-master,-validations-starting-git-dev-or-release-branch" hidden="true">
 
-      <!-- Flags to assist with release type detection below. -->
-      <if>
+    <!-- Flags to assist with release type detection below. -->
+    <if>
+      <and>
+        <isset property="type" />
+        <equals arg1="${type}" arg2="rc" caseSensitive="false" />
+      </and>
+      <then>
+        <property name="_releases_release_type_is_rc" value="true" />
+      </then>
+      <else>
+        <property name="_releases_release_type_is_rc" value="false" />
+      </else>
+    </if>
+
+    <!-- Delete existing release URL files before we begin. -->
+    <if>
+      <and>
+        <available resource="${_tmp_sub_dir}/${project_slug}-release-url" type="file" />
+      </and>
+      <then>
+        <delete file="${_tmp_sub_dir}/${project_slug}-release-url" quiet="true" />
+        <echo />
+      </then>
+    </if>
+    <if>
+      <and>
+        <available resource="${_tmp_sub_dir}/${project_slug}-release-urls" type="file" />
+      </and>
+      <then>
+        <delete file="${_tmp_sub_dir}/${project_slug}-release-urls" quiet="true" />
+        <echo />
+      </then>
+    </if>
+
+    <!-- Make sure we have the latest copy of all remote branches. -->
+
+    <echo msg="Fetching latest copy of all branches from remote origin." />
+    <exec command="git fetch origin" dir="${project.basedir}" checkReturn="true" />
+
+    <!-- If not starting from a release branch, interpret as the desire to prepare (begin) a new release. -->
+    <!-- Or, prepare (begin) a new release that is based on a starting release branch of a different type. -->
+    <!-- Otherwise, if starting from a release branch of the same type, interpret as doing (finishing) a release. -->
+    <if>
+      <or>
+        <isFalse value="${_starting_git_branch_is_release}" />
         <and>
-          <isset property="type" />
-          <equals arg1="${type}" arg2="rc" caseSensitive="false" />
+          <isTrue value="${_starting_git_branch_is_release}" />
+          <isTrue value="${_starting_git_branch_is_release_rc}" />
+          <isFalse value="${_releases_release_type_is_rc}" />
+        </and>
+        <and>
+          <isTrue value="${_starting_git_branch_is_release}" />
+          <isFalse value="${_starting_git_branch_is_release_rc}" />
+          <isTrue value="${_releases_release_type_is_rc}" />
+        </and>
+      </or>
+      <then>
+        <echo />
+
+        <echo msg="Requesting a new release. OK." />
+
+        <phingCall target="-releases-release-start" />
+      </then>
+
+      <!-- Actually doing a release (i.e., not just preparing). It's time to finish things up. -->
+      <!-- This is accomplished by running the command a second time on an existing release branch of the same type. -->
+      <elseif>
+        <and>
+          <or>
+            <and>
+              <isTrue value="${_starting_git_branch_is_release}" />
+              <isTrue value="${_starting_git_branch_is_release_rc}" />
+              <isTrue value="${_releases_release_type_is_rc}" />
+            </and>
+            <and>
+              <isTrue value="${_starting_git_branch_is_release}" />
+              <isFalse value="${_starting_git_branch_is_release_rc}" />
+              <isFalse value="${_releases_release_type_is_rc}" />
+            </and>
+          </or>
         </and>
         <then>
-          <property name="_releases_release_type_is_rc" value="true" />
-        </then>
-        <else>
-          <property name="_releases_release_type_is_rc" value="false" />
-        </else>
-      </if>
-
-      <!-- Delete existing release URL files before we begin. -->
-      <if>
-        <and>
-          <available resource="${_tmp_sub_dir}/${project_slug}-release-url" type="file" />
-        </and>
-        <then>
-          <delete file="${_tmp_sub_dir}/${project_slug}-release-url" quiet="true" />
-          <echo />
-        </then>
-      </if>
-      <if>
-        <and>
-          <available resource="${_tmp_sub_dir}/${project_slug}-release-urls" type="file" />
-        </and>
-        <then>
-          <delete file="${_tmp_sub_dir}/${project_slug}-release-urls" quiet="true" />
-          <echo />
-        </then>
-      </if>
-
-      <!-- Make sure we have the latest copy of all remote branches. -->
-
-      <echo msg="Fetching latest copy of all branches from remote origin." />
-      <exec command="git fetch origin" dir="${project.basedir}" checkReturn="true" />
-
-      <!-- If not starting from a release branch, interpret as the desire to prepare (begin) a new release. -->
-      <!-- Or, prepare (begin) a new release that is based on a starting release branch of a different type. -->
-      <!-- Otherwise, if starting from a release branch of the same type, interpret as doing (finishing) a release. -->
-      <if>
-        <or>
-          <isFalse value="${_starting_git_branch_is_release}" />
-          <and>
-            <isTrue value="${_starting_git_branch_is_release}" />
-            <isTrue value="${_starting_git_branch_is_release_rc}" />
-            <isFalse value="${_releases_release_type_is_rc}" />
-          </and>
-          <and>
-            <isTrue value="${_starting_git_branch_is_release}" />
-            <isFalse value="${_starting_git_branch_is_release_rc}" />
-            <isTrue value="${_releases_release_type_is_rc}" />
-          </and>
-        </or>
-        <then>
           <echo />
 
-          <echo msg="Requesting a new release. OK." />
+          <echo msg="Finishing an existing release. OK." />
 
-          <phingCall target="-releases-release-start" />
+          <phingCall target="-releases-release-finish" />
         </then>
+      </elseif>
 
-        <!-- Actually doing a release (i.e., not just preparing). It's time to finish things up. -->
-        <!-- This is accomplished by running the command a second time on an existing release branch of the same type. -->
-        <elseif>
-          <and>
-            <or>
-              <and>
-                <isTrue value="${_starting_git_branch_is_release}" />
-                <isTrue value="${_starting_git_branch_is_release_rc}" />
-                <isTrue value="${_releases_release_type_is_rc}" />
-              </and>
-              <and>
-                <isTrue value="${_starting_git_branch_is_release}" />
-                <isFalse value="${_starting_git_branch_is_release_rc}" />
-                <isFalse value="${_releases_release_type_is_rc}" />
-              </and>
-            </or>
-          </and>
-          <then>
-            <echo />
+      <!-- This unexpected scenario results in a hard failure. -->
+      <else>
+        <fail msg="Unexpected circumstance. Please report this bug to a fellow WebShark™." />
+      </else>
+    </if>
 
-            <echo msg="Finishing an existing release. OK." />
+  </target>
 
-            <phingCall target="-releases-release-finish" />
-          </then>
-        </elseif>
-
-        <!-- This unexpected scenario results in a hard failure. -->
-        <else>
-          <fail msg="Unexpected circumstance. Please report this bug to a fellow WebShark™." />
-        </else>
-      </if>
-
-    </target>
-
-  </project>
+</project>

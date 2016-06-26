@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- PCRE INI configuration. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- PCRE INI configuration. -->
+  <!-- ============================================  -->
 
-    <if>
-      <not>
-        <isset property="_setups_ini_sets_pcre_complete" />
-      </not>
-      <then>
-        <php expression="ini_set('pcre.backtrack_limit', (string) PHP_INT_MAX);" level="verbose" />
-        <property name="_setups_ini_sets_pcre_complete" value="true" />
-      </then>
-    </if>
+  <if>
+    <not>
+      <isset property="_setups_ini_sets_pcre_complete" />
+    </not>
+    <then>
+      <php expression="ini_set('pcre.backtrack_limit', (string) PHP_INT_MAX);" level="verbose" />
+      <property name="_setups_ini_sets_pcre_complete" value="true" />
+    </then>
+  </if>
 
-  </project>
+</project>

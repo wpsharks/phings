@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Save project version property. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Save project version property. -->
+  <!-- ============================================  -->
 
-    <target name="-properties-save-project-version" hidden="true">
+  <target name="-properties-save-project-version" hidden="true">
 
-      <echo msg="Saving project version for post-build targets." />
-      <echo msg="${project_version}" file="${project.basedir}/.~build/.~/properties/project-version" />
+    <echo msg="Saving project version for post-build targets." />
+    <echo msg="${project_version}" file="${project.basedir}/.~build/.~/properties/project-version" />
 
-    </target>
+  </target>
 
-  </project>
+</project>
