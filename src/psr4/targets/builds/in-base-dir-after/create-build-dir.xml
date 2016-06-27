@@ -23,13 +23,8 @@
 
     <copy toDir="${project.basedir}/.~build/${project_slug}">
       <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
-        <exclude pattern=".git" />
         <exclude pattern=".git/**" />
-
-        <exclude pattern=".~build" />
         <exclude pattern=".~build/**" />
-
-        <exclude pattern="phings" />
         <exclude pattern="phings/**" />
       </fileSet>
     </copy>

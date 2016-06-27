@@ -9,7 +9,6 @@
 
   <import>
     <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false" defaultExcludes="false">
-      <include pattern="ad-hocs/*.xml" />
       <include pattern="ad-hocs/**/*.xml" />
     </fileSet>
   </import>
@@ -29,13 +28,8 @@
 
   <import>
     <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false" defaultExcludes="false">
-      <include pattern="patterns/*.xml" />
       <include pattern="patterns/**/*.xml" />
-
-      <include pattern="ini-sets/*.xml" />
       <include pattern="ini-sets/**/*.xml" />
-
-      <include pattern="directories/*.xml" />
       <include pattern="directories/**/*.xml" />
     </fileSet>
   </import>
@@ -47,7 +41,6 @@
 
   <import>
     <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false" defaultExcludes="false">
-      <include pattern="dependencies/*.xml" />
       <include pattern="dependencies/**/*.xml" />
     </fileSet>
   </import>

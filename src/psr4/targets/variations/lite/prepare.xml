@@ -27,10 +27,7 @@
         <exclude pattern=".git/**" />
         <exclude pattern=".~build/**" />
         <exclude pattern="src/vendor/**" />
-
-        <exclude pattern="**/theme.pot" />
-        <exclude pattern="**/plugin.pot" />
-        <exclude pattern="**/${project_slug}.pot" />
+        <exclude pattern="src/includes/translations/${project_slug}.pot" />
       </fileSet>
     </copy>
 

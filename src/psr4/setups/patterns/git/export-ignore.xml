@@ -189,10 +189,7 @@
     <exclude pattern="**.css.map" />
     <exclude pattern="**/**.css.map" />
 
-    <exclude pattern="src/client-s/bourbon/**" />
     <exclude pattern="src/client-s/**/bourbon/**" />
-
-    <exclude pattern="src/vendor/websharks/*/src/client-s/bourbon/**" />
     <exclude pattern="src/vendor/websharks/*/src/client-s/**/bourbon/**" />
 
     <!-- Git -->
@@ -243,17 +240,31 @@
     <exclude pattern="build.xml" />
     <exclude pattern="src/vendor/*/*/build.xml" />
 
-    <exclude pattern="src/client-s/.build.php" />
-    <exclude pattern="src/client-s/.build.*.php" />
-
-    <exclude pattern="src/client-s/**/.build.php" />
-    <exclude pattern="src/client-s/**/.build.*.php" />
+    <!-- Dot Build Files -->
 
     <exclude pattern=".build.php" />
-    <exclude pattern="**/.build.php" />
+    <exclude pattern="src/vendor/websharks/*/.build.php" />
 
     <exclude pattern=".build.*.php" />
-    <exclude pattern="**/.build.*.php" />
+    <exclude pattern="src/vendor/websharks/*/.build.*.php" />
+
+    <exclude pattern="src/.build.php" />
+    <exclude pattern="src/vendor/websharks/*/src/.build.php" />
+
+    <exclude pattern="src/.build.*.php" />
+    <exclude pattern="src/vendor/websharks/*/src/.build.*.php" />
+
+    <exclude pattern="src/client-s/**/.build.php" />
+    <exclude pattern="src/vendor/websharks/*/src/client-s/**/.build.php" />
+
+    <exclude pattern="src/client-s/**/.build.*.php" />
+    <exclude pattern="src/vendor/websharks/*/src/client-s/**/.build.*.php" />
+
+    <exclude pattern="src/includes/**/.build.php" />
+    <exclude pattern="src/vendor/websharks/*/src/includes/**/.build.php" />
+
+    <exclude pattern="src/includes/**/.build.*.php" />
+    <exclude pattern="src/vendor/websharks/*/src/includes/**/.build.*.php" />
 
     <!-- Tests -->
 

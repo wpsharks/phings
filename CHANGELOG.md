@@ -5,7 +5,7 @@
 - **IMPORTANT:** New required `.build.props` property: `project_text_domain`
 - **IMPORTANT:** New required `.build.props` property for lite variation: `project_lite_text_domain`
 - If you are missing either of these new properties Phing will fail validation and you will be warned that a property is missing.
-- **IMPORTANT:** As noted below, many of the pattern sets were updated in this release. Please review your next build carefully in case there are any new bugs. In particular, please be sure to review the files that make it into the final ZIP distro, as well as the final Lite repo at GitHub. I don't believe there are any problems, but given the number of changes to the pattern sets in this release, it would be worth your while to do a quick review just to be sure.
+- **IMPORTANT:** As noted below, many of the pattern sets were updated in this release. Please review your next build carefully in case there are any new bugs. In particular, please be sure to review the files that make it into the final ZIP distro, as well as the final Lite repo at GitHub. I don't believe there are any problems and it should be _more_ accurate now), but given the number of changes to the pattern sets in this release, it's worth your time to do a quick review just to be sure.
 
 ### Additional Changes in This Release
 
