@@ -154,7 +154,7 @@
 
           <if>
             <and>
-              <equals arg1="${_starting_git_branch}" arg2="000000-dev" />
+              <equals arg1="${_starting_git_branch}" arg2="dev" />
             </and>
             <then>
               <property name="_starting_git_branch_is_dev" value="true" />
@@ -216,7 +216,7 @@
             </else>
           </if>
 
-          <exec command="git rev-parse --verify --quiet 000000-dev" dir="${project.basedir}" returnProperty="_git_dev_branch_exists" />
+          <exec command="git rev-parse --verify --quiet dev" dir="${project.basedir}" returnProperty="_git_dev_branch_exists" />
           <if>
             <not>
               <isFailure code="${_git_dev_branch_exists}" />
@@ -224,7 +224,7 @@
             <then>
               <property name="_git_dev_branch_exists" value="true" override="true" />
 
-              <exec command="git rev-parse --abbrev-ref 000000-dev'@{upstream}'" dir="${project.basedir}" returnProperty="_git_dev_branch_has_upstream" />
+              <exec command="git rev-parse --abbrev-ref dev'@{upstream}'" dir="${project.basedir}" returnProperty="_git_dev_branch_has_upstream" />
               <if>
                 <not>
                   <isFailure code="${_git_dev_branch_has_upstream}" />

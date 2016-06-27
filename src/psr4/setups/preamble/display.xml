@@ -177,10 +177,10 @@
               <isTrue value="${_starting_git_branch_is_dev}" />
             </and>
             <then>
-              <echo msg="Starting Git Branch is 000000-dev = true" />
+              <echo msg="Starting Git Branch is dev = true" />
             </then>
             <else>
-              <echo msg="Starting Git Branch is 000000-dev = false" />
+              <echo msg="Starting Git Branch is dev = false" />
             </else>
           </if>
 
@@ -230,22 +230,22 @@
               <isTrue value="${_git_dev_branch_exists}" />
             </and>
             <then>
-              <echo msg="Git 000000-dev Branch Exists = true" />
+              <echo msg="Git dev Branch Exists = true" />
 
               <if>
                 <and>
                   <isTrue value="${_git_dev_branch_has_upstream}" />
                 </and>
                 <then>
-                  <echo msg="Git 000000-dev Branch Has an Upstream = true" />
+                  <echo msg="Git dev Branch Has an Upstream = true" />
                 </then>
                 <else>
-                  <echo msg="Git 000000-dev Branch Has an Upstream = false" />
+                  <echo msg="Git dev Branch Has an Upstream = false" />
                 </else>
               </if>
             </then>
             <else>
-              <echo msg="Git 000000-dev Branch Exists = false" />
+              <echo msg="Git dev Branch Exists = false" />
             </else>
           </if>
 

@@ -68,7 +68,7 @@
         <isFalse value="${_releases_release_type_is_rc}" />
       </and>
       <then>
-        <exec command="git log --oneline '000000-dev..000000-dev@{upstream}'" dir="${project.basedir}" outputProperty="_releases_release_git_release_dev_branch_log_output" />
+        <exec command="git log --oneline 'dev..dev@{upstream}'" dir="${project.basedir}" outputProperty="_releases_release_git_release_dev_branch_log_output" />
         <if>
           <not>
             <equals arg1="${_releases_release_git_release_dev_branch_log_output}" arg2="" trim="true" />
@@ -240,14 +240,14 @@
         <echo />
 
         <echo msg="Back-merging master branch into dev branch." />
-        <exec command="git checkout 000000-dev" dir="${project.basedir}" checkReturn="true" />
+        <exec command="git checkout dev" dir="${project.basedir}" checkReturn="true" />
         <exec command="git merge master -m 'Back-merging master into dev after release via Phing.'" dir="${project.basedir}" checkReturn="true" />
 
         <echo />
 
         <echo msg="Pushing dev branch to remote origin." />
         <!-- Still on the dev branch at this point. No need to run `git checkout`. -->
-        <exec command="git push origin 000000-dev" dir="${project.basedir}" checkReturn="true" />
+        <exec command="git push origin dev" dir="${project.basedir}" checkReturn="true" />
       </else>
     </if>
 
@@ -308,7 +308,7 @@
         <echo />
 
         <echo msg="Deleting ${_releases_release_branch} branch from local repo &amp; remote origin." />
-        <exec command="git checkout 000000-dev" dir="${project.basedir}" checkReturn="true" />
+        <exec command="git checkout dev" dir="${project.basedir}" checkReturn="true" />
         <exec command="git branch --delete --force ${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
         <exec command="git push origin --delete ${_releases_release_branch}" dir="${project.basedir}" checkReturn="true" />
       </then>
@@ -330,7 +330,7 @@
             <equals arg1="${_starting_git_branch}" arg2="${_releases_release_branch}" />
           </and>
           <then>
-            <exec command="git checkout 000000-dev" dir="${project.basedir}" checkReturn="true" />
+            <exec command="git checkout dev" dir="${project.basedir}" checkReturn="true" />
           </then>
           <else>
             <exec command="git checkout ${_starting_git_branch}" dir="${project.basedir}" checkReturn="true" />

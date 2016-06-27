@@ -42,14 +42,14 @@
     </if>
 
     <!-- Make sure the repo has a dev and master branch that we can work with below. -->
-    <!-- Also make sure that we start (always) from the 000000-dev branch for remaining routines. -->
+    <!-- Also make sure that we start (always) from the dev branch for remaining routines. -->
 
     <echo />
 
     <echo msg="Forcing the existence of both a dev and master branch." />
 
-    <exec command="git rev-parse --verify --quiet 000000-dev" dir="${_releases_lite_repo_update_dir}" returnProperty="_releases_lite_repo_update_git_dev_branch_exists_return_status" />
-    <exec command="git ls-remote --exit-code origin refs/heads/000000-dev" dir="${_releases_lite_repo_update_dir}" returnProperty="_releases_lite_repo_update_git_remote_dev_branch_exists_return_status" />
+    <exec command="git rev-parse --verify --quiet dev" dir="${_releases_lite_repo_update_dir}" returnProperty="_releases_lite_repo_update_git_dev_branch_exists_return_status" />
+    <exec command="git ls-remote --exit-code origin refs/heads/dev" dir="${_releases_lite_repo_update_dir}" returnProperty="_releases_lite_repo_update_git_remote_dev_branch_exists_return_status" />
 
     <exec command="git rev-parse --verify --quiet master" dir="${_releases_lite_repo_update_dir}" returnProperty="_releases_lite_repo_update_git_master_branch_exists_return_status" />
     <exec command="git ls-remote --exit-code origin refs/heads/master" dir="${_releases_lite_repo_update_dir}" returnProperty="_releases_lite_repo_update_git_remote_master_branch_exists_return_status" />
@@ -63,16 +63,16 @@
             <isFailure code="${_releases_lite_repo_update_git_remote_dev_branch_exists_return_status}" />
           </not>
           <then>
-            <exec command="git checkout -b 000000-dev origin/000000-dev" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
+            <exec command="git checkout -b dev origin/dev" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
           </then>
           <else>
-            <exec command="git checkout -b 000000-dev" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
+            <exec command="git checkout -b dev" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
 
             <adHocUserSpecificGitChange dir="${_releases_lite_repo_update_dir}" />
             <exec command="git add --all" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
-            <exec command="git commit --message='Creating 000000-dev branch.' --no-edit" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
+            <exec command="git commit --message='Creating dev branch.' --no-edit" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
 
-            <exec command="git push --set-upstream origin 000000-dev" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
+            <exec command="git push --set-upstream origin dev" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
           </else>
         </if>
       </then>
@@ -101,7 +101,7 @@
         </if>
       </then>
     </if>
-    <exec command="git checkout 000000-dev" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
+    <exec command="git checkout dev" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
 
     <!-- Delete all existing files in lite dev branch. -->
 
@@ -157,7 +157,7 @@
     <echo />
 
     <echo msg="Pushing all changes in the dev branch to remote." />
-    <exec command="git push --set-upstream origin 000000-dev" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
+    <exec command="git push --set-upstream origin dev" dir="${_releases_lite_repo_update_dir}" checkReturn="true" />
 
   </target>
 

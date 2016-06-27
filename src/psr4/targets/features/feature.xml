@@ -111,8 +111,8 @@
         <echo />
 
         <echo msg="Moving back to dev branch &amp; merging latest remote changes." />
-        <exec command="git checkout 000000-dev" dir="${project.basedir}" checkReturn="true" />
-        <exec command="git pull origin 000000-dev" dir="${project.basedir}" checkReturn="true" />
+        <exec command="git checkout dev" dir="${project.basedir}" checkReturn="true" />
+        <exec command="git pull origin dev" dir="${project.basedir}" checkReturn="true" />
 
         <echo />
 
@@ -157,7 +157,7 @@
             <echo />
 
             <echo msg="Pulling latest remote dev branch; i.e., starting from an up-to-date copy." />
-            <exec command="git pull origin 000000-dev" dir="${project.basedir}" checkReturn="true" />
+            <exec command="git pull origin dev" dir="${project.basedir}" checkReturn="true" />
 
             <echo />
 
@@ -196,7 +196,7 @@
                 <echo />
 
                 <echo msg="Opening a pull request at GitHub for future commits." />
-                <exec command="hub pull-request -m '${_features_feature_pr_title_body}' -h ${_features_feature_branch} -b 000000-dev" dir="${project.basedir}" checkReturn="true" />
+                <exec command="hub pull-request -m '${_features_feature_pr_title_body}' -h ${_features_feature_branch} -b dev" dir="${project.basedir}" checkReturn="true" />
 
                 <echo />
 

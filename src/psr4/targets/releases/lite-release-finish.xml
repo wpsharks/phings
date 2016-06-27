@@ -95,21 +95,21 @@
         <echo />
 
         <echo msg="Creating annotated tag ${project_version}; targeted at dev branch." />
-        <exec command="git checkout 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <exec command="git checkout dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
         <exec command="git tag --annotate ${project_version} --message='${project_lite_title} v${project_version} via Phing.'" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
 
         <echo />
 
         <echo msg="Pushing dev branch (and tags) to remote origin." />
         <!-- Still on the dev branch at this point. No need to run `git checkout`. -->
-        <exec command="git push --tags origin 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <exec command="git push --tags origin dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
       </then>
       <else>
         <echo />
 
         <echo msg="Merging dev into master with --strategy-option=theirs (favoring dev)." />
         <exec command="git checkout master" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
-        <exec command="git merge 000000-dev --strategy=recursive --strategy-option=theirs -m 'Merging 000000-dev into master via Phing.'" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <exec command="git merge dev --strategy=recursive --strategy-option=theirs -m 'Merging dev into master via Phing.'" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
 
         <echo />
 
@@ -126,14 +126,14 @@
         <echo />
 
         <echo msg="Back-merging master branch into dev branch with --strategy-option=ours (favoring dev)." />
-        <exec command="git checkout 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <exec command="git checkout dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
         <exec command="git merge master --strategy=recursive --strategy-option=ours -m 'Back-merging master into dev after release via Phing.'" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
 
         <echo />
 
         <echo msg="Pushing dev branch to remote origin." />
         <!-- Still on the dev branch at this point. No need to run `git checkout`. -->
-        <exec command="git push origin 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <exec command="git push origin dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
       </else>
     </if>
 
@@ -148,7 +148,7 @@
         <echo />
 
         <echo msg="Creating GitHub release tagged: ${project_version}; targeted at dev branch." />
-        <exec command="git checkout 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+        <exec command="git checkout dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
       </then>
       <else>
         <echo />
@@ -183,7 +183,7 @@
 
     <!-- Switch back to the dev branch; i.e., the expected starting point.  -->
 
-    <exec command="git checkout 000000-dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
+    <exec command="git checkout dev" dir="${_releases_lite_release_repo_dir}" checkReturn="true" />
 
   </target>
 
