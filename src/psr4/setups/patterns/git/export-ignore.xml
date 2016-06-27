@@ -274,27 +274,21 @@
 
     <!-- Drone -->
 
-    <exclude pattern=".drone.yml" />
-    <exclude pattern="src/vendor/*/*/.drone.yml" />
-
-    <exclude pattern=".drone.sec" />
-    <exclude pattern="src/vendor/*/*/.drone.sec" />
+    <exclude pattern=".drone.*" />
+    <exclude pattern="src/vendor/*/*/.drone.*" />
 
     <!-- Travis -->
 
-    <exclude pattern=".travis.yml" />
-    <exclude pattern="src/vendor/*/*/.travis.yml" />
-
-    <exclude pattern=".travis.bash" />
-    <exclude pattern="src/vendor/*/*/.travis.bash" />
+    <exclude pattern=".travis.*" />
+    <exclude pattern="src/vendor/*/*/.travis.*" />
 
     <!-- Coverage -->
 
-    <exclude pattern=".coveralls.yml" />
-    <exclude pattern="src/vendor/*/*/.coveralls.yml" />
+    <exclude pattern=".coveralls.*" />
+    <exclude pattern="src/vendor/*/*/.coveralls.*" />
 
-    <exclude pattern=".scrutinizer.yml" />
-    <exclude pattern="src/vendor/*/*/.scrutinizer.yml" />
+    <exclude pattern=".scrutinizer.*" />
+    <exclude pattern="src/vendor/*/*/.scrutinizer.*" />
 
     <!-- Post-Receive -->
 

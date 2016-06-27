@@ -13,9 +13,7 @@
 
     <exclude pattern="**.css.map" />
     <exclude pattern="**/**.css.map" />
-
-    <exclude pattern="bourbon/**" />
-    <exclude pattern="**/bourbon/**" />
+    <exclude pattern="src/client-s/**/bourbon/**" />
 
     <!-- Git -->
 
@@ -31,19 +29,9 @@
     <!-- Build Files -->
 
     <exclude pattern="phings/**" />
-
     <exclude pattern=".build.props" />
-
     <exclude pattern="build-*.xml" />
     <exclude pattern="build.xml" />
-
-    <!-- These are NOT excluded here.
-    <exclude pattern=".build.php" />
-    <exclude pattern="**/.build.php" />
-
-    <exclude pattern=".build.*.php" />
-    <exclude pattern="**/.build.*.php" />
-    -->
 
     <!-- Composer -->
 
