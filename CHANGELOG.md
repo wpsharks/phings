@@ -18,6 +18,7 @@
 - Adding GitHub credential validator. Now required to finish a release.
 - Adding Slack credential validator. Now required to finish a release or update bleeding edge.
 - Correcting indentation in all files; i.e., no need to indent inside `<?xml>` tag.
+- Adding `phingVersion="2.14.0"` to main project; i.e., this version of Phing is now a strict requirement.
 
 ## v160624.36916
 

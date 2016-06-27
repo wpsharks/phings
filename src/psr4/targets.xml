@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="targets">
+<project name="targets" phingVersion="2.14.0">
 
   <!-- ============================================  -->
   <!-- Import hidden targets. -->
