@@ -168,4 +168,10 @@
   <import file="${phing.dir.targets}/targets/variations/lite/prepare.xml" />
   <import file="${phing.dir.targets}/targets/variations/lite/builds.xml" />
 
+  <!-- ============================================  -->
+  <!-- Notification-related targets. -->
+  <!-- ============================================  -->
+
+  <import file="${phing.dir.targets}/targets/notifications/complete.xml" />
+
 </project>
