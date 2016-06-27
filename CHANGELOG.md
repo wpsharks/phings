@@ -9,7 +9,7 @@
 
 ### Additional Changes in This Release
 
-- **New Wiki Article:** https://github.com/websharks/phings/wiki/Build-Flags-&-Props
+- **New Wiki Article:** https://github.com/websharks/phings/wiki/Build-Props
 - Reorganized all pattern sets. Now using a layered approach that is based on our `.gitignore` and `.gitattributes` file for better consistency and easier maintenance.
 - Adding `defaultExcludes="false"` to all `<fileSet>` tags now that there is a more comprehensive approach being taken with exclusions (i.e., pattern sets were drastically improved in this release).
 - Refactor: `_is_wp_core_framework_project` now `_is_core_project`.
