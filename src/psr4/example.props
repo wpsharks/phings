@@ -1,41 +1,101 @@
-project_title                                           = Project Title
+# MINIMUM REQUIRED PROPERTIES ------------------------------------------------------------------------------------------
 
-project_owner                                           = websharks
-project_slug                                            = project-slug
-project_text_domain                                     = project-text-domain
+# The title of your project.
+project_title                    = My Project Pro
 
-project_namespace                                       = Project\\Namespace
-project_sub_namespace                                   = ProjectSubNamespace
+# Should match the GitHub repo owner.
+project_owner                    = websharks
 
-project_other_phar_fileset_exclusions                   = README.md
-project_other_zip_tgz_fileset_exclusions                = README.md
+# Should match the GitHub repo slug.
+project_slug                     = my-project-pro
 
-project_lite_title                                      = Project Lite Title
-project_lite_slug                                       = project-lite-slug
-project_lite_text_domain                                = project-lite-text-domain
+# Project text domain for i18n POT generation.
+# In most cases you should exclude the `-pro` suffix here.
+project_text_domain              = my-project
 
-project_lite_namespace                                  = Project\\NamespaceLite
-project_lite_sub_namespace                              = ProjectLiteSubNamespace
+# Project namespace. Should always start with WebSharks\\
+# Important: If your project is NOT open-source, or your project may (at any point in the future) offer
+# a lite variation — where the original project becomes a 'pro' version; you should add \\Pro to your project's
+# PHP namespace (right from the start) and declare it that way in the .build.props file.
+# If in doubt, add the \\Pro suffix. Most projects should start with a \\Pro namespace.
+project_namespace                = WebSharks\\My\\Project\\Pro
 
-project_lite_other_phar_fileset_exclusions              = README.md
-project_lite_other_zip_tgz_fileset_exclusions           = README.md
+# This is a concatenation of all sub-namespace names, minus the \\ slashes.
+project_sub_namespace            = MyProjectPro
 
+# This can be a hard-coded version or you can make it dynamic using replacement codes.
+# %y, %m, %d = year, month, day. %now = number of seconds into the current day.
+project_version                  = %y%m%d.%now
+
+# PHP version required to run your project.
+project_php_required_version     = 7.0.4
+
+# Latest version of PHP you've tested against.
+# ${php.version} = The version of PHP you run the build with.
+project_php_tested_up_to_version = ${php.version}
+
+# Required only if your project is a WP theme or plugin.
+# Defining any of these properties implies that your project is a WP theme/plugin.
+# Likewise, excluding both of these properties implies that your project is not a WP theme/plugin.
+project_wp_required_version                             = x.x.x
+project_wp_tested_up_to_version                         = x.x-alpha
+
+# Required only if your project is built on top of the WP Sharks Core.
+# Defining any of these properties implies that your project is built on the WP Sharks Core.
+# Likewise, excluding both of these properties implies that your project is not built on the WP Sharks Core.
+project_wp_sharks_core_required_version                 = xxxxxx.xxxx
+project_wp_sharks_core_tested_up_to_version             = xxxxxx.xxxx
+
+# BUILDING A LITE VARIATION --------------------------------------------------------------------------------------------
+# Defining any of these properties implies that you DO want to build a lite variation.
+# Also, when you define any of these properties you must define all of them.
+# Note: You should always remove the 'pro' suffix from the lite variation.
+
+project_lite_title               = My Project
+project_lite_slug                = my-project
+project_lite_text_domain         = my-project
+
+project_lite_namespace           = WebSharks\\My\\Project
+project_lite_sub_namespace       = MyProject
+
+# CUSTOM EXCLUSIONS ----------------------------------------------------------------------------------------------------
+
+# A comma-delimited list of glob patterns to exclude.
+# Note: Do not add spaces before or after a comma. Phing doesn't like this.
+project_other_zip_tgz_fileset_exclusions                = README.md,CHANGELOG.md
+project_lite_other_zip_tgz_fileset_exclusions           = README.md,CHANGELOG.md
+
+# A comma-delimited list of glob patterns to exclude.
+# Note: Do not add spaces before or after a comma. Phing doesn't like this.
+project_other_phar_fileset_exclusions                   = README.md,CHANGELOG.md
+project_lite_other_phar_fileset_exclusions              = README.md,CHANGELOG.md
+
+# CUSTOM TEXT-DOMAIN REPLACEMENTS --------------------------------------------------------------------------------------
+
+# A pipe-delimited list of regex patterns to replace.
+# Note: Do not add spaces before or after a pipe. That's invalid regex.
 project_lite_text_domain_regex_replacement_pattern      = \$this\-\>text_domain|SLUG_TD
-project_lite_alter_namespace_in_other_files_pattern     = src/includes/templates/advanced-cache.txt
+project_lite_alter_namespace_in_other_files_pattern     = src/includes/templates/advanced-cache.txt,src/another.txt
 
-project_version                                         = %y%m%d.%now
+# ADDITIONAL SYSTEM REQUIREMENTS ---------------------------------------------------------------------------------------
+# All of these work together with websharks/wp-php-rv & wp-sharks-core-rv.
 
+# This is one of two operating system identifiers (always in lowercase): `nix` or `win`
+# As far as WP-PHP-RV is concerned, an OS is either `nix` (Unix-like) or `win` (Windows).
+# If you only want to support Unix-like systems, set this to: `nix`, making Windows incompatible.
+# If you only want to support Windows systems, set this to: `win`, making others incompatible.
 project_required_os                                     = nix
 
-project_php_required_version                            = 7.0.4
-project_php_tested_up_to_version                        = ${php.version}
+# 32 or 64 bit architecture. Set this to 64 if you want to require a 64-bit OS.
 project_php_required_bits                               = 64
+
+# Required PHP extensions in comma-delimited format.
+# Note: Any value in this file can be broken down into multiple lines using the `\` (continuation char).
+# This is particularly helpful here, since a comma-delimited list of PHP extensions might grow quite large.
 project_php_required_extensions                         = SPL, \
                                                           mbstring
 
-project_wp_required_version                             = 4.5.2
-project_wp_tested_up_to_version                         = 4.6-alpha
-
-project_wp_sharks_core_required_version                 = 160229
-project_wp_sharks_core_tested_up_to_version             = 160229
-project_wp_sharks_core_max_compatible_version           = 160229
+# Should only be set if your project is built on the WP Sharks Core.
+# Also, this should only be set if your project is no longer compatible with the latest WP Sharks Core;
+# i.e., setting this value is to say that your project is no longer being maintained for compatibility.
+project_wp_sharks_core_max_compatible_version           =
