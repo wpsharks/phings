@@ -1,35 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- WP token pattern set. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- WP token pattern set. -->
+  <!-- Depends on: `_alter_ignore_pattern_set`. -->
+  <!-- ============================================  -->
 
-    <patternSet id="_wp_token_pattern_set">
+  <patternSet id="_wp_token_pattern_set">
 
-      <exclude pattern=".~build/**" />
-      <exclude pattern="**/.~build/**" />
+    <include pattern="readme.txt" />
 
-      <exclude pattern="phings/**" />
-      <exclude pattern="**/phings/**" />
+    <include pattern="plugin.php" />
+    <include pattern="${project_slug}.php" />
 
-      <exclude pattern="vendor/**" />
-      <exclude pattern="**/vendor/**" />
+    <include pattern="style.css" />
+    <include pattern="functions.php" />
 
-      <exclude pattern="bourbon/**" />
-      <exclude pattern="**/bourbon/**" />
+    <include pattern="uninstall.php" />
 
-      <include pattern="readme.txt" />
+  </patternSet>
 
-      <include pattern="plugin.php" />
-      <include pattern="${project_slug}.php" />
-
-      <include pattern="style.css" />
-      <include pattern="functions.php" />
-
-      <include pattern="uninstall.php" />
-
-    </patternSet>
-
-  </project>
+</project>

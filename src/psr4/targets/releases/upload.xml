@@ -1,166 +1,166 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Upload distros & maybe update latest. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Upload distros & maybe update latest. -->
+  <!-- ============================================  -->
 
-    <target name="-releases-upload" hidden="true">
+  <target name="-releases-upload" hidden="true">
 
-      <!-- Convey what is about to happen below. -->
+    <!-- Convey what is about to happen below. -->
 
-      <echo msg="Uploading distros to Amazon S3/CloudFront storage ..." />
+    <echo msg="Uploading distros to Amazon S3/CloudFront storage ..." />
 
-      <!-- Obfuscate the project sub-path for more secure S3 storage. -->
+    <!-- Obfuscate the project sub-path for more secure S3 storage. -->
 
-      <adHocAwsS3ObfuscateSubPath base="software/releases" slug="${project_slug}" version="${project_version}" returnProperty="_releases_upload_sub_path" />
-      <adHocAwsS3ObfuscateSubPath base="software/latest" slug="${project_slug}" returnProperty="_releases_upload_latest_sub_path" />
+    <adHocAwsS3ObfuscateSubPath base="software/releases" slug="${project_slug}" version="${project_version}" returnProperty="_releases_upload_sub_path" />
+    <adHocAwsS3ObfuscateSubPath base="software/latest" slug="${project_slug}" returnProperty="_releases_upload_latest_sub_path" />
 
-      <!-- Upload distros as release packages, and maybe update the 'latest' packages also. -->
+    <!-- Upload distros as release packages, and maybe update the 'latest' packages also. -->
 
-      <forEach list="zip,tar.gz,phar" delimiter="," target="--releases-upload-extension" param="__releases_upload_extension" />
+    <forEach list="zip,tar.gz,phar" delimiter="," target="--releases-upload-extension" param="__releases_upload_extension" />
 
-      <!-- If doing a formal release, update `${project_slug}/version.txt`. -->
-      <if>
-        <and>
-          <isFalse value="${_releases_release_type_is_rc}" />
-        </and>
-        <then>
-          <phingCall target="--releases-upload-version" />
-        </then>
-      </if>
+    <!-- If doing a formal release, update `${project_slug}/version.txt`. -->
+    <if>
+      <and>
+        <isFalse value="${_releases_release_type_is_rc}" />
+      </and>
+      <then>
+        <phingCall target="--releases-upload-version" />
+      </then>
+    </if>
 
-      <!-- Possible lite release uploads. -->
-      <if>
-        <and>
-          <not>
-            <isset property="_is_lite_build" />
-          </not>
-          <isTrue value="${_has_lite_build_props}" />
-        </and>
-        <then>
-          <phingCall target="-releases-lite-upload" />
-        </then>
-      </if>
+    <!-- Possible lite release uploads. -->
+    <if>
+      <and>
+        <not>
+          <isset property="_doing_lite_build" />
+        </not>
+        <isTrue value="${_has_lite_variation}" />
+      </and>
+      <then>
+        <phingCall target="-releases-lite-upload" />
+      </then>
+    </if>
 
-    </target>
+  </target>
 
-    <!-- This target is used by the foreach loop above to reduce the amount of code we need to maintain. -->
+  <!-- This target is used by the foreach loop above to reduce the amount of code we need to maintain. -->
 
-    <target name="--releases-upload-extension">
+  <target name="--releases-upload-extension" hidden="true">
 
-      <if>
-        <and>
-          <available resource="${project.basedir}/.~build/${project_slug}.${__releases_upload_extension}" type="file" />
-        </and>
-        <then>
-          <!-- Determine the MIME type based on the extension. -->
+    <if>
+      <and>
+        <available resource="${project.basedir}/.~build/${project_slug}.${__releases_upload_extension}" type="file" />
+      </and>
+      <then>
+        <!-- Determine the MIME type based on the extension. -->
 
-          <if>
-            <equals arg1="${__releases_upload_extension}" arg2="zip" />
+        <if>
+          <equals arg1="${__releases_upload_extension}" arg2="zip" />
+          <then>
+            <property name="__releases_upload_mime_type" value="application/zip" />
+          </then>
+          <elseif>
+            <equals arg1="${__releases_upload_extension}" arg2="tar.gz" />
             <then>
-              <property name="__releases_upload_mime_type" value="application/zip" />
+              <property name="__releases_upload_mime_type" value="application/gzip" />
             </then>
-            <elseif>
-              <equals arg1="${__releases_upload_extension}" arg2="tar.gz" />
-              <then>
-                <property name="__releases_upload_mime_type" value="application/gzip" />
-              </then>
-            </elseif>
-            <elseif>
-              <equals arg1="${__releases_upload_extension}" arg2="phar" />
-              <then>
-                <property name="__releases_upload_mime_type" value="application/x-phar" />
-              </then>
-            </elseif>
-            <else>
-              <fail msg="Unexpected file extension: ${__releases_upload_extension}" />
-            </else>
-          </if>
-          <!-- Upload a release distro based on extension and MIME type. -->
-
-          <exec executable="aws" passthru="true" checkReturn="true">
-            <arg value="--profile" />
-            <arg value="websharks" />
-
-            <arg value="s3" />
-            <arg value="cp" />
-
-            <arg value="${project.basedir}/.~build/${project_slug}.${__releases_upload_extension}" />
-            <arg value="s3://${_aws_bucket}/cloudfront/${_releases_upload_sub_path}.${__releases_upload_extension}" />
-
-            <arg value="--metadata" />
-            <arg value="version=${project_version}" />
-
-            <arg value="--content-type" />
-            <arg value="${__releases_upload_mime_type}" />
-
-            <arg value="--content-disposition" />
-            <arg value='attachment; filename="${project_slug}-v${project_version}.${__releases_upload_extension}"' />
-          </exec>
-          <echo msg="https://${_aws_bucket_cname}/${_releases_upload_sub_path}.${__releases_upload_extension}" />
-
-          <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
-          <echo msg="https://${_aws_bucket_cname}/${_releases_upload_sub_path}.${__releases_upload_extension}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
-
-          <!-- If doing a formal release, copy this version into the 'latest' package. -->
-          <if>
-            <and>
-              <isFalse value="${_releases_release_type_is_rc}" />
-            </and>
+          </elseif>
+          <elseif>
+            <equals arg1="${__releases_upload_extension}" arg2="phar" />
             <then>
-              <echo />
-
-              <exec executable="aws" passthru="true" checkReturn="true">
-                <arg value="--profile" />
-                <arg value="websharks" />
-
-                <arg value="s3" />
-                <arg value="cp" />
-
-                <arg value="s3://${_aws_bucket}/cloudfront/${_releases_upload_sub_path}.${__releases_upload_extension}" />
-                <arg value="s3://${_aws_bucket}/cloudfront/${_releases_upload_latest_sub_path}.${__releases_upload_extension}" />
-              </exec>
-              <echo msg="https://${_aws_bucket_cname}/${_releases_upload_latest_sub_path}.${__releases_upload_extension}" />
-
-              <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
-              <echo msg="https://${_aws_bucket_cname}/${_releases_upload_latest_sub_path}.${__releases_upload_extension}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
+              <property name="__releases_upload_mime_type" value="application/x-phar" />
             </then>
-          </if>
-        </then>
-        <else>
-          <echo msg="Distro with extension `.${__releases_upload_extension}` does not exist. Bypassing." />
-        </else>
-      </if>
+          </elseif>
+          <else>
+            <fail msg="Unexpected file extension: ${__releases_upload_extension}" />
+          </else>
+        </if>
+        <!-- Upload a release distro based on extension and MIME type. -->
 
-    </target>
+        <exec executable="aws" passthru="true" checkReturn="true">
+          <arg value="--profile" />
+          <arg value="websharks" />
 
-    <!-- Uploads a `${project_slug}/version.txt` file we can query. -->
+          <arg value="s3" />
+          <arg value="cp" />
 
-    <target name="--releases-upload-version">
+          <arg value="${project.basedir}/.~build/${project_slug}.${__releases_upload_extension}" />
+          <arg value="s3://${_aws_bucket}/cloudfront/${_releases_upload_sub_path}.${__releases_upload_extension}" />
 
-      <exec executable="aws" passthru="true" checkReturn="true">
-        <arg value="--profile" />
-        <arg value="websharks" />
+          <arg value="--metadata" />
+          <arg value="version=${project_version}" />
 
-        <arg value="s3" />
-        <arg value="cp" />
+          <arg value="--content-type" />
+          <arg value="${__releases_upload_mime_type}" />
 
-        <arg value="${project.basedir}/.~build/.~/properties/project-version" />
-        <arg value="s3://${_aws_bucket}/cloudfront/software/latest/${project_slug}/version.txt" />
+          <arg value="--content-disposition" />
+          <arg value='attachment; filename="${project_slug}-v${project_version}.${__releases_upload_extension}"' />
+        </exec>
+        <echo msg="https://${_aws_bucket_cname}/${_releases_upload_sub_path}.${__releases_upload_extension}" />
 
-        <arg value="--metadata" />
-        <arg value="version=${project_version}" />
+        <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
+        <echo msg="https://${_aws_bucket_cname}/${_releases_upload_sub_path}.${__releases_upload_extension}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
 
-        <arg value="--content-type" />
-        <arg value="text/plain; charset=utf-8" />
-      </exec>
-      <echo msg="https://${_aws_bucket_cname}/software/latest/${project_slug}/version.txt" />
+        <!-- If doing a formal release, copy this version into the 'latest' package. -->
+        <if>
+          <and>
+            <isFalse value="${_releases_release_type_is_rc}" />
+          </and>
+          <then>
+            <echo />
 
-      <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
-      <echo msg="https://${_aws_bucket_cname}/software/latest/${project_slug}/version.txt${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
+            <exec executable="aws" passthru="true" checkReturn="true">
+              <arg value="--profile" />
+              <arg value="websharks" />
 
-    </target>
+              <arg value="s3" />
+              <arg value="cp" />
 
-  </project>
+              <arg value="s3://${_aws_bucket}/cloudfront/${_releases_upload_sub_path}.${__releases_upload_extension}" />
+              <arg value="s3://${_aws_bucket}/cloudfront/${_releases_upload_latest_sub_path}.${__releases_upload_extension}" />
+            </exec>
+            <echo msg="https://${_aws_bucket_cname}/${_releases_upload_latest_sub_path}.${__releases_upload_extension}" />
+
+            <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
+            <echo msg="https://${_aws_bucket_cname}/${_releases_upload_latest_sub_path}.${__releases_upload_extension}${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
+          </then>
+        </if>
+      </then>
+      <else>
+        <echo msg="Distro with extension `.${__releases_upload_extension}` does not exist. Bypassing." />
+      </else>
+    </if>
+
+  </target>
+
+  <!-- Uploads a `${project_slug}/version.txt` file we can query. -->
+
+  <target name="--releases-upload-version" hidden="true">
+
+    <exec executable="aws" passthru="true" checkReturn="true">
+      <arg value="--profile" />
+      <arg value="websharks" />
+
+      <arg value="s3" />
+      <arg value="cp" />
+
+      <arg value="${project.basedir}/.~build/.~/properties/project-version" />
+      <arg value="s3://${_aws_bucket}/cloudfront/software/latest/${project_slug}/version.txt" />
+
+      <arg value="--metadata" />
+      <arg value="version=${project_version}" />
+
+      <arg value="--content-type" />
+      <arg value="text/plain; charset=utf-8" />
+    </exec>
+    <echo msg="https://${_aws_bucket_cname}/software/latest/${project_slug}/version.txt" />
+
+    <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
+    <echo msg="https://${_aws_bucket_cname}/software/latest/${project_slug}/version.txt${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
+
+  </target>
+
+</project>

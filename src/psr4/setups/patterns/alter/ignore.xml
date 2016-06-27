@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project>
+
+  <!-- ============================================  -->
+  <!-- Additional files to ignore when altering files. -->
+  <!-- Depends on: `_git_ignore_pattern_set`. -->
+  <!-- ============================================  -->
+
+  <patternSet id="_alter_ignore_pattern_set">
+
+    <!-- SASS -->
+
+    <exclude pattern="**.css.map" />
+    <exclude pattern="**/**.css.map" />
+    <exclude pattern="src/client-s/**/bourbon/**" />
+
+    <!-- Git -->
+
+    <exclude pattern=".gitignore" />
+    <exclude pattern=".gitattributes" />
+    <exclude pattern=".gitmodules" />
+    <exclude pattern=".gitchange" />
+
+    <!-- Assets -->
+
+    <exclude pattern="assets/**" />
+
+    <!-- Build Files -->
+
+    <exclude pattern="phings/**" />
+    <exclude pattern=".build.props" />
+    <exclude pattern="build-*.xml" />
+    <exclude pattern="build.xml" />
+
+    <!-- Composer -->
+
+    <exclude pattern="composer.lock" />
+
+  </patternSet>
+
+</project>

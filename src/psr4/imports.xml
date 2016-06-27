@@ -1,169 +1,177 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Ad-hoc task definitions. -->
-    <!-- These run inline; no targets necessary. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Ad-hoc task definitions. -->
+  <!-- These run inline; no targets necessary. -->
+  <!-- ============================================  -->
 
-    <import>
-      <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false">
-        <include pattern="ad-hocs/**.xml" />
-      </fileSet>
-    </import>
+  <import>
+    <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false" defaultExcludes="false">
+      <include pattern="ad-hocs/**/*.xml" />
+    </fileSet>
+  </import>
 
-    <!-- ============================================  -->
-    <!-- Property setup routines. -->
-    <!-- These run inline; no targets necessary. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Property setup routines. -->
+  <!-- These run inline; no targets necessary. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/setups/properties/config.xml" />
-    <import file="${phing.dir.targets}/setups/properties/validate.xml" />
+  <import file="${phing.dir.targets}/setups/properties/config.xml" />
+  <import file="${phing.dir.targets}/setups/properties/validate.xml" />
 
-    <!-- ============================================  -->
-    <!-- Other misc. setup routines. -->
-    <!-- These run inline; no targets necessary. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Other misc. setup routines. -->
+  <!-- These run inline; no targets necessary. -->
+  <!-- ============================================  -->
 
-    <import>
-      <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false">
-        <include pattern="patterns/**.xml" />
-        <include pattern="ini-sets/**.xml" />
-        <include pattern="directories/**.xml" />
-      </fileSet>
-    </import>
+  <import>
+    <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false" defaultExcludes="false">
+      <include pattern="patterns/**/*.xml" />
+      <include pattern="ini-sets/**/*.xml" />
+      <include pattern="directories/**/*.xml" />
+    </fileSet>
+  </import>
 
-    <!-- ============================================  -->
-    <!-- Dependency setup routines. -->
-    <!-- These run inline; no targets necessary. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Dependency setup routines. -->
+  <!-- These run inline; no targets necessary. -->
+  <!-- ============================================  -->
 
-    <import>
-      <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false">
-        <include pattern="dependencies/**.xml" />
-      </fileSet>
-    </import>
+  <import>
+    <fileSet dir="${phing.dir.targets}/setups" caseSensitive="false" defaultExcludes="false">
+      <include pattern="dependencies/**/*.xml" />
+    </fileSet>
+  </import>
 
-    <!-- ============================================  -->
-    <!-- Preamble setup routines. -->
-    <!-- These run inline; no targets necessary. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Preamble setup routines. -->
+  <!-- These run inline; no targets necessary. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/setups/preamble/display.xml" />
+  <import file="${phing.dir.targets}/setups/preamble/display.xml" />
 
-    <!-- ============================================  -->
-    <!-- Build (in base directory) targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Build (in base directory) targets. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/builds/in-base-dir/version-tokens.xml" />
-    <import file="${phing.dir.targets}/targets/builds/in-base-dir/composer.xml" />
-    <import file="${phing.dir.targets}/targets/builds/in-base-dir/dotbuilds.xml" />
-    <import file="${phing.dir.targets}/targets/builds/in-base-dir/i18n-text-domains.xml" />
-    <import file="${phing.dir.targets}/targets/builds/in-base-dir/i18n-pots.xml" />
+  <import file="${phing.dir.targets}/targets/builds/in-base-dir/version-tokens.xml" />
+  <import file="${phing.dir.targets}/targets/builds/in-base-dir/composer.xml" />
+  <import file="${phing.dir.targets}/targets/builds/in-base-dir/dotbuilds.xml" />
+  <import file="${phing.dir.targets}/targets/builds/in-base-dir/i18n-text-domains.xml" />
+  <import file="${phing.dir.targets}/targets/builds/in-base-dir/i18n-pots.xml" />
 
-    <!-- ============================================  -->
-    <!-- Build (in base directory, after) targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Build (in base directory, after) targets. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/builds/in-base-dir-after/create-build-dir.xml" />
+  <import file="${phing.dir.targets}/targets/builds/in-base-dir-after/create-build-dir.xml" />
 
-    <!-- ============================================  -->
-    <!-- Build (in build directory) targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Build (in build directory) targets. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/builds/in-build-dir/version-tokens.xml" />
-    <import file="${phing.dir.targets}/targets/builds/in-build-dir/composer.xml" />
-    <import file="${phing.dir.targets}/targets/builds/in-build-dir/dotbuilds.xml" />
-    <import file="${phing.dir.targets}/targets/builds/in-build-dir/js-css-cleanup.xml" />
+  <import file="${phing.dir.targets}/targets/builds/in-build-dir/version-tokens.xml" />
+  <import file="${phing.dir.targets}/targets/builds/in-build-dir/composer.xml" />
+  <import file="${phing.dir.targets}/targets/builds/in-build-dir/dotbuilds.xml" />
+  <import file="${phing.dir.targets}/targets/builds/in-build-dir/js-css-cleanup.xml" />
 
-    <!-- ============================================  -->
-    <!-- Build (in build directory, after) targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Build (in build directory, after) targets. -->
+  <!-- ============================================  -->
 
-    <!-- Nothing at this time. -->
+  <!-- Nothing at this time. -->
 
-    <!-- ============================================  -->
-    <!-- Lint checking targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Lint checking targets. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/linters/phpcs.xml" />
+  <import file="${phing.dir.targets}/targets/linters/phpcs.xml" />
 
-    <!-- ============================================  -->
-    <!-- Distro-related targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Distro-related targets. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/distros/packages.xml" />
+  <import file="${phing.dir.targets}/targets/distros/packages.xml" />
 
-    <!-- ============================================  -->
-    <!-- Property-related targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Property-related targets. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/properties/save-project-version.xml" />
+  <import file="${phing.dir.targets}/targets/properties/save-project-version.xml" />
 
-    <!-- ============================================  -->
-    <!-- Validation-related targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Validation-related targets. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/validations/existing-build.xml" />
-    <import file="${phing.dir.targets}/targets/validations/existing-lite-build.xml" />
-    <import file="${phing.dir.targets}/targets/validations/in-git-repo.xml" />
-    <import file="${phing.dir.targets}/targets/validations/in-github-repo.xml" />
-    <import file="${phing.dir.targets}/targets/validations/in-clean-git-repo.xml" />
-    <import file="${phing.dir.targets}/targets/validations/git-repo-has-dev-master.xml" />
-    <import file="${phing.dir.targets}/targets/validations/starting-git-release-branch.xml" />
-    <import file="${phing.dir.targets}/targets/validations/starting-git-dev-or-release-branch.xml" />
-    <import file="${phing.dir.targets}/targets/validations/aws-cli-credentials.xml" />
+  <import file="${phing.dir.targets}/targets/validations/existing-build.xml" />
+  <import file="${phing.dir.targets}/targets/validations/existing-lite-build.xml" />
+  <import file="${phing.dir.targets}/targets/validations/in-git-repo.xml" />
+  <import file="${phing.dir.targets}/targets/validations/in-github-repo.xml" />
+  <import file="${phing.dir.targets}/targets/validations/in-clean-git-repo.xml" />
+  <import file="${phing.dir.targets}/targets/validations/git-repo-has-dev-master.xml" />
+  <import file="${phing.dir.targets}/targets/validations/starting-git-release-branch.xml" />
+  <import file="${phing.dir.targets}/targets/validations/starting-git-dev-or-release-branch.xml" />
+  <import file="${phing.dir.targets}/targets/validations/aws-cli-credentials.xml" />
+  <import file="${phing.dir.targets}/targets/validations/github-credentials.xml" />
+  <import file="${phing.dir.targets}/targets/validations/slack-credentials.xml" />
 
-    <!-- ============================================  -->
-    <!-- Test-related targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Test-related targets. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/tests/phpunit.xml" />
-    <import file="${phing.dir.targets}/targets/tests/casperjs.xml" />
+  <import file="${phing.dir.targets}/targets/tests/phpunit.xml" />
+  <import file="${phing.dir.targets}/targets/tests/casperjs.xml" />
 
-    <!-- ============================================  -->
-    <!-- Codex-related targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Codex-related targets. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/codex/apigen.xml" />
+  <import file="${phing.dir.targets}/targets/codex/apigen.xml" />
 
-    <!-- ============================================  -->
-    <!-- Feature-related targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Feature-related targets. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/features/feature.xml" />
+  <import file="${phing.dir.targets}/targets/features/feature.xml" />
 
-    <!-- ============================================  -->
-    <!-- Upload-related targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Upload-related targets. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/uploads/bleeding-edge.xml" />
-    <import file="${phing.dir.targets}/targets/uploads/lite-bleeding-edge.xml" />
-    <import file="${phing.dir.targets}/targets/uploads/bleeding-edge-finale.xml" />
+  <import file="${phing.dir.targets}/targets/uploads/bleeding-edge.xml" />
+  <import file="${phing.dir.targets}/targets/uploads/lite-bleeding-edge.xml" />
+  <import file="${phing.dir.targets}/targets/uploads/bleeding-edge-finale.xml" />
 
-    <!-- ============================================  -->
-    <!-- Release-related targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Release-related targets. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/releases/release.xml" />
+  <import file="${phing.dir.targets}/targets/releases/release.xml" />
 
-    <import file="${phing.dir.targets}/targets/releases/release-start.xml" />
-    <import file="${phing.dir.targets}/targets/releases/release-finish.xml" />
+  <import file="${phing.dir.targets}/targets/releases/release-start.xml" />
+  <import file="${phing.dir.targets}/targets/releases/release-finish.xml" />
 
-    <import file="${phing.dir.targets}/targets/releases/lite-repo-update.xml" />
-    <import file="${phing.dir.targets}/targets/releases/lite-release-finish.xml" />
+  <import file="${phing.dir.targets}/targets/releases/lite-repo-update.xml" />
+  <import file="${phing.dir.targets}/targets/releases/lite-release-finish.xml" />
 
-    <import file="${phing.dir.targets}/targets/releases/upload.xml" />
-    <import file="${phing.dir.targets}/targets/releases/lite-upload.xml" />
+  <import file="${phing.dir.targets}/targets/releases/upload.xml" />
+  <import file="${phing.dir.targets}/targets/releases/lite-upload.xml" />
 
-    <import file="${phing.dir.targets}/targets/releases/grand-finale.xml" />
+  <import file="${phing.dir.targets}/targets/releases/grand-finale.xml" />
 
-    <!-- ============================================  -->
-    <!-- Lite variation-related targets. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Lite variation-related targets. -->
+  <!-- ============================================  -->
 
-    <import file="${phing.dir.targets}/targets/variations/lite/prepare.xml" />
-    <import file="${phing.dir.targets}/targets/variations/lite/builds.xml" />
+  <import file="${phing.dir.targets}/targets/variations/lite/prepare.xml" />
+  <import file="${phing.dir.targets}/targets/variations/lite/builds.xml" />
 
-  </project>
+  <!-- ============================================  -->
+  <!-- Notification-related targets. -->
+  <!-- ============================================  -->
+
+  <import file="${phing.dir.targets}/targets/notifications/complete.xml" />
+
+</project>

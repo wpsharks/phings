@@ -1,79 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Pattern-set reference for lite repo. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Pattern-set reference for lite repo. -->
+  <!-- Depends on: `_git_ignore_pattern_set`. -->
+  <!-- ============================================  -->
 
-    <patternSet id="_lite_repo_pattern_set">
+  <patternSet id="_lite_repo_pattern_set">
 
-      <exclude pattern=".~**" />
-      <exclude pattern="**/.~**" />
+    <!-- Git -->
 
-      <exclude pattern=".git/**" />
-      <exclude pattern="**/.git/**" />
+    <exclude pattern=".gitmodules" />
 
-      <exclude pattern=".gitmodules" />
-      <exclude pattern="**/.gitmodules" />
+    <!-- Assets -->
 
-      <exclude pattern=".idea/**" />
-      <exclude pattern="**/.idea/**" />
+    <exclude pattern="assets/**" />
 
-      <exclude pattern=".tags" />
-      <exclude pattern="**/.tags" />
+    <!-- Build Files -->
 
-      <exclude pattern="assets/**" />
-      <exclude pattern="**/assets/**" />
+    <exclude pattern="phings/**" />
 
-      <exclude pattern="phings/**" />
-      <exclude pattern="**/phings/**" />
+    <exclude pattern=".build.props" />
 
-      <exclude pattern="tests/**" />
-      <exclude pattern="**/tests/**" />
+    <exclude pattern="build-*.xml" />
+    <exclude pattern="build.xml" />
 
-      <exclude pattern="vendor/**" />
-      <exclude pattern="**/vendor/**" />
+    <exclude pattern=".build.php" />
+    <exclude pattern="**/.build.php" />
 
-      <exclude pattern=".sass-cache/**" />
-      <exclude pattern="**/.sass-cache/**" />
+    <exclude pattern=".build.*.php" />
+    <exclude pattern="**/.build.*.php" />
 
-      <exclude pattern=".post-receive" />
-      <exclude pattern="**/.post-receive" />
+    <!-- Tests -->
 
-      <exclude pattern=".drone.yml" />
-      <exclude pattern="**/.drone.yml" />
+    <exclude pattern="tests/**" />
 
-      <exclude pattern=".drone.sec" />
-      <exclude pattern="**/.drone.sec" />
+    <!-- Drone -->
 
-      <exclude pattern=".travis.yml" />
-      <exclude pattern="**/.travis.yml" />
+    <exclude pattern=".drone.yml" />
+    <exclude pattern=".drone.sec" />
 
-      <exclude pattern=".travis.bash" />
-      <exclude pattern="**/.travis.bash" />
+    <!-- Travis -->
 
-      <exclude pattern=".coveralls.yml" />
-      <exclude pattern="**/.coveralls.yml" />
+    <exclude pattern=".travis.yml" />
+    <exclude pattern=".travis.bash" />
 
-      <exclude pattern=".scrutinizer.yml" />
-      <exclude pattern="**/.scrutinizer.yml" />
+    <!-- Coverage -->
 
-      <exclude pattern=".build.props" />
-      <exclude pattern="**/.build.props" />
+    <exclude pattern=".coveralls.yml" />
+    <exclude pattern=".scrutinizer.yml" />
 
-      <exclude pattern="build-*.xml" />
-      <exclude pattern="**/build-*.xml" />
+    <!-- Post-Receive -->
 
-      <exclude pattern="build.xml" />
-      <exclude pattern="**/build.xml" />
+    <exclude pattern="post-receive" />
 
-      <exclude pattern=".build.php" />
-      <exclude pattern="**/.build.php" />
+  </patternSet>
 
-      <exclude pattern=".build.*.php" />
-      <exclude pattern="**/.build.*.php" />
-
-    </patternSet>
-
-  </project>
+</project>

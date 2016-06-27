@@ -1,37 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- JS/CSS pattern set. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- JS/CSS pattern set. -->
+  <!-- Depends on: `_alter_ignore_pattern_set`. -->
+  <!-- ============================================  -->
 
-    <patternSet id="_js_css_pattern_set">
+  <patternSet id="_js_css_pattern_set">
 
-      <exclude pattern=".~build/**" />
-      <exclude pattern="**/.~build/**" />
+    <include pattern="*.js" />
+    <include pattern="**/**.js" />
 
-      <exclude pattern="phings/**" />
-      <exclude pattern="**/phings/**" />
+    <include pattern="*.json" />
+    <include pattern="**/**.json" />
 
-      <exclude pattern="vendor/**" />
-      <exclude pattern="**/vendor/**" />
+    <include pattern="*.css" />
+    <include pattern="**/**.css" />
 
-      <exclude pattern="bourbon/**" />
-      <exclude pattern="**/bourbon/**" />
+    <include pattern="*.scss" />
+    <include pattern="**/**.scss" />
 
-      <include pattern="*.js" />
-      <include pattern="**/**.js" />
+  </patternSet>
 
-      <include pattern="*.json" />
-      <include pattern="**/**.json" />
-
-      <include pattern="*.css" />
-      <include pattern="**/**.css" />
-
-      <include pattern="*.scss" />
-      <include pattern="**/**.scss" />
-
-    </patternSet>
-
-  </project>
+</project>

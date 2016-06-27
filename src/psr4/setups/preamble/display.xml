@@ -1,292 +1,291 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Preamble. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Preamble. -->
+  <!-- ============================================  -->
 
-    <if>
-      <not>
-        <isset property="_setups_preamble_display_complete" />
-      </not>
-      <then>
-        <!-- Begin preamble. -->
+  <if>
+    <not>
+      <isset property="_setups_preamble_display_complete" />
+    </not>
+    <then>
+      <echo />
 
-        <echo />
+      <echo msg="------------------------------------" />
+      <echo msg="--- Preamble -----------------------" />
+      <echo msg="------------------------------------" />
 
-        <echo msg="------------------------------------" />
-        <echo msg="--- Preamble -----------------------" />
-        <echo msg="------------------------------------" />
+      <echo />
 
-        <echo />
+      <echo msg="OS: ${host.os}" />
+      <echo msg="OS Version: ${host.os.version}" />
+      <echo msg="OS Release: ${host.os.release}" />
 
-        <echo msg="OS: ${host.os}" />
-        <echo msg="OS Version: ${host.os.version}" />
-        <echo msg="OS Release: ${host.os.release}" />
+      <echo />
 
-        <echo />
+      <echo msg="Architecture: ${host.arch}" />
+      <echo msg="Filesystem: ${host.fstype}" />
+      <echo msg="Host Name: ${host.name}" />
 
-        <echo msg="Architecture: ${host.arch}" />
-        <echo msg="Filesystem: ${host.fstype}" />
-        <echo msg="Host Name: ${host.name}" />
+      <echo />
 
-        <echo />
+      <echo msg="Home: ${user.home}" />
+      <echo msg="Lang: ${env.LANG}" />
+      <echo msg="Locale: ${env.LC_ALL}" />
+      <echo msg="Path: ${env.PATH}" />
 
-        <echo msg="Home: ${user.home}" />
-        <echo msg="Lang: ${env.LANG}" />
-        <echo msg="Locale: ${env.LC_ALL}" />
-        <echo msg="Path: ${env.PATH}" />
+      <echo />
 
-        <echo />
+      <echo msg="PHP Version: ${php.version}" />
+      <echo msg="Phing Version: ${phing.version}" />
 
-        <echo msg="PHP Version: ${php.version}" />
-        <echo msg="Phing Version: ${phing.version}" />
+      <echo />
 
-        <echo />
+      <echo msg="Phing Title: ${phing.project.name}" />
+      <echo msg="Project Title: ${project_title}" />
 
-        <echo msg="Phing Title: ${phing.project.name}" />
-        <echo msg="Project Title: ${project_title}" />
+      <echo />
 
-        <echo />
+      <echo msg="Project Base Directory: ${project.basedir}" />
 
-        <echo msg="Project Base Directory: ${project.basedir}" />
+      <echo />
 
-        <echo />
+      <echo msg="Project Org.: ${project_owner}" />
+      <echo msg="Project Slug: ${project_slug}" />
+      <echo msg="Project Text Domain: ${project_text_domain}" />
 
-        <echo msg="Project Org.: ${project_owner}" />
-        <echo msg="Project Slug: ${project_slug}" />
-        <echo msg="Project Text Domain: ${_project_text_domain}" />
+      <echo />
 
-        <echo />
+      <echo msg="Project Namespace: ${project_namespace}" />
+      <echo msg="Project Sub-Namespace: ${project_sub_namespace}" />
 
-        <echo msg="Project Namespace: ${project_namespace}" />
-        <echo msg="Project Sub-Namespace: ${project_sub_namespace}" />
+      <echo />
 
-        <echo />
+      <echo msg="Project-Specific PHAR Exclusions: ${project_other_phar_fileset_exclusions}" />
+      <echo msg="Project-Specific ZIP/TGZ Exclusions: ${project_other_zip_tgz_fileset_exclusions}" />
 
-        <echo msg="Project-Specific PHAR Exclusions: ${project_other_phar_fileset_exclusions}" />
-        <echo msg="Project-Specific ZIP/TGZ Exclusions: ${project_other_zip_tgz_fileset_exclusions}" />
+      <if>
+        <and>
+          <not>
+            <isset property="_doing_lite_build" />
+          </not>
+          <isTrue value="${_has_lite_variation}" />
+        </and>
+        <then>
+          <echo />
 
-        <if>
-          <and>
-            <not>
-              <isset property="_is_lite_build" />
-            </not>
-            <isTrue value="${_has_lite_build_props}" />
-          </and>
-          <then>
-            <echo />
+          <echo msg="Project Lite Title: ${project_lite_title}" />
+          <echo msg="Project Lite Slug: ${project_lite_slug}" />
+          <echo msg="Project Lite Text Domain: ${project_lite_text_domain}" />
 
-            <echo msg="Project Lite Title: ${project_lite_title}" />
-            <echo msg="Project Lite Slug: ${project_lite_slug}" />
+          <echo />
 
-            <echo />
+          <echo msg="Project Lite Namespace: ${project_lite_namespace}" />
+          <echo msg="Project Lite Sub-Namespace: ${project_lite_sub_namespace}" />
 
-            <echo msg="Project Lite Namespace: ${project_lite_namespace}" />
-            <echo msg="Project Lite Sub-Namespace: ${project_lite_sub_namespace}" />
+          <echo />
 
-            <echo />
+          <echo msg="Lite Project-Specific PHAR Exclusions: ${project_lite_other_phar_fileset_exclusions}" />
+          <echo msg="Lite Project-Specific ZIP/TGZ Exclusions: ${project_lite_other_zip_tgz_fileset_exclusions}" />
 
-            <echo msg="Lite Project-Specific PHAR Exclusions: ${project_lite_other_phar_fileset_exclusions}" />
-            <echo msg="Lite Project-Specific ZIP/TGZ Exclusions: ${project_lite_other_zip_tgz_fileset_exclusions}" />
+          <echo />
 
-            <echo />
+          <echo msg="Lite Project-Specific Text Domain Replacement Pattern: ${project_lite_text_domain_regex_replacement_pattern}" />
+          <echo msg="Lite Project-Specific Namespace Altered in Other Files: ${project_lite_alter_namespace_in_other_files_pattern}" />
+        </then>
+      </if>
+      <echo />
 
-            <echo msg="Lite Project-Specific Text Domain Replacement Pattern: ${project_lite_text_domain_regex_replacement_pattern}" />
-            <echo msg="Lite Project-Specific Namespace Altered in Other Files: ${project_lite_alter_namespace_in_other_files_pattern}" />
-          </then>
-        </if>
-        <echo />
+      <echo msg="Project Version: ${project_version}" />
+      <echo msg="Project Build Version: ${_project_build_version}" />
 
-        <echo msg="Project Version: ${project_version}" />
-        <echo msg="Project Build Version: ${_project_build_version}" />
+      <echo />
 
-        <echo />
+      <echo msg="Project Required OS: ${project_required_os}" />
 
-        <echo msg="Project Required OS: ${project_required_os}" />
+      <echo msg="Project PHP Required Version: ${project_php_required_version}" />
+      <echo msg="Project PHP Tested Up To Version: ${project_php_tested_up_to_version}" />
 
-        <echo msg="Project PHP Required Version: ${project_php_required_version}" />
-        <echo msg="Project PHP Tested Up To Version: ${project_php_tested_up_to_version}" />
+      <echo msg="Project PHP Required Bits: ${project_php_required_bits}" />
+      <echo msg="Project PHP Required Extensions: ${project_php_required_extensions}" />
 
-        <echo msg="Project PHP Required Bits: ${project_php_required_bits}" />
-        <echo msg="Project PHP Required Extensions: ${project_php_required_extensions}" />
+      <if>
+        <and>
+          <isTrue value="${_is_wp_theme_plugin}" />
+        </and>
+        <then>
+          <echo />
 
-        <if>
-          <and>
-            <isTrue value="${_is_wp_theme_plugin}" />
-          </and>
-          <then>
-            <echo />
+          <echo msg="Project WP Required Version: ${project_wp_required_version}" />
+          <echo msg="Project WP Tested Up To Version: ${project_wp_tested_up_to_version}" />
+          <if>
+            <and>
+              <isTrue value="${_is_wp_sharks_core_theme_plugin}" />
+            </and>
+            <then>
+              <echo />
 
-            <echo msg="Project WP Required Version: ${project_wp_required_version}" />
-            <echo msg="Project WP Tested Up To Version: ${project_wp_tested_up_to_version}" />
-            <if>
-              <and>
-                <isTrue value="${_is_wp_sharks_core_theme_plugin}" />
-              </and>
-              <then>
-                <echo />
+              <echo msg="Project WP Sharks Core Required Version: ${project_wp_sharks_core_required_version}" />
+              <echo msg="Project WP Sharks Core Tested Up To Version: ${project_wp_sharks_core_tested_up_to_version}" />
+              <echo msg="Project WP Sharks Core Max Compatible Version: ${project_wp_sharks_core_max_compatible_version}" />
+            </then>
+          </if>
+        </then>
+      </if>
 
-                <echo msg="Project WP Sharks Core Required Version: ${project_wp_sharks_core_required_version}" />
-                <echo msg="Project WP Sharks Core Tested Up To Version: ${project_wp_sharks_core_tested_up_to_version}" />
-                <echo msg="Project WP Sharks Core Max Compatible Version: ${project_wp_sharks_core_max_compatible_version}" />
-              </then>
-            </if>
-          </then>
-        </if>
+      <echo />
 
-        <echo />
+      <if>
+        <and>
+          <isTrue value="${_in_git_repo}" />
+        </and>
+        <then>
+          <echo msg="Currently in a Git Repo = true" />
 
-        <if>
-          <and>
-            <isTrue value="${_in_git_repo}" />
-          </and>
-          <then>
-            <echo msg="Currently in a Git Repo = true" />
+          <if>
+            <and>
+              <isTrue value="${_in_clean_git_repo}" />
+            </and>
+            <then>
+              <echo msg="Current Git Repo is Clean = true" />
+            </then>
+            <else>
+              <echo msg="Current Git Repo is Clean = false" />
+            </else>
+          </if>
 
-            <if>
-              <and>
-                <isTrue value="${_in_clean_git_repo}" />
-              </and>
-              <then>
-                <echo msg="Current Git Repo is Clean = true" />
-              </then>
-              <else>
-                <echo msg="Current Git Repo is Clean = false" />
-              </else>
-            </if>
+          <if>
+            <and>
+              <isTrue value="${_in_github_repo}" />
+            </and>
+            <then>
+              <echo msg="Current Git Repo Has a GitHub origin = true" />
+            </then>
+            <else>
+              <echo msg="Current Git Repo Has a GitHub origin = false" />
+            </else>
+          </if>
 
-            <if>
-              <and>
-                <isTrue value="${_in_github_repo}" />
-              </and>
-              <then>
-                <echo msg="Current Git Repo Has a GitHub origin = true" />
-              </then>
-              <else>
-                <echo msg="Current Git Repo Has a GitHub origin = false" />
-              </else>
-            </if>
+          <echo />
 
-            <echo />
+          <echo msg="Starting Git Branch: ${_starting_git_branch}" />
 
-            <echo msg="Starting Git Branch: ${_starting_git_branch}" />
+          <if>
+            <and>
+              <isTrue value="${_starting_git_branch_is_dev}" />
+            </and>
+            <then>
+              <echo msg="Starting Git Branch is dev = true" />
+            </then>
+            <else>
+              <echo msg="Starting Git Branch is dev = false" />
+            </else>
+          </if>
 
-            <if>
-              <and>
-                <isTrue value="${_starting_git_branch_is_dev}" />
-              </and>
-              <then>
-                <echo msg="Starting Git Branch is 000000-dev = true" />
-              </then>
-              <else>
-                <echo msg="Starting Git Branch is 000000-dev = false" />
-              </else>
-            </if>
+          <if>
+            <and>
+              <isTrue value="${_starting_git_branch_is_feature}" />
+            </and>
+            <then>
+              <echo msg="Starting Git Branch is a feature/ = true" />
+              <echo msg="Starting Git Branch feature/[issue]: ${_starting_git_feature_branch_issue}" />
+            </then>
+            <else>
+              <echo msg="Starting Git Branch is a feature/ = false" />
+            </else>
+          </if>
 
-            <if>
-              <and>
-                <isTrue value="${_starting_git_branch_is_feature}" />
-              </and>
-              <then>
-                <echo msg="Starting Git Branch is a feature/ = true" />
-                <echo msg="Starting Git Branch feature/[issue]: ${_starting_git_feature_branch_issue}" />
-              </then>
-              <else>
-                <echo msg="Starting Git Branch is a feature/ = false" />
-              </else>
-            </if>
+          <if>
+            <and>
+              <isTrue value="${_starting_git_branch_is_release}" />
+            </and>
+            <then>
+              <echo msg="Starting Git Branch is a release/ = true" />
 
-            <if>
-              <and>
-                <isTrue value="${_starting_git_branch_is_release}" />
-              </and>
-              <then>
-                <echo msg="Starting Git Branch is a release/ = true" />
+              <if>
+                <and>
+                  <isTrue value="${_starting_git_branch_is_release_rc}" />
+                </and>
+                <then>
+                  <echo msg="Starting Git Branch is a release/ RC = true" />
+                </then>
+                <else>
+                  <echo msg="Starting Git Branch is a release/ RC = false" />
+                </else>
+              </if>
 
-                <if>
-                  <and>
-                    <isTrue value="${_starting_git_branch_is_release_rc}" />
-                  </and>
-                  <then>
-                    <echo msg="Starting Git Branch is a release/ RC = true" />
-                  </then>
-                  <else>
-                    <echo msg="Starting Git Branch is a release/ RC = false" />
-                  </else>
-                </if>
+              <echo msg="Starting Git Branch release/[version]: ${_starting_git_release_branch_version}" />
+            </then>
+            <else>
+              <echo msg="Starting Git Branch is a release/ = false" />
+            </else>
+          </if>
 
-                <echo msg="Starting Git Branch release/[version]: ${_starting_git_release_branch_version}" />
-              </then>
-              <else>
-                <echo msg="Starting Git Branch is a release/ = false" />
-              </else>
-            </if>
+          <echo />
 
-            <echo />
+          <if>
+            <and>
+              <isTrue value="${_git_dev_branch_exists}" />
+            </and>
+            <then>
+              <echo msg="Git dev Branch Exists = true" />
 
-            <if>
-              <and>
-                <isTrue value="${_git_dev_branch_exists}" />
-              </and>
-              <then>
-                <echo msg="Git 000000-dev Branch Exists = true" />
+              <if>
+                <and>
+                  <isTrue value="${_git_dev_branch_has_upstream}" />
+                </and>
+                <then>
+                  <echo msg="Git dev Branch Has an Upstream = true" />
+                </then>
+                <else>
+                  <echo msg="Git dev Branch Has an Upstream = false" />
+                </else>
+              </if>
+            </then>
+            <else>
+              <echo msg="Git dev Branch Exists = false" />
+            </else>
+          </if>
 
-                <if>
-                  <and>
-                    <isTrue value="${_git_dev_branch_has_upstream}" />
-                  </and>
-                  <then>
-                    <echo msg="Git 000000-dev Branch Has an Upstream = true" />
-                  </then>
-                  <else>
-                    <echo msg="Git 000000-dev Branch Has an Upstream = false" />
-                  </else>
-                </if>
-              </then>
-              <else>
-                <echo msg="Git 000000-dev Branch Exists = false" />
-              </else>
-            </if>
+          <echo />
 
-            <echo />
+          <if>
+            <and>
+              <isTrue value="${_git_master_branch_exists}" />
+            </and>
+            <then>
+              <echo msg="Git master Branch Exists = true" />
 
-            <if>
-              <and>
-                <isTrue value="${_git_master_branch_exists}" />
-              </and>
-              <then>
-                <echo msg="Git master Branch Exists = true" />
+              <if>
+                <and>
+                  <isTrue value="${_git_master_branch_has_upstream}" />
+                </and>
+                <then>
+                  <echo msg="Git master Branch Has an Upstream = true" />
+                </then>
+                <else>
+                  <echo msg="Git master Branch Has an Upstream = false" />
+                </else>
+              </if>
+            </then>
+            <else>
+              <echo msg="Git master Branch Exists = false" />
+            </else>
+          </if>
 
-                <if>
-                  <and>
-                    <isTrue value="${_git_master_branch_has_upstream}" />
-                  </and>
-                  <then>
-                    <echo msg="Git master Branch Has an Upstream = true" />
-                  </then>
-                  <else>
-                    <echo msg="Git master Branch Has an Upstream = false" />
-                  </else>
-                </if>
-              </then>
-              <else>
-                <echo msg="Git master Branch Exists = false" />
-              </else>
-            </if>
+        </then>
+        <else>
+          <echo msg="Currently in a Git Repo = false" />
+        </else>
+      </if>
 
-          </then>
-          <else>
-            <echo msg="Currently in a Git Repo = false" />
-          </else>
-        </if>
+      <!-- Flag complete. -->
 
-        <!-- Flag complete. -->
+      <property name="_setups_preamble_display_complete" value="true" />
 
-        <property name="_setups_preamble_display_complete" value="true" />
+    </then>
+  </if>
 
-      </then>
-    </if>
-
-  </project>
+</project>

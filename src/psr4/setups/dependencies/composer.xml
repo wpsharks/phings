@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Install Composer. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Install Composer. -->
+  <!-- ============================================  -->
 
-    <if>
-      <not>
-        <available resource="${_deps_composer_path}" type="file" />
-      </not>
-      <then>
-        <echo />
+  <if>
+    <not>
+      <available resource="${_deps_composer_path}" type="file" />
+    </not>
+    <then>
+      <echo />
 
-        <echo msg="Installing Composer v${_deps_composer_version} dependency." />
-        <echo msg="Install path: ${_deps_composer_path}" />
+      <echo msg="Installing Composer v${_deps_composer_version} dependency." />
+      <echo msg="Install path: ${_deps_composer_path}" />
 
-        <if>
-          <not>
-            <available resource="${_deps_composer_path_dirname}" type="dir" />
-          </not>
-          <then>
-            <mkdir dir="${_deps_composer_path_dirname}" />
-          </then>
-        </if>
+      <if>
+        <not>
+          <available resource="${_deps_composer_path_dirname}" type="dir" />
+        </not>
+        <then>
+          <mkdir dir="${_deps_composer_path_dirname}" />
+        </then>
+      </if>
 
-        <if>
-          <and>
-            <isset property="env.CI" />
-          </and>
-          <then>
-            <exec command="which composer" checkReturn="true" outputProperty="_deps_which_composer" />
-            <symlink target="${_deps_which_composer}" link="${_deps_composer_path}" />
-          </then>
-          <else>
-            <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
-              <arg value="curl" />
-              <arg value="${_deps_composer_url}" />
-              <arg value="--location" />
-              <arg value="--output" />
-              <arg value="${_deps_composer_path}" />
-            </exec>
-            <chmod file="${_deps_composer_path}" mode="0744" />
-          </else>
-        </if>
+      <if>
+        <and>
+          <isset property="env.CI" />
+        </and>
+        <then>
+          <exec command="which composer" checkReturn="true" outputProperty="_deps_which_composer" />
+          <symlink target="${_deps_which_composer}" link="${_deps_composer_path}" />
+        </then>
+        <else>
+          <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
+            <arg value="curl" />
+            <arg value="${_deps_composer_url}" />
+            <arg value="--location" />
+            <arg value="--output" />
+            <arg value="${_deps_composer_path}" />
+          </exec>
+          <chmod file="${_deps_composer_path}" mode="0744" />
+        </else>
+      </if>
 
-      </then>
-    </if>
+    </then>
+  </if>
 
-  </project>
+</project>

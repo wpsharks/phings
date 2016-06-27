@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Ofuscate a slug for S3 storage. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Ofuscate a slug for S3 storage. -->
+  <!-- ============================================  -->
 
-    <adHoc-task name="adHocAwsS3ObfuscateSubPath">
-      <![CDATA[
-        class adHocAwsS3ObfuscateSubPath extends Task {
-            protected $base = '';
-            protected $slug = '';
-            protected $version = '';
-            protected $return_property = '';
+  <adHoc-task name="adHocAwsS3ObfuscateSubPath">
+    <![CDATA[
+      class adHocAwsS3ObfuscateSubPath extends Task {
+          protected $base = '';
+          protected $slug = '';
+          protected $version = '';
+          protected $return_property = '';
 
-            /* ---------------------------- */
+          /* ---------------------------- */
 
-            public function setBase($base) {
-                $this->base = trim((string) $base);
-                $this->base = trim($this->base, '/');
-            }
-            public function setSlug($slug) {
-                $this->slug = trim((string) $slug);
-            }
-            public function setVersion($version) {
-                $this->version = trim((string) $version);
-            }
-            public function setReturnProperty($return_property) {
-                $this->return_property = trim((string) $return_property);
-            }
-            /* ---------------------------- */
+          public function setBase($base) {
+              $this->base = trim((string) $base);
+              $this->base = trim($this->base, '/');
+          }
+          public function setSlug($slug) {
+              $this->slug = trim((string) $slug);
+          }
+          public function setVersion($version) {
+              $this->version = trim((string) $version);
+          }
+          public function setReturnProperty($return_property) {
+              $this->return_property = trim((string) $return_property);
+          }
+          /* ---------------------------- */
 
-            public function main() {
-                if (!$this->base) {
-                    return; // Not possible.
-                } elseif (!$this->slug) {
-                    return; // Not possible.
-                } elseif (!$this->return_property) {
-                    return; // Not possible.
-                }
-                $string_to_sign = $this->base.'/'.$this->slug;
-                $salt           = $this->project->getProperty('_ws_json.phings.aws.salt');
-                $hash           = substr(hash_hmac('sha256', $string_to_sign, $salt), 0, 15);
+          public function main() {
+              if (!$this->base) {
+                  return; // Not possible.
+              } elseif (!$this->slug) {
+                  return; // Not possible.
+              } elseif (!$this->return_property) {
+                  return; // Not possible.
+              }
+              $string_to_sign = $this->base.'/'.$this->slug;
+              $salt           = $this->project->getProperty('_ws_json.phings.aws.salt');
+              $hash           = substr(hash_hmac('sha256', $string_to_sign, $salt), 0, 15);
 
-                $obfuscated  = $this->base.'/'.$this->slug.'/'.$hash; // e.g., `[hash].zip`
-                $obfuscated .= $this->version ? '/v'.$this->version : ''; // e.g., `[hash]/v[version].zip`
+              $obfuscated  = $this->base.'/'.$this->slug.'/'.$hash; // e.g., `[hash].zip`
+              $obfuscated .= $this->version ? '/v'.$this->version : ''; // e.g., `[hash]/v[version].zip`
 
-                $this->project->setProperty($this->return_property, $obfuscated);
-            }
-        }
-      ]]>
-    </adHoc-task>
+              $this->project->setProperty($this->return_property, $obfuscated);
+          }
+      }
+    ]]>
+  </adHoc-task>
 
-  </project>
+</project>

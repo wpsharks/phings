@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Require a git repo w/ dev & master branches. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Require a git repo w/ dev & master branches. -->
+  <!-- ============================================  -->
 
-    <target name="-validations-git-repo-has-dev-master" hidden="true">
+  <target name="-validations-git-repo-has-dev-master" hidden="true">
 
-      <!-- Make sure the repo has both a dev and master branch.  -->
+    <!-- Make sure the repo has both a dev and master branch.  -->
 
-      <if>
-        <or>
-          <isFalse value="${_git_dev_branch_exists}" />
-          <isFalse value="${_git_master_branch_exists}" />
-        </or>
-        <then>
-          <fail msg="Missing dev and/or master branches. Both are required for our Git workflow please." />
-        </then>
-      </if>
+    <if>
+      <or>
+        <isFalse value="${_git_dev_branch_exists}" />
+        <isFalse value="${_git_master_branch_exists}" />
+      </or>
+      <then>
+        <fail msg="Missing dev and/or master branches. Both are required for our Git workflow please." />
+      </then>
+    </if>
 
-      <!-- Make sure the dev and master branches have an upstream. -->
+    <!-- Make sure the dev and master branches have an upstream. -->
 
-      <if>
-        <or>
-          <isFalse value="${_git_dev_branch_has_upstream}" />
-          <isFalse value="${_git_master_branch_has_upstream}" />
-        </or>
-        <then>
-          <fail msg="The dev and/or master branches do not have an upstream tracking branch yet. Please run `git branch --set-upstream-to ...` and try again." />
-        </then>
-      </if>
+    <if>
+      <or>
+        <isFalse value="${_git_dev_branch_has_upstream}" />
+        <isFalse value="${_git_master_branch_has_upstream}" />
+      </or>
+      <then>
+        <fail msg="The dev and/or master branches do not have an upstream tracking branch yet. Please run `git branch --set-upstream-to ...` and try again." />
+      </then>
+    </if>
 
-      <!-- Indicate no validation issues. -->
+    <!-- Indicate no validation issues. -->
 
-      <echo msg="No validation problems. Continuing without issue." />
+    <echo msg="No validation problems. Continuing without issue." />
 
-    </target>
+  </target>
 
-  </project>
+</project>

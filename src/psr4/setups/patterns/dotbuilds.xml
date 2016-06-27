@@ -1,28 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Dotbuilds pattern set. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Dotbuilds pattern set. -->
+  <!-- Depends on: `_alter_ignore_pattern_set`. -->
+  <!-- ============================================  -->
 
-    <patternSet id="_dotbuilds_pattern_set">
+  <patternSet id="_dotbuilds_pattern_set">
 
-      <exclude pattern=".~build/**" />
-      <exclude pattern="**/.~build/**" />
+    <include pattern=".build.php" />
+    <include pattern="**/.build.php" />
 
-      <exclude pattern="phings/**" />
-      <exclude pattern="**/phings/**" />
+  </patternSet>
 
-      <exclude pattern="vendor/**" />
-      <exclude pattern="**/vendor/**" />
-
-      <exclude pattern="bourbon/**" />
-      <exclude pattern="**/bourbon/**" />
-
-      <include pattern=".build.php" />
-      <include pattern="**/.build.php" />
-
-    </patternSet>
-
-  </project>
+</project>

@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Lite generation (build). -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Lite generation (build). -->
+  <!-- ============================================  -->
 
-    <target name="-variations-lite-build" hidden="true">
+  <target name="-variations-lite-build" hidden="true">
 
-      <if>
-        <and>
-          <not>
-            <isset property="_is_lite_build" />
-          </not>
-          <isTrue value="${_has_lite_build_props}" />
-        </and>
-        <then>
-          <!-- Build lite variation w/ target `build`. -->
+    <if>
+      <and>
+        <not>
+          <isset property="_doing_lite_build" />
+        </not>
+        <isTrue value="${_has_lite_variation}" />
+      </and>
+      <then>
+        <!-- Build lite variation w/ target `build`. -->
 
-          <echo msg="Building lite variation from: ${project.basedir}/.~build/${project_lite_slug}/build.xml" />
+        <echo msg="Building lite variation from: ${project.basedir}/.~build/${project_lite_slug}/build.xml" />
 
-          <phingCall target="-variations-lite-prepare" />
+        <phingCall target="-variations-lite-prepare" />
 
-          <echo />
+        <echo />
 
-          <echo msg="Running lite build by starting over with modified .build.props ..." />
+        <echo msg="Running lite build by starting over with modified .build.props ..." />
 
-          <echo />
+        <echo />
 
-          <phing phingFile="${project.basedir}/.~build/${project_lite_slug}/build.xml" target="build" inheritAll="false" inheritRefs="false" haltOnFailure="true">
-            <property name="_is_lite_build" value="true" />
-          </phing>
+        <phing phingFile="${project.basedir}/.~build/${project_lite_slug}/build.xml" target="build" inheritAll="false" inheritRefs="false" haltOnFailure="true">
+          <property name="_doing_lite_build" value="true" />
+        </phing>
 
-        </then>
-        <else>
-          <echo msg="N/A: skipping lite variation build." />
-        </else>
-      </if>
+      </then>
+      <else>
+        <echo msg="N/A: skipping lite variation build." />
+      </else>
+    </if>
 
-    </target>
+  </target>
 
-    <!-- ============================================  -->
-    <!-- Lite generation (full build). -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Lite generation (full build). -->
+  <!-- ============================================  -->
 
-    <target name="-variations-lite-full-build" hidden="true">
+  <target name="-variations-lite-full-build" hidden="true">
 
-      <if>
-        <and>
-          <not>
-            <isset property="_is_lite_build" />
-          </not>
-          <isTrue value="${_has_lite_build_props}" />
-        </and>
-        <then>
-          <!-- Build lite variation w/ target `full-build`. -->
+    <if>
+      <and>
+        <not>
+          <isset property="_doing_lite_build" />
+        </not>
+        <isTrue value="${_has_lite_variation}" />
+      </and>
+      <then>
+        <!-- Build lite variation w/ target `full-build`. -->
 
-          <echo msg="Building lite variation from: ${project.basedir}/.~build/${project_lite_slug}/build.xml" />
+        <echo msg="Building lite variation from: ${project.basedir}/.~build/${project_lite_slug}/build.xml" />
 
-          <phingCall target="-variations-lite-prepare" />
+        <phingCall target="-variations-lite-prepare" />
 
-          <echo />
+        <echo />
 
-          <echo msg="Running lite build by starting over with modified .build.props ..." />
+        <echo msg="Running lite build by starting over with modified .build.props ..." />
 
-          <echo />
+        <echo />
 
-          <phing phingFile="${project.basedir}/.~build/${project_lite_slug}/build.xml" target="full-build" inheritAll="false" inheritRefs="false" haltOnFailure="true">
-            <property name="_is_lite_build" value="true" />
-          </phing>
+        <phing phingFile="${project.basedir}/.~build/${project_lite_slug}/build.xml" target="full-build" inheritAll="false" inheritRefs="false" haltOnFailure="true">
+          <property name="_doing_lite_build" value="true" />
+        </phing>
 
-        </then>
-        <else>
-          <echo msg="N/A: skipping lite variation full build." />
-        </else>
-      </if>
+      </then>
+      <else>
+        <echo msg="N/A: skipping lite variation full build." />
+      </else>
+    </if>
 
-    </target>
+  </target>
 
-  </project>
+</project>

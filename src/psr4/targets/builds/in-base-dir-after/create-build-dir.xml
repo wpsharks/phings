@@ -1,39 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Create the .~build directory. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Create the .~build directory. -->
+  <!-- ============================================  -->
 
-    <target name="-builds-in-base-dir-after-create-build-dir" hidden="true">
+  <target name="-builds-in-base-dir-after-create-build-dir" hidden="true">
 
-      <if>
-        <and>
-          <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
-        </and>
-        <then>
-          <delete dir="${project.basedir}/.~build/${project_slug}" includeEmptyDirs="true" quiet="true" />
+    <if>
+      <and>
+        <available resource="${project.basedir}/.~build/${project_slug}" type="dir" />
+      </and>
+      <then>
+        <delete dir="${project.basedir}/.~build/${project_slug}" includeEmptyDirs="true" quiet="true" />
 
-          <echo />
-        </then>
-      </if>
+        <echo />
+      </then>
+    </if>
 
-      <mkdir dir="${project.basedir}/.~build/${project_slug}" />
+    <mkdir dir="${project.basedir}/.~build/${project_slug}" />
 
-      <copy toDir="${project.basedir}/.~build/${project_slug}">
-        <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
-          <exclude pattern=".git" />
-          <exclude pattern=".git/**" />
+    <copy toDir="${project.basedir}/.~build/${project_slug}">
+      <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
+        <exclude pattern=".git/**" />
+        <exclude pattern=".~build/**" />
+        <exclude pattern="phings/**" />
+      </fileSet>
+    </copy>
 
-          <exclude pattern=".~build" />
-          <exclude pattern=".~build/**" />
+  </target>
 
-          <exclude pattern="phings" />
-          <exclude pattern="phings/**" />
-        </fileSet>
-      </copy>
-
-    </target>
-
-  </project>
+</project>

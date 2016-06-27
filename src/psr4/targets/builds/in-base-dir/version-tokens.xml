@@ -13,7 +13,9 @@
     <echo msg="Replacing PHP/JS/CSS/SCSS version tokens in: ${project.basedir}" />
 
     <reflexive>
-      <fileSet dir="${project.basedir}" caseSensitive="false">
+      <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
+        <patternSet refId="_git_ignore_pattern_set" />
+        <patternSet refId="_alter_ignore_pattern_set" />
         <patternSet refId="_token_pattern_set" />
       </fileSet>
       <filterChain>
@@ -34,7 +36,7 @@
           <regExp pattern='"[^"]*?"([,;])\s*\/\/php\-up\-to\-version\/\/$' replace='"${project_php_tested_up_to_version}"$1 //php-up-to-version//' modifiers="um" />
 
           <regExp pattern="\b[0-9]+([,;])\s*\/\/php\-required\-bits\/\/$" replace="${project_php_required_bits}$1 //php-required-bits//" modifiers="um" />
-          <regExp pattern="\barray\s*\([^()]*\)([,;])\s*\/\/php\-required\-extensions\/\/" replace="array(${_php_required_extensions})$1 //php-required-extensions//" modifiers="u" />
+          <regExp pattern="\barray\s*\([^()]*\)([,;])\s*\/\/php\-required\-extensions\/\/" replace="array(${_project_php_required_extensions})$1 //php-required-extensions//" modifiers="u" />
         </replaceRegExp>
       </filterChain>
     </reflexive>
@@ -50,7 +52,9 @@
         <echo msg="Replacing PHP/JS/CSS/SCSS @since version tokens in: ${project.basedir}" />
 
         <reflexive>
-          <fileSet dir="${project.basedir}" caseSensitive="false">
+          <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
+            <patternSet refId="_git_ignore_pattern_set" />
+            <patternSet refId="_alter_ignore_pattern_set" />
             <patternSet refId="_token_pattern_set" />
           </fileSet>
           <filterChain>
@@ -69,7 +73,7 @@
     <echo msg="Replacing README/CHANGELOG version tokens: ${project.basedir}" />
 
     <reflexive>
-      <fileSet dir="${project.basedir}" caseSensitive="false">
+      <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
         <include pattern="README.md" />
         <include pattern="CHANGELOG.md" />
       </fileSet>
@@ -93,7 +97,9 @@
         <echo msg="Replacing WP version headers in: ${project.basedir}" />
 
         <reflexive>
-          <fileSet dir="${project.basedir}" caseSensitive="false">
+          <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
+            <patternSet refId="_git_ignore_pattern_set" />
+            <patternSet refId="_alter_ignore_pattern_set" />
             <patternSet refId="_wp_token_pattern_set" />
           </fileSet>
           <filterChain>
@@ -116,7 +122,9 @@
           </and>
           <then>
             <reflexive>
-              <fileSet dir="${project.basedir}" caseSensitive="false">
+              <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
+                <patternSet refId="_git_ignore_pattern_set" />
+                <patternSet refId="_alter_ignore_pattern_set" />
                 <patternSet refId="_wp_token_pattern_set" />
               </fileSet>
               <filterChain>
@@ -145,7 +153,9 @@
         <echo msg="Replacing WP version tokens in: ${project.basedir}" />
 
         <reflexive>
-          <fileSet dir="${project.basedir}" caseSensitive="false">
+          <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
+            <patternSet refId="_git_ignore_pattern_set" />
+            <patternSet refId="_alter_ignore_pattern_set" />
             <patternSet refId="_token_pattern_set" />
           </fileSet>
           <filterChain>
@@ -165,7 +175,9 @@
           </and>
           <then>
             <reflexive>
-              <fileSet dir="${project.basedir}" caseSensitive="false">
+              <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
+                <patternSet refId="_git_ignore_pattern_set" />
+                <patternSet refId="_alter_ignore_pattern_set" />
                 <patternSet refId="_token_pattern_set" />
               </fileSet>
               <filterChain>

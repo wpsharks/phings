@@ -9,21 +9,21 @@ _These are **required** if you're a project lead. Contact @jaswsinc or @raamdev 
 ```json
 {
   "phings": {
-      "github": {
-        "username": "",
-        "email": "",
-        "api_key": ""
-      },
-      "aws": {
-        "access_key": "",
-        "secret_key": "",
-        "salt": ""
-      },
-      "slack": {
-        "username": "",
-        "email": "",
-        "api_webhook_url": ""
-      }
+    "github": {
+      "username": "jaswsinc",
+      "email": "jaswsinc@xxxxxxx.xxx",
+      "api_key": "xxxxxxxxxxxxxxxxxxxxxx"
+    },
+    "aws": {
+      "access_key": "xxxxxxxxxxxxxxxxxxxxxx",
+      "secret_key": "xxxxxxxxxxxxxxxxxxxxxx",
+      "salt": "xxxxxxxxxxxxxxxxxxxxxx"
+    },
+    "slack": {
+      "username": "jaswsinc",
+      "email": "jaswsinc@xxxxxxx.xxx",
+      "api_webhook_url": "https://..."
     }
+  }
 }
 ```

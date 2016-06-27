@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Install PHPUnit. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Install PHPUnit. -->
+  <!-- ============================================  -->
 
-    <if>
-      <not>
-        <available resource="${_deps_phpunit_path}" type="file" />
-      </not>
-      <then>
-        <echo />
+  <if>
+    <not>
+      <available resource="${_deps_phpunit_path}" type="file" />
+    </not>
+    <then>
+      <echo />
 
-        <echo msg="Installing PHPUnit v${_deps_phpunit_version} dependency." />
-        <echo msg="Install path: ${_deps_phpunit_path}" />
+      <echo msg="Installing PHPUnit v${_deps_phpunit_version} dependency." />
+      <echo msg="Install path: ${_deps_phpunit_path}" />
 
-        <if>
-          <not>
-            <available resource="${_deps_phpunit_path_dirname}" type="dir" />
-          </not>
-          <then>
-            <mkdir dir="${_deps_phpunit_path_dirname}" />
-          </then>
-        </if>
+      <if>
+        <not>
+          <available resource="${_deps_phpunit_path_dirname}" type="dir" />
+        </not>
+        <then>
+          <mkdir dir="${_deps_phpunit_path_dirname}" />
+        </then>
+      </if>
 
-        <if>
-          <and>
-            <isset property="env.CI" />
-          </and>
-          <then>
-            <exec command="which phpunit" checkReturn="true" outputProperty="_deps_which_phpunit" />
-            <symlink target="${_deps_which_phpunit}" link="${_deps_phpunit_path}" />
-          </then>
-          <else>
-            <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
-              <arg value="curl" />
-              <arg value="${_deps_phpunit_url}" />
-              <arg value="--location" />
-              <arg value="--output" />
-              <arg value="${_deps_phpunit_path}" />
-            </exec>
-            <chmod file="${_deps_phpunit_path}" mode="0744" />
-          </else>
-        </if>
+      <if>
+        <and>
+          <isset property="env.CI" />
+        </and>
+        <then>
+          <exec command="which phpunit" checkReturn="true" outputProperty="_deps_which_phpunit" />
+          <symlink target="${_deps_which_phpunit}" link="${_deps_phpunit_path}" />
+        </then>
+        <else>
+          <exec executable="/usr/bin/env" passthru="true" checkReturn="true">
+            <arg value="curl" />
+            <arg value="${_deps_phpunit_url}" />
+            <arg value="--location" />
+            <arg value="--output" />
+            <arg value="${_deps_phpunit_path}" />
+          </exec>
+          <chmod file="${_deps_phpunit_path}" mode="0744" />
+        </else>
+      </if>
 
-      </then>
-    </if>
+    </then>
+  </if>
 
-  </project>
+</project>

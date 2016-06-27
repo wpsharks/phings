@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Codex generation. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Codex generation. -->
+  <!-- ============================================  -->
 
-    <target name="-codex-apigen" depends="-validations-existing-build" hidden="true">
+  <target name="-codex-apigen" depends="-validations-existing-build" hidden="true">
 
-      <!-- Use the existing `${project_version}`. -->
+    <!-- Use the existing `${project_version}`. -->
 
-      <loadfile property="project_version" file="${project.basedir}/.~build/.~/properties/project-version" />
-      <echo msg="Project version for existing build: ${project_version}" />
+    <loadfile property="project_version" file="${project.basedir}/.~build/.~/properties/project-version" />
+    <echo msg="Project version for existing build: ${project_version}" />
 
-      <!-- Codex generation; i.e., run APIgen. -->
+    <!-- Codex generation; i.e., run APIgen. -->
 
-      <echo />
+    <echo />
 
-      <echo msg="Running ApiGen (i.e., building codex)." />
+    <echo msg="Running ApiGen (i.e., building codex)." />
 
-      <echo />
+    <echo />
 
-      <delete dir="${project.basedir}/.~build/${project_slug}-codex" includeEmptyDirs="true" quiet="true" />
+    <delete dir="${project.basedir}/.~build/${project_slug}-codex" includeEmptyDirs="true" quiet="true" />
 
-      <echo />
+    <echo />
 
-      <exec executable="${_deps_apigen_path}" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkReturn="true">
-        <arg value="generate" />
+    <exec executable="${_deps_apigen_path}" dir="${project.basedir}/.~build/${project_slug}" passthru="true" checkReturn="true">
+      <arg value="generate" />
 
-        <arg value="--source" />
-        <arg value="${project.basedir}/.~build/${project_slug}" />
+      <arg value="--source" />
+      <arg value="${project.basedir}/.~build/${project_slug}" />
 
-        <arg value="--destination" />
-        <arg value="${project.basedir}/.~build/${project_slug}-codex" />
+      <arg value="--destination" />
+      <arg value="${project.basedir}/.~build/${project_slug}-codex" />
 
-        <arg value="--title" />
-        <arg value="${project_title}" />
+      <arg value="--title" />
+      <arg value="${project_title}" />
 
-        <arg value="--exclude" />
-        <arg value="${_codex_ignore}" />
+      <arg value="--exclude" />
+      <arg value="${_codex_ignore}" />
 
-        <arg value="--download" />
-        <arg value="--deprecated" />
-        <arg value="--todo" />
-        <arg value="--debug" />
-      </exec>
+      <arg value="--download" />
+      <arg value="--deprecated" />
+      <arg value="--todo" />
+      <arg value="--debug" />
+    </exec>
 
-    </target>
+  </target>
 
-  </project>
+</project>

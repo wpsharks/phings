@@ -1,150 +1,150 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- Upload bleeding edge distros. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- Upload bleeding edge distros. -->
+  <!-- ============================================  -->
 
-    <target name="-uploads-bleeding-edge" depends="-validations-existing-build,-validations-aws-cli-credentials" hidden="true">
+  <target name="-uploads-bleeding-edge" depends="-validations-existing-build,-validations-aws-cli-credentials,-validations-slack-credentials" hidden="true">
 
-      <!-- Use the existing `${project_version}`. -->
+    <!-- Use the existing `${project_version}`. -->
 
-      <loadfile property="project_version" file="${project.basedir}/.~build/.~/properties/project-version" />
-      <echo msg="Project version for existing build: ${project_version}" />
+    <loadfile property="project_version" file="${project.basedir}/.~build/.~/properties/project-version" />
+    <echo msg="Project version for existing build: ${project_version}" />
 
-      <!-- Convey what is about to happen below. -->
-      <echo />
-      <echo msg="Uploading distros to Amazon S3/CloudFront storage ..." />
+    <!-- Convey what is about to happen below. -->
+    <echo />
+    <echo msg="Uploading distros to Amazon S3/CloudFront storage ..." />
 
-      <!-- Delete existing URL files before we begin. -->
-      <if>
-        <and>
-          <available resource="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" type="file" />
-        </and>
-        <then>
-          <echo />
-          <delete file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" quiet="true" />
-        </then>
-      </if>
+    <!-- Delete existing URL files before we begin. -->
+    <if>
+      <and>
+        <available resource="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" type="file" />
+      </and>
+      <then>
+        <echo />
+        <delete file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" quiet="true" />
+      </then>
+    </if>
 
-      <!-- Obfuscate the project sub-path for more secure S3 storage. -->
+    <!-- Obfuscate the project sub-path for more secure S3 storage. -->
 
-      <adHocAwsS3ObfuscateSubPath base="software/bleeding-edge" slug="${project_slug}" returnProperty="_uploads_bleeding_edge_sub_path" />
+    <adHocAwsS3ObfuscateSubPath base="software/bleeding-edge" slug="${project_slug}" returnProperty="_uploads_bleeding_edge_sub_path" />
 
-      <!-- Upload distros as bleeding edge packages to assist with testing. -->
+    <!-- Upload distros as bleeding edge packages to assist with testing. -->
 
-      <forEach list="zip,tar.gz,phar" delimiter="," target="--uploads-bleeding-edge-extension" param="__uploads_bleeding_edge_extension" />
+    <forEach list="zip,tar.gz,phar" delimiter="," target="--uploads-bleeding-edge-extension" param="__uploads_bleeding_edge_extension" />
 
-      <!-- Also upload a `${project_slug}/version.txt` file we can query. -->
+    <!-- Also upload a `${project_slug}/version.txt` file we can query. -->
 
-      <phingCall target="--uploads-bleeding-edge-version" />
+    <phingCall target="--uploads-bleeding-edge-version" />
 
-      <!-- Possible lite bleeding edge uploads. -->
-      <if>
-        <and>
-          <not>
-            <isset property="_is_lite_build" />
-          </not>
-          <isTrue value="${_has_lite_build_props}" />
-        </and>
-        <then>
-          <phingCall target="-uploads-lite-bleeding-edge" />
-        </then>
-      </if>
-      <!-- Notify operator about clipboard contents. -->
+    <!-- Possible lite bleeding edge uploads. -->
+    <if>
+      <and>
+        <not>
+          <isset property="_doing_lite_build" />
+        </not>
+        <isTrue value="${_has_lite_variation}" />
+      </and>
+      <then>
+        <phingCall target="-uploads-lite-bleeding-edge" />
+      </then>
+    </if>
+    <!-- Notify operator about clipboard contents. -->
 
-      <phingCall target="-uploads-bleeding-edge-finale" />
+    <phingCall target="-uploads-bleeding-edge-finale" />
 
-    </target>
+  </target>
 
-    <!-- This target is used by the foreach loop above to reduce the amount of code we need to maintain. -->
+  <!-- This target is used by the foreach loop above to reduce the amount of code we need to maintain. -->
 
-    <target name="--uploads-bleeding-edge-extension">
-      <if>
-        <and>
-          <available resource="${project.basedir}/.~build/${project_slug}.${__uploads_bleeding_edge_extension}" type="file" />
-        </and>
-        <then>
-          <!-- Determine the MIME type based on the extension. -->
+  <target name="--uploads-bleeding-edge-extension" hidden="true">
+    <if>
+      <and>
+        <available resource="${project.basedir}/.~build/${project_slug}.${__uploads_bleeding_edge_extension}" type="file" />
+      </and>
+      <then>
+        <!-- Determine the MIME type based on the extension. -->
 
-          <if>
-            <equals arg1="${__uploads_bleeding_edge_extension}" arg2="zip" />
+        <if>
+          <equals arg1="${__uploads_bleeding_edge_extension}" arg2="zip" />
+          <then>
+            <property name="__uploads_bleeding_edge_mime_type" value="application/zip" />
+          </then>
+          <elseif>
+            <equals arg1="${__uploads_bleeding_edge_extension}" arg2="tar.gz" />
             <then>
-              <property name="__uploads_bleeding_edge_mime_type" value="application/zip" />
+              <property name="__uploads_bleeding_edge_mime_type" value="application/gzip" />
             </then>
-            <elseif>
-              <equals arg1="${__uploads_bleeding_edge_extension}" arg2="tar.gz" />
-              <then>
-                <property name="__uploads_bleeding_edge_mime_type" value="application/gzip" />
-              </then>
-            </elseif>
-            <elseif>
-              <equals arg1="${__uploads_bleeding_edge_extension}" arg2="phar" />
-              <then>
-                <property name="__uploads_bleeding_edge_mime_type" value="application/x-phar" />
-              </then>
-            </elseif>
-            <else>
-              <fail msg="Unexpected file extension: ${__uploads_bleeding_edge_extension}" />
-            </else>
-          </if>
-          <!-- Upload a bleeding edge distro based on extension and MIME type. -->
+          </elseif>
+          <elseif>
+            <equals arg1="${__uploads_bleeding_edge_extension}" arg2="phar" />
+            <then>
+              <property name="__uploads_bleeding_edge_mime_type" value="application/x-phar" />
+            </then>
+          </elseif>
+          <else>
+            <fail msg="Unexpected file extension: ${__uploads_bleeding_edge_extension}" />
+          </else>
+        </if>
+        <!-- Upload a bleeding edge distro based on extension and MIME type. -->
 
-          <exec executable="aws" passthru="true" checkReturn="true">
-            <arg value="--profile" />
-            <arg value="websharks" />
+        <exec executable="aws" passthru="true" checkReturn="true">
+          <arg value="--profile" />
+          <arg value="websharks" />
 
-            <arg value="s3" />
-            <arg value="cp" />
+          <arg value="s3" />
+          <arg value="cp" />
 
-            <arg value="${project.basedir}/.~build/${project_slug}.${__uploads_bleeding_edge_extension}" />
-            <arg value="s3://${_aws_bucket}/cloudfront/${_uploads_bleeding_edge_sub_path}.${__uploads_bleeding_edge_extension}" />
+          <arg value="${project.basedir}/.~build/${project_slug}.${__uploads_bleeding_edge_extension}" />
+          <arg value="s3://${_aws_bucket}/cloudfront/${_uploads_bleeding_edge_sub_path}.${__uploads_bleeding_edge_extension}" />
 
-            <arg value="--metadata" />
-            <arg value="version=${project_version}" />
+          <arg value="--metadata" />
+          <arg value="version=${project_version}" />
 
-            <arg value="--content-type" />
-            <arg value="${__uploads_bleeding_edge_mime_type}" />
+          <arg value="--content-type" />
+          <arg value="${__uploads_bleeding_edge_mime_type}" />
 
-            <arg value="--content-disposition" />
-            <arg value='attachment; filename="${project_slug}.bleeding-edge.${__uploads_bleeding_edge_extension}"' />
-          </exec>
-          <echo msg="https://${_aws_bucket_cname}/${_uploads_bleeding_edge_sub_path}.${__uploads_bleeding_edge_extension}" />
+          <arg value="--content-disposition" />
+          <arg value='attachment; filename="${project_slug}.bleeding-edge.${__uploads_bleeding_edge_extension}"' />
+        </exec>
+        <echo msg="https://${_aws_bucket_cname}/${_uploads_bleeding_edge_sub_path}.${__uploads_bleeding_edge_extension}" />
 
-          <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" append="true" />
-          <echo msg="https://${_aws_bucket_cname}/${_uploads_bleeding_edge_sub_path}.${__uploads_bleeding_edge_extension}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" append="true" />
-        </then>
+        <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" append="true" />
+        <echo msg="https://${_aws_bucket_cname}/${_uploads_bleeding_edge_sub_path}.${__uploads_bleeding_edge_extension}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" append="true" />
+      </then>
 
-        <else>
-          <echo msg="Distro with extension `.${__uploads_bleeding_edge_extension}` does not exist. Bypassing." />
-        </else>
-      </if>
-    </target>
+      <else>
+        <echo msg="Distro with extension `.${__uploads_bleeding_edge_extension}` does not exist. Bypassing." />
+      </else>
+    </if>
+  </target>
 
-    <!-- Uploads a `${project_slug}/version.txt` file we can query. -->
+  <!-- Uploads a `${project_slug}/version.txt` file we can query. -->
 
-    <target name="--uploads-bleeding-edge-version">
-      <exec executable="aws" passthru="true" checkReturn="true">
-        <arg value="--profile" />
-        <arg value="websharks" />
+  <target name="--uploads-bleeding-edge-version" hidden="true">
+    <exec executable="aws" passthru="true" checkReturn="true">
+      <arg value="--profile" />
+      <arg value="websharks" />
 
-        <arg value="s3" />
-        <arg value="cp" />
+      <arg value="s3" />
+      <arg value="cp" />
 
-        <arg value="${project.basedir}/.~build/.~/properties/project-version" />
-        <arg value="s3://${_aws_bucket}/cloudfront/software/bleeding-edge/${project_slug}/version.txt" />
+      <arg value="${project.basedir}/.~build/.~/properties/project-version" />
+      <arg value="s3://${_aws_bucket}/cloudfront/software/bleeding-edge/${project_slug}/version.txt" />
 
-        <arg value="--metadata" />
-        <arg value="version=${project_version}" />
+      <arg value="--metadata" />
+      <arg value="version=${project_version}" />
 
-        <arg value="--content-type" />
-        <arg value="text/plain; charset=utf-8" />
-      </exec>
-      <echo msg="https://${_aws_bucket_cname}/software/bleeding-edge/${project_slug}/version.txt" />
+      <arg value="--content-type" />
+      <arg value="text/plain; charset=utf-8" />
+    </exec>
+    <echo msg="https://${_aws_bucket_cname}/software/bleeding-edge/${project_slug}/version.txt" />
 
-      <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" append="true" />
-      <echo msg="https://${_aws_bucket_cname}/software/bleeding-edge/${project_slug}/version.txt${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" append="true" />
-    </target>
+    <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" append="true" />
+    <echo msg="https://${_aws_bucket_cname}/software/bleeding-edge/${project_slug}/version.txt${line.separator}" file="${_tmp_sub_dir}/${project_slug}-bleeding-edge-urls" append="true" />
+  </target>
 
-  </project>
+</project>

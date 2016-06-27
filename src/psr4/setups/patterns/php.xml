@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-  <project>
+<project>
 
-    <!-- ============================================  -->
-    <!-- PHP pattern set. -->
-    <!-- ============================================  -->
+  <!-- ============================================  -->
+  <!-- PHP pattern set. -->
+  <!-- Depends on: `_alter_ignore_pattern_set`. -->
+  <!-- ============================================  -->
 
-    <patternSet id="_php_pattern_set">
+  <patternSet id="_php_pattern_set">
 
-      <exclude pattern=".~build/**" />
-      <exclude pattern="**/.~build/**" />
+    <include pattern="*.php" />
+    <include pattern="**/**.php" />
 
-      <exclude pattern="phings/**" />
-      <exclude pattern="**/phings/**" />
+    <include pattern="*.phps" />
+    <include pattern="**/**.phps" />
 
-      <exclude pattern="vendor/**" />
-      <exclude pattern="**/vendor/**" />
+    <include pattern="*.x-php" />
+    <include pattern="**/**.x-php" />
 
-      <exclude pattern="bourbon/**" />
-      <exclude pattern="**/bourbon/**" />
+  </patternSet>
 
-      <include pattern="*.php" />
-      <include pattern="**/**.php" />
-
-      <include pattern="*.x-php" />
-      <include pattern="**/**.x-php" />
-
-    </patternSet>
-
-  </project>
+</project>
