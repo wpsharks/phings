@@ -10,16 +10,25 @@
 ### Additional Changes in This Release
 
 - **New Wiki Article:** https://github.com/websharks/phings/wiki/Build-Props
-- **New Feature:** If you're on a Mac and you have [`terminal-notifier`]() installed, a completion notification will now be displayed on success. Chances are, you already have this installed. You can type `$ which terminal-notifier` to check. If not, install it via Homebrew by typing: `$ brew install terminal-notifier`
+
+- **New Feature:** If you're on a Mac and you have [`terminal-notifier`](https://github.com/julienXX/terminal-notifier) installed, a completion notification will now be displayed on success. Chances are, you already have this installed. You can type `$ which terminal-notifier` to check. If not, install it via Homebrew by typing: `$ brew install terminal-notifier`. Note also that Terminal Notifier can be configured from your system settings on a Mac; i.e., you can disable this if you'd like, or silence them, etc. See: **System Preferences → Notifications → `terminal-notifier`** for details.
+
 - Reorganized all pattern sets. Now using a layered approach that is based on our `.gitignore` and `.gitattributes` file for better consistency and easier maintenance.
+
 - Adding `defaultExcludes="false"` to all `<fileSet>` tags now that there is a more comprehensive approach being taken with exclusions (i.e., pattern sets were drastically improved in this release).
+
 - Refactor: `_is_wp_core_framework_project` now `_is_core_project`.
 - Refactor: `_is_lite_build` now `_doing_lite_build`.
 - Refactor: `_has_lite_build_props` now `_has_lite_variation`.
+
 - Adding GitHub credential validator. Now required to finish a release.
+
 - Adding Slack credential validator. Now required to finish a release or update bleeding edge.
+
 - Correcting indentation in all files; i.e., no need to indent inside `<?xml>` tag.
+
 - Adding `phingVersion="2.14.0"` to main project; i.e., this version of Phing is now a strict requirement.
+
 - Bug fix. The `_target` property during a lite-only build should be set to `build-lite`.
 
 ## v160624.36916
