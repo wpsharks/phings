@@ -8,9 +8,9 @@
 
   <target name="-builds-in-base-dir-version-tokens" hidden="true">
 
-    <!-- PHP/JS/CSS/SCSS token replacements. -->
+    <!-- PHP/JS/CSS/SCSS/BASH token replacements. -->
 
-    <echo msg="Replacing PHP/JS/CSS/SCSS version tokens in: ${project.basedir}" />
+    <echo msg="Replacing PHP/JS/CSS/SCSS/BASH version tokens in: ${project.basedir}" />
 
     <reflexive>
       <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
@@ -20,28 +20,28 @@
       </fileSet>
       <filterChain>
         <replaceRegExp>
-          <regExp pattern="'[^']*?'([,;])\s*\/\/v\/\/$" replace="'${project_version}'$1 //v//" modifiers="um" />
-          <regExp pattern='"[^"]*?"([,;])\s*\/\/v\/\/$' replace='"${project_version}"$1 //v//' modifiers="um" />
+          <regExp pattern="'[^']*?'([,;]\s*)(#\s*)?\/\/v\/\/$" replace="'${project_version}'$1$2//v//" modifiers="um" />
+          <regExp pattern='"[^"]*?"([,;]\s*)(#\s*)?\/\/v\/\/$' replace='"${project_version}"$1$2//v//' modifiers="um" />
 
-          <regExp pattern="'[^']*?'([,;])\s*\/\/version\/\/$" replace="'${project_version}'$1 //version//" modifiers="um" />
-          <regExp pattern='"[^"]*?"([,;])\s*\/\/version\/\/$' replace='"${project_version}"$1 //version//' modifiers="um" />
+          <regExp pattern="'[^']*?'([,;]\s*)(#\s*)?\/\/version\/\/$" replace="'${project_version}'$1$2//version//" modifiers="um" />
+          <regExp pattern='"[^"]*?"([,;]\s*)(#\s*)?\/\/version\/\/$' replace='"${project_version}"$1$2//version//' modifiers="um" />
 
-          <regExp pattern="'[^']*?'([,;])\s*\/\/os\-required\/\/$" replace="'${project_required_os}'$1 //os-required//" modifiers="um" />
-          <regExp pattern='"[^"]*?"([,;])\s*\/\/os\-required\/\/$' replace='"${project_required_os}"$1 //os-required//' modifiers="um" />
+          <regExp pattern="'[^']*?'([,;]\s*)(#\s*)?\/\/os\-required\/\/$" replace="'${project_required_os}'$1$2//os-required//" modifiers="um" />
+          <regExp pattern='"[^"]*?"([,;]\s*)(#\s*)?\/\/os\-required\/\/$' replace='"${project_required_os}"$1$2//os-required//' modifiers="um" />
 
-          <regExp pattern="'[^']*?'([,;])\s*\/\/php\-required\-version\/\/$" replace="'${project_php_required_version}'$1 //php-required-version//" modifiers="um" />
-          <regExp pattern='"[^"]*?"([,;])\s*\/\/php\-required\-version\/\/$' replace='"${project_php_required_version}"$1 //php-required-version//' modifiers="um" />
+          <regExp pattern="'[^']*?'([,;]\s*)(#\s*)?\/\/php\-required\-version\/\/$" replace="'${project_php_required_version}'$1$2//php-required-version//" modifiers="um" />
+          <regExp pattern='"[^"]*?"([,;]\s*)(#\s*)?\/\/php\-required\-version\/\/$' replace='"${project_php_required_version}"$1$2//php-required-version//' modifiers="um" />
 
-          <regExp pattern="'[^']*?'([,;])\s*\/\/php\-up\-to\-version\/\/$" replace="'${project_php_tested_up_to_version}'$1 //php-up-to-version//" modifiers="um" />
-          <regExp pattern='"[^"]*?"([,;])\s*\/\/php\-up\-to\-version\/\/$' replace='"${project_php_tested_up_to_version}"$1 //php-up-to-version//' modifiers="um" />
+          <regExp pattern="'[^']*?'([,;]\s*)(#\s*)?\/\/php\-up\-to\-version\/\/$" replace="'${project_php_tested_up_to_version}'$1$2//php-up-to-version//" modifiers="um" />
+          <regExp pattern='"[^"]*?"([,;]\s*)(#\s*)?\/\/php\-up\-to\-version\/\/$' replace='"${project_php_tested_up_to_version}"$1$2//php-up-to-version//' modifiers="um" />
 
-          <regExp pattern="\b[0-9]+([,;])\s*\/\/php\-required\-bits\/\/$" replace="${project_php_required_bits}$1 //php-required-bits//" modifiers="um" />
-          <regExp pattern="\barray\s*\([^()]*\)([,;])\s*\/\/php\-required\-extensions\/\/" replace="array(${_project_php_required_extensions})$1 //php-required-extensions//" modifiers="u" />
+          <regExp pattern="\b[0-9]+([,;]\s*)(#\s*)?\/\/php\-required\-bits\/\/$" replace="${project_php_required_bits}$1$2//php-required-bits//" modifiers="um" />
+          <regExp pattern="\barray\s*\([^()]*\)([,;]\s*)(#\s*)?\/\/php\-required\-extensions\/\/" replace="array(${_project_php_required_extensions})$1$2//php-required-extensions//" modifiers="u" />
         </replaceRegExp>
       </filterChain>
     </reflexive>
 
-    <!-- PHP/JS/CSS/SCSS @since version tokens. -->
+    <!-- PHP/JS/CSS/SCSS/BASH @since version tokens. -->
 
     <if>
       <and>
@@ -49,7 +49,7 @@
         <isFalse value="${_starting_git_branch_is_release_rc}" />
       </and>
       <then>
-        <echo msg="Replacing PHP/JS/CSS/SCSS @since version tokens in: ${project.basedir}" />
+        <echo msg="Replacing PHP/JS/CSS/SCSS/BASH @since version tokens in: ${project.basedir}" />
 
         <reflexive>
           <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
@@ -59,7 +59,7 @@
           </fileSet>
           <filterChain>
             <replaceRegExp>
-              <regExp pattern="^(\s*\*\s+@since)\s+(?:\$v|[0-9]{2}[xX]{4})(\s|$)" replace="$1 ${project_version}$2" modifiers="um" />
+              <regExp pattern="^(\s*\*\s+@since\s+)(?:\$v|[0-9]{2}[xX]{4})(\s|$)" replace="$1${project_version}$2" modifiers="um" />
             </replaceRegExp>
           </filterChain>
         </reflexive>
@@ -80,7 +80,8 @@
       <filterChain>
         <replaceRegExp>
           <regExp pattern="^(#+\s+)\$v$" replace="$1v${project_version}" modifiers="um" />
-          <regExp pattern="\$\{\[project_version\]\}" replace="${project_version}" modifiers="u" />
+          <regExp pattern="^(#+\s+)\/\/v\/\/$" replace="$1v${project_version}" modifiers="um" />
+          <regExp pattern="^(#+\s+)\/\/version\/\/$" replace="$1v${project_version}" modifiers="um" />
         </replaceRegExp>
       </filterChain>
     </reflexive>
@@ -160,11 +161,11 @@
           </fileSet>
           <filterChain>
             <replaceRegExp>
-              <regExp pattern="'[^']*?'([,;])\s*\/\/wp\-required\-version\/\/$" replace="'${project_wp_required_version}'$1 //wp-required-version//" modifiers="um" />
-              <regExp pattern='"[^"]*?"([,;])\s*\/\/wp\-required\-version\/\/$' replace='"${project_wp_required_version}"$1 //wp-required-version//' modifiers="um" />
+              <regExp pattern="'[^']*?'([,;]\s*)(#\s*)?\/\/wp\-required\-version\/\/$" replace="'${project_wp_required_version}'$1$2//wp-required-version//" modifiers="um" />
+              <regExp pattern='"[^"]*?"([,;]\s*)(#\s*)?\/\/wp\-required\-version\/\/$' replace='"${project_wp_required_version}"$1$2//wp-required-version//' modifiers="um" />
 
-              <regExp pattern="'[^']*?'([,;])\s*\/\/wp\-up\-to\-version\/\/$" replace="'${project_wp_tested_up_to_version}'$1 //wp-up-to-version//" modifiers="um" />
-              <regExp pattern='"[^"]*?"([,;])\s*\/\/wp\-up\-to\-version\/\/$' replace='"${project_wp_tested_up_to_version}"$1 //wp-up-to-version//' modifiers="um" />
+              <regExp pattern="'[^']*?'([,;]\s*)(#\s*)?\/\/wp\-up\-to\-version\/\/$" replace="'${project_wp_tested_up_to_version}'$1$2//wp-up-to-version//" modifiers="um" />
+              <regExp pattern='"[^"]*?"([,;]\s*)(#\s*)?\/\/wp\-up\-to\-version\/\/$' replace='"${project_wp_tested_up_to_version}"$1$2//wp-up-to-version//' modifiers="um" />
             </replaceRegExp>
           </filterChain>
         </reflexive>
@@ -182,14 +183,14 @@
               </fileSet>
               <filterChain>
                 <replaceRegExp>
-                  <regExp pattern="'[^']*?'([,;])\s*\/\/wp\-sharks\-core\-required\-version\/\/$" replace="'${project_wp_sharks_core_required_version}'$1 //wp-sharks-core-required-version//" modifiers="um" />
-                  <regExp pattern='"[^"]*?"([,;])\s*\/\/wp\-sharks\-core\-required\-version\/\/$' replace='"${project_wp_sharks_core_required_version}"$1 //wp-sharks-core-required-version//' modifiers="um" />
+                  <regExp pattern="'[^']*?'([,;]\s*)(#\s*)?\/\/wp\-sharks\-core\-required\-version\/\/$" replace="'${project_wp_sharks_core_required_version}'$1$2//wp-sharks-core-required-version//" modifiers="um" />
+                  <regExp pattern='"[^"]*?"([,;]\s*)(#\s*)?\/\/wp\-sharks\-core\-required\-version\/\/$' replace='"${project_wp_sharks_core_required_version}"$1$2//wp-sharks-core-required-version//' modifiers="um" />
 
-                  <regExp pattern="'[^']*?'([,;])\s*\/\/wp\-sharks\-core\-up\-to\-version\/\/$" replace="'${project_wp_sharks_core_tested_up_to_version}'$1 //wp-sharks-core-up-to-version//" modifiers="um" />
-                  <regExp pattern='"[^"]*?"([,;])\s*\/\/wp\-sharks\-core\-up\-to\-version\/\/$' replace='"${project_wp_sharks_core_tested_up_to_version}"$1 //wp-sharks-core-up-to-version//' modifiers="um" />
+                  <regExp pattern="'[^']*?'([,;]\s*)(#\s*)?\/\/wp\-sharks\-core\-up\-to\-version\/\/$" replace="'${project_wp_sharks_core_tested_up_to_version}'$1$2//wp-sharks-core-up-to-version//" modifiers="um" />
+                  <regExp pattern='"[^"]*?"([,;]\s*)(#\s*)?\/\/wp\-sharks\-core\-up\-to\-version\/\/$' replace='"${project_wp_sharks_core_tested_up_to_version}"$1$2//wp-sharks-core-up-to-version//' modifiers="um" />
 
-                  <regExp pattern="'[^']*?'([,;])\s*\/\/wp\-sharks\-core\-max\-compatible\-version\/\/$" replace="'${project_wp_sharks_core_max_compatible_version}'$1 //wp-sharks-core-max-compatible-version//" modifiers="um" />
-                  <regExp pattern='"[^"]*?"([,;])\s*\/\/wp\-sharks\-core\-max\-compatible\-version\/\/$' replace='"${project_wp_sharks_core_max_compatible_version}"$1 //wp-sharks-core-max-compatible-version//' modifiers="um" />
+                  <regExp pattern="'[^']*?'([,;]\s*)(#\s*)?\/\/wp\-sharks\-core\-max\-compatible\-version\/\/$" replace="'${project_wp_sharks_core_max_compatible_version}'$1$2//wp-sharks-core-max-compatible-version//" modifiers="um" />
+                  <regExp pattern='"[^"]*?"([,;]\s*)(#\s*)?\/\/wp\-sharks\-core\-max\-compatible\-version\/\/$' replace='"${project_wp_sharks_core_max_compatible_version}"$1$2//wp-sharks-core-max-compatible-version//' modifiers="um" />
                 </replaceRegExp>
               </filterChain>
             </reflexive>
