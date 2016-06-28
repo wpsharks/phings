@@ -1,3 +1,9 @@
+## $v
+
+- Enhancing MacOS Notification Center integration.
+- Adding support for token replacement in `.bash` scripts.
+- Enhancing version token replacement patterns.
+
 ## v160627.38807
 
 ### Most Important Changes
