@@ -198,9 +198,9 @@
 
     <phingCall target="-features-feature" />
 
-    <phingCall target="-notifications-complete">
+    <!-- <phingCall target="-notifications-complete">
       <property name="_target" value="feature" />
-    </phingCall>
+    </phingCall> -->
   </target>
 
   <target name="feature-start">
@@ -210,9 +210,9 @@
     <property name="action" value="start" override="true" />
     <phingCall target="-features-feature" />
 
-    <phingCall target="-notifications-complete">
+    <!-- <phingCall target="-notifications-complete">
       <property name="_target" value="feature-start" />
-    </phingCall>
+    </phingCall> -->
   </target>
 
   <target name="feature-finish">
