@@ -49,7 +49,7 @@
       </then>
 
       <else>
-        <echo msg="Not applicable. Applies to MacOS only." />
+        <echo msg="Not applicable. Applies to macOS only." />
       </else>
     </if>
 
