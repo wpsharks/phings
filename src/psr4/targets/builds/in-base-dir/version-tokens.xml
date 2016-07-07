@@ -59,7 +59,8 @@
           </fileSet>
           <filterChain>
             <replaceRegExp>
-              <regExp pattern="^(\s*\*\s+@since\s+)(?:\$v|[0-9]{2}[xX]{4})(\s|$)" replace="$1${project_version}$2" modifiers="um" />
+              <!-- WARNING: Very important for `$1 ${project_versoin}` to have that space. Otherwise the version becomes a part of the replacement code. -->
+              <regExp pattern="^(\s*\*\s+@since)\s+(?:\$v|[0-9]{2}[xX]{4})(\s|$)" replace="$1 ${project_version}$2" modifiers="um" />
             </replaceRegExp>
           </filterChain>
         </reflexive>
