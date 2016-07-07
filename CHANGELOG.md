@@ -1,3 +1,7 @@
+## v160707.2080
+
+- Bug fix. #109 regression.
+
 ## v160628.26132
 
 - Enhancing MacOS Notification Center integration.
