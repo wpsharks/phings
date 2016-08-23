@@ -30,13 +30,6 @@
     <exclude pattern="*.bak" />
     <exclude pattern="**/*.bak" />
 
-    <!-- Vendor
-    NOT excluded here.
-
-    <exclude pattern="vendor/**" />
-    <exclude pattern="**/vendor/**" />
-    -->
-
     <!-- Node -->
 
     <exclude pattern="node_modules/**" />
@@ -181,6 +174,16 @@
     <!-- These are in addition to what we have in `.gitignore`. -->
     <!-- ——————————————————————————————————————————— -->
 
+    <!-- IDE Helpers -->
+
+    <exclude pattern="_ide.php" />
+    <exclude pattern="**/_ide.php" />
+
+    <!-- TODO Lists -->
+
+    <exclude pattern="TODO.md" />
+    <exclude pattern="**/TODO.md" />
+
     <!-- SASS -->
 
     <exclude pattern="**.scss" />
@@ -299,6 +302,11 @@
 
     <exclude pattern="src/includes/phar-stub.php" />
     <exclude pattern="src/vendor/websharks/*/src/includes/phar-stub.php" />
+
+    <!-- PsySH Stub -->
+
+    <exclude pattern="src/includes/psysh-stub.php" />
+    <exclude pattern="src/vendor/websharks/*/src/includes/psysh-stub.php" />
 
   </patternSet>
 
