@@ -42,7 +42,7 @@
           <arg value="--report=full" />
           <arg value="--encoding=utf-8" />
           <arg value="--extensions=php" />
-          <arg value="--ignore=*/vendor/*" />
+          <arg value="--ignore=*/vendor/*,*/_ide.php" />
           <arg value="--standard=${_tmp_sub_dir}/.php-cs.ws-psr2.xml" />
           <arg value="${project.basedir}/.~build/${project_slug}" />
         </exec>
