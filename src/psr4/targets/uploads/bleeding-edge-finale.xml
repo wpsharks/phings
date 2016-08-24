@@ -21,7 +21,7 @@
         <isTrue value="${slack-enable}" />
       </or>
       <then>
-        <adHocSlackNotify text="*${project_title}*: bleeding edge updated to v${project_version}." attachmentColor="#710100" attachmentAuthorIcon="https://websharks.org/wp-content/uploads/2016/06/attachment-icon.png" attachmentAuthorName="Bleeding edge URLs are as follows:" attachmentText="${_uploads_bleeding_edge_finale_urls}" attachmentFooter="Please keep pro software URLs private!" attachmentFooterIcon="https://websharks.org/wp-content/uploads/2016/06/warning-icon.png" cleanUrlLines="true" />
+        <adHocSlackNotify channel="${_project_slack_channel}" text="*${project_title}*: bleeding edge updated to v${project_version}." attachmentColor="#D25D00" attachmentAuthorIcon="https://websharks.org/wp-content/uploads/2016/06/attachment-icon.png" attachmentAuthorName="Bleeding edge URLs are as follows:" attachmentText="${_uploads_bleeding_edge_finale_urls}" attachmentFooter="Please keep pro software URLs private!" attachmentFooterIcon="https://websharks.org/wp-content/uploads/2016/06/warning-icon.png" cleanUrlLines="true" />
         <echo />
       </then>
     </if>
