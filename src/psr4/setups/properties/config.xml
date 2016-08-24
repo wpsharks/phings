@@ -393,6 +393,17 @@
         </else>
       </if>
 
+      <!-- Slack channel for this project. -->
+
+      <if>
+        <and>
+          <isset property="project_slug" />
+        </and>
+        <then>
+          <php expression="preg_replace('/[_\-]+(?:lite|pro)$/ui', '', '${project_slug}')" returnProperty="_project_slack_channel" level="verbose" />
+        </then>
+      </if>
+
       <!-- The current project version string. -->
       <!-- When on a release branch, the version is forced to match. -->
 

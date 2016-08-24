@@ -22,7 +22,7 @@
         <isTrue value="${slack-enable}" />
       </or>
       <then>
-        <adHocSlackNotify text="*${project_title}:* &lt;${_releases_grand_finale_release_url}|v${project_version}&gt; release completed successfully." attachmentColor="#3DAF59" attachmentAuthorIcon="https://websharks.org/wp-content/uploads/2016/06/attachment-icon.png" attachmentAuthorName="Release URLs are as follows:" attachmentText="${_releases_grand_finale_release_urls}" attachmentFooter="Please keep pro software URLs private!" attachmentFooterIcon="https://websharks.org/wp-content/uploads/2016/06/warning-icon.png" cleanUrlLines="true" />
+        <adHocSlackNotify channel="${_project_slack_channel}" text="*${project_title}:* &lt;${_releases_grand_finale_release_url}|v${project_version}&gt; release completed successfully." attachmentColor="#02568D" attachmentAuthorIcon="https://websharks.org/wp-content/uploads/2016/06/attachment-icon.png" attachmentAuthorName="Release URLs are as follows:" attachmentText="${_releases_grand_finale_release_urls}" attachmentFooter="Please keep pro software URLs private!" attachmentFooterIcon="https://websharks.org/wp-content/uploads/2016/06/warning-icon.png" cleanUrlLines="true" />
         <echo />
       </then>
     </if>
