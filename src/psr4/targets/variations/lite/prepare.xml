@@ -79,6 +79,8 @@
               <regExp pattern="^\=\=\=.+?\=\=\=\n" replace="=== ${project_lite_title} ===${line.separator}" modifiers="u" />
               <regExp pattern="^Theme Name\:.+$" replace="Theme Name: ${project_lite_title}" modifiers="um" />
               <regExp pattern="^Plugin Name\:.+$" replace="Plugin Name: ${project_lite_title}" modifiers="um" />
+              <regExp pattern="\bwp_php_rv_notice\s*(\s*'.*?'\s*)" replace="wp_php_rv_notice('${project_lite_title}')" modifiers="u" />
+              <regExp pattern="\bwp_sharks_core_rv_notice\s*(\s*'.*?'\s*)" replace="wp_sharks_core_rv_notice('${project_lite_title}')" modifiers="u" />
             </replaceRegExp>
           </filterChain>
         </reflexive>
