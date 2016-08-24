@@ -1,3 +1,11 @@
+## $v
+
+- Adding new `export-ignore` rules for `TODO.md` files, PsySH stubs, and for IDE helpers. See: https://github.com/websharks/phings/issues/134 and https://github.com/websharks/phings/issues/128
+- Enhancing `@since` replacements and adding support for `@deprecated`. See: #130 and #133
+- Adding support for `//php-required-functions//`. See: #131
+- Slack notification channel. See: #132
+- RV notice replacements. See: #129
+
 ## v160707.2080
 
 - Bug fix. #109 regression.
