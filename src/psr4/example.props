@@ -89,6 +89,11 @@ project_required_os                                 = nix
 # 32 or 64 bit architecture. Set this to 64 if you want to require a 64-bit OS.
 project_php_required_bits                           = 64
 
+# Required PHP functions in comma-delimited format.
+# Note: Any value in this file can be broken down into multiple lines using the `\` (continuation char).
+# This is particularly helpful here, since a comma-delimited list of PHP functions might grow quite large.
+project_php_required_functions                      = eval
+
 # Required PHP extensions in comma-delimited format.
 # Note: Any value in this file can be broken down into multiple lines using the `\` (continuation char).
 # This is particularly helpful here, since a comma-delimited list of PHP extensions might grow quite large.
