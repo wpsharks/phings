@@ -1,4 +1,4 @@
-## $v
+## v160824.8847
 
 - Adding new `export-ignore` rules for `TODO.md` files, PsySH stubs, and for IDE helpers. See: https://github.com/websharks/phings/issues/134 and https://github.com/websharks/phings/issues/128
 - Enhancing `@since` replacements and adding support for `@deprecated`. See: #130 and #133
