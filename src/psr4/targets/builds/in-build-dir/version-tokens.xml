@@ -37,6 +37,7 @@
           <regExp pattern='"[^"]*?"([,;]\s*)(#\s*)?\/\/php\-up\-to\-version\/\/$' replace='"${project_php_tested_up_to_version}"$1$2//php-up-to-version//' modifiers="um" />
 
           <regExp pattern="\b[0-9]+([,;]\s*)(#\s*)?\/\/php\-required\-bits\/\/$" replace="${project_php_required_bits}$1$2//php-required-bits//" modifiers="um" />
+          <regExp pattern="\barray\s*\([^()]*\)([,;]\s*)(#\s*)?\/\/php\-required\-functions\/\/" replace="array(${_project_php_required_functions})$1$2//php-required-functions//" modifiers="u" />
           <regExp pattern="\barray\s*\([^()]*\)([,;]\s*)(#\s*)?\/\/php\-required\-extensions\/\/" replace="array(${_project_php_required_extensions})$1$2//php-required-extensions//" modifiers="u" />
         </replaceRegExp>
       </filterChain>
