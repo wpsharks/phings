@@ -14,6 +14,9 @@
     <include pattern="plugin.php" />
     <include pattern="${project_slug}.php" />
 
+    <include pattern="src/includes/theme.php" />
+    <include pattern="src/includes/plugin.php" />
+
     <include pattern="style.css" />
     <include pattern="functions.php" />
 
