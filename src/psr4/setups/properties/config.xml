@@ -452,6 +452,19 @@
       </if>
       <if>
         <not>
+          <isset property="project_php_required_functions" />
+        </not>
+        <then>
+          <property name="project_php_required_functions" value="" />
+          <property name="_project_php_required_functions" value="" />
+        </then>
+        <else>
+          <php expression="&quot;'&quot;.implode(&quot;', '&quot;, preg_split('/[\s,]+/u', '${project_php_required_functions}', -1, PREG_SPLIT_NO_EMPTY)).&quot;'&quot;" returnProperty="_project_php_required_functions" level="verbose" />
+          <php expression="&quot;${_project_php_required_functions}&quot; === &quot;''&quot; ? '' : &quot;${_project_php_required_functions}&quot;" returnProperty="_project_php_required_functions" level="verbose" />
+        </else>
+      </if>
+      <if>
+        <not>
           <isset property="project_php_required_extensions" />
         </not>
         <then>
