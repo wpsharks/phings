@@ -1,3 +1,7 @@
+## $v
+
+- Adding `project_slack_channel` as a valid build property. See: #132
+
 ## v160824.8847
 
 - Adding new `export-ignore` rules for `TODO.md` files, PsySH stubs, and for IDE helpers. See: https://github.com/websharks/phings/issues/134 and https://github.com/websharks/phings/issues/128
