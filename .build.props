@@ -3,6 +3,7 @@ project_title                               = WebSharks Phings
 project_owner                               = websharks
 project_slug                                = phings
 project_text_domain                         = websharks-phings
+project_slack_channel                       = phings
 
 project_namespace                           = WebSharks\\Phings
 project_sub_namespace                       = Phings
