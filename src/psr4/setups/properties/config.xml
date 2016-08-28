@@ -397,10 +397,13 @@
 
       <if>
         <and>
+          <not>
+            <isset property="project_slack_channel" />
+          </not>
           <isset property="project_slug" />
         </and>
         <then>
-          <php expression="preg_replace('/[_\-]+(?:lite|pro)$/ui', '', '${project_slug}')" returnProperty="_project_slack_channel" level="verbose" />
+          <php expression="preg_replace('/[_\-]+(?:lite|pro)$/ui', '', '${project_slug}')" returnProperty="project_slack_channel" level="verbose" />
         </then>
       </if>
 

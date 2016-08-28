@@ -22,6 +22,7 @@
   <fail unless="project_owner" msg="Missing `project_owner` in properties file!" />
   <fail unless="project_slug" msg="Missing `project_slug` in properties file!" />
   <fail unless="project_text_domain" msg="Missing `project_text_domain` in properties file!" />
+  <fail unless="project_slack_channel" msg="Missing `project_slack_channel` in properties file!" />
 
   <fail unless="project_namespace" msg="Missing `project_namespace` in properties file!" />
   <fail unless="project_sub_namespace" msg="Missing `project_sub_namespace` in properties file!" />

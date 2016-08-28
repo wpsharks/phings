@@ -13,6 +13,10 @@ project_slug                                        = my-project-pro
 # In most cases you should exclude the `-pro` suffix here.
 project_text_domain                                 = my-project
 
+# Project Slack channel by slug.
+# In most cases you should exclude the `-pro` suffix here.
+project_slack_channel                               = my-project
+
 # Project namespace. Should always start with WebSharks\\
 # Important: If your project is NOT open-source, or your project may (at any point in the future) offer
 # a lite variation — where the original project becomes a 'pro' version; you should add \\Pro to your project's
