@@ -8,6 +8,15 @@
 
   <target name="-releases-upload" hidden="true">
 
+    <!-- If doing a formal release, update bleeding edge. -->
+    <if>
+      <and>
+        <isFalse value="${_releases_release_type_is_rc}" />
+      </and>
+      <then>
+        <phingCall target="-uploads-bleeding-edge" />
+      </then>
+    </if>
     <!-- Convey what is about to happen below. -->
 
     <echo msg="Uploading distros to Amazon S3/CloudFront storage ..." />
