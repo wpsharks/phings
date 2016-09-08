@@ -97,7 +97,7 @@
 
       <!-- WP i18n Tools dependency info. -->
 
-      <property name="_deps_wp_i18n_tools_version" value="160416" />
+      <property name="_deps_wp_i18n_tools_version" value="160908" />
       <property name="_deps_wp_i18n_tools_url" value="https://github.com/websharks/wp-i18n-tools/releases/download/${_deps_wp_i18n_tools_version}/wp-i18n-tools.phar" />
       <property name="_deps_wp_i18n_tools_path" value="${_home_sub_dir}/deps/wp-i18n-tools/${_deps_wp_i18n_tools_version}.phar" />
       <dirname property="_deps_wp_i18n_tools_path_dirname" file="${_deps_wp_i18n_tools_path}" />
