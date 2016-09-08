@@ -1,4 +1,4 @@
-## $v
+## v160908.63229
 
 - Adding `project_slack_channel` as a valid build property. See: #132
 - Automate bleeding edge on official release. See: #142
