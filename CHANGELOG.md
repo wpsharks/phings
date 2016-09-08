@@ -2,6 +2,7 @@
 
 - Adding `project_slack_channel` as a valid build property. See: #132
 - Automate bleeding edge on official release. See: #142
+- Update to latest i18n tools. See: #144
 
 ## v160824.8847
 
