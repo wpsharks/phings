@@ -1,3 +1,7 @@
+## [coming soon]
+
+- Developers can now create `src/includes/translations/.generate` to enable an i18n translation file for projects that would otherwise not require them.
+
 ## v160908.63229
 
 - Adding `project_slack_channel` as a valid build property. See: #132
