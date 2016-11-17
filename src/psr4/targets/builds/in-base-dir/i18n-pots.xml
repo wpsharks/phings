@@ -18,6 +18,7 @@
         <or>
           <isTrue value="${_is_core_project}" />
           <isTrue value="${_is_pro_project}" />
+          <available resource="${project.basedir}/src/includes/translations/.generate" type="file" />
         </or>
       </and>
       <then>
