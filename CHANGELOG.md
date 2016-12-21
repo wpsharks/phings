@@ -8,6 +8,7 @@
 - New Ad-Hoc command: `<adHocGitHubGetJson />` for retrieving data from the GitHub API; e.g., issue data, user data, etc.
 - Updating [this wiki article](https://github.com/websharks/phings/wiki/GitHub-Features). Documented [new `force=true` alternative](https://github.com/websharks/phings/wiki/GitHub-Features#finishing-a-github-issue-forced-merge-alternative) for finishing a feature branch locally instead of remotely. See [Issue #110](https://github.com/websharks/phings/issues/110).
 - PR title (when starting a new feature branch) should contain the associated issue title. See [Issue #149](https://github.com/websharks/phings/issues/149).
+- Adding support for prioritized `.build.*.php` files. See [Issue #127](https://github.com/websharks/phings/issues/127).
 
 ## v160908.63229
 
