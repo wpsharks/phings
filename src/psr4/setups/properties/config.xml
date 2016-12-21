@@ -437,20 +437,26 @@
       <if>
         <and>
           <isset property="project_slug" />
-          <not>
-            <isset property="project_issues_slug" />
-          </not>
+          <or>
+            <not>
+              <isset property="project_issues_slug" />
+            </not>
+            <equals arg1="${project_issues_slug}" arg2="" trim="true" />
+          </or>
         </and>
         <then>
-          <property name="project_issues_slug" value="${project_slug}" />
+          <property name="project_issues_slug" value="${project_slug}" override="true" />
         </then>
       </if>
       <if>
         <and>
           <isset property="project_slug" />
-          <not>
-            <isset property="project_slack_channel" />
-          </not>
+          <or>
+            <not>
+              <isset property="project_slack_channel" />
+            </not>
+            <equals arg1="${project_slack_channel}" arg2="" trim="true" />
+          </or>
         </and>
         <then>
           <php expression="preg_replace('/[_\-]+(?:lite|pro)$/ui', '', '${project_slug}')" returnProperty="project_slack_channel" level="verbose" />
@@ -465,11 +471,14 @@
         </then>
       </if>
       <if>
-        <not>
-          <isset property="project_php_required_bits" />
-        </not>
+        <or>
+          <not>
+            <isset property="project_php_required_bits" />
+          </not>
+          <equals arg1="${project_php_required_bits}" arg2="" trim="true" />
+        </or>
         <then>
-          <property name="project_php_required_bits" value="0" />
+          <property name="project_php_required_bits" value="0" override="true" />
         </then>
       </if>
       <if>
@@ -478,7 +487,7 @@
         </not>
         <then>
           <property name="project_php_required_functions" value="" />
-          <property name="_project_php_required_functions" value="" />
+          <property name="_project_php_required_functions" value="" override="true" />
         </then>
         <else>
           <php expression="&quot;'&quot;.implode(&quot;', '&quot;, preg_split('/[\s,]+/u', '${project_php_required_functions}', -1, PREG_SPLIT_NO_EMPTY)).&quot;'&quot;" returnProperty="_project_php_required_functions" level="verbose" />
@@ -491,7 +500,7 @@
         </not>
         <then>
           <property name="project_php_required_extensions" value="" />
-          <property name="_project_php_required_extensions" value="" />
+          <property name="_project_php_required_extensions" value="" override="true" />
         </then>
         <else>
           <php expression="&quot;'&quot;.implode(&quot;', '&quot;, preg_split('/[\s,]+/u', '${project_php_required_extensions}', -1, PREG_SPLIT_NO_EMPTY)).&quot;'&quot;" returnProperty="_project_php_required_extensions" level="verbose" />
