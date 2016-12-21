@@ -143,10 +143,12 @@
               if (empty($data['attachments'][0]['text'])) {
                   unset($data['attachments']);
               }
-              $esc_json_data       = escapeShellArg(json_encode($data));
-              $esc_api_webhook_url = escapeShellArg($api_webhook_url);
-
-              `curl --request POST --header 'content-type: application/json' --data $esc_json_data $esc_api_webhook_url`;
+              $http_context = stream_context_create(['http' => [
+                  'method'  => 'POST',
+                  'content' => json_encode($data),
+                  'header'  => 'content-type: application/json',
+              ]]);
+              file_get_contents($api_webhook_url, false, $http_context);
           }
       }
     ]]>

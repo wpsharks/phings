@@ -3,43 +3,29 @@
 <project>
 
   <!-- ============================================  -->
-  <!-- Get `.ws.json` config keys. -->
+  <!-- Get GitHub JSON properties. -->
   <!-- ============================================  -->
 
-  <adHoc-task name="adHocWsJsonConfigKeys">
+  <adHoc-task name="adHocGitHubGetJson">
     <![CDATA[
-      class adHocWsJsonConfigKeys extends Task {
-          protected $get_primary_key = '';
+      class adHocGitHubGetJson extends Task {
+          protected $api_url = '';
           protected $property_prefix = '';
+          protected $property_list = [];
 
           /* ---------------------------- */
 
-          public function setGetPrimaryKey($get_primary_key) {
-              $this->get_primary_key = trim((string) $get_primary_key);
+          public function setApiUrl($api_url) {
+              $this->api_url = trim((string) $api_url);
           }
           public function setPropertyPrefix($property_prefix) {
               $this->property_prefix = trim((string) $property_prefix);
           }
+          public function setPropertyList($property_list) {
+              $this->property_list = preg_split('/[\s,]+/u', trim((string) $property_list), -1, PREG_SPLIT_NO_EMPTY);
+          }
           /* ---------------------------- */
 
-          public function acquireHomeDir() {
-              if (!empty($_SERVER['WEBSHARK_HOME'])) {
-                  return (string) $_SERVER['WEBSHARK_HOME'];
-              } elseif (!empty($_SERVER['HOME'])) {
-                  return (string) $_SERVER['HOME'];
-              }
-              return ''; // Failure.
-          }
-          public function acquireFile() {
-              if (!($home_dir = $this->acquireHomeDir())) {
-                  return ''; // Not possible.
-              } elseif (is_file($home_dir.'/.ws.json')) {
-                  return $home_dir.'/.ws.json';
-              } elseif (is_file($home_dir.'/.websharks.json')) {
-                  return $home_dir.'/.websharks.json';
-              }
-              return ''; // Failure.
-          }
           public function dotKeys(array $array)
           {
               $dot_keys = []; // Initialize.
@@ -60,19 +46,26 @@
           /* ---------------------------- */
 
           public function main() {
-              if (!$this->get_primary_key) {
+              if (!$this->api_url) {
                   return; // Not possible.
               } elseif (!$this->property_prefix) {
                   return; // Not possible.
-              } elseif (!($file = $this->acquireFile())) {
+              } elseif (!$this->property_list) {
                   return; // Not possible.
-              } elseif (!is_array($data = json_decode(file_get_contents($file), true))) {
-                  return; // Not possible.
-              } elseif (empty($data[$this->get_primary_key]) || !is_array($data[$this->get_primary_key])) {
+              } elseif (!$this->project->getProperty('_ws_json.phings.github.api_key')) {
                   return; // Not possible.
               }
-              foreach ($this->dotKeys($data[$this->get_primary_key]) as $_key => $_value) {
-                  $this->project->setProperty($this->property_prefix.$_key, $_value);
+              $http_context = stream_context_create(['http' => [
+                  'method'  => 'GET',
+                  'header'  => 'accept: application/json'."\r\n".
+                               'authorization: token '.$this->project->getProperty('_ws_json.phings.github.api_key'),
+              ]]);
+              $api_response = json_decode((string) file_get_contents($this->api_url, false, $http_context));
+
+              foreach ($this->dotKeys((array) $api_response) as $_key => $_value) {
+                  if (in_array($_key, $this->property_list, true)) {
+                      $this->project->setProperty($this->property_prefix.$_key, $_value);
+                  }
               } // unset($_key, $_value); // Housekeeping.
           }
       }

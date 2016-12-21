@@ -54,12 +54,33 @@
 
       <echo msg="Project Org.: ${project_owner}" />
       <echo msg="Project Slug: ${project_slug}" />
-      <echo msg="Project Text Domain: ${project_text_domain}" />
+      <echo msg="Project Issues Slug: ${project_issues_slug}" />
 
       <echo />
 
       <echo msg="Project Namespace: ${project_namespace}" />
       <echo msg="Project Sub-Namespace: ${project_sub_namespace}" />
+
+      <echo />
+
+      <echo msg="Project Text Domain: ${project_text_domain}" />
+
+      <echo />
+
+      <echo msg="Project Version: ${project_version}" />
+      <echo msg="Project Build Version: ${_project_build_version}" />
+
+      <echo />
+
+      <echo msg="Project Required OS: ${project_required_os}" />
+
+      <echo />
+
+      <echo msg="Project PHP Required Version: ${project_php_required_version}" />
+      <echo msg="Project PHP Tested Up To Version: ${project_php_tested_up_to_version}" />
+
+      <echo msg="Project PHP Required Bits: ${project_php_required_bits}" />
+      <echo msg="Project PHP Required Extensions: ${project_php_required_extensions}" />
 
       <echo />
 
@@ -96,20 +117,6 @@
           <echo msg="Lite Project-Specific Namespace Altered in Other Files: ${project_lite_alter_namespace_in_other_files_pattern}" />
         </then>
       </if>
-      <echo />
-
-      <echo msg="Project Version: ${project_version}" />
-      <echo msg="Project Build Version: ${_project_build_version}" />
-
-      <echo />
-
-      <echo msg="Project Required OS: ${project_required_os}" />
-
-      <echo msg="Project PHP Required Version: ${project_php_required_version}" />
-      <echo msg="Project PHP Tested Up To Version: ${project_php_tested_up_to_version}" />
-
-      <echo msg="Project PHP Required Bits: ${project_php_required_bits}" />
-      <echo msg="Project PHP Required Extensions: ${project_php_required_extensions}" />
 
       <if>
         <and>

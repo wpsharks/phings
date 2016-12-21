@@ -4,6 +4,9 @@
 - Lite build with pro Composer dependencies. Fixed in this release. See [Issue #146](https://github.com/websharks/phings/issues/146).
 - Exclude `composer.json` and `composer.lock` from final distros. See [Issue #141](https://github.com/websharks/phings/issues/141).
 - Strip unnecessary files from final distros. See [Issue #150](https://github.com/websharks/phings/issues/150).
+- New Ad-Hoc command: `<adHocGitHubGetJson />` for retrieving data from the GitHub API; e.g., issue data, user data, etc.
+- Updating [this wiki article](https://github.com/websharks/phings/wiki/GitHub-Features). Documented [new `force=true` alternative](https://github.com/websharks/phings/wiki/GitHub-Features#finishing-a-github-issue-forced-merge-alternative) for finishing a feature branch locally instead of remotely. See [Issue #110](https://github.com/websharks/phings/issues/110).
+- PR title (when starting a new feature branch) should contain the associated issue title. See [Issue #149](https://github.com/websharks/phings/issues/149).
 
 ## v160908.63229
 

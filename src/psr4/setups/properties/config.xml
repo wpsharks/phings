@@ -393,20 +393,6 @@
         </else>
       </if>
 
-      <!-- Slack channel for this project. -->
-
-      <if>
-        <and>
-          <not>
-            <isset property="project_slack_channel" />
-          </not>
-          <isset property="project_slug" />
-        </and>
-        <then>
-          <php expression="preg_replace('/[_\-]+(?:lite|pro)$/ui', '', '${project_slug}')" returnProperty="project_slack_channel" level="verbose" />
-        </then>
-      </if>
-
       <!-- The current project version string. -->
       <!-- When on a release branch, the version is forced to match. -->
 
@@ -448,6 +434,28 @@
 
       <!-- Make sure optional properties are defined. -->
 
+      <if>
+        <and>
+          <isset property="project_slug" />
+          <not>
+            <isset property="project_issues_slug" />
+          </not>
+        </and>
+        <then>
+          <property name="project_issues_slug" value="${project_slug}" />
+        </then>
+      </if>
+      <if>
+        <and>
+          <isset property="project_slug" />
+          <not>
+            <isset property="project_slack_channel" />
+          </not>
+        </and>
+        <then>
+          <php expression="preg_replace('/[_\-]+(?:lite|pro)$/ui', '', '${project_slug}')" returnProperty="project_slack_channel" level="verbose" />
+        </then>
+      </if>
       <if>
         <not>
           <isset property="project_required_os" />

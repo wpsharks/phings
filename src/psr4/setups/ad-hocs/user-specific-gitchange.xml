@@ -57,6 +57,7 @@
             // Otherwise, create a new line for this user.
             $gitchange_lines[] = $user_unique_change_entry_line;
             file_put_contents($gitchange_file, implode("\n", $gitchange_lines)."\n");
+
             return; // All done here.
           }
       }
