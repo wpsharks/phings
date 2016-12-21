@@ -247,6 +247,14 @@
     <exclude pattern="assets/**" />
     <exclude pattern="src/vendor/websharks/*/assets/**" />
 
+    <!-- Composer Files -->
+
+    <exclude pattern="composer.json" />
+    <exclude pattern="src/vendor/*/*/composer.json" />
+
+    <exclude pattern="composer.lock" />
+    <exclude pattern="src/vendor/*/*/composer.lock" />
+
     <!-- Makefiles -->
 
     <exclude pattern="Makefile" />
