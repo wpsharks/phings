@@ -17,6 +17,10 @@
 
     <exclude pattern="assets/**" />
 
+    <!-- Makefiles -->
+
+    <exclude pattern="Makefile" />
+
     <!-- Build Files -->
 
     <exclude pattern="phings/**" />
@@ -36,10 +40,20 @@
 
     <exclude pattern="tests/**" />
 
+    <!-- PHPUnit -->
+
+    <exclude pattern="phpunit.xml" />
+    <exclude pattern="phpunit.xml.*" />
+
     <!-- Drone -->
 
     <exclude pattern=".drone.yml" />
     <exclude pattern=".drone.sec" />
+
+    <!-- Circle CI -->
+
+    <exclude pattern="circle.yml" />
+    <exclude pattern=".circle.yml" />
 
     <!-- Travis -->
 
@@ -50,6 +64,10 @@
 
     <exclude pattern=".coveralls.yml" />
     <exclude pattern=".scrutinizer.yml" />
+
+    <!-- PHP Code Sniffer -->
+
+    <exclude pattern=".php_cs" />
 
     <!-- Post-Receive -->
 

@@ -179,10 +179,29 @@
     <exclude pattern="_ide.php" />
     <exclude pattern="**/_ide.php" />
 
+    <!-- CHANGELOG Files -->
+
+    <exclude pattern="CHANGELOG.md" />
+    <exclude pattern="**/CHANGELOG.md" />
+
+    <exclude pattern="CHANGELOG.mdown﻿⁠⁠⁠⁠" />
+    <exclude pattern="**/CHANGELOG.mdown﻿⁠⁠⁠⁠" />
+
+    <!-- README Files -->
+
+    <exclude pattern="README.md" />
+    <exclude pattern="**/README.md" />
+
+    <exclude pattern="README.mdown﻿⁠⁠⁠⁠" />
+    <exclude pattern="**/README.mdown﻿⁠⁠⁠⁠" />
+
     <!-- TODO Lists -->
 
     <exclude pattern="TODO.md" />
     <exclude pattern="**/TODO.md" />
+
+    <exclude pattern="TODO.mdown" />
+    <exclude pattern="**/TODO.mdown" />
 
     <!-- SASS -->
 
@@ -227,6 +246,11 @@
 
     <exclude pattern="assets/**" />
     <exclude pattern="src/vendor/websharks/*/assets/**" />
+
+    <!-- Makefiles -->
+
+    <exclude pattern="Makefile" />
+    <exclude pattern="src/vendor/*/*/Makefile" />
 
     <!-- Build Files -->
 
@@ -275,15 +299,34 @@
     <exclude pattern="src/vendor/*/*/test/**" />
     <exclude pattern="src/vendor/*/*/tests/**" />
 
+    <!-- PHPUnit -->
+
+    <exclude pattern="phpunit.xml" />
+    <exclude pattern="src/vendor/*/*/phpunit.xml" />
+
+    <exclude pattern="phpunit.xml.*" />
+    <exclude pattern="src/vendor/*/*/phpunit.xml.*" />
+
     <!-- Drone -->
 
     <exclude pattern=".drone.*" />
     <exclude pattern="src/vendor/*/*/.drone.*" />
 
+    <!-- Circle CI -->
+
+    <exclude pattern="circle.yml" />
+    <exclude pattern="src/vendor/*/*/circle.yml" />
+
+    <exclude pattern=".circle.yml" />
+    <exclude pattern="src/vendor/*/*/.circle.yml" />
+
     <!-- Travis -->
 
     <exclude pattern=".travis.*" />
     <exclude pattern="src/vendor/*/*/.travis.*" />
+
+    <exclude pattern=".travis-*" />
+    <exclude pattern="src/vendor/*/*/.travis-*" />
 
     <!-- Coverage -->
 
@@ -292,6 +335,11 @@
 
     <exclude pattern=".scrutinizer.*" />
     <exclude pattern="src/vendor/*/*/.scrutinizer.*" />
+
+    <!-- PHP Code Sniffer -->
+
+    <exclude pattern=".php_cs" />
+    <exclude pattern="src/vendor/*/*/.php_cs" />
 
     <!-- Post-Receive -->
 
