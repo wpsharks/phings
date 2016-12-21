@@ -144,9 +144,10 @@
                   unset($data['attachments']);
               }
               $http_context = stream_context_create(['http' => [
-                  'method'  => 'POST',
-                  'content' => json_encode($data),
-                  'header'  => 'content-type: application/json',
+                  'method'           => 'POST',
+                  'protocol_version' => '1.1',
+                  'content'          => json_encode($data),
+                  'header'           => 'content-type: application/json',
               ]]);
               file_get_contents($api_webhook_url, false, $http_context);
           }
