@@ -184,10 +184,10 @@
         <available resource="${project.basedir}/.~build/${project_slug}.phar" type="file" />
       </and>
       <then>
-        <property name="_releases_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_slug}.zip#${project_slug}-v${project_version}.zip' -a '${project.basedir}/.~build/${project_slug}.tar.gz#${project_slug}-v${project_version}.tar.gz' -a '${project.basedir}/.~build/${project_slug}.phar#${project_slug}-v${project_version}.phar'" />
+        <property name="_releases_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_slug}.zip' -a '${project.basedir}/.~build/${project_slug}.tar.gz' -a '${project.basedir}/.~build/${project_slug}.phar'" />
       </then>
       <else>
-        <property name="_releases_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_slug}.zip#${project_slug}-v${project_version}.zip' -a '${project.basedir}/.~build/${project_slug}.tar.gz#${project_slug}-v${project_version}.tar.gz'" />
+        <property name="_releases_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_slug}.zip' -a '${project.basedir}/.~build/${project_slug}.tar.gz'" />
       </else>
     </if>
 

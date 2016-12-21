@@ -77,10 +77,10 @@
         <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.phar" type="file" />
       </and>
       <then>
-        <property name="_releases_lite_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip#${project_lite_slug}-v${project_version}.zip' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz#${project_lite_slug}-v${project_version}.tar.gz' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.phar#${project_lite_slug}-v${project_version}.phar'" />
+        <property name="_releases_lite_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.phar'" />
       </then>
       <else>
-        <property name="_releases_lite_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip#${project_lite_slug}-v${project_version}.zip' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz#${project_lite_slug}-v${project_version}.tar.gz'" />
+        <property name="_releases_lite_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz'" />
       </else>
     </if>
 
