@@ -284,8 +284,16 @@
                 <echo />
 
                 <echo msg="Opening a pull request at GitHub for future commits in the ${_features_feature_branch} branch." />
-                <exec command="hub pull-request -m '${_features_feature_pr_title_body}' -h ${_features_feature_branch} -b dev" dir="${project.basedir}" checkReturn="true" />
-
+                <exec executable="/usr/bin/env" dir="${project.basedir}" checkReturn="true">
+                  <arg value="hub" />
+                  <arg value="pull-request" />
+                  <arg value="-m" />
+                  <arg value="${_features_feature_pr_title_body}" />
+                  <arg value="-h" />
+                  <arg value="${_features_feature_branch}" />
+                  <arg value="-b" />
+                  <arg value="dev" />
+                </exec>
                 <echo />
 
                 <echo msg="Nice! A new feature is coming soon. Make some commits and push your changes." />
