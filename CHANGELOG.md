@@ -1,5 +1,6 @@
 ## [coming soon]
 
+- Adding support for new `.build.props` property: `project_issues_slug`. Allowing a separate repo to be used for issues.
 - Developers can now create `src/includes/translations/.generate` to enable an i18n translation file for projects that would otherwise not require them.
 - Lite build with pro Composer dependencies. Fixed in this release. See [Issue #146](https://github.com/websharks/phings/issues/146).
 - Exclude `composer.json` and `composer.lock` from final distros. See [Issue #141](https://github.com/websharks/phings/issues/141).
