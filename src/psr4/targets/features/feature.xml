@@ -157,7 +157,7 @@
               <else>
                 <echo />
 
-                <echo msg="Local ${_features_feature_branch} branch is not behind upstream remote. OK." />
+                <echo msg="Feature branch is not behind upstream remote. OK." />
               </else>
             </if>
           </then>
@@ -182,7 +182,7 @@
 
             <echo />
 
-            <echo msg="Pushing local dev branch (with ${_features_feature_branch} merged in) to remote origin." />
+            <echo msg="Pushing local dev branch (with feature merged in) to remote origin." />
             <exec command="git push --set-upstream origin dev" dir="${project.basedir}" checkReturn="true" />
 
             <echo />
