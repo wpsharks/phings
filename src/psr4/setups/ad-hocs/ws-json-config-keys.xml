@@ -22,7 +22,7 @@
           }
           /* ---------------------------- */
 
-          public function acquireHomeDir() {
+          protected function acquireHomeDir() {
               if (!empty($_SERVER['WEBSHARK_HOME'])) {
                   return (string) $_SERVER['WEBSHARK_HOME'];
               } elseif (!empty($_SERVER['HOME'])) {
@@ -30,7 +30,7 @@
               }
               return ''; // Failure.
           }
-          public function acquireFile() {
+          protected function acquireFile() {
               if (!($home_dir = $this->acquireHomeDir())) {
                   return ''; // Not possible.
               } elseif (is_file($home_dir.'/.ws.json')) {
@@ -40,7 +40,7 @@
               }
               return ''; // Failure.
           }
-          public function dotKeys(array $array)
+          protected function dotKeys(array $array)
           {
               $dot_keys = []; // Initialize.
               $Iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array));

@@ -77,7 +77,7 @@
     <property name="_features_feature_branch" value="feature/${_features_feature_issue_number}" />
     <property name="_features_feature_issue_ref" value="${project_owner}/${project_issues_slug}#${_features_feature_issue_number}" />
     <property name="_features_feature_issue_url" value="https://github.com/${project_owner}/${project_issues_slug}/issues/${_features_feature_issue_number}" />
-    <adHocGitHubGetJson api_url="https://api.github.com/repos/${project_owner}/${project_issues_slug}/issues/${_features_feature_issue_number}" property_prefix="_features_feature_issue_" property_list="title" />
+    <adHocGitHubGetJson apiUrl="https://api.github.com/repos/${project_owner}/${project_issues_slug}/issues/${_features_feature_issue_number}" propertyPrefix="_features_feature_issue_" propertyList="title" />
 
     <!-- Establish a title for the PR that will be created below. -->
     <!-- Note: The issue title could be empty (or not set at all); e.g., a PR for an issue that doesn't exist yet. -->

@@ -26,7 +26,7 @@
           }
           /* ---------------------------- */
 
-          public function dotKeys(array $array)
+          protected function dotKeys(array $array)
           {
               $dot_keys = []; // Initialize.
               $Iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array));
