@@ -125,7 +125,7 @@
               <then>
                 <echo />
 
-                <echo msg="Feature branch exists at remote origin. OK." />
+                <echo msg="The ${_features_feature_branch} branch exists at remote origin. OK." />
               </then>
               <else>
                 <fail msg="The ${_features_feature_branch} branch still exists at remote origin. It must be merged &amp; deleted by the project lead first. Or, if you're the project lead, you can set the `force=true` flag to force a merge and automatically delete the remote feature branch." />
@@ -136,7 +136,7 @@
           <else>
             <echo />
 
-            <echo msg="Feature branch doesn't exist at remote origin. OK." />
+            <echo msg="The ${_features_feature_branch} branch doesn't exist at remote origin. OK." />
             <property name="_features_feature_branch_exists_remotely" value="false" />
           </else>
         </if>
@@ -157,7 +157,7 @@
               <else>
                 <echo />
 
-                <echo msg="Feature branch is not behind upstream remote. OK." />
+                <echo msg="The ${_features_feature_branch} branch is not behind upstream remote. OK." />
               </else>
             </if>
           </then>
@@ -177,12 +177,12 @@
             <isTrue value="${force}" />
           </and>
           <then>
-            <echo msg="Merging local feature branch into local dev branch with `--no-ff` flag." />
+            <echo msg="Merging local ${_features_feature_branch} branch into local dev branch with `--no-ff` flag." />
             <exec command="git merge --no-ff ${_features_feature_branch}" dir="${project.basedir}" checkReturn="true" />
 
             <echo />
 
-            <echo msg="Pushing local dev branch (with feature merged in) to remote origin." />
+            <echo msg="Pushing local dev branch (with ${_features_feature_branch} merged in) to remote origin." />
             <exec command="git push --set-upstream origin dev" dir="${project.basedir}" checkReturn="true" />
 
             <echo />
@@ -221,8 +221,8 @@
           <then>
             <echo />
 
-            <echo msg="Branch ${_features_feature_branch} already exists locally." />
-            <echo msg="Moving you to existing local ${_features_feature_branch} branch." />
+            <echo msg="The ${_features_feature_branch} branch already exists locally." />
+            <echo msg="Moving you to the existing local ${_features_feature_branch} branch." />
             <exec command="git checkout ${_features_feature_branch}" dir="${project.basedir}" checkReturn="true" />
           </then>
           <elseif>
@@ -232,7 +232,7 @@
             <then>
               <echo />
 
-              <echo msg="Branch ${_features_feature_branch} already exists remotely." />
+              <echo msg="The ${_features_feature_branch} branch already exists remotely." />
               <echo msg="Creating a new ${_features_feature_branch} branch locally; based on existing remote origin." />
               <exec command="git checkout -b ${_features_feature_branch} origin/${_features_feature_branch}" dir="${project.basedir}" checkReturn="true" />
             </then>
@@ -240,7 +240,7 @@
           <else>
             <echo />
 
-            <echo msg="Feature branch doesn't exist locally or remotely. OK." />
+            <echo msg="The ${_features_feature_branch} branch doesn't exist locally or remotely. OK." />
 
             <echo />
 
@@ -271,19 +271,19 @@
               <else>
                 <echo />
 
-                <echo msg="Updating `.gitchange` in this branch so that a PR is possible." />
+                <echo msg="Updating `.gitchange` in the ${_features_feature_branch} branch so that a PR is possible." />
                 <adHocUserSpecificGitChange dir="${project.basedir}" />
 
                 <echo />
 
-                <echo msg="Pushing ${_features_feature_branch} branch to remote origin." />
+                <echo msg="Pushing the ${_features_feature_branch} branch to remote origin." />
                 <exec command="git add --all" dir="${project.basedir}" checkReturn="true" />
                 <exec command="git commit --message='Preparing pull request. See: ${_features_feature_issue_ref}' --no-edit" dir="${project.basedir}" checkReturn="true" />
                 <exec command="git push --set-upstream origin ${_features_feature_branch}" dir="${project.basedir}" checkReturn="true" />
 
                 <echo />
 
-                <echo msg="Opening a pull request at GitHub for future commits." />
+                <echo msg="Opening a pull request at GitHub for future commits in the ${_features_feature_branch} branch." />
                 <exec command="hub pull-request -m '${_features_feature_pr_title_body}' -h ${_features_feature_branch} -b dev" dir="${project.basedir}" checkReturn="true" />
 
                 <echo />

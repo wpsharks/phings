@@ -8,7 +8,7 @@
 
   <target name="-notifications-complete" hidden="true">
 
-    <!-- Applies to MacOS only at this time. -->
+    <!-- Applies to macOS only at this time. -->
     <if>
       <and>
         <contains string="${host.os}" substring="darwin" caseSensitive="false" />
@@ -22,7 +22,7 @@
           </and>
 
           <then>
-            <echo msg="Success ... updating Notification Center on MacOS via `terminal-notifier`." />
+            <echo msg="Success ... updating Notification Center on macOS via `terminal-notifier`." />
 
             <exec executable="terminal-notifier" checkReturn="false">
               <arg value="-group" />
