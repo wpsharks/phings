@@ -4,7 +4,6 @@
 - Lite build with pro Composer dependencies. Fixed in this release. See [Issue #146](https://github.com/websharks/phings/issues/146).
 - Exclude `composer.json` and `composer.lock` from final distros. See [Issue #141](https://github.com/websharks/phings/issues/141).
 - Strip unnecessary files from final distros. See [Issue #150](https://github.com/websharks/phings/issues/150).
-- Use `hub` long option names and use named release uploads. See [Issue #112](https://github.com/websharks/phings/issues/112).
 
 ## v160908.63229
 
