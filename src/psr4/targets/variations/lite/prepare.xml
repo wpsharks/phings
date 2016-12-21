@@ -27,6 +27,7 @@
         <exclude pattern=".git/**" />
         <exclude pattern=".~build/**" />
         <exclude pattern="src/vendor/**" />
+        <exclude pattern="composer.lock" />
         <exclude pattern="src/includes/translations/${project_slug}.pot" />
       </fileSet>
     </copy>
