@@ -1,6 +1,7 @@
 ## [coming soon]
 
 - Developers can now create `src/includes/translations/.generate` to enable an i18n translation file for projects that would otherwise not require them.
+- Lite build with pro Composer dependencies. Fixed in this release. See [Issue #146](https://github.com/websharks/phings/issues/146).
 
 ## v160908.63229
 
