@@ -147,7 +147,7 @@
         <isTrue value="${_releases_release_type_is_rc}" />
       </and>
       <then>
-        <property name="_releases_release_git_create_pre" value=" --prerelease" />
+        <property name="_releases_release_git_create_pre" value=" -p" />
       </then>
       <else>
         <property name="_releases_release_git_create_pre" value="" />
@@ -170,7 +170,7 @@
         </and>
       </or>
       <then>
-        <property name="_releases_release_git_create_draft" value=" --draft" />
+        <property name="_releases_release_git_create_draft" value=" -d" />
       </then>
       <else>
         <property name="_releases_release_git_create_draft" value="" />
@@ -184,10 +184,10 @@
         <available resource="${project.basedir}/.~build/${project_slug}.phar" type="file" />
       </and>
       <then>
-        <property name="_releases_release_git_create_assets" value="--asset='${project.basedir}/.~build/${project_slug}.zip#${project_slug}-v${project_version}.zip' --asset='${project.basedir}/.~build/${project_slug}.tar.gz#${project_slug}-v${project_version}.tar.gz' --asset='${project.basedir}/.~build/${project_slug}.phar#${project_slug}-v${project_version}.phar'" />
+        <property name="_releases_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_slug}.zip#${project_slug}-v${project_version}.zip' -a '${project.basedir}/.~build/${project_slug}.tar.gz#${project_slug}-v${project_version}.tar.gz' -a '${project.basedir}/.~build/${project_slug}.phar#${project_slug}-v${project_version}.phar'" />
       </then>
       <else>
-        <property name="_releases_release_git_create_assets" value="--asset='${project.basedir}/.~build/${project_slug}.zip#${project_slug}-v${project_version}.zip' --asset='${project.basedir}/.~build/${project_slug}.tar.gz#${project_slug}-v${project_version}.tar.gz'" />
+        <property name="_releases_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_slug}.zip#${project_slug}-v${project_version}.zip' -a '${project.basedir}/.~build/${project_slug}.tar.gz#${project_slug}-v${project_version}.tar.gz'" />
       </else>
     </if>
 
@@ -273,7 +273,7 @@
       </else>
     </if>
 
-    <property name="_releases_release_git_create_command" value="hub release create --file='${_tmp_sub_dir}/${project_slug}-commit-msg'${_releases_release_git_create_pre}${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${project_version}" />
+    <property name="_releases_release_git_create_command" value="hub release create -f '${_tmp_sub_dir}/${project_slug}-commit-msg'${_releases_release_git_create_pre}${_releases_release_git_create_draft} ${_releases_release_git_create_assets} ${project_version}" />
     <exec command="${_releases_release_git_create_command}" dir="${project.basedir}" checkReturn="true" outputProperty="_releases_release_git_create_output" />
 
     <property name="_releases_release_git_create_release_url" value="${_releases_release_git_create_output}">
