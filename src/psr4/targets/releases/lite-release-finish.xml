@@ -49,7 +49,7 @@
         <isTrue value="${_releases_release_type_is_rc}" />
       </and>
       <then>
-        <property name="_releases_lite_release_git_create_pre" value=" -p" />
+        <property name="_releases_lite_release_git_create_pre" value=" --prerelease" />
       </then>
       <else>
         <property name="_releases_lite_release_git_create_pre" value="" />
@@ -64,7 +64,7 @@
         <isTrue value="${draft}" />
       </and>
       <then>
-        <property name="_releases_lite_release_git_create_draft" value=" -d" />
+        <property name="_releases_lite_release_git_create_draft" value=" --draft" />
       </then>
       <else>
         <property name="_releases_lite_release_git_create_draft" value="" />
@@ -77,10 +77,10 @@
         <available resource="${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.phar" type="file" />
       </and>
       <then>
-        <property name="_releases_lite_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.phar'" />
+        <property name="_releases_lite_release_git_create_assets" value="--asset '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip#${project_lite_slug}-v${project_version}.zip' --asset '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz#${project_lite_slug}-v${project_version}.tar.gz' --asset '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.phar#${project_lite_slug}-v${project_version}.phar'" />
       </then>
       <else>
-        <property name="_releases_lite_release_git_create_assets" value="-a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip' -a '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz'" />
+        <property name="_releases_lite_release_git_create_assets" value="--asset '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.zip#${project_lite_slug}-v${project_version}.zip' --asset '${project.basedir}/.~build/${project_lite_slug}/.~build/${project_lite_slug}.tar.gz#${project_lite_slug}-v${project_version}.tar.gz'" />
       </else>
     </if>
 
