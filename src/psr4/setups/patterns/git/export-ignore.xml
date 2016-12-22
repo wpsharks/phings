@@ -203,6 +203,11 @@
     <exclude pattern="TODO.mdown" />
     <exclude pattern="**/TODO.mdown" />
 
+    <!-- Dists -->
+
+    <exclude pattern="*.dist" />
+    <exclude pattern="**/**.dist" />
+
     <!-- SASS -->
 
     <exclude pattern="**.scss" />
@@ -312,8 +317,13 @@
     <exclude pattern="phpunit.xml" />
     <exclude pattern="src/vendor/*/*/phpunit.xml" />
 
-    <exclude pattern="phpunit.xml.*" />
-    <exclude pattern="src/vendor/*/*/phpunit.xml.*" />
+    <!-- Box / Phar -->
+
+    <exclude pattern="box.json" />
+    <exclude pattern="src/vendor/*/*/box.json" />
+
+    <exclude pattern=".box.json" />
+    <exclude pattern="src/vendor/*/*/.box.json" />
 
     <!-- Drone -->
 
