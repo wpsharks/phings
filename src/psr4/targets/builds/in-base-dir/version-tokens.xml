@@ -50,6 +50,8 @@
         <isFalse value="${_starting_git_branch_is_release_rc}" />
       </and>
       <then>
+        <echo />
+
         <echo msg="Replacing PHP/JS/CSS/SCSS/BASH @since version tokens in: ${project.basedir}" />
 
         <reflexive>
@@ -69,24 +71,34 @@
     </if>
 
     <!-- README/CHANGELOG version token replacements. -->
+    <!-- If the first changelog entry is for an RC release, replace it also. -->
 
-    <echo />
+    <if>
+      <and>
+        <isTrue value="${_starting_git_branch_is_release}" />
+      </and>
+      <then>
+        <echo />
 
-    <echo msg="Replacing README/CHANGELOG version tokens: ${project.basedir}" />
+        <echo msg="Replacing README/CHANGELOG version tokens: ${project.basedir}" />
 
-    <reflexive>
-      <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
-        <include pattern="README.md" />
-        <include pattern="CHANGELOG.md" />
-      </fileSet>
-      <filterChain>
-        <replaceRegExp>
-          <regExp pattern="^((?:#+|\=+)\s+)\$v$" replace="$1v${project_version}" modifiers="um" />
-          <regExp pattern="^((?:#+|\=+)\s+)\/\/v\/\/$" replace="$1v${project_version}" modifiers="um" />
-          <regExp pattern="^((?:#+|\=+)\s+)\/\/version\/\/$" replace="$1v${project_version}" modifiers="um" />
-        </replaceRegExp>
-      </filterChain>
-    </reflexive>
+        <reflexive>
+          <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
+            <include pattern="README.md" />
+            <include pattern="CHANGELOG.md" />
+          </fileSet>
+          <filterChain>
+            <replaceRegExp>
+              <regExp pattern="^(#+)(\h+|\h+.+?\h+)v[0-9.]+\-RC(|\h+.*?)(?=\v)" replace="$1$2v${_project_build_version}$3" modifiers="ui" />
+              <regExp pattern="^(\=+)(\h+|\h+.+?\h+)v[0-9.]+\-RC(\h+|\h+.+?\h+)(\\1)(?=\v)" replace="$1$2v${_project_build_version}$3$4" modifiers="ui" />
+
+              <regExp pattern="^(#+)(\h+|\h+.+?\h+)\$v(|\h+.*?)$" replace="$1$2v${_project_build_version}$3" modifiers="uim" />
+              <regExp pattern="^(\=+)(\h+|\h+.+?\h+)\$v(\h+|\h+.+?\h+)(\\1)$" replace="$1$2v${_project_build_version}$3$4" modifiers="uim" />
+            </replaceRegExp>
+          </filterChain>
+        </reflexive>
+      </then>
+    </if>
 
     <!-- WordPress header replacements. -->
 

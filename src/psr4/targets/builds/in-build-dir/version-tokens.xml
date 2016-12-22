@@ -43,7 +43,28 @@
       </filterChain>
     </reflexive>
 
+    <!-- PHP/JS/CSS/SCSS/BASH @since|deprecated version tokens. -->
+
+    <echo />
+
+    <echo msg="Replacing PHP/JS/CSS/SCSS/BASH @since version tokens in: ${project.basedir}" />
+
+    <reflexive>
+      <fileSet dir="${project.basedir}" caseSensitive="false" defaultExcludes="false">
+        <patternSet refId="_git_ignore_pattern_set" />
+        <patternSet refId="_alter_ignore_pattern_set" />
+        <patternSet refId="_token_pattern_set" />
+      </fileSet>
+      <filterChain>
+        <replaceRegExp>
+          <!-- WARNING: Very important for `$1 ${project_versoin}` to have that space. Otherwise the version becomes a part of the replacement code. -->
+          <regExp pattern="^(\s*\*\s+@(?:since|deprecated))\s+(?:\$v|[0-9]{2}[xX]{4,}|[xX]{6,})(\s|$)" replace="$1 ${project_version}$2" modifiers="um" />
+        </replaceRegExp>
+      </filterChain>
+    </reflexive>
+
     <!-- README/CHANGELOG version token replacements. -->
+    <!-- If the first changelog entry is for an RC release, replace it also. -->
 
     <echo />
 
@@ -56,9 +77,11 @@
       </fileSet>
       <filterChain>
         <replaceRegExp>
-          <regExp pattern="^((?:#+|\=+)\s+)\$v$" replace="$1v${_project_build_version}" modifiers="um" />
-          <regExp pattern="^((?:#+|\=+)\s+)\/\/v\/\/$" replace="$1v${_project_build_version}" modifiers="um" />
-          <regExp pattern="^((?:#+|\=+)\s+)\/\/version\/\/$" replace="$1v${_project_build_version}" modifiers="um" />
+          <regExp pattern="^(#+)(\h+|\h+.+?\h+)v[0-9.]+\-RC(|\h+.*?)(?=\v)" replace="$1$2v${_project_build_version}$3" modifiers="ui" />
+          <regExp pattern="^(\=+)(\h+|\h+.+?\h+)v[0-9.]+\-RC(\h+|\h+.+?\h+)(\\1)(?=\v)" replace="$1$2v${_project_build_version}$3$4" modifiers="ui" />
+
+          <regExp pattern="^(#+)(\h+|\h+.+?\h+)\$v(|\h+.*?)$" replace="$1$2v${_project_build_version}$3" modifiers="uim" />
+          <regExp pattern="^(\=+)(\h+|\h+.+?\h+)\$v(\h+|\h+.+?\h+)(\\1)$" replace="$1$2v${_project_build_version}$3$4" modifiers="uim" />
         </replaceRegExp>
       </filterChain>
     </reflexive>
