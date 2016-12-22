@@ -81,9 +81,9 @@
       </fileSet>
       <filterChain>
         <replaceRegExp>
-          <regExp pattern="^(#+\s+)\$v$" replace="$1v${project_version}" modifiers="um" />
-          <regExp pattern="^(#+\s+)\/\/v\/\/$" replace="$1v${project_version}" modifiers="um" />
-          <regExp pattern="^(#+\s+)\/\/version\/\/$" replace="$1v${project_version}" modifiers="um" />
+          <regExp pattern="^((?:#+|\=+)\s+)\$v$" replace="$1v${project_version}" modifiers="um" />
+          <regExp pattern="^((?:#+|\=+)\s+)\/\/v\/\/$" replace="$1v${project_version}" modifiers="um" />
+          <regExp pattern="^((?:#+|\=+)\s+)\/\/version\/\/$" replace="$1v${project_version}" modifiers="um" />
         </replaceRegExp>
       </filterChain>
     </reflexive>
