@@ -9,6 +9,9 @@ project_owner                                       = websharks
 # Should match the GitHub repo slug.
 project_slug                                        = my-project-pro
 
+# Only necessary if issues are in a different repo.
+project_issues_slug                                 = my-project-pro
+
 # Project text domain for i18n POT generation.
 # In most cases you should exclude the `-pro` suffix here.
 project_text_domain                                 = my-project
