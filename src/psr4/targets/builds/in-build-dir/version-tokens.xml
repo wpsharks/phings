@@ -77,11 +77,11 @@
       </fileSet>
       <filterChain>
         <replaceRegExp>
-          <regExp pattern="^(#+)(\h+|\h+.+?\h+)v[0-9.]+\-RC(|\h+.*?)(?=\v)" replace="$1$2v${_project_build_version}$3" modifiers="ui" />
-          <regExp pattern="^(\=+)(\h+|\h+.+?\h+)v[0-9.]+\-RC(\h+|\h+.+?\h+)(\\1)(?=\v)" replace="$1$2v${_project_build_version}$3$4" modifiers="ui" />
+          <regExp pattern="^(#+)(\h+|\h+.+?\h+)v[0-9.]+\-[rR][cC](|\h+.*?)(?=\v)" replace="$1$2v${_project_build_version}$3" modifiers="u" />
+          <regExp pattern="^(\=+)(\h+|\h+.+?\h+)v[0-9.]+\-[rR][cC](\h+|\h+.+?\h+)(\1)(?=\v)" replace="$1$2v${_project_build_version}$3$4" modifiers="u" />
 
-          <regExp pattern="^(#+)(\h+|\h+.+?\h+)\$v(|\h+.*?)$" replace="$1$2v${_project_build_version}$3" modifiers="uim" />
-          <regExp pattern="^(\=+)(\h+|\h+.+?\h+)\$v(\h+|\h+.+?\h+)(\\1)$" replace="$1$2v${_project_build_version}$3$4" modifiers="uim" />
+          <regExp pattern="^(#+)(\h+|\h+.+?\h+)\$v(|\h+.*?)$" replace="$1$2v${_project_build_version}$3" modifiers="um" />
+          <regExp pattern="^(\=+)(\h+|\h+.+?\h+)\$v(\h+|\h+.+?\h+)(\1)$" replace="$1$2v${_project_build_version}$3$4" modifiers="um" />
         </replaceRegExp>
       </filterChain>
     </reflexive>
