@@ -274,11 +274,11 @@
     <exclude pattern=".build.props" />
     <exclude pattern="src/vendor/*/*/.build.props" />
 
-    <exclude pattern="build-*.xml" />
-    <exclude pattern="src/vendor/*/*/build-*.xml" />
-
     <exclude pattern="build.xml" />
     <exclude pattern="src/vendor/*/*/build.xml" />
+
+    <exclude pattern="build-*.xml" />
+    <exclude pattern="src/vendor/*/*/build-*.xml" />
 
     <!-- Dot Build Files -->
 

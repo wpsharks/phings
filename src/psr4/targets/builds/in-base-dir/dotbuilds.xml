@@ -17,8 +17,12 @@
         <patternSet refId="_git_ignore_pattern_set" />
         <patternSet refId="_alter_ignore_pattern_set" />
         <patternSet refId="_dotbuilds_pattern_set" />
-        <include pattern=".build.in-base-dir*.php" />
-        <include pattern="**/.build.in-base-dir*.php" />
+
+        <include pattern=".build.in-base-dir.php" />
+        <include pattern="**/.build.in-base-dir.php" />
+
+        <include pattern=".build.in-base-dir.*.php" />
+        <include pattern="**/.build.in-base-dir.*.php" />
       </fileSet>
     </forEach>
 
