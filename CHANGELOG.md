@@ -1,3 +1,7 @@
+## [coming soon]
+
+- Enforcing a `.` in numbered/prioritized `.build.php` files. See [Issue #127 (comment)](https://github.com/websharks/phings/issues/127#issuecomment-268683592).
+
 ## v161222.732
 
 - Adding support for new `.build.props` property: `project_issues_slug`. Allowing a separate repo to be used for issues.
