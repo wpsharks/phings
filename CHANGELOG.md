@@ -1,4 +1,4 @@
-## $v
+## v161222.732
 
 - Adding support for new `.build.props` property: `project_issues_slug`. Allowing a separate repo to be used for issues.
 - Developers can now create `src/includes/translations/.generate` to enable an i18n translation file for projects that would otherwise not require them.
