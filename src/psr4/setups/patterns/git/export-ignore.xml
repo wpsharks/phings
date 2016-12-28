@@ -306,8 +306,16 @@
     <exclude pattern="src/includes/**/.build.*.php" />
     <exclude pattern="src/vendor/websharks/*/src/includes/**/.build.*.php" />
 
+    <!-- Demos -->
+
+    <exclude pattern="demo/**" />
+    <exclude pattern="demos/**" />
+    <exclude pattern="src/vendor/*/*/demo/**" />
+    <exclude pattern="src/vendor/*/*/demos/**" />
+
     <!-- Tests -->
 
+    <exclude pattern="test/**" />
     <exclude pattern="tests/**" />
     <exclude pattern="src/vendor/*/*/test/**" />
     <exclude pattern="src/vendor/*/*/tests/**" />
