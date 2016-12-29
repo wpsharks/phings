@@ -174,18 +174,38 @@
     <!-- These are in addition to what we have in `.gitignore`. -->
     <!-- ——————————————————————————————————————————— -->
 
-    <!-- IDE Helpers -->
+    <!-- Assets (in WS projects) -->
 
-    <exclude pattern="_ide.php" />
-    <exclude pattern="**/_ide.php" />
+    <exclude pattern="assets/**" />
+    <exclude pattern="src/vendor/websharks/*/assets/**" />
 
-    <!-- CHANGELOG Files -->
+    <!-- Demo Directories -->
 
-    <exclude pattern="CHANGELOG.md" />
-    <exclude pattern="**/CHANGELOG.md" />
+    <exclude pattern="demo/**" />
+    <exclude pattern="demos/**" />
+    <exclude pattern="src/vendor/*/*/demo/**" />
+    <exclude pattern="src/vendor/*/*/demos/**" />
 
-    <exclude pattern="CHANGELOG.mdown﻿⁠⁠⁠⁠" />
-    <exclude pattern="**/CHANGELOG.mdown﻿⁠⁠⁠⁠" />
+    <!-- Test Directories -->
+
+    <exclude pattern="test/**" />
+    <exclude pattern="tests/**" />
+    <exclude pattern="src/vendor/*/*/test/**" />
+    <exclude pattern="src/vendor/*/*/tests/**" />
+
+    <!-- TO-DO Lists -->
+
+    <exclude pattern="TODO.md" />
+    <exclude pattern="**/TODO.md" />
+
+    <exclude pattern="TODO.mdown" />
+    <exclude pattern="**/TODO.mdown" />
+
+    <exclude pattern="TODO.markdown" />
+    <exclude pattern="**/TODO.markdown" />
+
+    <exclude pattern="TODO.txt" />
+    <exclude pattern="**/TODO.txt" />
 
     <!-- README Files -->
 
@@ -195,31 +215,27 @@
     <exclude pattern="README.mdown﻿⁠⁠⁠⁠" />
     <exclude pattern="**/README.mdown﻿⁠⁠⁠⁠" />
 
-    <!-- TODO Lists -->
+    <exclude pattern="README.markdown﻿⁠⁠⁠⁠" />
+    <exclude pattern="**/README.markdown﻿⁠⁠⁠⁠" />
 
-    <exclude pattern="TODO.md" />
-    <exclude pattern="**/TODO.md" />
+    <exclude pattern="README.txt﻿⁠⁠⁠⁠" />
+    <exclude pattern="**/README.txt﻿⁠⁠⁠⁠" />
 
-    <exclude pattern="TODO.mdown" />
-    <exclude pattern="**/TODO.mdown" />
+    <!-- CHANGELOG Files -->
 
-    <!-- Dists -->
+    <exclude pattern="CHANGELOG.md" />
+    <exclude pattern="**/CHANGELOG.md" />
 
-    <exclude pattern="*.dist" />
-    <exclude pattern="**/**.dist" />
+    <exclude pattern="CHANGELOG.mdown﻿⁠⁠⁠⁠" />
+    <exclude pattern="**/CHANGELOG.mdown﻿⁠⁠⁠⁠" />
 
-    <!-- SASS -->
+    <exclude pattern="CHANGELOG.markdown﻿⁠⁠⁠⁠" />
+    <exclude pattern="**/CHANGELOG.markdown﻿⁠⁠⁠⁠" />
 
-    <exclude pattern="**.scss" />
-    <exclude pattern="**/**.scss" />
+    <exclude pattern="CHANGELOG.txt﻿⁠⁠⁠⁠" />
+    <exclude pattern="**/CHANGELOG.txt﻿⁠⁠⁠⁠" />
 
-    <exclude pattern="**.css.map" />
-    <exclude pattern="**/**.css.map" />
-
-    <exclude pattern="src/client-s/**/bourbon/**" />
-    <exclude pattern="src/vendor/websharks/*/src/client-s/**/bourbon/**" />
-
-    <!-- Git -->
+    <!-- Git Dotfiles -->
 
     <exclude pattern=".gitignore" />
     <exclude pattern="src/vendor/*/*/.gitignore" />
@@ -233,7 +249,7 @@
     <exclude pattern=".gitchange" />
     <exclude pattern="src/vendor/websharks/*/.gitchange" />
 
-    <!-- GitHub -->
+    <!-- GitHub Dir/Files -->
 
     <exclude pattern=".github/**" />
     <exclude pattern="src/vendor/*/*/.github/**" />
@@ -247,32 +263,28 @@
     <exclude pattern="PULL_REQUEST_TEMPLATE.md" />
     <exclude pattern="src/vendor/*/*/PULL_REQUEST_TEMPLATE.md" />
 
-    <!-- Assets -->
-
-    <exclude pattern="assets/**" />
-    <exclude pattern="src/vendor/websharks/*/assets/**" />
-
-    <!-- Composer Files -->
-
-    <exclude pattern="composer.json" />
-    <exclude pattern="src/vendor/*/*/composer.json" />
-
-    <exclude pattern="composer.lock" />
-    <exclude pattern="src/vendor/*/*/composer.lock" />
-
     <!-- Makefiles -->
 
     <exclude pattern="Makefile" />
     <exclude pattern="src/vendor/*/*/Makefile" />
 
-    <!-- Build Files -->
+    <!-- Gulp Files -->
+
+    <exclude pattern="gulpfile.js" />
+    <exclude pattern="src/vendor/*/*/gulpfile.js" />
+
+    <!-- Grunt Files -->
+
+    <exclude pattern="Gruntfile" />
+    <exclude pattern="src/vendor/*/*/Gruntfile" />
+
+    <!-- Phings Directory -->
 
     <exclude pattern="phings/**" />
     <exclude pattern="src/vendor/*/*/phing/**" />
     <exclude pattern="src/vendor/*/*/phings/**" />
 
-    <exclude pattern=".build.props" />
-    <exclude pattern="src/vendor/*/*/.build.props" />
+    <!-- Phing Build Files -->
 
     <exclude pattern="build.xml" />
     <exclude pattern="src/vendor/*/*/build.xml" />
@@ -280,7 +292,10 @@
     <exclude pattern="build-*.xml" />
     <exclude pattern="src/vendor/*/*/build-*.xml" />
 
-    <!-- Dot Build Files -->
+    <exclude pattern=".build.props" />
+    <exclude pattern="src/vendor/*/*/.build.props" />
+
+    <!-- Phing Dot Build Files -->
 
     <exclude pattern=".build.php" />
     <exclude pattern="src/vendor/websharks/*/.build.php" />
@@ -306,24 +321,39 @@
     <exclude pattern="src/includes/**/.build.*.php" />
     <exclude pattern="src/vendor/websharks/*/src/includes/**/.build.*.php" />
 
-    <!-- Demos -->
+    <!-- IDE Helpers -->
 
-    <exclude pattern="demo/**" />
-    <exclude pattern="demos/**" />
-    <exclude pattern="src/vendor/*/*/demo/**" />
-    <exclude pattern="src/vendor/*/*/demos/**" />
+    <exclude pattern="_ide.php" />
+    <exclude pattern="**/_ide.php" />
 
-    <!-- Tests -->
+    <!-- Composer Files -->
 
-    <exclude pattern="test/**" />
-    <exclude pattern="tests/**" />
-    <exclude pattern="src/vendor/*/*/test/**" />
-    <exclude pattern="src/vendor/*/*/tests/**" />
+    <exclude pattern="composer.json" />
+    <exclude pattern="src/vendor/*/*/composer.json" />
+
+    <exclude pattern="composer.lock" />
+    <exclude pattern="src/vendor/*/*/composer.lock" />
 
     <!-- PHPUnit -->
 
     <exclude pattern="phpunit.xml" />
     <exclude pattern="src/vendor/*/*/phpunit.xml" />
+
+    <exclude pattern="phpunit.xml.dist" />
+    <exclude pattern="src/vendor/*/*/phpunit.xml.dist" />
+
+    <!-- SASS-Related -->
+
+    <exclude pattern="**.scss" />
+    <exclude pattern="**/**.scss" />
+
+    <exclude pattern="**.css.map" />
+    <exclude pattern="**/**.css.map" />
+
+    <!-- Bourbon (in WS projects) -->
+
+    <exclude pattern="src/client-s/**/bourbon/**" />
+    <exclude pattern="src/vendor/websharks/*/src/client-s/**/bourbon/**" />
 
     <!-- Box / Phar -->
 
@@ -332,6 +362,12 @@
 
     <exclude pattern=".box.json" />
     <exclude pattern="src/vendor/*/*/.box.json" />
+
+    <exclude pattern="box.json.dist" />
+    <exclude pattern="src/vendor/*/*/box.json.dist" />
+
+    <exclude pattern=".box.json.dist" />
+    <exclude pattern="src/vendor/*/*/.box.json.dist" />
 
     <!-- Drone -->
 
