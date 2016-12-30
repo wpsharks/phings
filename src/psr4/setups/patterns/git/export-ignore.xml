@@ -186,6 +186,13 @@
     <exclude pattern="src/vendor/*/*/demo/**" />
     <exclude pattern="src/vendor/*/*/demos/**" />
 
+    <!-- Doc Directories -->
+
+    <exclude pattern="doc/**" />
+    <exclude pattern="docs/**" />
+    <exclude pattern="src/vendor/*/*/doc/**" />
+    <exclude pattern="src/vendor/*/*/docs/**" />
+
     <!-- Test Directories -->
 
     <exclude pattern="test/**" />
