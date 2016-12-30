@@ -263,6 +263,11 @@
     <exclude pattern="PULL_REQUEST_TEMPLATE.md" />
     <exclude pattern="src/vendor/*/*/PULL_REQUEST_TEMPLATE.md" />
 
+    <!-- Jekyll Files -->
+
+    <exclude pattern="_config.yml" />
+    <exclude pattern="src/vendor/*/*/_config.yml" />
+
     <!-- Makefiles -->
 
     <exclude pattern="Makefile" />
