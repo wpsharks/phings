@@ -270,10 +270,21 @@
     <exclude pattern="PULL_REQUEST_TEMPLATE.md" />
     <exclude pattern="src/vendor/*/*/PULL_REQUEST_TEMPLATE.md" />
 
-    <!-- Jekyll Files -->
+    <!-- GitHub + Jekyll Dirs/Files -->
+    <!-- Note: `docs/` and `assets/` are also used by Jekyll. -->
+    <!-- They aren't listed here because they are listed elsewhere. -->
 
     <exclude pattern="_config.yml" />
     <exclude pattern="src/vendor/*/*/_config.yml" />
+
+    <exclude pattern="_layouts/**" />
+    <exclude pattern="src/vendor/*/*/_layouts/**" />
+
+    <exclude pattern="_includes/**" />
+    <exclude pattern="src/vendor/*/*/_includes/**" />
+
+    <exclude pattern="_sass/**" />
+    <exclude pattern="src/vendor/*/*/_sass/**" />
 
     <!-- Makefiles -->
 
