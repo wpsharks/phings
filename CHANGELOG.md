@@ -1,4 +1,4 @@
-## $v
+## v170105.65238
 
 - Enforcing a `.` in numbered/prioritized `.build.php` files. See [Issue #127 (comment)](https://github.com/websharks/phings/issues/127#issuecomment-268683592).
 - Enhancing and documenting support for `$v` in changelog headings. See [this wiki article](https://github.com/websharks/phings/wiki/GitHub-Releases#changelog-format-tip).
