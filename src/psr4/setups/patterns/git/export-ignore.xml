@@ -225,8 +225,9 @@
     <exclude pattern="README.markdown﻿⁠⁠⁠⁠" />
     <exclude pattern="**/README.markdown﻿⁠⁠⁠⁠" />
 
-    <exclude pattern="README.txt﻿⁠⁠⁠⁠" />
-    <exclude pattern="**/README.txt﻿⁠⁠⁠⁠" />
+    <!-- <exclude pattern="README.txt﻿⁠⁠⁠⁠" /> -->
+    <!-- <exclude pattern="**/README.txt﻿⁠⁠⁠⁠" /> -->
+    <!-- Keep these for WordPress themes/plugins. -->
 
     <!-- CHANGELOG Files -->
 
