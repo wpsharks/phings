@@ -297,6 +297,11 @@
     <exclude pattern="gulpfile.js" />
     <exclude pattern="src/vendor/*/*/gulpfile.js" />
 
+    <!-- TypeScript Files -->
+
+    <exclude pattern="tsconfig.json" />
+    <exclude pattern="src/vendor/*/*/tsconfig.json" />
+
     <!-- Grunt Files -->
 
     <exclude pattern="Gruntfile" />
