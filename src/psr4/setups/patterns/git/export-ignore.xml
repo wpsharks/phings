@@ -30,6 +30,11 @@
     <exclude pattern="*.bak" />
     <exclude pattern="**/*.bak" />
 
+    <!-- TypeScript -->
+
+    <exclude pattern="typings/**" />
+    <exclude pattern="**/typings/**" />
+
     <!-- Node -->
 
     <exclude pattern="node_modules/**" />
