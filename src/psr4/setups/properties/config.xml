@@ -28,7 +28,7 @@
 
       <!-- PHP Code Sniffer dependency info. -->
 
-      <property name="_deps_phpcs_version" value="2.5.1" />
+      <property name="_deps_phpcs_version" value="2.7.1" />
       <property name="_deps_phpcs_url" value="https://github.com/squizlabs/PHP_CodeSniffer/releases/download/${_deps_phpcs_version}/phpcs.phar" />
       <property name="_deps_phpcs_path" value="${_home_sub_dir}/deps/phpcs/${_deps_phpcs_version}.phar" />
       <dirname property="_deps_phpcs_path_dirname" file="${_deps_phpcs_path}" />
