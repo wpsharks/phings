@@ -1,3 +1,7 @@
+## $v
+
+- Updating to PHPCS v2.7.1 (previously using v2.5.1).
+
 ## v170105.65238
 
 - Enforcing a `.` in numbered/prioritized `.build.php` files. See [Issue #127 (comment)](https://github.com/websharks/phings/issues/127#issuecomment-268683592).
