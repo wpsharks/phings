@@ -357,6 +357,9 @@
 
     <!-- TypeScript Files -->
 
+    <exclude pattern="**.ts" />
+    <exclude pattern="**/**.ts" />
+
     <exclude pattern="tsconfig.json" />
     <exclude pattern="**/tsconfig.json" />
 
