@@ -162,7 +162,10 @@
           <not>
             <isset property="draft" />
           </not>
-          <isTrue value="${_is_pro_project}" />
+          <or>
+            <isTrue value="${_is_elite_project}" />
+            <isTrue value="${_is_pro_project}" />
+          </or>
         </and>
         <and>
           <isset property="draft" />

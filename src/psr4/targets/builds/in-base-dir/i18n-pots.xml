@@ -17,6 +17,7 @@
         <isTrue value="${_is_wp_theme_plugin}" />
         <or>
           <isTrue value="${_is_core_project}" />
+          <isTrue value="${_is_elite_project}" />
           <isTrue value="${_is_pro_project}" />
           <available resource="${project.basedir}/src/includes/translations/.generate" type="file" />
         </or>

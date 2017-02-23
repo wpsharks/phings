@@ -315,6 +315,20 @@
         </else>
       </if>
 
+      <!-- Elite detection. -->
+
+      <if>
+        <or>
+          <contains string="\\${project_namespace}\\" substring="\\Elite\\" caseSensitive="false" />
+        </or>
+        <then>
+          <property name="_is_elite_project" value="true" />
+        </then>
+        <else>
+          <property name="_is_elite_project" value="false" />
+        </else>
+      </if>
+
       <!-- Pro detection. -->
 
       <if>

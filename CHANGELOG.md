@@ -1,6 +1,7 @@
 ## $v
 
 - Updating to PHPCS v2.7.1 (previously using v2.5.1).
+- Adding support for Elite packages (one above pro).
 
 ## v170105.65238
 
