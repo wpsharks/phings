@@ -2,6 +2,7 @@
 
 - Updating to PHPCS v2.7.1 (previously using v2.5.1).
 - Adding support for Elite packages (one above pro).
+- Use `777` permissions on `/tmp/.websharks/phings`. See [Issue #156](https://github.com/websharks/phings/issues/156).
 
 ## v170105.65238
 
