@@ -1,5 +1,10 @@
 ## $v
 
+- The Phing release system now generates a `version-ars.txt` file; ARS = Any Release State, which includes RC and other official development states, but excludes bleeding edge releases. This new `version-ars.txt` file will be generated automatically for each project upon the next RC or formal release that you perform using the Phing release system.
+
+  The file will exist here: `https://cdn.wpsharks.com/software/latest/[slug]/version-ars.txt`. This can be used to check for the latest version, in any release state, instead of checking only for the latest stable release.
+
+  _The new `version-ars.txt` file is automatically updated by the Phing build system whenever you perform any RC or formal release. In other words, `version-ars.txt` always points to the latest available release, without being filtered by development state; i.e., it will consider alpha, beta, RC, and formal releases also. The only exception is that `version-ars.txt` excludes bleeding edge releases, which are in a separate directory and are not considered to be an actual 'release'._
 - Updating to PHPCS v2.7.1 (previously using v2.5.1).
 - Adding support for Elite packages (one above pro).
 - Use `777` permissions on `/tmp/.websharks/phings`. See [Issue #156](https://github.com/websharks/phings/issues/156).

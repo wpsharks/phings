@@ -21,7 +21,11 @@
 
     <forEach list="zip,tar.gz,phar" delimiter="," target="--releases-lite-upload-extension" param="__releases_lite_upload_extension" />
 
-    <!-- If doing a formal release, update `${project_lite_slug}/version.txt`. -->
+    <!-- Update `${project_lite_slug}/version-ars.txt` (latest, any release state). -->
+
+    <phingCall target="--releases-lite-upload-version-ars" />
+
+    <!-- If doing a formal release, update `${project_lite_slug}/version.txt` also. -->
     <if>
       <and>
         <isFalse value="${_releases_release_type_is_rc}" />
@@ -120,6 +124,33 @@
         <echo msg="Distro with extension `.${__releases_lite_upload_extension}` does not exist. Bypassing." />
       </else>
     </if>
+
+  </target>
+
+  <!-- Uploads a `${project_lite_slug}/version-ars.txt` file we can query. -->
+
+  <target name="--releases-lite-upload-version-ars" hidden="true">
+
+    <exec executable="aws" passthru="true" checkReturn="true">
+      <arg value="--profile" />
+      <arg value="websharks" />
+
+      <arg value="s3" />
+      <arg value="cp" />
+
+      <arg value="${project.basedir}/.~build/${project_lite_slug}/.~build/.~/properties/project-version" />
+      <arg value="s3://${_aws_bucket}/cloudfront/software/latest/${project_lite_slug}/version-ars.txt" />
+
+      <arg value="--metadata" />
+      <arg value="version=${project_version}" />
+
+      <arg value="--content-type" />
+      <arg value="text/plain; charset=utf-8" />
+    </exec>
+    <echo msg="https://${_aws_bucket_cname}/software/latest/${project_lite_slug}/version-ars.txt" />
+
+    <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
+    <echo msg="https://${_aws_bucket_cname}/software/latest/${project_lite_slug}/version-ars.txt${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
 
   </target>
 

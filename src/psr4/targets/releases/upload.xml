@@ -8,15 +8,10 @@
 
   <target name="-releases-upload" hidden="true">
 
-    <!-- If doing a formal release, update bleeding edge. -->
-    <if>
-      <and>
-        <isFalse value="${_releases_release_type_is_rc}" />
-      </and>
-      <then>
-        <phingCall target="-uploads-bleeding-edge" />
-      </then>
-    </if>
+    <!-- Update bleeding edge. -->
+
+    <phingCall target="-uploads-bleeding-edge" />
+
     <!-- Convey what is about to happen below. -->
 
     <echo msg="Uploading distros to Amazon S3/CloudFront storage ..." />
@@ -30,7 +25,11 @@
 
     <forEach list="zip,tar.gz,phar" delimiter="," target="--releases-upload-extension" param="__releases_upload_extension" />
 
-    <!-- If doing a formal release, update `${project_slug}/version.txt`. -->
+    <!-- Update `${project_slug}/version-ars.txt` (latest, any release state). -->
+
+    <phingCall target="--releases-upload-version-ars" />
+
+    <!-- If doing a formal release, update `${project_slug}/version.txt` also. -->
     <if>
       <and>
         <isFalse value="${_releases_release_type_is_rc}" />
@@ -142,6 +141,33 @@
         <echo msg="Distro with extension `.${__releases_upload_extension}` does not exist. Bypassing." />
       </else>
     </if>
+
+  </target>
+
+  <!-- Uploads a `${project_slug}/version-ars.txt` file we can query. -->
+
+  <target name="--releases-upload-version-ars" hidden="true">
+
+    <exec executable="aws" passthru="true" checkReturn="true">
+      <arg value="--profile" />
+      <arg value="websharks" />
+
+      <arg value="s3" />
+      <arg value="cp" />
+
+      <arg value="${project.basedir}/.~build/.~/properties/project-version" />
+      <arg value="s3://${_aws_bucket}/cloudfront/software/latest/${project_slug}/version-ars.txt" />
+
+      <arg value="--metadata" />
+      <arg value="version=${project_version}" />
+
+      <arg value="--content-type" />
+      <arg value="text/plain; charset=utf-8" />
+    </exec>
+    <echo msg="https://${_aws_bucket_cname}/software/latest/${project_slug}/version-ars.txt" />
+
+    <echo msg="${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
+    <echo msg="https://${_aws_bucket_cname}/software/latest/${project_slug}/version-ars.txt${line.separator}" file="${_tmp_sub_dir}/${project_slug}-release-urls" append="true" />
 
   </target>
 
