@@ -1,3 +1,7 @@
+## $v
+
+- Adding Semantic UI (e.g., `semantic.json`) to the list of ignored files when packaging.
+
 ## v170316.2094
 
 - The Phing release system now generates a `version-ars.txt` file; ARS = Any Release State, which includes RC and other official development states, but excludes bleeding edge releases. This new `version-ars.txt` file will be generated automatically for each project upon the next RC or formal release that you perform using the Phing release system.

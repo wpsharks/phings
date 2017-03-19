@@ -390,10 +390,23 @@
     <exclude pattern="**.css.map" />
     <exclude pattern="**/**.css.map" />
 
-    <!-- Bourbon (in WS projects) -->
+    <!-- Bourbon-Related -->
 
     <exclude pattern="src/client-s/**/bourbon/**" />
-    <exclude pattern="src/vendor/websharks/*/src/client-s/**/bourbon/**" />
+    <exclude pattern="src/vendor/*/*/src/client-s/**/bourbon/**" />
+
+    <!-- Semantic UI-Related -->
+
+    <exclude pattern="semantic.json" />
+    <exclude pattern="src/vendor/*/*/semantic.json" />
+
+    <exclude pattern="src/client-s/semantic/src/**" />
+    <exclude pattern="src/client-s/semantic/tasks/**" />
+    <exclude pattern="src/client-s/semantic/gulpfile.js" />
+
+    <exclude pattern="src/vendor/*/*/src/client-s/semantic/src/**" />
+    <exclude pattern="src/vendor/*/*/src/client-s/semantic/tasks/**" />
+    <exclude pattern="src/vendor/*/*/src/client-s/semantic/gulpfile.js" />
 
     <!-- Box / Phar -->
 
