@@ -1,4 +1,4 @@
-## $v
+## v170512.19140
 
 - Adding LESS (e.g., `.less`) to the list of ignored files when packaging.
 - Adding Semantic UI (e.g., `semantic.json`) to the list of ignored files when packaging.
