@@ -1,6 +1,9 @@
 ## $v
 
+- Adding LESS (e.g., `.less`) to the list of ignored files when packaging.
 - Adding Semantic UI (e.g., `semantic.json`) to the list of ignored files when packaging.
+- Adding TypeScript (e.g., `typings.json`, `tsconfig.json`, `.ts`, and `.tsx`) to the list of ignored files when packaging.
+- Bug fix. Wrong directory for version tokens. See: https://github.com/websharks/phings/commit/d6e5c6d0f05be8ac85b44e1afb2d81c1848f7377
 
 ## v170316.2094
 

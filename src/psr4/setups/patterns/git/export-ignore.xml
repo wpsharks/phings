@@ -17,6 +17,9 @@
     <exclude pattern=".~**" />
     <exclude pattern="**/.~**" />
 
+    <exclude pattern="._**" />
+    <exclude pattern="**/._**" />
+
     <!-- Logs -->
 
     <exclude pattern="*.log" />
@@ -30,20 +33,15 @@
     <exclude pattern="*.bak" />
     <exclude pattern="**/*.bak" />
 
+    <!-- Vagrant -->
+
+    <exclude pattern=".vagrant/**" />
+    <exclude pattern="**/.vagrant/**" />
+
     <!-- TypeScript -->
 
     <exclude pattern="typings/**" />
     <exclude pattern="**/typings/**" />
-
-    <!-- Node -->
-
-    <exclude pattern="node_modules/**" />
-    <exclude pattern="**/node_modules/**" />
-
-    <!-- SASS -->
-
-    <exclude pattern=".sass-cache/**" />
-    <exclude pattern="**/.sass-cache/**" />
 
     <!-- IntelliJ -->
 
@@ -57,6 +55,16 @@
 
     <exclude pattern=".sublime-project" />
     <exclude pattern="**/.sublime-project" />
+
+    <!-- SASS -->
+
+    <exclude pattern=".sass-cache/**" />
+    <exclude pattern="**/.sass-cache/**" />
+
+    <!-- AWS -->
+
+    <exclude pattern=".elasticbeanstalk/**" />
+    <exclude pattern="**/.elasticbeanstalk/**" />
 
     <!-- CTags -->
 
@@ -164,16 +172,6 @@
 
     <exclude pattern="._**" />
     <exclude pattern="**/._**" />
-
-    <!-- AWS -->
-
-    <exclude pattern=".elasticbeanstalk/**" />
-    <exclude pattern="**/.elasticbeanstalk/**" />
-
-    <!-- Vagrant -->
-
-    <exclude pattern=".vagrant/**" />
-    <exclude pattern="**/.vagrant/**" />
 
     <!-- ——————————————————————————————————————————— -->
     <!-- These are in addition to what we have in `.gitignore`. -->
@@ -360,6 +358,9 @@
     <exclude pattern="**.ts" />
     <exclude pattern="**/**.ts" />
 
+    <exclude pattern="**.tsx" />
+    <exclude pattern="**/**.tsx" />
+
     <exclude pattern="tsconfig.json" />
     <exclude pattern="**/tsconfig.json" />
 
@@ -382,10 +383,13 @@
     <exclude pattern="phpunit.xml.dist" />
     <exclude pattern="src/vendor/*/*/phpunit.xml.dist" />
 
-    <!-- SASS-Related -->
+    <!-- CSS-Related -->
 
     <exclude pattern="**.scss" />
     <exclude pattern="**/**.scss" />
+
+    <exclude pattern="**.less" />
+    <exclude pattern="**/**.less" />
 
     <exclude pattern="**.css.map" />
     <exclude pattern="**/**.css.map" />

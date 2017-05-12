@@ -30,8 +30,20 @@
     <include pattern="*.scss" />
     <include pattern="**/**.scss" />
 
+    <include pattern="*.less" />
+    <include pattern="**/**.less" />
+
+    <include pattern="*.ts" />
+    <include pattern="**/**.ts" />
+
     <include pattern="*.js" />
     <include pattern="**/**.js" />
+
+    <include pattern="*.tsx" />
+    <include pattern="**/**.tsx" />
+
+    <include pattern="*.jsx" />
+    <include pattern="**/**.jsx" />
 
     <include pattern="*.json" />
     <include pattern="**/**.json" />

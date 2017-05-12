@@ -13,6 +13,9 @@
     <exclude pattern=".~**" />
     <exclude pattern="**/.~**" />
 
+    <exclude pattern="._**" />
+    <exclude pattern="**/._**" />
+
     <!-- Logs -->
 
     <exclude pattern="*.log" />
@@ -26,25 +29,15 @@
     <exclude pattern="*.bak" />
     <exclude pattern="**/*.bak" />
 
-    <!-- Vendor -->
+    <!-- Vagrant -->
 
-    <exclude pattern="vendor/**" />
-    <exclude pattern="**/vendor/**" />
+    <exclude pattern=".vagrant/**" />
+    <exclude pattern="**/.vagrant/**" />
 
     <!-- TypeScript -->
 
     <exclude pattern="typings/**" />
     <exclude pattern="**/typings/**" />
-
-    <!-- Node -->
-
-    <exclude pattern="node_modules/**" />
-    <exclude pattern="**/node_modules/**" />
-
-    <!-- SASS -->
-
-    <exclude pattern=".sass-cache/**" />
-    <exclude pattern="**/.sass-cache/**" />
 
     <!-- IntelliJ -->
 
@@ -58,6 +51,31 @@
 
     <exclude pattern=".sublime-project" />
     <exclude pattern="**/.sublime-project" />
+
+    <!-- Vendor -->
+
+    <exclude pattern="vendor/**" />
+    <exclude pattern="**/vendor/**" />
+
+    <!-- Node -->
+
+    <exclude pattern="node_modules/**" />
+    <exclude pattern="**/node_modules/**" />
+
+    <!-- Bower -->
+
+    <exclude pattern="bower_components/**" />
+    <exclude pattern="**/bower_components/**" />
+
+    <!-- SASS -->
+
+    <exclude pattern=".sass-cache/**" />
+    <exclude pattern="**/.sass-cache/**" />
+
+    <!-- AWS -->
+
+    <exclude pattern=".elasticbeanstalk/**" />
+    <exclude pattern="**/.elasticbeanstalk/**" />
 
     <!-- CTags -->
 
@@ -165,16 +183,6 @@
 
     <exclude pattern="._**" />
     <exclude pattern="**/._**" />
-
-    <!-- AWS -->
-
-    <exclude pattern=".elasticbeanstalk/**" />
-    <exclude pattern="**/.elasticbeanstalk/**" />
-
-    <!-- Vagrant -->
-
-    <exclude pattern=".vagrant/**" />
-    <exclude pattern="**/.vagrant/**" />
 
   </patternSet>
 
