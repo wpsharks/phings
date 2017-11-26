@@ -24,6 +24,9 @@
     <include pattern="*.json" />
     <include pattern="**/**.json" />
 
+    <include pattern="*.json5" />
+    <include pattern="**/**.json5" />
+
     <include pattern="*.css" />
     <include pattern="**/**.css" />
 

@@ -10,11 +10,14 @@
 
     <!-- Local -->
 
-    <exclude pattern=".~**" />
-    <exclude pattern="**/.~**" />
+    <exclude pattern=".#**" />
+    <exclude pattern="**/.#**" />
 
     <exclude pattern="._**" />
     <exclude pattern="**/._**" />
+
+    <exclude pattern=".~**" />
+    <exclude pattern="**/.~**" />
 
     <!-- Logs -->
 
@@ -61,6 +64,11 @@
 
     <exclude pattern="node_modules/**" />
     <exclude pattern="**/node_modules/**" />
+
+    <!-- JSPM -->
+
+    <exclude pattern="jspm_packages/**" />
+    <exclude pattern="**/jspm_packages/**" />
 
     <!-- Bower -->
 

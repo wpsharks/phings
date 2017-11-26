@@ -14,11 +14,14 @@
 
     <!-- Local -->
 
-    <exclude pattern=".~**" />
-    <exclude pattern="**/.~**" />
+    <exclude pattern=".#**" />
+    <exclude pattern="**/.#**" />
 
     <exclude pattern="._**" />
     <exclude pattern="**/._**" />
+
+    <exclude pattern=".~**" />
+    <exclude pattern="**/.~**" />
 
     <!-- Logs -->
 
